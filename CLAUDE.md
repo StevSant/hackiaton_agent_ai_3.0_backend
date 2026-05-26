@@ -1,6 +1,6 @@
 # CLAUDE.md — Backend (FastAPI + LangGraph)
 
-This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the [root `CLAUDE.md`](../CLAUDE.md) first for cross-stack rules.
+This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the [root `CLAUDE.md`](../CLAUDE.md) first for cross-stack rules, and especially **§2 Challenge spec — ground truth** (Aseguradora del Sur). The product spec lives at `docs/superpowers/specs/2026-05-26-fraudia-claims-design.md`.
 
 > If you're an AI assistant and you're about to run `pip install`, edit `requirements.txt`, drop a 400-line `agent.py`, or `import openai` in feature code — **stop**. We use `uv`, ports/adapters, and small files. See §1 and §2.
 
@@ -10,14 +10,18 @@ This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the 
 
 - **Python 3.12+**
 - **FastAPI** — HTTP layer.
-- **LangGraph** — primary orchestration framework for all agents.
-- **LangChain** — only where it earns its keep (document loaders, splitters, embeddings wrappers, retrievers). **Not** used for chains — LangGraph owns orchestration.
-- **PostgreSQL via Supabase** — database + auth + storage.
-- **pgvector** — vector search (see §8 for the decision).
+- **LangGraph** — primary orchestration framework for the claims agent.
+- **LangChain** — only where it earns its keep (embeddings wrappers, retrievers). **Not** used for chains — LangGraph owns orchestration.
+- **PostgreSQL with `pgvector` extension** — relational store + vector store for narrative similarity. Run locally via `docker-compose`.
 - **Pydantic v2** + `pydantic-settings` — DTOs, validation, config.
-- **asyncpg** (or SQLAlchemy 2.x async) — database access. Pick one in the first PR and stick to it.
+- **asyncpg** — database access (chosen in the first DB PR; sync alternatives like SQLAlchemy 2.x are out).
 - **httpx** — HTTP client.
 - **uvicorn** — ASGI server.
+- **LightGBM** + **shap** — supervised fraud probability model + per-feature explanation.
+- **scikit-learn** — Isolation Forest for anomaly detection + utility transforms.
+- **sentence-transformers** — narrative embeddings (default model: `paraphrase-multilingual-MiniLM-L12-v2`, Spanish-aware).
+- **pandas / polars** — dataset ingestion + feature engineering inside `use_cases/load_dataset.py`.
+- **anthropic** (primary) + **openai** (fallback) — LLM providers, **only** imported under `infrastructure/llm/`.
 - **pytest** + **pytest-asyncio** — tests.
 - **ruff** + **mypy** (or pyright) — lint + typecheck.
 
@@ -44,15 +48,18 @@ This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the 
 
 ## 2. Hard rules for Claude Code
 
-- **One responsibility per file.** Aim for < 200 LOC per module. If you're about to write a 400-line `chat_agent.py`, split nodes into separate files first.
+- **One responsibility per file.** Aim for < 200 LOC per module. **Each fraud rule (FS-NN / RF-NN) is its own file** — see §9.
 - **Types everywhere.** `pydantic.BaseModel` for every public input/output. `TypedDict` for graph state. No untyped `dict`. No `Any` in public signatures.
 - **No business logic in routes.** Routes parse input, call a use case, return the response.
 - **No business logic in graph nodes.** Nodes call use cases or domain services. They don't reach into the database.
-- **No direct provider SDK calls in feature code.** `import openai` (or `anthropic`) only inside `infrastructure/llm/`. Everywhere else, use the `LLMProvider` port.
-- **No hardcoded model names.** Read from `settings.LLM_DEFAULT_MODEL` (or task-specific settings).
-- **Prompts live in files.** `app/prompts/{name}.v{n}.md`. Loaded by id via `PromptLoader`. **Never** inline a multi-line prompt in a node.
+- **No direct provider SDK calls in feature code.** `import anthropic` / `import openai` only inside `infrastructure/llm/`. Everywhere else, use the `LLMProvider` port.
+- **No hardcoded model names, no hardcoded fraud-rule thresholds, no hardcoded URLs.** Read from `settings.*`. Per-rule point bands live in `app/domain/rules/config.py` (or YAML next to it), never inline.
+- **Prompts live in files.** `app/agents/claims_agent/prompts/{name}.v{n}.md`. Loaded by id via `PromptLoader`. **Never** inline a multi-line prompt in a node.
 - **Structured outputs always.** Every tool input and every LLM "give me X" call has a pydantic schema. Reject free-form text where you need data.
-- **Use `async` end-to-end.** No blocking I/O on the event loop. If you must call sync code, use `asyncio.to_thread`.
+- **Schema fields are Spanish `snake_case`** because the wire contract is Spanish (root CLAUDE.md §2.8). Pydantic models mirror the data-dictionary verbatim.
+- **Never call a claim a "fraude" in any string** that may surface to a user (UI, API, logs at INFO+). Use `posible_fraude`, `alerta`, `requiere_revision`. Internal Python identifiers can use `fraud_*` freely.
+- **Use `async` end-to-end.** No blocking I/O on the event loop. If you must call sync code (LightGBM `.predict`, sentence-transformer encode), use `asyncio.to_thread`.
+- **Model artifacts use native serializers, not generic pickle.** LightGBM → `Booster.save_model("…txt")`. Isolation Forest → `joblib.dump(model, "…joblib")`. Never load model artifacts from untrusted sources — they only come from our own `notebooks/` training runs.
 
 ---
 
@@ -62,77 +69,106 @@ This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the 
 app/
 ├── api/                           ← FastAPI routers — THIN
 │   ├── v1/
-│   │   ├── chat.py                ← POST /chat, POST /chat/stream
-│   │   ├── files.py               ← POST /files, GET /files/{id}/events (SSE)
-│   │   ├── auth.py                ← POST /auth/session, POST /auth/session/refresh
+│   │   ├── claims.py              ← GET /claims, GET /claims/{id}, POST /claims/{id}/rescore
+│   │   ├── agent.py               ← POST /agent/ask (SSE)
+│   │   ├── reports.py             ← GET /reports/executive (stretch)
 │   │   └── health.py
-│   └── deps.py                    ← FastAPI dependencies (current_user, db, providers)
+│   └── deps.py                    ← FastAPI dependencies (db, providers, current_analyst)
 ├── core/
 │   ├── config.py                  ← Settings(BaseSettings) — pydantic-settings
 │   ├── logging.py                 ← structured (JSON) logging with request_id
 │   └── errors.py                  ← AppError hierarchy + FastAPI exception handlers
 ├── domain/                        ← PURE — no I/O, no frameworks
-│   ├── chat/                      ← entities: Message, Thread; value objects; domain errors
-│   ├── memory/
-│   └── files/
+│   ├── claims/                    ← Claim, ClaimRiskScore, Tier, RuleActivation, FactorContribution, SimilarClaim
+│   ├── rules/
+│   │   ├── ports.py               ← FraudRule Protocol
+│   │   ├── signals/               ← ONE FILE PER FS-NN (FS_01_..._py)
+│   │   ├── hard/                  ← ONE FILE PER RF-NN (RF_01_..._py)
+│   │   ├── aggregator.py          ← combines activations → ClaimRiskScore
+│   │   ├── tier.py                ← score → 🟢🟡🔴 mapping + hard-rule overrides
+│   │   └── config.py              ← per-rule weights / thresholds (loaded from env or YAML)
+│   ├── ml/                        ← FraudClassifier port, FactorContribution VO
+│   ├── anomaly/                   ← AnomalyDetector port
+│   └── similarity/                ← NarrativeSimilarity port, SimilarClaim VO
 ├── use_cases/                     ← orchestrators — call repos + agents + ports
-│   ├── chat/
-│   │   ├── send_message.py
-│   │   └── stream_message.py
-│   ├── rag/
-│   │   ├── ingest.py
-│   │   └── retrieve.py
-│   ├── memory/
-│   └── uploads/
+│   ├── score_claim.py             ← runs rules + ml + anomaly + similarity → ClaimRiskScore
+│   ├── list_claims.py
+│   ├── get_claim_detail.py
+│   ├── ask_agent.py               ← drives the LangGraph claims agent
+│   ├── generate_report.py         ← stretch
+│   └── load_dataset.py            ← CSV → Postgres on app startup
 ├── agents/                        ← LangGraph graphs + nodes — ONE GRAPH PER USE CASE
-│   ├── chat_agent/
-│   │   ├── graph.py               ← build_graph()
-│   │   ├── state.py               ← ChatState(TypedDict)
-│   │   ├── nodes/                 ← ONE FILE PER NODE
-│   │   │   ├── route.py
-│   │   │   ├── retrieve.py
-│   │   │   ├── generate.py
-│   │   │   └── summarize_memory.py
-│   │   └── edges.py
-│   ├── router_agent/
-│   └── tools/                     ← ONE FILE PER TOOL
-│       ├── web_search.py
-│       └── doc_lookup.py
+│   └── claims_agent/
+│       ├── graph.py               ← build_graph()
+│       ├── state.py               ← ClaimsAgentState(TypedDict)
+│       ├── nodes/                 ← ONE FILE PER NODE
+│       │   ├── route.py           ← intent classifier
+│       │   ├── query_claims.py    ← Q1, Q9, Q12 (ranked lists)
+│       │   ├── explain_case.py    ← Q2 (per-claim breakdown)
+│       │   ├── aggregate.py       ← Q3, Q4, Q5, Q6, Q8, Q10 (group-bys)
+│       │   ├── documents.py       ← Q7 (missing docs)
+│       │   ├── summarize.py       ← Q11 (executive summary)
+│       │   └── compose.py         ← final Spanish renderer with citations
+│       ├── tools/                 ← ONE FILE PER TOOL, pydantic input + output
+│       │   ├── query_claims_tool.py
+│       │   ├── get_claim_detail_tool.py
+│       │   ├── aggregate_by_dimension_tool.py
+│       │   ├── missing_documents_tool.py
+│       │   └── summarize_critical_tool.py
+│       └── prompts/
+│           ├── claims_system.v1.md
+│           └── compose.v1.md
 ├── infrastructure/                ← adapters behind ports
 │   ├── llm/
 │   │   ├── ports.py               ← LLMProvider Protocol
-│   │   ├── openai_adapter.py
-│   │   ├── anthropic_adapter.py
-│   │   └── local_adapter.py       ← (optional) Ollama
+│   │   ├── anthropic_adapter.py   ← primary
+│   │   └── openai_adapter.py      ← fallback
 │   ├── embeddings/
 │   │   ├── ports.py               ← EmbeddingsProvider Protocol
-│   │   └── openai_adapter.py
+│   │   └── sentence_transformers_adapter.py
 │   ├── vectorstore/
-│   │   ├── ports.py               ← VectorStore Protocol
-│   │   └── pgvector_adapter.py
-│   ├── db/                        ← asyncpg pool / SQLAlchemy session factory
-│   ├── storage/                   ← Supabase Storage adapter
-│   └── auth/
-│       └── supabase_jwt.py        ← JWKS verifier
+│   │   ├── ports.py               ← NarrativeSimilarity Protocol (uses VectorStore underneath)
+│   │   ├── pgvector_adapter.py    ← primary
+│   │   └── in_memory_adapter.py   ← 2-hr fallback if pgvector blocks
+│   ├── ml/
+│   │   └── lightgbm_adapter.py    ← loads data/models/fraud_lgbm.txt + computes SHAP
+│   ├── anomaly/
+│   │   └── isolation_forest_adapter.py
+│   └── db/                        ← asyncpg pool factory
 ├── repositories/                  ← concrete repos behind domain ports
-│   ├── chat_repo.py
-│   ├── memory_repo.py
-│   └── file_repo.py
+│   ├── claims_repo.py
+│   ├── polizas_repo.py
+│   ├── asegurados_repo.py
+│   ├── proveedores_repo.py
+│   └── documentos_repo.py
 ├── schemas/                       ← API DTOs — what the wire sees (pydantic)
-│   ├── chat.py                    ← ChatStreamEvent discriminated union lives here
-│   ├── files.py
-│   └── auth.py
-├── prompts/
-│   ├── chat_system.v1.md
-│   └── router.v1.md
+│   ├── claim.py                   ← Claim, ClaimSummary, ClaimDetail
+│   ├── risk.py                    ← ClaimRiskScore, RuleActivation, FactorContribution, SimilarClaim
+│   ├── agent.py                   ← AgentAskRequest, ChatStreamEvent (reused for the agent SSE)
+│   └── reports.py                 ← ExecutiveReport (stretch)
 └── main.py                        ← FastAPI app factory: app = create_app()
+notebooks/
+├── 01_exploracion_datos.ipynb
+├── 02_modelo_fraude.ipynb
+└── 03_evaluacion_modelo.ipynb
+data/
+├── raw/                           ← Kaggle source (gitignored if > 50 MB)
+├── processed/                     ← schema-adapted CSVs (committed)
+├── synthetic/                     ← generator output (committed)
+└── models/                        ← fraud_lgbm.txt, anomaly_iforest.joblib (committed if < 50 MB)
+docs/
+├── arquitectura.md                ← diagram + flow
+├── modelo_datos.md                ← tables + relations
+├── reglas_negocio.md              ← FS/RF catalog with point bands
+├── uso_ia.md                      ← ML + agent explanation, metrics
+└── limitaciones.md                ← risks, false positives, bias notes
 tests/
 docker/
   └── Dockerfile
-docker-compose.yml
-supabase/
-  └── migrations/
+docker-compose.yml                 ← app + postgres+pgvector
 ```
+
+**Deferred (out of scope for the hackathon submission — do NOT scaffold):** `infrastructure/auth/`, `infrastructure/storage/`, `use_cases/rag/`, `use_cases/uploads/`, `domain/memory/`, `agents/router_agent/`. See the spec §11 for the re-introduction trigger.
 
 **Dependency direction (the only one that's allowed):**
 
@@ -141,7 +177,7 @@ api ───▶ use_cases ───▶ domain
               │
               ├──▶ repositories ──▶ infrastructure/db
               ├──▶ agents ─────────▶ infrastructure/llm + tools
-              └──▶ infrastructure/* (ports only — adapters wired in deps.py)
+              └──▶ infrastructure/{ml,anomaly,vectorstore,embeddings} (ports only — adapters wired in deps.py)
 ```
 
 `domain/` imports nothing from anywhere else. `agents/` calls use cases or ports, not repositories directly. `api/` never imports from `infrastructure/` directly — go through `deps.py`.
@@ -180,70 +216,71 @@ class LLMProvider(Protocol):
 # api/deps.py
 def get_llm() -> LLMProvider:
     match settings.LLM_PROVIDER:
-        case "openai":    return OpenAIAdapter(settings)
         case "anthropic": return AnthropicAdapter(settings)
-        case "local":     return LocalAdapter(settings)
+        case "openai":    return OpenAIAdapter(settings)
         case _: raise ConfigError(f"unknown LLM_PROVIDER: {settings.LLM_PROVIDER}")
 ```
 
-Same shape for `EmbeddingsProvider`, `VectorStore`, `Storage`, `AuthVerifier`.
+Same shape for `EmbeddingsProvider`, `NarrativeSimilarity` (uses a `VectorStore` underneath), `FraudClassifier`, `AnomalyDetector`.
 
 ---
 
 ## 5. LangGraph conventions
 
-- **One graph per use case.** `chat_agent`, `rag_agent`, `router_agent`. Never a single mega-graph.
-- **State is a `TypedDict`** with explicit reducers (`Annotated[..., add_messages]` for message lists, etc.). Never a free-form dict.
-- **Nodes are pure-ish functions** `async def node(state: ChatState) -> dict`. They return a partial state to merge. **No direct DB / network access** — they call use cases or ports passed in via the graph's compile-time config.
+- **One graph per use case.** Today: `claims_agent` only. Never a single mega-graph.
+- **State is a `TypedDict`** with explicit reducers (`Annotated[..., add_messages]` for message lists). Never a free-form dict.
+- **Nodes are pure-ish functions** `async def node(state: ClaimsAgentState) -> dict`. They return a partial state to merge. **No direct DB / network access** — they call use cases or ports passed in via the graph's compile-time config.
 - **Tools have schemas.** Every tool defines a pydantic input schema and a pydantic output schema. Use LangChain's `@tool` decorator if convenient, or a thin in-house `Tool` interface.
-- **Streaming events.** Use `graph.astream_events(version="v2", ...)`. Translate the LangGraph event stream into our wire-shape `ChatStreamEvent` (see §7) in `use_cases/chat/stream_message.py`. Frontend should never see raw LangGraph events.
-- **Prompts loaded by id.** `prompt = PromptLoader.load("chat_system", "v1")`. Never inline > 5 lines of prompt in a node.
-- **Prompt versioning.** Bump the version (`chat_system.v2.md`) when you change semantics; keep the old one around until callers migrate. Never overwrite a `vN` file with breaking changes.
-- **Reactive agents** (where used) live in their own graphs with their own state; never bolt them onto the chat graph.
+- **Streaming events.** Use `graph.astream_events(version="v2", ...)`. Translate the LangGraph event stream into our wire-shape `ChatStreamEvent` (see §7) in `use_cases/ask_agent.py`. Frontend should never see raw LangGraph events.
+- **Prompts loaded by id.** `prompt = PromptLoader.load("claims_system", "v1")`. Never inline > 5 lines of prompt in a node.
+- **Prompt versioning.** Bump the version (`claims_system.v2.md`) when you change semantics; keep the old one around until callers migrate. Never overwrite a `vN` file with breaking changes.
 
 Example node:
 
 ```python
-# agents/chat_agent/nodes/generate.py
-async def generate(state: ChatState, *, llm: LLMProvider, prompts: PromptLoader) -> dict:
-    system = prompts.load("chat_system", "v1")
-    messages = [Message(role="system", content=system), *state["messages"]]
-    result = await llm.complete(messages, model=state["model"], response_format=AssistantReply)
-    return {"messages": [result.message]}
+# agents/claims_agent/nodes/explain_case.py
+async def explain_case(
+    state: ClaimsAgentState,
+    *,
+    get_claim_detail: GetClaimDetail,
+    prompts: PromptLoader,
+) -> dict:
+    detail = await get_claim_detail.run(state["context"]["focus_claim_id"])
+    state_msg = ToolResult(call_id="...", result=detail.model_dump())
+    return {"tool_results": [detail], "messages": [state_msg]}
 ```
 
 ---
 
 ## 6. Provider abstraction
 
-- **`LLMProvider`** — `complete()` + `stream()` (§4).
-- **`EmbeddingsProvider`** — `embed(texts: list[str]) -> list[list[float]]`.
-- **`VectorStore`** — `upsert()`, `query()`, `delete()` keyed by `owner_id` + `source_id`.
-- **`Storage`** — `put()`, `signed_url()`, `delete()`.
-- **`AuthVerifier`** — `verify(jwt: str) -> User`.
+- **`LLMProvider`** — `complete()` + `stream()` (§4). Default: `anthropic`. Fallback: `openai`.
+- **`EmbeddingsProvider`** — `embed(texts: list[str]) -> list[list[float]]`. Default: sentence-transformers (Spanish-capable model).
+- **`NarrativeSimilarity`** — `nearest(claim_id) -> list[SimilarClaim]`. Default: `PgVectorNarrativeSimilarity`. Fallback: `InMemoryNarrativeSimilarity` (numpy cosine).
+- **`FraudClassifier`** — `predict(features) -> (probability, factors)`. Default: `LightGBMClassifier` (loads a Booster artifact).
+- **`AnomalyDetector`** — `score(features) -> AnomalyScore`. Default: `IsolationForestDetector`.
 
-Selection by env: `LLM_PROVIDER`, `EMBEDDINGS_PROVIDER`, `VECTOR_STORE`, etc. Default to OpenAI for LLM + embeddings during the hackathon.
+Selection by env: `LLM_PROVIDER`, `EMBEDDINGS_PROVIDER`, `VECTOR_STORE`, `FRAUD_CLASSIFIER`, `ANOMALY_DETECTOR`.
 
 ---
 
 ## 7. Real-time / streaming
 
-**SSE is the default** for AI streaming.
+**SSE is the default** for the agent's NL responses.
 
 - HTTP is enough — token streams are unidirectional from server → client.
 - FastAPI `StreamingResponse(media_type="text/event-stream")` plays nicely with proxies, CDNs, and browser devtools.
-- Reserve WebSockets for genuinely bidirectional features (multi-user presence, collaborative editing). We don't need them today.
 
 **Endpoint:**
 
 ```
-POST /api/v1/chat/stream
-  body: { thread_id?: str, prompt: str, ... }
+POST /api/v1/agent/ask
+  body: { query: str, context?: { focus_claim_id?: str } }
   returns: text/event-stream
   events: ChatStreamEvent (one per SSE message, payload as JSON)
 ```
 
-**`ChatStreamEvent`** (in `schemas/chat.py`, surfaces to OpenAPI, used by the frontend — must match `hackiaton_agent_ai_3.0_frontend/CLAUDE.md` §7):
+**`ChatStreamEvent`** (in `schemas/agent.py`, surfaces to OpenAPI, used by the frontend — must match `hackiaton_agent_ai_3.0_frontend/CLAUDE.md` §7):
 
 ```python
 class TokenEvent(BaseModel):
@@ -276,98 +313,125 @@ ChatStreamEvent = Annotated[
 ]
 ```
 
-Always emit a final `done` (or `error`) event. Always flush after each event.
+Always emit a final `done` (or `error`) event. Always flush after each event. The claims agent emits `agent_step` events for routing decisions (`{node: "route", meta: {intent: "aggregate"}}`) and `tool_call` / `tool_result` for each tool invocation — these power the UI's transparency cards.
 
 ---
 
 ## 8. Vector DB decision — **pgvector** (chosen)
 
-**Decision: use `pgvector`. Reject Chroma for this project.**
+**Decision: use `pgvector`. Reject standalone vector stores for this project.**
 
 **Reasoning:**
 
-- Supabase Postgres is already the system of record. Embeddings inside the same database means **no second datastore** to deploy, monitor, back up, or sync.
-- Vector queries can `JOIN` against relational tables in a single SQL statement — essential for RAG with ownership/auth filters (`WHERE owner_id = $1`).
-- Supabase has first-class pgvector support: migrations, RLS, HNSW and IVFFlat indexes built in.
-- Chroma is excellent as a local-first standalone store, but adds operational surface area (separate container, separate persistence layer, separate auth story, separate backup strategy) for a capability we already have.
-- At hackathon scale (< 10M vectors), pgvector + HNSW is fast (single-digit-ms p95 for typical RAG workloads).
+- Postgres is already the system of record (claims, polizas, etc.). Embeddings inside the same database means **no second datastore** to deploy, monitor, back up, or sync.
+- Vector queries can `JOIN` against relational tables in a single SQL statement — essential when we need "find the 3 most similar claims to claim X **excluding claims older than 18 months**".
+- pgvector has first-class HNSW + IVFFlat indexes; both are fast at hackathon scale (< 10M vectors).
 
-**When to revisit:** if vector count grows past ~10M with sub-50ms p95 latency requirements that HNSW tuning can't meet, swap the `VectorStore` adapter to Qdrant or Weaviate. The port makes this a localized change.
+**Hackathon-specific use case (not RAG):** the only vector data here is `siniestros.descripcion` embeddings, used to fire the FS-13 "similar narratives" signal and to populate the "Narrativas similares" accordion. Not retrieval-augmented generation, not document ingestion.
+
+**Fallback:** if pgvector setup blocks beyond a 2-hr timebox, swap to the `InMemoryNarrativeSimilarity` adapter (numpy cosine over an in-process matrix). Same port. Document the swap in `docs/limitaciones.md`.
 
 **Schema convention:**
 
 ```sql
 create extension if not exists vector;
 
-create table embeddings (
+create table claim_narratives (
   id            uuid primary key default gen_random_uuid(),
-  owner_id      uuid not null references auth.users(id) on delete cascade,
-  source_type   text not null,                           -- 'file' | 'memory' | ...
-  source_id     uuid not null,
-  chunk_index   int  not null,
-  content       text not null,
-  embedding     vector(1536) not null,                    -- dimension matches embedding model
-  metadata      jsonb not null default '{}'::jsonb,
+  claim_id      text not null references siniestros(id_siniestro) on delete cascade,
+  content       text not null,                              -- siniestros.descripcion
+  embedding     vector(384) not null,                       -- matches the chosen model dimension
   created_at    timestamptz not null default now()
 );
 
-create index on embeddings using hnsw (embedding vector_cosine_ops);
-create index on embeddings (owner_id, source_type);
+create index on claim_narratives using hnsw (embedding vector_cosine_ops);
+create index on claim_narratives (claim_id);
 ```
 
-**Query rule:** every vector query filters by `owner_id` (enforced via Supabase RLS as a defense-in-depth).
+---
+
+## 9. Rules engine convention
+
+The 14 FS signals and 7 RF hard rules are the **product spec**, not implementation detail. The folder structure makes that explicit.
+
+- **One file per rule.** `app/domain/rules/signals/FS_07_recurrent_provider.py` defines the `FS_07_RecurrentProvider` class implementing `FraudRule`. Same for hard rules under `hard/`.
+- **`FraudRule` is a Protocol** with one method: `evaluate(claim, context) -> RuleActivation | None`. Return `None` when the rule doesn't fire.
+- **`RuleActivation`** fields: `code` (e.g. "FS-07"), `tier_hint` (🟢🟡🔴 — hint, the aggregator decides the final tier), `points` (numeric, 0 for hard rules — they override via `tier_hint`), `evidence` (dict with the variables that made the rule fire).
+- **`Aggregator.combine(activations) -> ClaimRiskScore`** sums FS points, applies hard-rule overrides (any RF-01..04 forces 🔴; RF-05..07 enforces ≥ 🟡), maps the additive score to a tier band (root CLAUDE.md §2.1: 🟢 0-40 / 🟡 41-75 / 🔴 76-100).
+- **Per-rule point thresholds live in `domain/rules/config.py`** (or YAML alongside it). Never inline numeric thresholds in the rule's `evaluate()` — read them from the config so the team can tune without touching logic.
+- **Every rule has a unit test** (`tests/domain/rules/test_FS_07_recurrent_provider.py`) using hand-crafted claim fixtures. Aggregator has its own test for hard-rule precedence.
+- **`evidence` payload is what the UI renders** under "Reglas activadas". Be specific — `{"proveedor_id": "P-0042", "casos_observados": 7}` is useful; `{"reason": "recurrent provider"}` is not.
 
 ---
 
-## 9. RAG pipeline
+## 10. ML / anomaly / similarity adapters
 
-- **`use_cases/rag/ingest.py`** — `load → split → embed → upsert`. Loaders/splitters from LangChain are fine. The orchestration is ours.
-- **`use_cases/rag/retrieve.py`** — `embed(query) → vector_store.query(owner_id, top_k) → optional rerank → return chunks`.
-- Both run async. Ingest is fired from `POST /files` via a background task.
+These three subsystems run in `score_claim` after the rules engine and produce **complementary** signals (rules say *what* fired, ML/anomaly/similarity say *how unusual* the case looks overall).
 
----
+**Supervised ML (`infrastructure/ml/lightgbm_adapter.py`):**
+- LightGBM classifier trained offline (`notebooks/02_modelo_fraude.ipynb`) on `etiqueta_fraude_simulada`.
+- Model artifact: `data/models/fraud_lgbm.txt` (LightGBM's native text format — `booster.save_model(path)` / `lgb.Booster(model_file=path)`). Loaded once at app startup, cached on the FastAPI app state.
+- Per-claim output: `ml_probability ∈ [0, 1]` + `top_factors: list[FactorContribution]` (top-3 by absolute SHAP).
+- **The ML probability is NOT added to the rules score.** It's surfaced separately on the detail page so the analyst sees rules vs. model independently.
+- Metrics target: AUC-ROC ≥ 0.85 on a 20% holdout. Surface metrics in `notebooks/02_*.ipynb` and `docs/uso_ia.md`.
 
-## 10. Memory
+**Anomaly detection (`infrastructure/anomaly/isolation_forest_adapter.py`):**
+- Isolation Forest over the numeric feature space (same features as the supervised model, minus the leakage label).
+- Model artifact: `data/models/anomaly_iforest.joblib` (`joblib.dump` / `joblib.load`).
+- Per-claim output: `anomaly_score ∈ [-1, 1]` (sklearn convention; lower = more anomalous) + `nearest_normal_claim_id` (for UI contrast).
+- Surfaced on the detail page as "Indicador de anomalía".
 
-- **Short-term** (per-thread): message history persisted via `chat_repo`. The chat graph reads it on entry, writes it on exit.
-- **Long-term** (cross-thread): a `summarize_memory` graph node periodically summarizes a thread and stores the summary as an embedding in `embeddings` with `source_type='memory'`. Retrieval at the start of a new thread surfaces relevant prior context.
-- **Memory writes happen in a dedicated node**, never inline in unrelated nodes.
+**Narrative similarity (`infrastructure/vectorstore/pgvector_adapter.py`):**
+- Sentence-transformer embeds `siniestros.descripcion` on ingest.
+- For each claim, find top-3 most-similar prior claims (cosine, exclude self).
+- If top-1 similarity > 0.85, FS-13 fires (with the matched claim as evidence).
+- Surfaced as the "Narrativas similares" accordion.
 
----
-
-## 11. Authentication
-
-- **Supabase JWT.** Verified server-side against Supabase's JWKS by `infrastructure/auth/supabase_jwt.py` (cache the JWKS, refresh on `kid` miss).
-- **`api/deps.py`** exposes:
-  ```python
-  async def get_current_user(token: str = Depends(bearer_scheme)) -> User: ...
-  ```
-- Every protected route depends on `get_current_user`. Public routes opt out explicitly.
-- **Refresh flow:** `POST /api/v1/auth/session` takes a Supabase access+refresh pair, sets the refresh token as an `HttpOnly; Secure; SameSite=Lax` cookie, returns the access token in the body. `POST /api/v1/auth/session/refresh` reads the cookie, exchanges via Supabase, returns a new access token. Frontend access token never touches `localStorage`.
-- **Never roll custom auth.** Never log JWTs. Never return the service-role key. The Supabase service-role key is server-only.
+**Common adapter rule:** all three adapters cache their loaded model / encoder / index on the FastAPI app state via the lifespan; no global imports. Model artifacts are only loaded from our own `data/models/` directory — never from user input or untrusted sources.
 
 ---
 
-## 12. File uploads
+## 11. Claims agent
 
-- **`POST /api/v1/files`** (multipart): `infrastructure/storage/` saves to Supabase Storage, `file_repo` records the file row, route returns `{ file_id }`.
-- **Validation:** mime allow-list + size limit (configurable in `settings`). Reject early; return a typed error.
-- **Virus-scan port** (`Scanner` Protocol) — no-op adapter for hackathon, real adapter post-hackathon. Wire site: ingest pipeline before embedding.
-- **Async ingestion:** route enqueues a `BackgroundTask` running the `rag/ingest.py` use case. For the hackathon, `fastapi.BackgroundTasks` is fine. Post-hackathon, swap to a queue (Redis/RQ, Cloud Tasks) — the use case stays unchanged.
-- **`GET /api/v1/files/{file_id}/events`** (SSE): emits `FileIngestEvent` (`uploaded`, `parsing`, `embedding`, `ready`, `error`) so the frontend can show progress. Shape matches frontend §10.
+The LangGraph **`claims_agent`** answers the 12 mandatory NL questions in Spanish (root CLAUDE.md §2.6). It is the single graph in this project. Its shape:
+
+```
+[start]
+   ↓
+[ route ] — intent classifier (LLM call with a small structured schema)
+   ↓
+   ├── query_claims      → tool: query_claims_tool        (Q1, Q9, Q12)
+   ├── explain_case      → tool: get_claim_detail_tool    (Q2)
+   ├── aggregate         → tool: aggregate_by_dimension   (Q3, Q4, Q5, Q6, Q8, Q10)
+   ├── documents         → tool: missing_documents_tool   (Q7)
+   └── summarize         → tool: summarize_critical_tool  (Q11)
+   ↓
+[ compose ] — final Spanish response with citations + tier badges
+   ↓
+[end]
+```
+
+**State (`ClaimsAgentState`)**:
+- `query: str` — the user's NL question.
+- `intent: Literal["query_claims","explain_case","aggregate","documents","summarize"]` — set by `route`.
+- `tool_results: list[ToolResult]` — accumulated.
+- `citations: list[ClaimCitation]` — claim IDs referenced.
+- `messages: Annotated[list[Message], add_messages]` — for the LLM context.
+
+**Acceptance:** `tests/agent/test_nl_questions.py` runs the 12 NL questions from §2.6 against the agent and asserts the answer mentions at least one specific claim ID + at least one rule code (when applicable). This is the agent's gate.
 
 ---
 
-## 13. Database & migrations
+## 12. Database & migrations
 
-- Migrations live in `supabase/migrations/` and are applied via the Supabase CLI.
-- Repositories use **`asyncpg`** (or SQLAlchemy 2.x async — pick one in the first DB PR). Choice committed to one of them.
-- **No raw SQL outside `repositories/`.** No SQLAlchemy queries in routes, use cases, or nodes.
+- Migrations live in `migrations/` (managed by `alembic` or `yoyo` — pick one in the first DB PR).
+- Repositories use **`asyncpg`**. No SQLAlchemy.
+- **No raw SQL outside `repositories/`.** No queries in routes, use cases, or nodes.
 - Connection pool created once at app startup (`main.py` lifespan), passed via `Depends`.
 
 ---
 
-## 14. Configuration
+## 13. Configuration
 
 ```python
 # core/config.py
@@ -376,26 +440,34 @@ class Settings(BaseSettings):
     APP_ENV: Literal["dev","test","prod"] = "dev"
     LOG_LEVEL: str = "INFO"
 
-    # supabase
-    SUPABASE_URL: str
-    SUPABASE_ANON_KEY: str
-    SUPABASE_SERVICE_ROLE_KEY: SecretStr
-    SUPABASE_JWT_AUDIENCE: str = "authenticated"
+    # database
+    DATABASE_URL: str            # postgres+asyncpg://...
 
     # llm
-    LLM_PROVIDER: Literal["openai","anthropic","local"] = "openai"
-    LLM_DEFAULT_MODEL: str = "gpt-4o-mini"
-    OPENAI_API_KEY: SecretStr | None = None
+    LLM_PROVIDER: Literal["anthropic","openai"] = "anthropic"
+    LLM_DEFAULT_MODEL: str = "claude-sonnet-4-6"
     ANTHROPIC_API_KEY: SecretStr | None = None
+    OPENAI_API_KEY: SecretStr | None = None
 
     # embeddings
-    EMBEDDINGS_PROVIDER: Literal["openai"] = "openai"
-    EMBEDDINGS_MODEL: str = "text-embedding-3-small"
-    EMBEDDINGS_DIM: int = 1536
+    EMBEDDINGS_PROVIDER: Literal["sentence_transformers"] = "sentence_transformers"
+    EMBEDDINGS_MODEL: str = "paraphrase-multilingual-MiniLM-L12-v2"
+    EMBEDDINGS_DIM: int = 384
 
-    # uploads
-    UPLOAD_MAX_BYTES: int = 25 * 1024 * 1024
-    UPLOAD_ALLOWED_MIME: list[str] = ["application/pdf","text/plain","text/markdown"]
+    # vector store
+    VECTOR_STORE: Literal["pgvector","in_memory"] = "pgvector"
+
+    # ml
+    FRAUD_MODEL_PATH: str = "data/models/fraud_lgbm.txt"
+    ANOMALY_MODEL_PATH: str = "data/models/anomaly_iforest.joblib"
+
+    # rules
+    RULES_CONFIG_PATH: str = "app/domain/rules/config.yaml"
+    SIMILARITY_THRESHOLD_FS13: float = 0.85
+
+    # data
+    DATA_DIR: str = "data"
+    LOAD_DATASET_ON_STARTUP: bool = True
 
     model_config = SettingsConfigDict(env_file=".env", extra="forbid")
 
@@ -404,38 +476,41 @@ settings = Settings()  # cached
 
 - All env vars listed (with descriptions) in `.env.example`.
 - **No `os.getenv` anywhere else.** Code reads from `settings`.
+- **No hardcoded thresholds** (rule weights, similarity cutoffs, tier bands) in business code — all in config.
 
 ---
 
-## 15. Errors & logging
+## 14. Errors & logging
 
 - `core/errors.py` defines:
   ```python
   class AppError(Exception): code: str; status_code: int = 500; message: str
   class NotFound(AppError): status_code = 404
-  class Unauthorized(AppError): status_code = 401
   class ValidationFailed(AppError): status_code = 422
   class ProviderError(AppError): status_code = 502
+  class RuleEvaluationError(AppError): status_code = 500
   # ...
   ```
 - `main.py` registers exception handlers mapping `AppError` → `JSONResponse({code, message})`.
 - **Structured logging (JSON)** with `request_id` correlation injected by middleware.
 - **Never `print()`.** Use the project logger.
-- **Never log secrets** (JWTs, API keys, file contents).
+- **Never log secrets** (API keys, raw claim PII even though synthetic).
 
 ---
 
-## 16. Testing
+## 15. Testing
 
 - `pytest` + `pytest-asyncio`. Run with `uv run pytest`.
-- **Unit tests** for use cases — mock the ports.
+- **Unit tests** per fraud rule (one test file per FS-NN / RF-NN). The rule's test is its acceptance gate.
+- **Aggregator tests** for hard-rule precedence + tier-band correctness.
+- **Agent tests** — the 12-NL-questions suite (`tests/agent/test_nl_questions.py`) is the agent's acceptance gate.
 - **Integration tests** for repositories against a test Postgres (docker-compose service `postgres-test`).
 - **One smoke test per route** that hits the app via `httpx.AsyncClient(app=app)`.
-- **Don't chase coverage** during the hackathon. Cover the critical path: auth, chat stream, file ingest, RAG retrieval.
+- **Don't chase coverage** during the hackathon. Cover: every rule, the aggregator, the agent's 12 questions, and the golden API path.
 
 ---
 
-## 17. Docker & CI
+## 16. Docker & CI
 
 - `docker/Dockerfile` — multi-stage:
   ```dockerfile
@@ -463,14 +538,15 @@ settings = Settings()  # cached
 
 ---
 
-## 18. Anti-patterns (do NOT do these)
+## 17. Anti-patterns (do NOT do these)
 
 - ❌ Business logic in routes → move to a use case.
 - ❌ Business logic in graph nodes → move to a use case or domain service.
 - ❌ Giant agent files → split into per-node files under `agents/<name>/nodes/`.
-- ❌ Inline prompts > 5 lines → move to `app/prompts/{name}.v1.md`.
-- ❌ `import openai` / `import anthropic` outside `infrastructure/llm/` → use the `LLMProvider` port.
-- ❌ Hardcoded model names → read from `settings`.
+- ❌ One file containing more than one fraud rule → one file per rule.
+- ❌ Inline prompts > 5 lines → move to `app/agents/.../prompts/{name}.v1.md`.
+- ❌ `import anthropic` / `import openai` outside `infrastructure/llm/` → use the `LLMProvider` port.
+- ❌ Hardcoded model names / rule weights / similarity thresholds → read from `settings` or `config.yaml`.
 - ❌ Untyped LLM outputs → use structured outputs + pydantic parsing.
 - ❌ Free-form `dict` graph state → use a `TypedDict`.
 - ❌ `Any` in public signatures → narrow it.
@@ -478,25 +554,27 @@ settings = Settings()  # cached
 - ❌ Catching bare `Exception` → catch what you can handle; let the global handler do the rest.
 - ❌ `os.getenv("X")` outside `core/config.py` → use `settings`.
 - ❌ Raw SQL outside `repositories/` → use the repo.
-- ❌ Logging secrets / JWTs / file contents → never.
+- ❌ Using the word `"fraude"` in any user-visible string without `"posible"` — see §2.
 - ❌ Using `pip`, `poetry`, `pipenv`, or editing `requirements.txt` → **`uv` only**.
 - ❌ Blocking I/O in async paths → `await` it, or push it to `asyncio.to_thread`.
+- ❌ Scaffolding `auth/`, `storage/`, `uploads/`, `rag/`, `memory/`, `router_agent/` — see §3 "Deferred".
+- ❌ Loading ML model artifacts from any path other than `data/models/` (or another path explicitly configured in `settings`). Model artifacts are trusted because we trained them; never deserialize from user input.
 
 ---
 
-## 19. AI-assistant checklist (Claude Code, Cursor, Copilot)
+## 18. AI-assistant checklist (Claude Code, Cursor, Copilot)
 
 Before you submit a change, verify:
 
 - [ ] All deps added via `uv add`; `pyproject.toml` and `uv.lock` are both committed.
-- [ ] No file > 250 LOC. Agent files split into nodes.
+- [ ] No file > 250 LOC. Agent files split into nodes; rules split one-per-file.
 - [ ] Routes are thin; logic lives in use cases.
 - [ ] Graph nodes touch ports/use cases only, not repositories or external SDKs directly.
 - [ ] Provider SDKs only imported inside `infrastructure/llm/` (or analogous adapters).
 - [ ] All LLM "give me X" calls use structured outputs with a pydantic schema.
-- [ ] Prompts in `app/prompts/`, loaded by id.
+- [ ] Prompts in `app/agents/.../prompts/`, loaded by id.
 - [ ] `ChatStreamEvent` shape matches the frontend's definition. If you changed it, regen frontend types.
-- [ ] Every protected route depends on `get_current_user`.
 - [ ] No JWT or secret in logs.
-- [ ] Vector queries filter by `owner_id`.
+- [ ] No user-visible string contains `"fraude"` without `"posible"`.
+- [ ] Every new fraud rule has a unit test and a config entry.
 - [ ] `uv run ruff check && uv run mypy app && uv run pytest -q` all green.
