@@ -14,15 +14,16 @@ This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the 
 - **LangChain** — only where it earns its keep (embeddings wrappers, retrievers). **Not** used for chains — LangGraph owns orchestration.
 - **PostgreSQL with `pgvector` extension** — relational store + vector store for narrative similarity. Run locally via `docker-compose`.
 - **Pydantic v2** + `pydantic-settings` — DTOs, validation, config.
-- **asyncpg** — database access (chosen in the first DB PR; sync alternatives like SQLAlchemy 2.x are out).
+- **SQLAlchemy 2.0 (async, declarative) + asyncpg driver + Alembic** — ORM, session management, migrations. Repos take `AsyncSession`. Raw asyncpg is only used inside `use_cases/load_dataset.py` for bulk `COPY`. *(Decision locked 2026-05-26 — see design spec §13.)*
 - **httpx** — HTTP client.
 - **uvicorn** — ASGI server.
 - **LightGBM** + **shap** — supervised fraud probability model + per-feature explanation.
 - **scikit-learn** — Isolation Forest for anomaly detection + utility transforms.
 - **sentence-transformers** — narrative embeddings (default model: `paraphrase-multilingual-MiniLM-L12-v2`, Spanish-aware).
-- **pandas / polars** — dataset ingestion + feature engineering inside `use_cases/load_dataset.py`.
-- **anthropic** (primary) + **openai** (fallback) — LLM providers, **only** imported under `infrastructure/llm/`.
-- **pytest** + **pytest-asyncio** — tests.
+- **pandas** — dataset ingestion + feature engineering inside `use_cases/load_dataset.py`.
+- **PyJWT (`pyjwt[crypto]`) + bcrypt** — local JWT issuance + verification + password hashing for V0 auth. **No** Supabase Auth, **no** OAuth.
+- **openai** — sole LLM provider for the hackathon (model: `gpt-4o-mini`). **Only** imported under `infrastructure/llm/`. The `LLMProvider` port is preserved so a post-hackathon swap to Anthropic or another provider is one adapter file. **No `anthropic` SDK in pyproject.** *(Decision locked 2026-05-26 — was originally "Anthropic primary".)*
+- **pytest** + **pytest-asyncio** — tests. Real-LLM calls are gated behind `@pytest.mark.integration`; unit tests use `InMemoryFakeLLM`.
 - **ruff** + **mypy** (or pyright) — lint + typecheck.
 
 ### Package manager: **`uv` (mandatory)**
@@ -69,17 +70,22 @@ This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the 
 app/
 ├── api/                           ← FastAPI routers — THIN
 │   ├── v1/
-│   │   ├── claims.py              ← GET /claims, GET /claims/{id}, POST /claims/{id}/rescore
+│   │   ├── auth.py                ← POST /auth/login (JSON, for Angular) + POST /auth/token (form, for Swagger Authorize) (V0)
+│   │   ├── claims.py              ← GET /claims, GET /claims/{id}, POST /claims/{id}/rescore,
+│   │   │                            POST /claims/{id}/escalate (analista), POST /claims/{id}/resolve (antifraude),
+│   │   │                            PATCH /claims/{id} (debug, antifraude)
 │   │   ├── agent.py               ← POST /agent/ask (SSE)
 │   │   ├── reports.py             ← GET /reports/executive (stretch)
 │   │   └── health.py
-│   └── deps.py                    ← FastAPI dependencies (db, providers, current_analyst)
+│   └── deps.py                    ← FastAPI dependencies (db session, providers, get_current_user)
 ├── core/
 │   ├── config.py                  ← Settings(BaseSettings) — pydantic-settings
 │   ├── logging.py                 ← structured (JSON) logging with request_id
 │   └── errors.py                  ← AppError hierarchy + FastAPI exception handlers
 ├── domain/                        ← PURE — no I/O, no frameworks
-│   ├── claims/                    ← Claim, ClaimRiskScore, Tier, RuleActivation, FactorContribution, SimilarClaim
+│   ├── auth/                      ← User, Role, AccessToken VO (V0)
+│   ├── claims/                    ← Claim, ClaimRiskScore, Tier, RuleActivation, FactorContribution, SimilarClaim,
+│   │                                WorkflowStatus, WorkflowTransition (V2.6)
 │   ├── rules/
 │   │   ├── ports.py               ← FraudRule Protocol
 │   │   ├── signals/               ← ONE FILE PER FS-NN (FS_01_..._py)
@@ -91,12 +97,16 @@ app/
 │   ├── anomaly/                   ← AnomalyDetector port
 │   └── similarity/                ← NarrativeSimilarity port, SimilarClaim VO
 ├── use_cases/                     ← orchestrators — call repos + agents + ports
+│   ├── auth/
+│   │   └── login.py               ← verify creds, issue JWT (V0)
 │   ├── score_claim.py             ← runs rules + ml + anomaly + similarity → ClaimRiskScore
+│   ├── escalate_claim.py          ← analista action — flips workflow_status pending → escalated (V2.6)
+│   ├── resolve_claim.py           ← antifraude action — flips workflow_status escalated → resolved (V2.6)
 │   ├── list_claims.py
 │   ├── get_claim_detail.py
 │   ├── ask_agent.py               ← drives the LangGraph claims agent
 │   ├── generate_report.py         ← stretch
-│   └── load_dataset.py            ← CSV → Postgres on app startup
+│   └── load_dataset.py            ← CSV → Postgres on app startup (raw asyncpg COPY)
 ├── agents/                        ← LangGraph graphs + nodes — ONE GRAPH PER USE CASE
 │   └── claims_agent/
 │       ├── graph.py               ← build_graph()
@@ -119,10 +129,11 @@ app/
 │           ├── claims_system.v1.md
 │           └── compose.v1.md
 ├── infrastructure/                ← adapters behind ports
+│   ├── auth/                      ← jwt_issuer.py, password_hasher.py, env_seeded_user_repo.py (V0; reads AUTH_SEED_USERS env JSON, hashes at boot)
 │   ├── llm/
 │   │   ├── ports.py               ← LLMProvider Protocol
-│   │   ├── anthropic_adapter.py   ← primary
-│   │   └── openai_adapter.py      ← fallback
+│   │   ├── openai_adapter.py      ← sole provider for the hackathon
+│   │   └── fake_llm.py            ← InMemoryFakeLLM for unit tests (canned fixture-driven)
 │   ├── embeddings/
 │   │   ├── ports.py               ← EmbeddingsProvider Protocol
 │   │   └── sentence_transformers_adapter.py
@@ -134,28 +145,33 @@ app/
 │   │   └── lightgbm_adapter.py    ← loads data/models/fraud_lgbm.txt + computes SHAP
 │   ├── anomaly/
 │   │   └── isolation_forest_adapter.py
-│   └── db/                        ← asyncpg pool factory
-├── repositories/                  ← concrete repos behind domain ports
+│   └── db/                        ← SQLAlchemy 2.0 async engine + session factory + ONE MODEL PER FILE under models/
+├── repositories/                  ← AsyncSession-backed repos
 │   ├── claims_repo.py
 │   ├── polizas_repo.py
 │   ├── asegurados_repo.py
 │   ├── proveedores_repo.py
 │   └── documentos_repo.py
 ├── schemas/                       ← API DTOs — what the wire sees (pydantic)
-│   ├── claim.py                   ← Claim, ClaimSummary, ClaimDetail
+│   ├── auth.py                    ← LoginRequest, LoginResponse, CurrentUser (V0)
+│   ├── claim.py                   ← Claim, ClaimSummary, ClaimDetail, ClaimPatch (debug)
 │   ├── risk.py                    ← ClaimRiskScore, RuleActivation, FactorContribution, SimilarClaim
 │   ├── agent.py                   ← AgentAskRequest, ChatStreamEvent (reused for the agent SSE)
 │   └── reports.py                 ← ExecutiveReport (stretch)
 └── main.py                        ← FastAPI app factory: app = create_app()
-notebooks/
-├── 01_exploracion_datos.ipynb
-├── 02_modelo_fraude.ipynb
-└── 03_evaluacion_modelo.ipynb
+alembic/
+├── env.py                         ← target_metadata = Base.metadata
+└── versions/                      ← autogenerated migrations
 data/
 ├── raw/                           ← Kaggle source (gitignored if > 50 MB)
 ├── processed/                     ← schema-adapted CSVs (committed)
 ├── synthetic/                     ← generator output (committed)
 └── models/                        ← fraud_lgbm.txt, anomaly_iforest.joblib (committed if < 50 MB)
+                                   ← (No data/seeds/. Seeded users live in the AUTH_SEED_USERS env var only — see V0.)
+notebooks/
+├── 01_exploracion_datos.ipynb
+├── 02_modelo_fraude.ipynb
+└── 03_evaluacion_modelo.ipynb
 docs/
 ├── arquitectura.md                ← diagram + flow
 ├── modelo_datos.md                ← tables + relations
@@ -163,12 +179,16 @@ docs/
 ├── uso_ia.md                      ← ML + agent explanation, metrics
 └── limitaciones.md                ← risks, false positives, bias notes
 tests/
+├── (unit + integration)
+└── integration/                   ← real-LLM smoke tests, gated by @pytest.mark.integration
 docker/
   └── Dockerfile
 docker-compose.yml                 ← app + postgres+pgvector
 ```
 
-**Deferred (out of scope for the hackathon submission — do NOT scaffold):** `infrastructure/auth/`, `infrastructure/storage/`, `use_cases/rag/`, `use_cases/uploads/`, `domain/memory/`, `agents/router_agent/`. See the spec §11 for the re-introduction trigger.
+**Deferred (out of scope for the hackathon submission — do NOT scaffold):** `infrastructure/storage/`, `use_cases/rag/`, `use_cases/uploads/`, `domain/memory/`, `agents/router_agent/`. See the spec §11 for the re-introduction trigger.
+
+> **Auth is in scope now (V0):** `infrastructure/auth/`, `domain/auth/`, `use_cases/auth/`, and `api/v1/auth.py` are first-class. They were originally on the deferred list; spec §17 (2026-05-26) added them back as **local JWT only** (no Supabase, no OAuth) for demo-day insurance.
 
 **Dependency direction (the only one that's allowed):**
 
@@ -254,13 +274,56 @@ async def explain_case(
 
 ## 6. Provider abstraction
 
-- **`LLMProvider`** — `complete()` + `stream()` (§4). Default: `anthropic`. Fallback: `openai`.
+- **`LLMProvider`** — `complete()` + `stream()` (§4). **Default: `openai` (gpt-4o-mini).** No Anthropic SDK in the hackathon build. For tests: `InMemoryFakeLLM` (canned fixture-driven). The port is preserved so post-hackathon swap is one file. *(Decision locked 2026-05-26.)*
 - **`EmbeddingsProvider`** — `embed(texts: list[str]) -> list[list[float]]`. Default: sentence-transformers (Spanish-capable model).
 - **`NarrativeSimilarity`** — `nearest(claim_id) -> list[SimilarClaim]`. Default: `PgVectorNarrativeSimilarity`. Fallback: `InMemoryNarrativeSimilarity` (numpy cosine).
 - **`FraudClassifier`** — `predict(features) -> (probability, factors)`. Default: `LightGBMClassifier` (loads a Booster artifact).
 - **`AnomalyDetector`** — `score(features) -> AnomalyScore`. Default: `IsolationForestDetector`.
+- **`AuthVerifier`** *(V0)* — `verify(token) -> User`. Default: `JwtIssuer` (HS256, PyJWT, secret from `settings.JWT_SECRET`). Preserved for post-hackathon swap to Supabase JWKS.
 
-Selection by env: `LLM_PROVIDER`, `EMBEDDINGS_PROVIDER`, `VECTOR_STORE`, `FRAUD_CLASSIFIER`, `ANOMALY_DETECTOR`.
+Selection by env: `LLM_PROVIDER`, `EMBEDDINGS_PROVIDER`, `VECTOR_STORE`, `FRAUD_CLASSIFIER`, `ANOMALY_DETECTOR`, `AUTH_ENABLED`.
+
+---
+
+## 6b. Auth + RBAC pattern
+
+*(Added 2026-05-26 — see design spec §13 / §17.)*
+
+**Two-role model.** Every authenticated request carries a role in its JWT claim. Two roles exist:
+- **`analista`** — primary triage user. Sees all claims, can escalate yellow/red claims to the antifraude unit.
+- **`antifraude`** — escalation team. Sees the escalated queue, resolves cases, can run debug operations like `PATCH /claims/{id}`.
+
+**`get_current_user`** decodes the JWT and returns the `User` domain object (with `role`). Applied **router-wide** to every router from V1 onward; only `/health` and `/auth/login` skip it.
+
+**`require_role(role: Role)`** is a **dependency factory**, not a Protocol or a middleware. It returns a callable that depends on `get_current_user` and raises **403** (not 401) when the role mismatches — that's the correct semantic for "authenticated but not authorized":
+
+```python
+# app/api/deps.py
+from typing import Annotated, Callable
+from fastapi import Depends, HTTPException, status
+from app.domain.auth.user import User, Role
+
+def require_role(role: Role) -> Callable[[User], User]:
+    def _checker(user: Annotated[User, Depends(get_current_user)]) -> User:
+        if user.role != role:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail={"code": "role_required", "message": f"Requires role: {role}"},
+            )
+        return user
+    return _checker
+```
+
+**Where to apply it:**
+- Apply role gates **only on state-changing endpoints**. Reads (`GET /claims`, `GET /claims/{id}`, `POST /agent/ask`) are open to any authenticated user — both roles need to see the data.
+- The matrix lives in design spec §6. Don't fork it; if you add a new gated endpoint, update the spec table in the same PR.
+- Apply via FastAPI's `dependencies=[Depends(require_role("antifraude"))]` on the **route decorator**, not buried in the handler body. That makes the gate visible at the routing layer where it should be audited.
+
+**Anti-patterns** (caught in review):
+- ❌ Checking `user.role` inside a use case. Use cases are role-agnostic; the gate is enforced at the API layer. If two roles need different behavior from the same use case, write two use cases.
+- ❌ Returning 401 instead of 403 for role mismatch — they mean different things to clients.
+- ❌ Silently returning empty data when the role is wrong. Always raise. Hide UI controls on the frontend; the backend always tells the truth via 403.
+- ❌ Adding new roles ad-hoc. Two roles is the cap for the hackathon; new roles require updating the spec §6 / §13 / §10 first.
 
 ---
 
@@ -424,10 +487,21 @@ The LangGraph **`claims_agent`** answers the 12 mandatory NL questions in Spanis
 
 ## 12. Database & migrations
 
-- Migrations live in `migrations/` (managed by `alembic` or `yoyo` — pick one in the first DB PR).
-- Repositories use **`asyncpg`**. No SQLAlchemy.
-- **No raw SQL outside `repositories/`.** No queries in routes, use cases, or nodes.
-- Connection pool created once at app startup (`main.py` lifespan), passed via `Depends`.
+*(Stack locked 2026-05-26 — see design spec §13 amendment log.)*
+
+- **SQLAlchemy 2.0 async + asyncpg driver + Alembic.** No raw SQL DDL files; migrations are autogenerated.
+- Declarative models live under `app/infrastructure/db/models/` — **one model per file** (`siniestro.py`, `poliza.py`, …). All inherit from a shared `Base = DeclarativeBase` in `app/infrastructure/db/base.py` with a sane naming convention for indexes/FKs.
+- Engine + `async_sessionmaker` live in `app/infrastructure/db/engine.py`. The `get_session()` dependency yields an `AsyncSession`; routes inject it via `Depends(get_session)`.
+- **Repositories take `AsyncSession`** and expose typed methods. **No raw SQL outside `repositories/`** and `use_cases/load_dataset.py`.
+- **One exception for raw asyncpg:** `use_cases/load_dataset.py` uses asyncpg's `copy_records_to_table` for bulk ingest (SQLAlchemy doesn't expose `COPY` cleanly). That's the only place. The connection is acquired and released within that use case — it doesn't share the pool.
+- Alembic config: `alembic/env.py` imports `Base` and all model files so `--autogenerate` sees the full schema. Migrations are committed under `alembic/versions/`.
+- Common commands:
+  ```bash
+  uv run alembic revision --autogenerate -m "msg"
+  uv run alembic upgrade head
+  uv run alembic downgrade -1
+  ```
+- `pgvector.sqlalchemy.Vector(384)` is the column type for `claim_narratives.embedding` (§8).
 
 ---
 
@@ -439,14 +513,18 @@ class Settings(BaseSettings):
     # app
     APP_ENV: Literal["dev","test","prod"] = "dev"
     LOG_LEVEL: str = "INFO"
+    DEBUG_ENABLED: bool = True   # gates PATCH /claims/{id} fire-test endpoint
 
     # database
-    DATABASE_URL: str            # postgres+asyncpg://...
+    DATABASE_URL: str            # postgresql+asyncpg://...
+    # derived form for raw asyncpg (COPY in load_dataset): strip the +asyncpg suffix
+    @property
+    def DATABASE_URL_RAW(self) -> str:
+        return self.DATABASE_URL.replace("+asyncpg", "")
 
-    # llm
-    LLM_PROVIDER: Literal["anthropic","openai"] = "anthropic"
-    LLM_DEFAULT_MODEL: str = "claude-sonnet-4-6"
-    ANTHROPIC_API_KEY: SecretStr | None = None
+    # llm  (OpenAI-only for the hackathon — locked 2026-05-26)
+    LLM_PROVIDER: Literal["openai","fake"] = "openai"
+    LLM_DEFAULT_MODEL: str = "gpt-4o-mini"
     OPENAI_API_KEY: SecretStr | None = None
 
     # embeddings
@@ -468,6 +546,15 @@ class Settings(BaseSettings):
     # data
     DATA_DIR: str = "data"
     LOAD_DATASET_ON_STARTUP: bool = True
+
+    # auth  (V0 — local JWT, env-seeded users)
+    AUTH_ENABLED: bool = True
+    JWT_SECRET: SecretStr = SecretStr("change-me-before-demo")
+    JWT_ALGORITHM: Literal["HS256"] = "HS256"
+    ACCESS_TOKEN_TTL_MINUTES: int = 480
+    # JSON array of {email, password (plaintext in .env), role, full_name}.
+    # Hashed with bcrypt at boot by EnvSeededUserRepo; hashes never persisted.
+    AUTH_SEED_USERS: SecretStr = SecretStr("[]")
 
     model_config = SettingsConfigDict(env_file=".env", extra="forbid")
 
@@ -557,7 +644,10 @@ settings = Settings()  # cached
 - ❌ Using the word `"fraude"` in any user-visible string without `"posible"` — see §2.
 - ❌ Using `pip`, `poetry`, `pipenv`, or editing `requirements.txt` → **`uv` only**.
 - ❌ Blocking I/O in async paths → `await` it, or push it to `asyncio.to_thread`.
-- ❌ Scaffolding `auth/`, `storage/`, `uploads/`, `rag/`, `memory/`, `router_agent/` — see §3 "Deferred".
+- ❌ Scaffolding `storage/`, `uploads/`, `rag/`, `memory/`, `router_agent/` — see §3 "Deferred". *(`auth/` was removed from this list 2026-05-26 — it's V0 and in scope.)*
+- ❌ `import anthropic` anywhere — we don't ship the SDK. Use the `LLMProvider` port (default `openai_adapter`).
+- ❌ Raw `asyncpg.Pool` outside `use_cases/load_dataset.py` — go through SQLAlchemy `AsyncSession`.
+- ❌ `os.getenv("X")` outside `core/config.py` — including for `JWT_SECRET`. Hardcoded secrets in source = automatic PR rejection.
 - ❌ Loading ML model artifacts from any path other than `data/models/` (or another path explicitly configured in `settings`). Model artifacts are trusted because we trained them; never deserialize from user input.
 
 ---
