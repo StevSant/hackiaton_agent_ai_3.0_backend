@@ -10,8 +10,9 @@ The score is the one written by load_dataset at ingest time.
 from __future__ import annotations
 
 from collections import Counter
+from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.claims_agent.tools.types import (
@@ -41,8 +42,29 @@ _TIER_FILTERS: dict[TierFilter, set[Tier]] = {
 class DbClaimQueries:
     """`ClaimQueries` port implementation over `AsyncSession`."""
 
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(
+        self,
+        session: AsyncSession,
+        *,
+        workspace_id: UUID | None = None,
+    ) -> None:
         self._s = session
+        self._workspace_id = workspace_id
+
+    def _can_access(self, sin: Siniestro) -> bool:
+        if self._workspace_id is None:
+            return True
+        return sin.workspace_id is None or sin.workspace_id == self._workspace_id
+
+    def _apply_workspace(self, stmt):  # type: ignore[no-untyped-def]
+        if self._workspace_id is None:
+            return stmt
+        return stmt.where(
+            or_(
+                Siniestro.workspace_id.is_(None),
+                Siniestro.workspace_id == self._workspace_id,
+            )
+        )
 
     # ------------------------------------------------------------------
     # Internal helpers
@@ -95,7 +117,7 @@ class DbClaimQueries:
 
     async def _all_details(self) -> list[ClaimDetail]:
         """Load every claim with its score in one pass."""
-        stmt = select(Siniestro)
+        stmt = self._apply_workspace(select(Siniestro))
         sins: list[Siniestro] = list(
             (await self._s.execute(stmt)).scalars().all()
         )
@@ -116,7 +138,7 @@ class DbClaimQueries:
 
     async def get_detail(self, claim_id: str) -> ClaimDetail | None:
         sin: Siniestro | None = await self._s.get(Siniestro, claim_id)
-        if sin is None:
+        if sin is None or not self._can_access(sin):
             return None
         return await self._load_detail(sin)
 
@@ -135,6 +157,7 @@ class DbClaimQueries:
             .order_by(ClaimScore.score.desc())
             .limit(top_n)
         )
+        stmt = self._apply_workspace(stmt)
         rows = list((await self._s.execute(stmt)).all())
         results: list[ClaimSummary] = []
         for sin, score_row in rows:
@@ -220,6 +243,7 @@ class DbClaimQueries:
             .order_by(ClaimScore.score.desc())
             .limit(top_n)
         )
+        stmt = self._apply_workspace(stmt)
         rows = list((await self._s.execute(stmt)).all())
         results: list[ClaimSummary] = []
         for sin, score_row in rows:
@@ -229,13 +253,13 @@ class DbClaimQueries:
 
     async def recommend_review(self, *, top_n: int = 5) -> list[ClaimSummary]:
         # Rojo first (score desc), then amarillo (score desc)
-        rojo_stmt = (
+        rojo_stmt = self._apply_workspace(
             select(Siniestro, ClaimScore)
             .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
             .where(ClaimScore.tier == Tier.rojo.value)
             .order_by(ClaimScore.score.desc())
         )
-        amarillo_stmt = (
+        amarillo_stmt = self._apply_workspace(
             select(Siniestro, ClaimScore)
             .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
             .where(ClaimScore.tier == Tier.amarillo.value)

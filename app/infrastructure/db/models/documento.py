@@ -37,6 +37,9 @@ class Documento(Base):
         Boolean, nullable=False, default=False
     )
     observacion: Mapped[str | None] = mapped_column(Text, nullable=True)
+    storage_path: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    filename: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    content_type: Mapped[str | None] = mapped_column(String(120), nullable=True)
 
     siniestro: Mapped[Siniestro] = relationship(
         "Siniestro", back_populates="documentos", lazy="noload"

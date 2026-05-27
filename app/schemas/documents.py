@@ -1,11 +1,8 @@
-"""API response schemas for document upload.
-
-Re-added per user request — overrides §11/§13 deferral; OPTIONAL feature.
-"""
+"""API response schemas for document upload."""
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class UploadedDocument(BaseModel):
@@ -16,3 +13,10 @@ class UploadedDocument(BaseModel):
     filename: str
     path: str
     signed_url: str
+
+
+class BulkUploadResult(BaseModel):
+    """Returned by POST /claims/{id}/documentos/bulk."""
+
+    uploaded: list[UploadedDocument] = Field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)
