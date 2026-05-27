@@ -1,0 +1,7 @@
+{
+  "_comment": "Top vehicle brands sold in Ecuador (SRI estadísticas vehículos 2023-2024). Used by the synthetic generator to populate ClaimVehicle.marca. Order matters: indices are picked deterministically.",
+  "items": [
+    "Chevrolet", "Toyota", "Hyundai", "Kia", "Nissan",
+    "Mazda", "Ford", "Suzuki", "Volkswagen", "Renault"
+  ]
+}

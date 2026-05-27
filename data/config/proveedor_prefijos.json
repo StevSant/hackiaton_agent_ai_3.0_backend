@@ -1,0 +1,24 @@
+{
+  "_comment": "Business-name prefixes for procedural Ecuadorian provider naming (talleres, carrocerías, repuestos, clínicas). Combined with proveedor_qualifiers.json to build plausible names. Order matters: indices are picked deterministically.",
+  "items": [
+    "Taller Mecánico",
+    "Taller Automotriz",
+    "Carrocerías",
+    "Repuestos",
+    "Mega Repuestos",
+    "Auto Servicio",
+    "Servicios Automotrices",
+    "Centro Automotriz",
+    "Mecánica Integral",
+    "Reparaciones",
+    "Multitalleres",
+    "Centro Técnico",
+    "Tecnomotor",
+    "Automotores",
+    "AutoRepair",
+    "Servicar",
+    "Clínica",
+    "Centro Médico",
+    "Policlínico"
+  ]
+}

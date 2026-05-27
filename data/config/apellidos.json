@@ -1,0 +1,13 @@
+{
+  "_comment": "Census-frequent surnames in Ecuador (INEC public stats). Consumed by the synthetic-dataset generator. Each asegurado gets two surnames picked deterministically (paterno + materno). Order matters.",
+  "items": [
+    "Pérez", "García", "López", "Mendoza", "Rodríguez", "Sánchez", "Ramírez",
+    "Torres", "Flores", "Vega", "Castro", "Rivera", "Jiménez", "Herrera",
+    "Vargas", "Romero", "Gómez", "Reyes", "Ortiz", "Cruz", "Moreno", "Aguilar",
+    "Cabrera", "Morales", "Cevallos", "Salazar", "Cárdenas", "Espinoza",
+    "Carrillo", "Suárez", "Andrade", "Mora", "Bravo", "Toro", "Paredes",
+    "Velasco", "Zambrano", "Sandoval", "Vásquez", "Naranjo", "Cedeño",
+    "Bermeo", "Quiroz", "Mosquera", "Solórzano", "Garcés", "Pacheco",
+    "Tapia", "Cárdenas", "Aguirre"
+  ]
+}

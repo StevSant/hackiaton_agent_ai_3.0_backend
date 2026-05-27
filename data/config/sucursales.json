@@ -1,0 +1,21 @@
+{
+  "_comment": "Mapping from claim city to the Aseguradora del Sur branch (sucursal) that handles it. Covers every city used in the archetype catalogue. Add a new entry whenever an archetype introduces a new ciudad.",
+  "mapping": {
+    "Guayaquil": "Guayaquil Centro",
+    "Quito": "Quito Norte",
+    "Cuenca": "Cuenca",
+    "Ambato": "Ambato",
+    "Loja": "Loja",
+    "Machala": "Machala",
+    "Manta": "Manta",
+    "Esmeraldas": "Esmeraldas",
+    "Portoviejo": "Portoviejo",
+    "Santo Domingo": "Santo Domingo",
+    "Ibarra": "Ibarra",
+    "Riobamba": "Riobamba",
+    "Babahoyo": "Babahoyo",
+    "Latacunga": "Latacunga",
+    "Quevedo": "Quevedo",
+    "Milagro": "Milagro"
+  }
+}

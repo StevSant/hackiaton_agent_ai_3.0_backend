@@ -23,73 +23,22 @@ from app.schemas.claim import (
 )
 from app.schemas.risk import Tier
 from app.use_cases.generate_dataset._archetypes import ClaimArchetype
-from app.use_cases.generate_dataset._ecuador_data import (
+from app.use_cases.generate_dataset._pools import (
     APELLIDOS,
+    CODE_PROVIDER_PATTERNS,
+    MARCAS_VEHICULO,
+    MODELOS_VEHICULO,
     NOMBRES_FEMENINOS,
     NOMBRES_MASCULINOS,
     PROVEEDOR_PREFIJOS,
     PROVEEDOR_QUALIFIERS,
+    PROVEEDORES_DEFAULT,
+    RAMOS_VEHICULO,
+    SUCURSALES,
 )
 
 # Reference date for offset calculations
 _REF_DATE = date(2026, 5, 26)
-
-_RAMOS_VEHICULO = {"Vehículos"}
-
-# Top marcas vendidas en Ecuador (SRI estadísticas vehículos 2023-2024)
-_MARCAS = [
-    "Chevrolet", "Toyota", "Hyundai", "Kia", "Nissan",
-    "Mazda", "Ford", "Suzuki", "Volkswagen", "Renault",
-]
-
-# Modelos más frecuentes en el parque automotor ecuatoriano
-_MODELOS = [
-    "Sail", "D-Max", "Tracker", "Aveo", "N300", "Captiva",
-    "Hilux", "Corolla", "Fortuner", "Prado", "Yaris",
-    "Tucson", "Santa Fe", "Accent", "Grand i10",
-    "Sportage", "Rio", "Seltos", "Picanto",
-    "Frontier", "Versa", "Kicks", "Sentra",
-    "3", "CX-5", "BT-50",
-    "Ranger", "EcoSport", "Territory",
-    "Vitara", "Swift", "S-Cross",
-    "Duster", "Logan", "Sandero",
-]
-
-_ESTADOS = ["Reserva", "Pago Parcial", "Pago Total", "Liquidado", "Negativa"]
-
-# Talleres y centros de reparación con nombres representativos de Ecuador
-_PROVEEDORES_DEFAULT = [
-    "Taller Automotriz Del Valle",
-    "MultiService Quito Norte",
-    "Reparaciones Express Guayaquil",
-    "Auto Repair Cuenca",
-    "Automotores Imbabura",
-    "Centro Automotriz Los Andes",
-    "Servicios Mecánicos Austro",
-    "Taller Mecánico Puerto Nuevo",
-    "AutoRepair Costa",
-    "Mecánica Integral Sur",
-]
-
-# Sucursales por ciudad — cubre todas las ciudades usadas en arquetipos
-_SUCURSALES = {
-    "Guayaquil": "Guayaquil Centro",
-    "Quito": "Quito Norte",
-    "Cuenca": "Cuenca",
-    "Ambato": "Ambato",
-    "Loja": "Loja",
-    "Machala": "Machala",
-    "Manta": "Manta",
-    "Esmeraldas": "Esmeraldas",
-    "Portoviejo": "Portoviejo",
-    "Santo Domingo": "Santo Domingo",
-    "Ibarra": "Ibarra",
-    "Riobamba": "Riobamba",
-    "Babahoyo": "Babahoyo",
-    "Latacunga": "Latacunga",
-    "Quevedo": "Quevedo",
-    "Milagro": "Milagro",
-}
 
 
 def _stable_int(seed: str, lo: int, hi: int) -> int:
@@ -128,20 +77,16 @@ def _ecuador_provider_name(idx: int) -> str:
     return f"{prefijo} {qualifier}"
 
 
-# Patterns that indicate a value is an internal code, not a display name.
-_CODE_PROVIDER_PATTERNS = ("PROV-LISTA", "PROV-OBS", "PROV-")
-
-
 def _looks_like_code(value: str) -> bool:
     upper = value.upper()
-    return any(upper.startswith(p) for p in _CODE_PROVIDER_PATTERNS)
+    return any(upper.startswith(p) for p in CODE_PROVIDER_PATTERNS)
 
 
 def _make_vehicle(archetype: ClaimArchetype, idx: int) -> ClaimVehicle | None:
-    if archetype.ramo not in _RAMOS_VEHICULO:
+    if archetype.ramo not in RAMOS_VEHICULO:
         return None
-    marca = _stable_pick(f"marca-{idx}", _MARCAS)
-    modelo = _stable_pick(f"modelo-{idx}", _MODELOS)
+    marca = _stable_pick(f"marca-{idx}", MARCAS_VEHICULO)
+    modelo = _stable_pick(f"modelo-{idx}", MODELOS_VEHICULO)
     # Ecuador tiene un parque automotor antiguo: ampliamos el rango a 2010
     anio = _stable_int(f"anio-{idx}", 2010, 2024)
     letters = "".join(
@@ -226,11 +171,11 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
     # vehicle claims, falling back to a procedural Ecuadorian business name so
     # we never emit codes (e.g. PROV-OBS-XXX) as a display nombre.
     proveedor = archetype.proveedor
-    if proveedor is None and archetype.ramo in _RAMOS_VEHICULO:
-        proveedor = _stable_pick(f"prov-{idx}", _PROVEEDORES_DEFAULT)
+    if proveedor is None and archetype.ramo in RAMOS_VEHICULO:
+        proveedor = _stable_pick(f"prov-{idx}", PROVEEDORES_DEFAULT)
     if proveedor is not None and _looks_like_code(proveedor):
         proveedor = _ecuador_provider_name(idx)
-    sucursal = _SUCURSALES.get(archetype.ciudad, archetype.ciudad)
+    sucursal = SUCURSALES.get(archetype.ciudad, archetype.ciudad)
     coords = coords_for_claim(claim_id, sucursal)
     lat = coords[0] if coords else None
     lng = coords[1] if coords else None

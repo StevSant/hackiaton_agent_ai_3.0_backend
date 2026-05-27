@@ -1,0 +1,14 @@
+{
+  "_comment": "Most-frequent vehicle models in the Ecuadorian parque automotor. Used by the synthetic generator to populate ClaimVehicle.modelo. Brand-model coherence is not enforced (random pairing is acceptable for synthetic data). Order matters.",
+  "items": [
+    "Sail", "D-Max", "Tracker", "Aveo", "N300", "Captiva",
+    "Hilux", "Corolla", "Fortuner", "Prado", "Yaris",
+    "Tucson", "Santa Fe", "Accent", "Grand i10",
+    "Sportage", "Rio", "Seltos", "Picanto",
+    "Frontier", "Versa", "Kicks", "Sentra",
+    "3", "CX-5", "BT-50",
+    "Ranger", "EcoSport", "Territory",
+    "Vitara", "Swift", "S-Cross",
+    "Duster", "Logan", "Sandero"
+  ]
+}

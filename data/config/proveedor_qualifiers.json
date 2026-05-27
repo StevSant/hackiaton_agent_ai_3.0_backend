@@ -1,0 +1,11 @@
+{
+  "_comment": "Geographic / regional qualifiers (barrios y zonas de Quito y Guayaquil, además de regiones del país) used to build plausible Ecuadorian provider names. Paired with proveedor_prefijos. Order matters.",
+  "items": [
+    "del Pacífico", "del Valle", "Los Andes", "del Austro", "Costa Norte",
+    "Manabí", "Sierra Sur", "Sur", "Norte", "Centro", "La Aurora",
+    "La Alborada", "Tarqui", "El Inca", "La Carolina", "Iñaquito",
+    "Cumbayá", "Tumbaco", "Samborondón", "Daule", "Eloy Alfaro",
+    "Mariscal", "San Marino", "La Mariscal", "Calderón", "Río Verde",
+    "El Recreo", "Chillogallo", "Quitumbe", "Salinas"
+  ]
+}

@@ -1,8 +1,8 @@
 """Generator for importable sample files under ``data/samples/``.
 
 Produces three JSON variants and one CSV file, all using the same Ecuador
-archetypes from ``_archetypes.py`` and the real-name pools from
-``_ecuador_data.py``.
+archetypes from ``_archetypes.py`` and the seed pools loaded from
+``data/config/`` via ``_pools/``.
 
     claims.dev.json   ~ 40 claims  (fast local testing)
     claims.test.json  ~ 80 claims  (CI / demo rehearsal)

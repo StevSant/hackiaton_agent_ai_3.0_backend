@@ -1,0 +1,6 @@
+{
+  "_comment": "Ramo labels that the synthetic generator treats as vehicle claims (i.e. emit a ClaimVehicle and pick a default proveedor). Membership test, not order-sensitive.",
+  "items": [
+    "Vehículos"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "_comment": "Census-frequent female first names in Ecuador (INEC public stats). Consumed by the synthetic-dataset generator to give claims plausible asegurado names. Order matters: indices are picked deterministically.",
+  "items": [
+    "María", "Ana", "Rosa", "Carmen", "Lucía", "Diana", "Verónica", "Patricia",
+    "Mónica", "Andrea", "Gabriela", "Paola", "Cecilia", "Lorena", "Karina",
+    "Mercedes", "Elena", "Pilar", "Tatiana", "Sandra", "Daniela", "Valeria",
+    "Camila", "Sofía", "Adriana", "Johanna", "Karla", "Estefanía", "Jessica",
+    "Erika", "Belén", "Mishell", "Doménica", "Anahí", "Génesis", "Nicole",
+    "Pamela", "Silvia", "Ximena", "Yolanda"
+  ]
+}

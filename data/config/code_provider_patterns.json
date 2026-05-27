@@ -1,0 +1,8 @@
+{
+  "_comment": "Prefix patterns that mean a 'proveedor' value is an internal code (e.g. PROV-OBS-045), not a display name. When matched, the generator substitutes a procedural Ecuadorian business name instead. Order: not significant — used as a startswith() check.",
+  "items": [
+    "PROV-LISTA",
+    "PROV-OBS",
+    "PROV-"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "_comment": "Census-frequent male first names in Ecuador (INEC public stats). Consumed by the synthetic-dataset generator to give claims plausible asegurado names. Order matters: indices are picked deterministically.",
+  "items": [
+    "Carlos", "Luis", "José", "Juan", "Marco", "Diego", "Andrés", "Pablo",
+    "Manuel", "Jorge", "Fernando", "Alejandro", "Daniel", "Roberto", "David",
+    "Esteban", "Miguel", "Iván", "Patricio", "Cristian", "Mauricio", "Ricardo",
+    "Javier", "Eduardo", "Víctor", "Hugo", "Santiago", "Sebastián", "Felipe",
+    "Ramiro", "Edison", "Walter", "Bryan", "Kevin", "Alex", "Marcelo",
+    "Hernán", "Vinicio", "Wilmer", "Galo"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_comment": "Curated list of plausible Ecuadorian taller / repair-center names used as the default proveedor pool for vehicle claims when the archetype doesn't pin a specific provider. Order matters.",
+  "items": [
+    "Taller Automotriz Del Valle",
+    "MultiService Quito Norte",
+    "Reparaciones Express Guayaquil",
+    "Auto Repair Cuenca",
+    "Automotores Imbabura",
+    "Centro Automotriz Los Andes",
+    "Servicios Mecánicos Austro",
+    "Taller Mecánico Puerto Nuevo",
+    "AutoRepair Costa",
+    "Mecánica Integral Sur"
+  ]
+}
