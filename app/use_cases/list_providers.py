@@ -49,6 +49,15 @@ async def list_providers(session: AsyncSession) -> list[ProviderOut]:
             )
         ).scalar() or 0
 
+        ramos_rows = (
+            await session.execute(
+                select(Siniestro.ramo)
+                .where(Siniestro.beneficiario == p.id_proveedor)
+                .distinct()
+            )
+        ).scalars().all()
+        ramos = sorted({r for r in ramos_rows if r})
+
         if casos == 0:
             casos = p.reclamos_asociados
             monto = p.monto_promedio_reclamado * max(p.reclamos_asociados, 1)
@@ -63,6 +72,7 @@ async def list_providers(session: AsyncSession) -> list[ProviderOut]:
                 alertas=int(alertas),
                 monto=monto,
                 lista_restrictiva=p.porcentaje_casos_observados >= _RESTRICTIVE_THRESHOLD,
+                ramos=ramos,
             )
         )
 

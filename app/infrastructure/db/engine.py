@@ -22,13 +22,26 @@ def create_engine() -> AsyncEngine:
     # which breaks asyncpg's named prepared statements. Disabling both caches
     # forces every statement to be sent as unnamed/parse-each-time, so the
     # connection pool can rotate freely.
+    #
+    # Pool hardening for Supabase + transaction pooler:
+    # - Small pool: the Supabase pooler does the real pooling; keep ours tight.
+    # - pool_recycle=1800: drop connections older than 30 min so we don't hand
+    #   out sockets the pooler has already closed.
+    # - pool_timeout=10: don't block requests for 30s waiting on a pool slot.
+    # - connect_args["timeout"]=10: fail fast on TCP/SSL connect (asyncpg
+    #   defaults to 60s — too long for a request to hang on).
     return create_async_engine(
         settings.DATABASE_URL,
         echo=settings.APP_ENV == "dev" and settings.LOG_LEVEL == "DEBUG",
         pool_pre_ping=True,
+        pool_size=5,
+        max_overflow=5,
+        pool_recycle=1800,
+        pool_timeout=10,
         connect_args={
             "statement_cache_size": 0,
             "prepared_statement_cache_size": 0,
+            "timeout": 10,
         },
     )
 

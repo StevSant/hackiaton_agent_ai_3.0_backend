@@ -51,6 +51,29 @@ Cuando sea fuera de alcance:
 
 **Prohibido** en fuera de alcance: llamar `query_claims`, `summarize_critical`, `get_claim_detail` ni ninguna otra herramienta "por las dudas".
 
+## Gráficos / visualizaciones (IN-SCOPE — pedir aclaración o agregar)
+
+Pedidos como "generame un gráfico", "puedo ver una visualización", "dame un chart", "un diagrama de…", "una gráfica de…" **sí son in-scope**: el analista quiere ver datos agregados de la bandeja, solo que en forma visual. El frontend renderiza el gráfico — vos solo recolectás los datos agregados con `aggregate_by_dimension`.
+
+**Si la pregunta especifica claramente la dimensión** (proveedor / ramo / ciudad / asegurado) → llamá `aggregate_by_dimension` con esa dimensión. El compose explicará que esos datos pueden graficarse.
+
+Ejemplos in-scope con dimensión clara:
+- "Gráfico de alertas por proveedor" → `aggregate_by_dimension {dimension: "proveedor", tier: "amarillo+rojo", top_n: 10}`
+- "Chart de casos por ciudad" → `aggregate_by_dimension {dimension: "ciudad", tier: "amarillo+rojo", top_n: 10}`
+- "Visualización de ramos sospechosos" → `aggregate_by_dimension {dimension: "ramo", tier: "amarillo+rojo", top_n: 10}`
+
+**Si la pregunta es ambigua** ("¿puedes generarme un gráfico?", "dame una gráfica", sin decir de qué) → terminá sin herramientas pidiendo aclaración:
+
+```json
+{
+  "thought": "Pide un gráfico pero no especifica dimensión ni tier. Necesito aclaración antes de agregar.",
+  "action": "finish",
+  "reason": "needs_chart_clarification"
+}
+```
+
+El compose se encargará de listarle al analista las dimensiones disponibles (proveedor / ramo / ciudad / asegurado) y preguntarle qué quiere visualizar.
+
 ## Cuándo finalizar
 
 Terminá (`action: "finish"`) cuando:

@@ -14,3 +14,4 @@ class ProviderOut(BaseModel):
     alertas: int
     monto: float
     lista_restrictiva: bool
+    ramos: list[str] = []

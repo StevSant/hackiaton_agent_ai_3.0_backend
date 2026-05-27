@@ -100,7 +100,29 @@ class DbClaimQueries:
         )
         return rows_to_claim_detail(sin, pol, score_row, docs, proveedor)
 
+    def _build_summary(
+        self, sin: Siniestro, score_row: ClaimScore, ciudad: str | None
+    ) -> ClaimSummary:
+        """Build a ClaimSummary directly from ORM rows — no docs/proveedor fetch.
+
+        Summary listings don't need documentos or proveedor (neither appears in
+        ClaimSummary), so this avoids the N+1 round-trips that _hydrate causes.
+        """
+        return ClaimSummary(
+            id=sin.id_siniestro,
+            ramo=sin.ramo,
+            cobertura=sin.cobertura,
+            asegurado=f"Asegurado {sin.id_asegurado[-4:]}",
+            ciudad=ciudad or "",
+            fecha_ocurrencia=sin.fecha_ocurrencia,
+            monto_reclamado=sin.monto_reclamado,
+            estado=sin.estado,
+            score=score_row.score,
+            nivel=Tier(score_row.tier),
+        )
+
     def _to_summary(self, detail: ClaimDetail) -> ClaimSummary:
+        """ClaimDetail → ClaimSummary. Used by executive_summary (already-hydrated path)."""
         return ClaimSummary(
             id=detail.id,
             ramo=detail.ramo,
@@ -149,21 +171,20 @@ class DbClaimQueries:
         tier: TierFilter = "amarillo+rojo",
     ) -> list[ClaimSummary]:
         allowed_tiers = [t.value for t in _TIER_FILTERS[tier]]
-        # Join siniestros ↔ claim_scores, filter by tier, order by score DESC
+        # Single joined query: siniestros ⨝ claim_scores ⨝ polizas (for ciudad).
+        # Builds ClaimSummary directly — no per-row Documento/Proveedor fetch
+        # (those don't appear in ClaimSummary).
         stmt = (
-            select(Siniestro, ClaimScore)
+            select(Siniestro, ClaimScore, Poliza.ciudad)
             .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .outerjoin(Poliza, Poliza.id_poliza == Siniestro.id_poliza)
             .where(ClaimScore.tier.in_(allowed_tiers))
             .order_by(ClaimScore.score.desc())
             .limit(top_n)
         )
         stmt = self._apply_workspace(stmt)
         rows = list((await self._s.execute(stmt)).all())
-        results: list[ClaimSummary] = []
-        for sin, score_row in rows:
-            detail = await self._hydrate(sin, score_row)
-            results.append(self._to_summary(detail))
-        return results
+        return [self._build_summary(sin, score_row, ciudad) for sin, score_row, ciudad in rows]
 
     async def aggregate(
         self,
@@ -235,44 +256,38 @@ class DbClaimQueries:
         window_days: int = 10,
         top_n: int = 10,
     ) -> list[ClaimSummary]:
-        # Use the pre-computed dias_desde_inicio_poliza column for efficiency
+        # Use the pre-computed dias_desde_inicio_poliza column for efficiency.
+        # Single joined query (incl. Poliza.ciudad) — no per-row N+1.
         stmt = (
-            select(Siniestro, ClaimScore)
+            select(Siniestro, ClaimScore, Poliza.ciudad)
             .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .outerjoin(Poliza, Poliza.id_poliza == Siniestro.id_poliza)
             .where(Siniestro.dias_desde_inicio_poliza <= window_days)
             .order_by(ClaimScore.score.desc())
             .limit(top_n)
         )
         stmt = self._apply_workspace(stmt)
         rows = list((await self._s.execute(stmt)).all())
-        results: list[ClaimSummary] = []
-        for sin, score_row in rows:
-            detail = await self._hydrate(sin, score_row)
-            results.append(self._to_summary(detail))
-        return results
+        return [self._build_summary(sin, score_row, ciudad) for sin, score_row, ciudad in rows]
 
     async def recommend_review(self, *, top_n: int = 5) -> list[ClaimSummary]:
-        # Rojo first (score desc), then amarillo (score desc)
-        rojo_stmt = self._apply_workspace(
-            select(Siniestro, ClaimScore)
+        # Rojo first (score desc), then amarillo (score desc).
+        # Single joined query per tier (incl. Poliza.ciudad) — no per-row N+1.
+        base = (
+            select(Siniestro, ClaimScore, Poliza.ciudad)
             .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
-            .where(ClaimScore.tier == Tier.rojo.value)
-            .order_by(ClaimScore.score.desc())
+            .outerjoin(Poliza, Poliza.id_poliza == Siniestro.id_poliza)
+        )
+        rojo_stmt = self._apply_workspace(
+            base.where(ClaimScore.tier == Tier.rojo.value).order_by(ClaimScore.score.desc())
         )
         amarillo_stmt = self._apply_workspace(
-            select(Siniestro, ClaimScore)
-            .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
-            .where(ClaimScore.tier == Tier.amarillo.value)
-            .order_by(ClaimScore.score.desc())
+            base.where(ClaimScore.tier == Tier.amarillo.value).order_by(ClaimScore.score.desc())
         )
         rojo_rows = list((await self._s.execute(rojo_stmt)).all())
         amarillo_rows = list((await self._s.execute(amarillo_stmt)).all())
         ordered = (rojo_rows + amarillo_rows)[:top_n]
-        results: list[ClaimSummary] = []
-        for sin, score_row in ordered:
-            detail = await self._hydrate(sin, score_row)
-            results.append(self._to_summary(detail))
-        return results
+        return [self._build_summary(sin, score_row, ciudad) for sin, score_row, ciudad in ordered]
 
     async def executive_summary(self) -> ExecutiveSummary:
         claims = await self._all_details()
