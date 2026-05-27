@@ -119,21 +119,26 @@ async def _compute_aggregates(session: AsyncSession) -> None:
         )
     )
 
-    # siniestros.historial_siniestros_asegurado — count of strictly prior
-    # siniestros for the same asegurado (lifetime, not 12-mo).
+    # siniestros.historial_siniestros_asegurado — count of prior siniestros for
+    # the same asegurado. The synthetic dataset has 1 claim per asegurado, so
+    # the strict aggregation is always 0; fall back to a tier-derived value
+    # (rojo/amarillo claims belong to asegurados with some history) so the
+    # column reflects the archetype's intent. Deterministic from the claim id.
     await session.execute(
         text(
             """
             UPDATE siniestros s
-            SET historial_siniestros_asegurado = sub.cnt
-            FROM (
-              SELECT a.id_siniestro,
-                     (SELECT COUNT(*) FROM siniestros b
-                      WHERE b.id_asegurado = a.id_asegurado
-                        AND b.fecha_ocurrencia < a.fecha_ocurrencia) AS cnt
-              FROM siniestros a
-            ) sub
-            WHERE s.id_siniestro = sub.id_siniestro
+            SET historial_siniestros_asegurado = GREATEST(
+              (SELECT COUNT(*) FROM siniestros b
+               WHERE b.id_asegurado = s.id_asegurado
+                 AND b.fecha_ocurrencia < s.fecha_ocurrencia),
+              (SELECT CASE cs.tier
+                        WHEN 'rojo' THEN 2 + (abs(hashtext(s.id_siniestro)) % 4)
+                        WHEN 'amarillo' THEN 1 + (abs(hashtext(s.id_siniestro)) % 3)
+                        ELSE 0
+                      END
+               FROM claim_scores cs WHERE cs.claim_id = s.id_siniestro)
+            )
             """
         )
     )

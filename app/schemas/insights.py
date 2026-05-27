@@ -31,9 +31,17 @@ class QuarterlyOutlookOut(BaseModel):
     systematic_fraud_delta: str
 
 
+class HotspotOut(BaseModel):
+    sucursal: str
+    count: int
+    alertas: int
+    avg_score: float
+
+
 class InsightsBundleOut(BaseModel):
     anomalies: list[AiAnomalyOut]
     regional_fraud: list[RegionalFraudPointOut]
     claim_type_slices: list[ClaimTypeSliceOut]
     total_claims_label: str
     quarterly_outlook: QuarterlyOutlookOut
+    hotspots: list[HotspotOut]

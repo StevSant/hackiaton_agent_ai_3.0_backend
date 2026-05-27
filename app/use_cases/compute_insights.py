@@ -11,7 +11,7 @@ returned as constants until a forecast pipeline lands.
 
 from __future__ import annotations
 
-from sqlalchemy import desc, func, select
+from sqlalchemy import case, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.db.models.claim_score import ClaimScore
@@ -19,6 +19,7 @@ from app.infrastructure.db.models.siniestro import Siniestro
 from app.schemas.insights import (
     AiAnomalyOut,
     ClaimTypeSliceOut,
+    HotspotOut,
     InsightsBundleOut,
     QuarterlyOutlookOut,
     RegionalFraudPointOut,
@@ -44,8 +45,8 @@ _CURATED_ANOMALIES: list[AiAnomalyOut] = [
 _FALLBACK_REGIONS: list[RegionalFraudPointOut] = [
     RegionalFraudPointOut(region="Pichincha", value=88),
     RegionalFraudPointOut(region="Guayas", value=72),
-    RegionalFraudPointOut(region="Azuay", value=58),
     RegionalFraudPointOut(region="Manabí", value=64),
+    RegionalFraudPointOut(region="Azuay", value=58),
     RegionalFraudPointOut(region="El Oro", value=46),
 ]
 
@@ -62,6 +63,14 @@ _QUARTERLY_OUTLOOK = QuarterlyOutlookOut(
     ),
     systematic_fraud_delta="-2,1%",
 )
+
+_FALLBACK_HOTSPOTS: list[HotspotOut] = [
+    HotspotOut(sucursal="Quito", count=24, alertas=11, avg_score=72.0),
+    HotspotOut(sucursal="Guayaquil", count=21, alertas=8, avg_score=58.0),
+    HotspotOut(sucursal="Santo Domingo", count=14, alertas=6, avg_score=64.0),
+    HotspotOut(sucursal="Cuenca", count=11, alertas=4, avg_score=52.0),
+    HotspotOut(sucursal="Manta", count=8, alertas=3, avg_score=48.0),
+]
 
 
 def _format_total(n: int) -> str:
@@ -90,6 +99,7 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
             claim_type_slices=_FALLBACK_SLICES,
             total_claims_label="12,4k",
             quarterly_outlook=_QUARTERLY_OUTLOOK,
+            hotspots=_FALLBACK_HOTSPOTS,
         )
 
     total = (await session.execute(select(func.count(Siniestro.id_siniestro)))).scalar() or 0
@@ -127,10 +137,43 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
         for k, (label, count) in sorted(bucketed.items(), key=lambda kv: -kv[1][1])
     ] or _FALLBACK_SLICES
 
+    hotspot_rows = (
+        await session.execute(
+            select(
+                Siniestro.sucursal,
+                func.count(Siniestro.id_siniestro),
+                func.coalesce(
+                    func.sum(
+                        case(
+                            (ClaimScore.tier.in_(["amarillo", "rojo"]), 1),
+                            else_=0,
+                        )
+                    ),
+                    0,
+                ),
+                func.coalesce(func.avg(ClaimScore.score), 0.0),
+            )
+            .outerjoin(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .where(Siniestro.sucursal.isnot(None))
+            .group_by(Siniestro.sucursal)
+            .order_by(desc(func.count(Siniestro.id_siniestro)))
+        )
+    ).all()
+    hotspots = [
+        HotspotOut(
+            sucursal=row[0],
+            count=int(row[1]),
+            alertas=int(row[2]),
+            avg_score=float(row[3]),
+        )
+        for row in hotspot_rows
+    ] or _FALLBACK_HOTSPOTS
+
     return InsightsBundleOut(
         anomalies=_CURATED_ANOMALIES,
         regional_fraud=regional_fraud,
         claim_type_slices=slices,
         total_claims_label=_format_total(int(total)) if total else "12,4k",
         quarterly_outlook=_QUARTERLY_OUTLOOK,
+        hotspots=hotspots,
     )

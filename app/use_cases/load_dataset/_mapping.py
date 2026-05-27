@@ -25,19 +25,35 @@ from app.schemas.risk import FactorContribution, SimilarClaim, Tier
 
 _SEGMENTOS = ["Premium", "Corporativo", "Estándar", "Joven", "Senior"]
 _CANALES = ["Sucursal", "Digital", "Broker", "Agente", "Telemarketing"]
+# Lookup is normalised via _ramo_key so the dataset's mixed casing
+# ("Vehículos" / "vehiculos" / "Vida" / "vida") all resolve correctly.
 _PRIMA_RATIO_BY_RAMO = {
-    "Vehículos": 0.075,
-    "Salud": 0.055,
-    "Vida": 0.025,
-    "Hogar": 0.045,
-    "Accidentes Personales": 0.035,
+    "vehiculos": 0.075,
+    "salud": 0.055,
+    "vida": 0.025,
+    "hogar": 0.045,
+    "accidentes personales": 0.035,
+    "transporte": 0.050,
+    "incendio": 0.030,
 }
 _DEDUCIBLE_RATIO_BY_RAMO = {
-    "Vehículos": 0.05,
-    "Salud": 0.02,
-    "Hogar": 0.03,
+    "vehiculos": 0.05,
+    "salud": 0.02,
+    "hogar": 0.03,
+    "incendio": 0.04,
+    "transporte": 0.04,
 }
 _FS11_CODE = "FS-11"
+
+
+def _ramo_key(ramo: str) -> str:
+    """Normalise a ramo string for case/accent-insensitive lookup."""
+    return (
+        ramo.lower()
+        .replace("á", "a").replace("é", "e").replace("í", "i")
+        .replace("ó", "o").replace("ú", "u")
+        .strip()
+    )
 
 # ---------------------------------------------------------------------------
 # ClaimDetail → ORM objects
@@ -65,10 +81,9 @@ def claim_detail_to_asegurado(c: ClaimDetail) -> Asegurado:
 
 def claim_detail_to_poliza(c: ClaimDetail) -> Poliza:
     """Poliza row with deterministic prima / deducible / canal_venta."""
-    ratio = _PRIMA_RATIO_BY_RAMO.get(c.ramo, 0.06)
-    prima = round(c.suma_asegurada * ratio, 2)
-    deducible_ratio = _DEDUCIBLE_RATIO_BY_RAMO.get(c.ramo, 0.0)
-    deducible = round(c.suma_asegurada * deducible_ratio, 2)
+    key = _ramo_key(c.ramo)
+    prima = round(c.suma_asegurada * _PRIMA_RATIO_BY_RAMO.get(key, 0.06), 2)
+    deducible = round(c.suma_asegurada * _DEDUCIBLE_RATIO_BY_RAMO.get(key, 0.0), 2)
     return Poliza(
         id_poliza=c.poliza,
         id_asegurado=c.asegurado_id,
