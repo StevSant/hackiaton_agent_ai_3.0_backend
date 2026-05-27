@@ -11,13 +11,7 @@ from __future__ import annotations
 import uuid
 from collections.abc import AsyncIterator, Callable
 from functools import lru_cache
-from typing import TYPE_CHECKING, Annotated
-
-if TYPE_CHECKING:
-    from app.use_cases.conversations.conversation_persister import ConversationPersister
-    from app.use_cases.conversations.generate_conversation_title import (
-        GenerateConversationTitle,
-    )
+from typing import Annotated
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
@@ -57,6 +51,10 @@ from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.auth.login import LoginUseCase
+from app.use_cases.conversations.conversation_persister import ConversationPersister
+from app.use_cases.conversations.generate_conversation_title import (
+    GenerateConversationTitle,
+)
 
 
 def get_settings() -> Settings:
@@ -305,10 +303,6 @@ def get_title_generator(
     llm: Annotated[LLMProvider, Depends(get_llm)],
     prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
 ) -> GenerateConversationTitle:
-    from app.use_cases.conversations.generate_conversation_title import (
-        GenerateConversationTitle,
-    )
-
     return GenerateConversationTitle(
         llm=llm, prompts=prompts, model=settings.LLM_DEFAULT_MODEL
     )
@@ -317,10 +311,6 @@ def get_title_generator(
 def get_conversation_persister(
     title_gen: Annotated[GenerateConversationTitle, Depends(get_title_generator)],
 ) -> ConversationPersister | None:
-    from app.use_cases.conversations.conversation_persister import (
-        ConversationPersister,
-    )
-
     factory = _get_session_factory()
     if factory is None:
         return None
