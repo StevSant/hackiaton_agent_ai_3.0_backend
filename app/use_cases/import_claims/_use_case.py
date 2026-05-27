@@ -15,12 +15,12 @@ from uuid import UUID
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.schemas.claim import ClaimAlert, ClaimDetail
+from app.schemas.imports import ImportResult
 from app.use_cases.claim_score_persist import (
     claim_detail_to_score_row,
     upsert_claim_score,
 )
-from app.schemas.claim import ClaimAlert, ClaimDetail
-from app.schemas.imports import ImportResult
 from app.use_cases.load_dataset._aggregates import compute_aggregates
 from app.use_cases.load_dataset._mapping import (
     claim_detail_to_asegurado,
@@ -47,7 +47,10 @@ async def import_claims(
 
     for record in records:
         try:
-            await _upsert_one(session, record, workspace_id=workspace_id)
+            # Per-row SAVEPOINT: a failed row rolls back only itself, leaving the
+            # session usable for the rest of the batch (no cascade rollback).
+            async with session.begin_nested():
+                await _upsert_one(session, record, workspace_id=workspace_id)
             imported += 1
             claim_ids.append(record.id)
         except Exception as exc:  # collect, don't abort the batch
