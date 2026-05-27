@@ -70,3 +70,13 @@ Para que los puntos anteriores no se lean como derrotismo:
 - **`nearest_normal_claim_id`** — contraste con un caso conocido como normal.
 - **Frase "posible fraude" enforced** — `ruff` flag manual + revisión de PR (§2 backend CLAUDE.md).
 - **Human-in-the-loop por diseño** — el workflow §6 V2.6 obliga a un dictamen humano antes del cierre.
+
+## Historial de conversaciones (agregado 2026-05-27)
+
+La feature de "Historial de conversaciones" persiste los mensajes del agente Centinela IA por usuario en Postgres. Tiene limitaciones conocidas:
+
+- **`conversations.user_id` sin FK** — los usuarios viven en la variable de entorno `AUTH_SEED_USERS`, no en una tabla. El `user_id` es un UUID determinístico (`uuid5(NAMESPACE_*, email)`) indexado pero sin restricción de integridad referencial. Cuando se migre a una tabla `users` real (post-hackathon, p.ej. con Supabase Auth), se agrega la FK.
+- **El razonamiento del agente no se persiste.** Los eventos `tool_call`, `agent_step` y `tool_result` son artefactos de transparencia en vivo durante el SSE, no se almacenan. Recargar una conversación muestra sólo los textos `user` / `assistant`, no los pasos intermedios.
+- **Sin paginación.** El sidebar lista hasta 200 conversaciones por usuario ordenadas por fecha reciente. Para escala hackathon es suficiente; en producción se introduce paginación o un índice de búsqueda dedicado.
+- **Generación del título es fire-and-forget.** Existe una ventana corta donde el sidebar muestra "Sin título" hasta el siguiente refresh. Es una concesión consciente para no bloquear el stream SSE.
+- **Tests de persistencia end-to-end están marcados `@pytest.mark.skip`** porque el cliente ASGI de tests no ejecuta el lifespan de FastAPI (el `session_factory` queda en None). El test es válido para ejecución manual contra un servidor en vivo: `uv run uvicorn app.main:app --port 8000` luego `pytest tests/agent/test_conversation_persistence.py -m integration -v`.
