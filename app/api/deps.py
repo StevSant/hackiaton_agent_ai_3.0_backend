@@ -68,10 +68,8 @@ def get_settings() -> Settings:
     return settings
 
 
-async def get_db_session() -> AsyncIterator[AsyncSession]:
-    # Wired in app lifespan; this stub is replaced when the engine is provisioned.
-    raise NotImplementedError("DB session factory not yet wired — see app/main.py lifespan")
-
+# DB session: use ``app.infrastructure.db.engine.get_session`` for required sessions
+# and ``_get_optional_session`` below for graceful-degradation paths.
 
 # ---------------------------------------------------------------------------
 # Auth

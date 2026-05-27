@@ -237,7 +237,7 @@ async def dictamen_route(
     emit_audit_event(
         audit,
         user=user,
-        action=AuditAction.cierre,
+        action=AuditAction.dictamen,
         title=f"Dictaminó {claim_id} · {body.outcome.value}",
         detail=body.justificacion,
         target=claim_id,

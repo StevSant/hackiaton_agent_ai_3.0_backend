@@ -11,11 +11,14 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, require_any_role
+from app.api.deps import get_audit_store, get_current_user, require_any_role
 from app.core.config import settings
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
+from app.infrastructure.audit import InMemoryAuditStore
+from app.schemas.audit import AuditAction
 from app.schemas.imports import ImportResult
+from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.import_claims import import_claims, parse_csv, parse_json
 
 logger = logging.getLogger(__name__)
@@ -62,6 +65,7 @@ async def import_claims_route(
         User,
         Depends(require_any_role(Role.analista, Role.antifraude)),
     ],
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
 ) -> ImportResult:
     if session is None:
@@ -101,6 +105,16 @@ async def import_claims_route(
         file.filename,
         result.imported,
         result.skipped,
+    )
+    emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.apertura,
+        title=f"Importó {result.imported} siniestros desde archivo",
+        detail=(
+            f"Archivo: {file.filename or 'sin nombre'} · "
+            f"importados {result.imported} · omitidos {result.skipped}"
+        ),
     )
     return result
 

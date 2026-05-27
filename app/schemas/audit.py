@@ -20,6 +20,7 @@ class AuditAction(str, Enum):
     consulta_ia = "consulta_ia"
     cambio_regla = "cambio_regla"
     cierre = "cierre"
+    dictamen = "dictamen"
     export = "export"
 
 

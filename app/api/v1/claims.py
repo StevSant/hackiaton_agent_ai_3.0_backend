@@ -17,6 +17,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.api.deps import (
     get_anomaly_detector,
+    get_audit_store,
     get_claim_queries_dep,
     get_current_user,
     get_fraud_classifier,
@@ -30,10 +31,13 @@ from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
+from app.infrastructure.audit import InMemoryAuditStore
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.schemas.audit import AuditAction
 from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ReviewStatus
 from app.schemas.page import Page
 from app.schemas.risk import ClaimRiskScore, Tier
+from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.get_claim_detail import _tier_to_severidad, get_claim_detail
 from app.use_cases.list_claims import list_claims
@@ -97,7 +101,8 @@ async def rescore_claim_route(
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
-    _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimRiskScore:
     claim = await queries.get_detail(claim_id)
     if claim is None:
@@ -107,6 +112,14 @@ async def rescore_claim_route(
     ctx = RuleContext.from_claim(claim)
     risk = score_claim(claim, ctx=ctx)
     enriched = await enrich_claim_score(claim, classifier=classifier, detector=detector)
+    emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.apertura,
+        title=f"Recalculó el score de {claim_id}",
+        detail=f"Nuevo score {risk.score}/100 · nivel {risk.tier.value}",
+        target=claim_id,
+    )
     return risk.model_copy(
         update={
             "ml_probability": enriched.ml_probability,
@@ -124,7 +137,8 @@ async def patch_claim_route(
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
-    _user: Annotated[User, Depends(require_role(Role.antifraude))] = ...,  # type: ignore[assignment]
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    user: Annotated[User, Depends(require_role(Role.antifraude))] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
     """Debug fire-test endpoint — gated by DEBUG_ENABLED (§10).
 
@@ -173,5 +187,14 @@ async def patch_claim_route(
             "alertas": alertas,
             "similar": risk.similar,
         }
+    )
+    fields = ", ".join(sorted(updates.keys())) or "(sin cambios)"
+    emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.cambio_regla,
+        title=f"Editó manualmente {claim_id} (fire-test)",
+        detail=f"Campos modificados: {fields} · nuevo score {risk.score}/100",
+        target=claim_id,
     )
     return await enrich_claim_score(rescored, classifier=classifier, detector=detector)
