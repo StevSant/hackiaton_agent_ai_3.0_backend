@@ -1,3 +1,4 @@
+from app.schemas.agent import AgentAskContext, AgentAskRequest
 from app.schemas.chat import ChatStreamEvent
 from app.schemas.claim import (
     AlertSeverity,
@@ -23,6 +24,8 @@ from app.schemas.risk import (
 )
 
 __all__ = [
+    "AgentAskContext",
+    "AgentAskRequest",
     "AlertSeverity",
     "ChatStreamEvent",
     "ClaimAlert",
