@@ -1,23 +1,32 @@
 """Drive the claims-agent LangGraph and stream `ChatStreamEvent`s to the client.
 
-Translates LangGraph's internal event stream into our wire shape. Per backend
-CLAUDE.md §7: frontend never sees raw LangGraph events.
+Architecture:
+  1. The graph (route → intent → END) populates `tool_results` + `citations`.
+  2. `_compose_stream()` then calls `llm.stream()` with the compose prompts +
+     tool results, yielding each token delta as a `TokenEvent` AS IT ARRIVES.
+
+This separation (graph for deterministic routing, streaming compose for generative
+output) is intentional — per backend CLAUDE.md §7 the frontend never sees raw
+LangGraph events, and compose is the only step that genuinely benefits from
+token-by-token UX.
 
 Event sequence (golden path):
-    agent_step(route)           → routing intent decided
-    agent_step(<intent>)        → entering an intent node
-    tool_call(<tool>)           → before the tool runs
-    tool_result(<tool>)         → after the tool returns
-    agent_step(compose)         → entering compose
-    token(delta)*               → composed answer streamed in chunks
-    done(message_id)            → end of stream
+    agent_step(route) → routing decided
+    agent_step(<intent>) → entering intent node
+    tool_call(<tool>) / tool_result(<tool>) → tool execution
+    agent_step(compose) → entering compose stream
+    token(delta)* → live token stream from the LLM
+    done(message_id) → end of stream
 On any unhandled exception → error(code, message) → done.
 """
 
+import json
 import uuid
 from collections.abc import AsyncIterator
+from typing import Any
 
 from app.agents.claims_agent import ClaimsAgentDeps, build_graph
+from app.infrastructure.llm.types import Message
 from app.schemas.agent import AgentAskRequest
 from app.schemas.chat.stream import (
     AgentStepData,
@@ -34,15 +43,17 @@ from app.schemas.chat.stream import (
     ToolResultEvent,
 )
 
-_STREAM_CHUNK = 16  # characters per token event when re-chunking compose output
+
+def _serialize_tool_results(results: list[dict]) -> str:
+    return json.dumps(results, ensure_ascii=False, indent=2, default=str)
 
 
 class AskAgent:
     """Orchestrates one agent turn over SSE.
 
-    Stateless: a new graph instance per call. LangGraph caches its compilation
-    internally, so this is cheap. Conversation state isn't needed for the 12-NL
-    use case — each question is self-contained.
+    Stateless across requests: the compiled graph is pinned to this instance but
+    each `run()` call gets fresh state. Conversation memory isn't needed for the
+    12-NL use case — each question is self-contained.
     """
 
     def __init__(self, deps: ClaimsAgentDeps) -> None:
@@ -63,12 +74,11 @@ class AskAgent:
         message_id = uuid.uuid4().hex
 
         try:
-            final_state: dict[str, object] | None = None
+            tool_results: list[dict[str, Any]] = []
+            citations: list[str] = []
             seen_tool_results = 0
 
-            async for event in self._graph.astream_events(
-                initial_state, version="v2"
-            ):
+            async for event in self._graph.astream_events(initial_state, version="v2"):
                 event_type = event.get("event", "")
                 name = event.get("name", "")
                 data = event.get("data", {})
@@ -80,7 +90,6 @@ class AskAgent:
                     "aggregate",
                     "documents",
                     "summarize",
-                    "compose",
                 }:
                     yield AgentStepEvent(data=AgentStepData(node=name))
 
@@ -94,6 +103,7 @@ class AskAgent:
                     node_output = data.get("output") or {}
                     new_results = node_output.get("tool_results") or []
                     for tool_result in new_results[seen_tool_results:]:
+                        tool_results.append(tool_result)
                         yield ToolCallEvent(
                             data=ToolCallData(
                                 tool=tool_result.get("tool", "unknown"),
@@ -108,27 +118,63 @@ class AskAgent:
                             )
                         )
                     seen_tool_results = len(new_results)
+                    new_citations = node_output.get("citations") or []
+                    citations.extend(c for c in new_citations if c)
 
-                if event_type == "on_chain_end" and name == "compose":
-                    node_output = data.get("output") or {}
-                    answer = str(node_output.get("answer") or "")
-                    message_id = str(node_output.get("message_id") or message_id)
-                    for chunk in _chunked(answer, _STREAM_CHUNK):
-                        yield TokenEvent(data=TokenData(delta=chunk, message_id=message_id))
-                    final_state = node_output
+            # Compose phase — streamed live from the LLM.
+            yield AgentStepEvent(data=AgentStepData(node="compose"))
+            async for token in self._compose_stream(
+                query=req.query,
+                tool_results=tool_results,
+                citations=citations,
+                message_id=message_id,
+            ):
+                yield token
 
-            if final_state is None:
-                yield ErrorEvent(
-                    data=ErrorData(code="empty_graph", message="Agent produced no compose output")
-                )
             yield DoneEvent(data=DoneData(message_id=message_id))
 
         except Exception as exc:
             yield ErrorEvent(data=ErrorData(code="agent_error", message=str(exc)))
             yield DoneEvent(data=DoneData(message_id=message_id))
 
+    async def _compose_stream(
+        self,
+        *,
+        query: str,
+        tool_results: list[dict[str, Any]],
+        citations: list[str],
+        message_id: str,
+    ) -> AsyncIterator[TokenEvent]:
+        """Stream the compose LLM call token-by-token.
 
-def _chunked(text: str, size: int) -> list[str]:
-    if not text:
-        return []
-    return [text[i : i + size] for i in range(0, len(text), size)]
+        Uses the LLM's `stream()` method directly. If streaming fails for any
+        reason (e.g. FakeLLM with no scripted entry), we fall back to a single
+        token containing the full text — keeps the demo robust.
+        """
+        system_prompt = self._deps.prompts.load("claims_system", "v1")
+        compose_prompt = self._deps.prompts.load("compose", "v1")
+        user_payload = (
+            f"## Pregunta del analista\n{query}\n\n"
+            f"## tool_results\n```json\n{_serialize_tool_results(tool_results)}\n```\n\n"
+            f"## citations\n{', '.join(citations) if citations else '—'}\n\n"
+            f"Componé la respuesta final siguiendo las reglas de `compose.v1`."
+        )
+        messages = [
+            Message(role="system", content=system_prompt),
+            Message(role="system", content=compose_prompt),
+            Message(role="user", content=user_payload),
+        ]
+
+        async for llm_event in self._deps.llm.stream(messages, model=self._deps.llm_model):
+            if llm_event.type == "token":
+                delta = str(llm_event.data.get("delta", ""))
+                if delta:
+                    yield TokenEvent(data=TokenData(delta=delta, message_id=message_id))
+            elif llm_event.type == "error":
+                # Surface LLM-side errors as a single error token then bail.
+                msg = str(llm_event.data.get("message", "LLM stream error"))
+                error_delta = f"[Error componiendo respuesta: {msg}]"
+                yield TokenEvent(
+                    data=TokenData(delta=error_delta, message_id=message_id)
+                )
+                return

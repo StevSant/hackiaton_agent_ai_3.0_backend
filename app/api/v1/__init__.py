@@ -1,4 +1,5 @@
 from app.api.v1.agent import router as agent_router
 from app.api.v1.health import router as health_router
+from app.api.v1.status import router as status_router
 
-__all__ = ["agent_router", "health_router"]
+__all__ = ["agent_router", "health_router", "status_router"]

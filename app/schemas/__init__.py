@@ -22,8 +22,10 @@ from app.schemas.risk import (
     SimilarClaim,
     Tier,
 )
+from app.schemas.status import AIStatusResponse
 
 __all__ = [
+    "AIStatusResponse",
     "AgentAskContext",
     "AgentAskRequest",
     "AlertSeverity",
