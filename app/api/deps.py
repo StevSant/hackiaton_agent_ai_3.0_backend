@@ -13,7 +13,8 @@ from collections.abc import AsyncIterator, Callable
 from functools import lru_cache
 from typing import Annotated
 
-from fastapi import Depends, Header, HTTPException, Request, status
+from fastapi import Depends, HTTPException, Request, status
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.claims_agent import ClaimsAgentDeps
@@ -76,6 +77,12 @@ def get_auth_verifier() -> JwtIssuer:
     return JwtIssuer()
 
 
+_oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl=f"{settings.API_V1_PREFIX.lstrip('/')}/auth/token",
+    auto_error=False,
+)
+
+
 def get_login_use_case() -> LoginUseCase:
     return LoginUseCase(repo=_get_user_repo(), issuer=get_auth_verifier())
 
@@ -89,7 +96,7 @@ _DEV_STUB_USER = User(
 
 
 async def get_current_user(
-    authorization: Annotated[str | None, Header()] = None,
+    token: Annotated[str | None, Depends(_oauth2_scheme)] = None,
     verifier: Annotated[JwtIssuer, Depends(get_auth_verifier)] = ...,  # type: ignore[assignment]
 ) -> User:
     """Decode the Bearer token and return the domain User.
@@ -99,9 +106,8 @@ async def get_current_user(
     """
     if not settings.AUTH_ENABLED:
         return _DEV_STUB_USER
-    if not authorization or not authorization.lower().startswith("bearer "):
+    if not token:
         raise Unauthorized("Missing or malformed Authorization header")
-    token = authorization.split(" ", 1)[1]
     return await verifier.verify(token)
 
 
