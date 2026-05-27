@@ -10,10 +10,13 @@ The score is the one written by load_dataset at ingest time.
 from __future__ import annotations
 
 from collections import Counter
+from typing import TypeVar
 from uuid import UUID
 
-from sqlalchemy import or_, select
+from sqlalchemy import Select, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
+
+_T = TypeVar("_T", bound=tuple[object, ...])
 
 from app.agents.claims_agent.tools.types import (
     AggregateDimension,
@@ -58,7 +61,7 @@ class DbClaimQueries:
             return True
         return sin.workspace_id is None or sin.workspace_id == self._workspace_id
 
-    def _apply_workspace(self, stmt):  # type: ignore[no-untyped-def]
+    def _apply_workspace(self, stmt: Select[_T]) -> Select[_T]:
         if self._workspace_id is None:
             return stmt
         return stmt.where(
