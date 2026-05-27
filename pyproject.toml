@@ -88,3 +88,6 @@ ignore_missing_imports = true
 asyncio_mode = "auto"
 testpaths = ["tests"]
 pythonpath = ["."]
+markers = [
+    "integration: requires a live Postgres + pgvector (skipped in CI)",
+]
