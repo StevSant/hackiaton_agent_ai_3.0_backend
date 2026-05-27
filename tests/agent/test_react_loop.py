@@ -159,3 +159,19 @@ async def test_react_loop_skips_tools_for_out_of_scope_query() -> None:
     ]
     assert not [e for e in events if isinstance(e, ToolCallEvent)]
     assert not [e for e in events if isinstance(e, ErrorEvent)]
+
+
+@pytest.mark.asyncio
+async def test_react_loop_skips_tools_for_greeting() -> None:
+    """Greetings should finish with reason=greeting and dispatch no tools."""
+    script = {
+        "hola": {
+            "thought": "Saludo, sin pregunta concreta sobre la bandeja.",
+            "action": "finish",
+            "reason": "greeting",
+        }
+    }
+    agent = _build_agent(script)
+    events = [event async for event in agent.run(AgentAskRequest(query="hola"))]
+    assert not [e for e in events if isinstance(e, ToolCallEvent)]
+    assert not [e for e in events if isinstance(e, ErrorEvent)]
