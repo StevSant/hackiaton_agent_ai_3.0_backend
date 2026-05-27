@@ -1,5 +1,12 @@
 from app.schemas.agent import AgentAskContext, AgentAskRequest
 from app.schemas.chat import ChatStreamEvent
+from app.schemas.conversation import (
+    ConversationDeleted,
+    ConversationDetail,
+    ConversationRename,
+    ConversationSummary,
+    MessageOut,
+)
 from app.schemas.claim import (
     AlertSeverity,
     ClaimAlert,
@@ -39,9 +46,14 @@ __all__ = [
     "ClaimSummary",
     "ClaimTimelineEvent",
     "ClaimVehicle",
+    "ConversationDeleted",
+    "ConversationDetail",
+    "ConversationRename",
+    "ConversationSummary",
     "DictamenOutcome",
     "FactorContribution",
     "HealthResponse",
+    "MessageOut",
     "ReviewStatus",
     "RuleActivation",
     "SimilarClaim",

@@ -72,10 +72,6 @@ class Settings(BaseSettings):
         "image/webp",
     ]
 
-    # claims data source: "memory" = SyntheticClaimQueries (default, safe fallback),
-    # "db" = DbClaimQueries (requires DB + load_dataset to have run first)
-    CLAIMS_SOURCE: Literal["memory", "db"] = "memory"
-
     # auth  (V0 — local JWT, env-seeded users)
     AUTH_ENABLED: bool = True
     JWT_SECRET: SecretStr = SecretStr("change-me-before-demo")

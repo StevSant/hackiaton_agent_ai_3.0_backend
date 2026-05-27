@@ -11,7 +11,13 @@ from __future__ import annotations
 import uuid
 from collections.abc import AsyncIterator, Callable
 from functools import lru_cache
-from typing import Annotated
+from typing import TYPE_CHECKING, Annotated
+
+if TYPE_CHECKING:
+    from app.use_cases.conversations.conversation_persister import ConversationPersister
+    from app.use_cases.conversations.generate_conversation_title import (
+        GenerateConversationTitle,
+    )
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
@@ -49,10 +55,8 @@ from app.infrastructure.llm import (
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
-from app.schemas.claim import ClaimDetail
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.auth.login import LoginUseCase
-from app.use_cases.generate_dataset.loader import SyntheticClaimQueries
 
 
 def get_settings() -> Settings:
@@ -234,39 +238,12 @@ def _fallback_prompt_loader() -> PromptLoader:
     return PromptLoader(base_dir=base)
 
 
-def _seed_claims() -> list[ClaimDetail]:
-    # Fallback: 3 hand-crafted fixtures (used when dataset file is absent).
-    from tests.fixtures.claims import ALL_FIXTURES
-
-    return list(ALL_FIXTURES)
-
-
-@lru_cache(maxsize=1)
-def _synthetic_claim_queries() -> ClaimQueries:
-    """Process-singleton SyntheticClaimQueries (CLAIMS_SOURCE=memory)."""
-    return SyntheticClaimQueries()
-
-
-def get_claim_queries() -> ClaimQueries:
-    """Return the active ClaimQueries implementation (sync, memory mode only).
-
-    CLAIMS_SOURCE=memory (default) → SyntheticClaimQueries singleton, no DB needed.
-    CLAIMS_SOURCE=db              → use Depends(get_claim_queries_dep) instead;
-                                    this path raises to surface misconfiguration early.
-    """
-    if settings.CLAIMS_SOURCE == "db":
-        raise RuntimeError(
-            "CLAIMS_SOURCE=db requires Depends(get_claim_queries_dep), "
-            "not get_claim_queries() directly."
-        )
-    return _synthetic_claim_queries()
-
-
 async def _get_optional_session() -> AsyncIterator[AsyncSession | None]:
     """Yield an AsyncSession when the factory is initialised, else yield None.
 
-    Used by get_claim_queries_dep so the memory path never touches the DB engine.
-    FastAPI handles generator cleanup automatically.
+    Kept around for routers that historically tolerated a missing DB; the
+    primary claim-queries path now requires a session and raises if it's
+    absent.
     """
     from app.infrastructure.db.engine import _session_factory as _sf
 
@@ -277,20 +254,25 @@ async def _get_optional_session() -> AsyncIterator[AsyncSession | None]:
         yield session
 
 
+async def get_optional_db_session() -> AsyncIterator[AsyncSession | None]:
+    """Public alias of _get_optional_session — for routes that degrade gracefully."""
+    async for session in _get_optional_session():
+        yield session
+
+
 async def get_claim_queries_dep(
     _session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
 ) -> ClaimQueries:
-    """Async dep that honours CLAIMS_SOURCE — use this in all Depends() sites.
+    """Return the active ClaimQueries implementation.
 
-    CLAIMS_SOURCE=memory (default) → SyntheticClaimQueries singleton; DB never touched.
-    CLAIMS_SOURCE=db               → DbClaimQueries with a request-scoped AsyncSession.
+    Database-only — the in-memory `SyntheticClaimQueries` path was retired
+    once the DB became the source of truth.
     """
-    if settings.CLAIMS_SOURCE != "db":
-        return _synthetic_claim_queries()
     if _session is None:
         raise RuntimeError(
-            "CLAIMS_SOURCE=db but the DB session factory is not initialised. "
-            "Ensure the lifespan has run (set_session_factory called) before serving requests."
+            "Claim queries require a DB session, but the session factory is not "
+            "initialised. Ensure the lifespan has run (set_session_factory called) "
+            "before serving requests."
         )
     return DbClaimQueries(_session)
 
@@ -308,10 +290,50 @@ def get_reviews_store() -> InMemoryReviewsStore:
     return InMemoryReviewsStore(seed=True)
 
 
+def _get_session_factory():
+    """Return the lifespan-registered async_sessionmaker.
+
+    Raises if the lifespan never ran (test/script paths that bypass it must wire
+    a factory in directly; the AskAgent will simply skip persistence in that case).
+    """
+    from app.infrastructure.db.engine import _session_factory
+
+    return _session_factory
+
+
+def get_title_generator(
+    llm: Annotated[LLMProvider, Depends(get_llm)],
+    prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
+) -> "GenerateConversationTitle":
+    from app.use_cases.conversations.generate_conversation_title import (
+        GenerateConversationTitle,
+    )
+
+    return GenerateConversationTitle(
+        llm=llm, prompts=prompts, model=settings.LLM_DEFAULT_MODEL
+    )
+
+
+def get_conversation_persister(
+    title_gen: Annotated["GenerateConversationTitle", Depends(get_title_generator)],
+) -> "ConversationPersister | None":
+    from app.use_cases.conversations.conversation_persister import (
+        ConversationPersister,
+    )
+
+    factory = _get_session_factory()
+    if factory is None:
+        return None
+    return ConversationPersister(session_factory=factory, title_generator=title_gen)
+
+
 async def get_ask_agent(
     llm: Annotated[LLMProvider, Depends(get_llm)],
     prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
+    persistence: Annotated[
+        "ConversationPersister | None", Depends(get_conversation_persister)
+    ] = None,
 ) -> AskAgent:
     deps = ClaimsAgentDeps(
         llm=llm,
@@ -324,4 +346,4 @@ async def get_ask_agent(
         summarize_critical=SummarizeCriticalTool(queries),
         max_react_steps=settings.MAX_REACT_STEPS,
     )
-    return AskAgent(deps=deps)
+    return AskAgent(deps=deps, persistence=persistence)

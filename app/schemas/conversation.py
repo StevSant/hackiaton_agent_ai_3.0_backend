@@ -1,0 +1,43 @@
+"""Wire schemas for conversation history endpoints."""
+
+from __future__ import annotations
+
+from datetime import datetime
+from typing import Literal
+from uuid import UUID
+
+from pydantic import BaseModel, Field
+
+
+class MessageOut(BaseModel):
+    id: UUID
+    role: Literal["user", "assistant"]
+    content: str
+    sequence: int
+    created_at: datetime
+
+
+class ConversationSummary(BaseModel):
+    id: UUID
+    title: str | None
+    context_claim_id: str | None
+    snippet: str | None
+    created_at: datetime
+    updated_at: datetime
+
+
+class ConversationDetail(BaseModel):
+    id: UUID
+    title: str | None
+    context_claim_id: str | None
+    created_at: datetime
+    updated_at: datetime
+    messages: list[MessageOut]
+
+
+class ConversationRename(BaseModel):
+    title: str = Field(min_length=1, max_length=120)
+
+
+class ConversationDeleted(BaseModel):
+    ok: bool

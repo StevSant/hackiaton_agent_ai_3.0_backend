@@ -20,13 +20,16 @@ On any unhandled exception → error(code, message) → done.
 """
 
 import json
+import logging
 import uuid
 from collections.abc import AsyncIterator
 from typing import Any
+from uuid import UUID
 
 from langchain_core.messages import AIMessage, HumanMessage
 
 from app.agents.claims_agent import ClaimsAgentDeps, build_graph
+from app.domain.auth.user import User
 from app.infrastructure.llm.types import Message
 from app.schemas.agent import AgentAskRequest
 from app.schemas.chat.stream import (
@@ -43,6 +46,18 @@ from app.schemas.chat.stream import (
     ToolResultData,
     ToolResultEvent,
 )
+from app.use_cases.conversations.conversation_persister import ConversationPersister
+
+logger = logging.getLogger(__name__)
+
+
+def _coerce_uuid(value: str | None) -> UUID | None:
+    if not value:
+        return None
+    try:
+        return UUID(value)
+    except (ValueError, TypeError):
+        return None
 
 
 def _serialize_tool_results(results: list[dict]) -> str:
@@ -58,12 +73,20 @@ class AskAgent:
     in, and the AIMessage gets written back after the compose stream.
     """
 
-    def __init__(self, deps: ClaimsAgentDeps) -> None:
+    def __init__(
+        self,
+        deps: ClaimsAgentDeps,
+        persistence: ConversationPersister | None = None,
+    ) -> None:
         self._deps = deps
         self._graph = build_graph(deps)
+        self._persistence = persistence
 
     async def run(
-        self, req: AgentAskRequest
+        self,
+        req: AgentAskRequest,
+        *,
+        user: User | None = None,
     ) -> AsyncIterator[
         TokenEvent | ToolCallEvent | ToolResultEvent | AgentStepEvent | ErrorEvent | DoneEvent
     ]:
@@ -82,6 +105,21 @@ class AskAgent:
             "messages": [HumanMessage(content=req.query)],
         }
         message_id = uuid.uuid4().hex
+
+        # --- Persist the user message before the stream starts (idempotent upsert).
+        conversation_uuid = _coerce_uuid(thread_id)
+        if self._persistence is not None and user is not None and conversation_uuid is not None:
+            try:
+                await self._persistence.before_stream(
+                    conversation_id=conversation_uuid,
+                    user=user,
+                    query=req.query,
+                    context_claim_id=(
+                        req.context.focus_claim_id if req.context else None
+                    ),
+                )
+            except Exception:
+                logger.exception("Persisting user message failed; chat continues.")
 
         try:
             tool_results: list[dict[str, Any]] = []
@@ -149,6 +187,29 @@ class AskAgent:
                     config=config,
                     values={"messages": [AIMessage(content=full_answer)]},
                 )
+
+            # --- Persist the assistant message + schedule title generation.
+            if (
+                self._persistence is not None
+                and user is not None
+                and conversation_uuid is not None
+                and full_answer
+            ):
+                try:
+                    assistant_seq = await self._persistence.after_stream(
+                        conversation_id=conversation_uuid,
+                        user=user,
+                        answer=full_answer,
+                    )
+                    self._persistence.schedule_title(
+                        conversation_id=conversation_uuid,
+                        user=user,
+                        query=req.query,
+                        answer=full_answer,
+                        assistant_sequence=assistant_seq,
+                    )
+                except Exception:
+                    logger.exception("Persisting assistant message failed; chat continues.")
 
             yield DoneEvent(data=DoneData(message_id=message_id))
 

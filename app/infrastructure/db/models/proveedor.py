@@ -15,6 +15,7 @@ class Proveedor(Base):
 
     id_proveedor: Mapped[str] = mapped_column(String(64), primary_key=True)
 
+    nombre: Mapped[str | None] = mapped_column(String(160), nullable=True)
     tipo: Mapped[str] = mapped_column(String(80), nullable=False)  # Beneficiario / Proveedor
     ciudad: Mapped[str] = mapped_column(String(100), nullable=False)
     reclamos_asociados: Mapped[int] = mapped_column(Integer, nullable=False, default=0)

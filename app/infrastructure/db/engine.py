@@ -18,10 +18,18 @@ from app.core.config import settings
 
 
 def create_engine() -> AsyncEngine:
+    # Supabase serves Postgres through pgbouncer in transaction-pooling mode,
+    # which breaks asyncpg's named prepared statements. Disabling both caches
+    # forces every statement to be sent as unnamed/parse-each-time, so the
+    # connection pool can rotate freely.
     return create_async_engine(
         settings.DATABASE_URL,
         echo=settings.APP_ENV == "dev" and settings.LOG_LEVEL == "DEBUG",
         pool_pre_ping=True,
+        connect_args={
+            "statement_cache_size": 0,
+            "prepared_statement_cache_size": 0,
+        },
     )
 
 

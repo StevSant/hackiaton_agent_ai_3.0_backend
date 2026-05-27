@@ -71,7 +71,7 @@ def claim_detail_to_siniestro(c: ClaimDetail) -> Siniestro:
         sucursal=c.sucursal,
         descripcion=c.descripcion,
         documentos_completos=not any(d.falta for d in c.documentos),
-        beneficiario=None,
+        beneficiario=proveedor_id_for(c.proveedor),
         dias_desde_inicio_poliza=_dias_desde_inicio(c),
         dias_desde_fin_poliza=_dias_desde_fin(c),
         dias_entre_ocurrencia_reporte=(c.fecha_reporte - c.fecha_ocurrencia).days,
@@ -109,19 +109,31 @@ def claim_detail_to_documentos(c: ClaimDetail) -> list[Documento]:
 
 
 def claim_detail_to_proveedor(c: ClaimDetail) -> Proveedor | None:
-    """Map ClaimDetail.proveedor → Proveedor row, or None when absent."""
+    """Map ClaimDetail.proveedor → Proveedor row, or None when absent.
+
+    The readable name is persisted in `nombre` so the UI/agent can render it.
+    The ID is a stable slug derived from the name so re-ingestion is idempotent
+    and `siniestros.beneficiario` (set by `claim_detail_to_siniestro`) points
+    to the same row.
+    """
     if not c.proveedor:
         return None
-    # Use the proveedor name as ID (stable, deterministic)
-    prov_id = _slugify_id(c.proveedor)
     return Proveedor(
-        id_proveedor=prov_id,
+        id_proveedor=_slugify_id(c.proveedor),
+        nombre=c.proveedor,
         tipo="Proveedor",
         ciudad=c.ciudad,
         reclamos_asociados=1,
         monto_promedio_reclamado=c.monto_reclamado,
         porcentaje_casos_observados=0.0,
     )
+
+
+def proveedor_id_for(nombre: str | None) -> str | None:
+    """Public alias of the deterministic ID derivation — used by ingest+read paths."""
+    if not nombre:
+        return None
+    return _slugify_id(nombre)
 
 
 def claim_detail_to_score(c: ClaimDetail) -> ClaimScore:
@@ -174,6 +186,7 @@ def rows_to_claim_detail(
     pol: Poliza | None,
     score_row: ClaimScore | None,
     documentos: list[Documento],
+    proveedor: Proveedor | None = None,
 ) -> ClaimDetail:
     """Assemble a ClaimDetail from ORM row objects (no DB I/O here)."""
     tier = Tier(score_row.tier) if score_row else Tier.verde
@@ -246,7 +259,7 @@ def rows_to_claim_detail(
         estado=sin.estado,
         sucursal=sin.sucursal,
         vehiculo=vehiculo,
-        proveedor=None,  # not stored relationally on siniestro; populated via JOIN if needed
+        proveedor=_proveedor_display(proveedor),
         descripcion=sin.descripcion,
         score=score_val,
         nivel=tier,
@@ -280,3 +293,9 @@ def _dias_desde_fin(c: ClaimDetail) -> int | None:
 def _slugify_id(name: str) -> str:
     """Stable deterministic ID from a string (UUID5 with URL namespace)."""
     return f"PROV-{uuid.uuid5(uuid.NAMESPACE_URL, name).hex[:8].upper()}"
+
+
+def _proveedor_display(p: Proveedor | None) -> str | None:
+    if p is None:
+        return None
+    return p.nombre or p.id_proveedor

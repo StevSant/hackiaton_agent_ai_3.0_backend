@@ -18,7 +18,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
-from app.api.deps import get_ask_agent
+from app.api.deps import get_ask_agent, get_current_user
+from app.domain.auth.user import User
 from app.schemas.agent import AgentAskContext
 from app.schemas.agent import AgentAskRequest as AskAgentRequest
 from app.schemas.chat.request import AgentAskRequest as WireAgentAskRequest
@@ -41,9 +42,9 @@ def _to_use_case_request(wire: WireAgentAskRequest) -> AskAgentRequest:
 
 
 async def _stream_events(
-    ask_agent: AskAgent, req: AskAgentRequest
+    ask_agent: AskAgent, req: AskAgentRequest, user: User
 ) -> AsyncIterator[str]:
-    async for event in ask_agent.run(req):
+    async for event in ask_agent.run(req, user=user):
         payload = event.model_dump(mode="json")
         yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
 
@@ -52,10 +53,11 @@ async def _stream_events(
 async def agent_ask(
     body: WireAgentAskRequest,
     ask_agent: Annotated[AskAgent, Depends(get_ask_agent)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> StreamingResponse:
     req = _to_use_case_request(body)
     return StreamingResponse(
-        _stream_events(ask_agent, req),
+        _stream_events(ask_agent, req, user),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",

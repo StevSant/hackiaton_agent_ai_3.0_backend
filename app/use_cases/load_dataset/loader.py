@@ -35,14 +35,19 @@ from app.use_cases.load_dataset._mapping import (
 )
 
 _DATASET_PATH = Path("data/synthetic/claims.json")
+_DEMO_PATH = Path("data/synthetic/demo_claims.json")
 logger = logging.getLogger(__name__)
 
 
 async def load_dataset(
     session: AsyncSession,
     path: Path = _DATASET_PATH,
+    demo_path: Path = _DEMO_PATH,
 ) -> int:
-    """Upsert all claims from *path* into the database.
+    """Upsert claims from *path* (and the demo overlay) into the database.
+
+    Demo claims take precedence: any synthetic row with a colliding `id` is
+    dropped so the on-screen cases (SIN-2026-NNNNN) are the canonical ones.
 
     Returns the number of claims processed.
     Raises FileNotFoundError when the dataset file is absent.
@@ -51,12 +56,19 @@ async def load_dataset(
     if claims is None:
         raise FileNotFoundError(f"Dataset not found: {path}")
 
-    for claim in claims:
+    demo = load_saved(demo_path) or []
+    demo_ids = {c.id for c in demo}
+    merged = [*demo, *(c for c in claims if c.id not in demo_ids)]
+
+    for claim in merged:
         await _upsert_claim(session, claim)
 
     await session.commit()
-    logger.info("load_dataset: upserted %d claims", len(claims))
-    return len(claims)
+    logger.info(
+        "load_dataset: upserted %d claims (synthetic=%d, demo=%d)",
+        len(merged), len(claims), len(demo),
+    )
+    return len(merged)
 
 
 async def _upsert_claim(session: AsyncSession, claim: ClaimDetail) -> None:

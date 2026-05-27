@@ -9,7 +9,9 @@ from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_narrative import ClaimNarrative
 from app.infrastructure.db.models.claim_review import ClaimReview
 from app.infrastructure.db.models.claim_score import ClaimScore
+from app.infrastructure.db.models.conversation import Conversation
 from app.infrastructure.db.models.documento import Documento
+from app.infrastructure.db.models.message import Message
 from app.infrastructure.db.models.poliza import Poliza
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
@@ -19,7 +21,9 @@ __all__ = [
     "ClaimNarrative",
     "ClaimReview",
     "ClaimScore",
+    "Conversation",
     "Documento",
+    "Message",
     "Poliza",
     "Proveedor",
     "Siniestro",

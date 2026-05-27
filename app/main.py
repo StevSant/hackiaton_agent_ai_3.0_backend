@@ -7,11 +7,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1 import (
     agent_router,
     antifraude_router,
+    audit_router,
     auth_router,
     claims_reviews_router,
     claims_router,
+    conversations_router,
     documents_router,
     health_router,
+    insights_router,
+    network_router,
     rules_router,
     status_router,
 )
@@ -35,8 +39,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     state = build_lifespan_state()
     app.state.ai = state
     # DB: register the async session factory (engine is lazy — no connection opens
-    # until the first request checks out a session). Powers DbClaimQueries + repos
-    # so the app reads/writes claims from Supabase Postgres (CLAIMS_SOURCE=db).
+    # until the first request checks out a session). Powers DbClaimQueries + repos —
+    # the database is the sole source of truth for claims.
     db_engine = create_engine()
     set_session_factory(create_session_factory(db_engine))
     app.state.db_engine = db_engine
@@ -68,6 +72,7 @@ def create_app() -> FastAPI:
     app.include_router(health_router, prefix=settings.API_V1_PREFIX)
     app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
     app.include_router(agent_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(conversations_router, prefix=settings.API_V1_PREFIX)
     app.include_router(status_router, prefix=settings.API_V1_PREFIX)
     # claims_reviews_router must be included BEFORE claims_router because
     # /claims/historico (a fixed path) must not be shadowed by /claims/{id}.
@@ -75,6 +80,9 @@ def create_app() -> FastAPI:
     app.include_router(claims_router, prefix=settings.API_V1_PREFIX)
     app.include_router(antifraude_router, prefix=settings.API_V1_PREFIX)
     app.include_router(rules_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(network_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(audit_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(insights_router, prefix=settings.API_V1_PREFIX)
     # documents_router mounts UNDER claims prefix — must come after claims_router
     app.include_router(documents_router, prefix=settings.API_V1_PREFIX)
 

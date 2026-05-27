@@ -1,10 +1,10 @@
 """DbClaimQueries — `ClaimQueries` port backed by AsyncSession.
 
-Implements the same interface as InMemoryClaimQueries so the agent tools
-and API routes need no changes when CLAIMS_SOURCE=db is set.
+Sole runtime implementation of `ClaimQueries`. Reads the persisted
+`claim_scores` rows (score / tier / activations) — does NOT re-score on read.
+The score is the one written by load_dataset at ingest time.
 
-Reads the persisted claim_scores rows (score / tier / activations) — does NOT
-re-score on read.  The score is the one written by load_dataset at ingest time.
+`InMemoryClaimQueries` is kept only for tests; production never wires it.
 """
 
 from __future__ import annotations
@@ -24,6 +24,7 @@ from app.agents.claims_agent.tools.types import (
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.documento import Documento
 from app.infrastructure.db.models.poliza import Poliza
+from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
 from app.schemas.claim import ClaimDetail, ClaimSummary
 from app.schemas.risk import Tier
@@ -61,7 +62,21 @@ class DbClaimQueries:
             (await self._s.execute(doc_stmt)).scalars().all()
         )
 
-        return rows_to_claim_detail(sin, pol, score_row, documentos)
+        proveedor: Proveedor | None = (
+            await self._s.get(Proveedor, sin.beneficiario) if sin.beneficiario else None
+        )
+
+        return rows_to_claim_detail(sin, pol, score_row, documentos, proveedor)
+
+    async def _hydrate(self, sin: Siniestro, score_row: ClaimScore) -> ClaimDetail:
+        """Hydrate a ClaimDetail from a (sin, score) pair already in hand."""
+        pol: Poliza | None = await self._s.get(Poliza, sin.id_poliza)
+        doc_stmt = select(Documento).where(Documento.id_siniestro == sin.id_siniestro)
+        docs = list((await self._s.execute(doc_stmt)).scalars().all())
+        proveedor: Proveedor | None = (
+            await self._s.get(Proveedor, sin.beneficiario) if sin.beneficiario else None
+        )
+        return rows_to_claim_detail(sin, pol, score_row, docs, proveedor)
 
     def _to_summary(self, detail: ClaimDetail) -> ClaimSummary:
         return ClaimSummary(
@@ -123,12 +138,7 @@ class DbClaimQueries:
         rows = list((await self._s.execute(stmt)).all())
         results: list[ClaimSummary] = []
         for sin, score_row in rows:
-            pol: Poliza | None = await self._s.get(Poliza, sin.id_poliza)
-            doc_stmt = select(Documento).where(
-                Documento.id_siniestro == sin.id_siniestro
-            )
-            docs = list((await self._s.execute(doc_stmt)).scalars().all())
-            detail = rows_to_claim_detail(sin, pol, score_row, docs)
+            detail = await self._hydrate(sin, score_row)
             results.append(self._to_summary(detail))
         return results
 
@@ -213,12 +223,7 @@ class DbClaimQueries:
         rows = list((await self._s.execute(stmt)).all())
         results: list[ClaimSummary] = []
         for sin, score_row in rows:
-            pol: Poliza | None = await self._s.get(Poliza, sin.id_poliza)
-            doc_stmt = select(Documento).where(
-                Documento.id_siniestro == sin.id_siniestro
-            )
-            docs = list((await self._s.execute(doc_stmt)).scalars().all())
-            detail = rows_to_claim_detail(sin, pol, score_row, docs)
+            detail = await self._hydrate(sin, score_row)
             results.append(self._to_summary(detail))
         return results
 
@@ -241,12 +246,7 @@ class DbClaimQueries:
         ordered = (rojo_rows + amarillo_rows)[:top_n]
         results: list[ClaimSummary] = []
         for sin, score_row in ordered:
-            pol: Poliza | None = await self._s.get(Poliza, sin.id_poliza)
-            doc_stmt = select(Documento).where(
-                Documento.id_siniestro == sin.id_siniestro
-            )
-            docs = list((await self._s.execute(doc_stmt)).scalars().all())
-            detail = rows_to_claim_detail(sin, pol, score_row, docs)
+            detail = await self._hydrate(sin, score_row)
             results.append(self._to_summary(detail))
         return results
 
