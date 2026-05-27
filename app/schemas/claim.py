@@ -114,6 +114,9 @@ class ClaimDetail(BaseModel):
     ciudad: str
     fecha_ocurrencia: date
     fecha_reporte: date
+    # policy dates — optional, backward-compatible; presence enables date-delta re-derivation
+    fecha_inicio_poliza: date | None = None
+    fecha_fin_poliza: date | None = None
     monto_reclamado: float
     suma_asegurada: float
     estado: str

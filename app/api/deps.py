@@ -46,7 +46,7 @@ from app.infrastructure.llm import (
     build_openai_adapter,
 )
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
-from app.infrastructure.storage import Storage
+from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
 from app.schemas.claim import ClaimDetail
 from app.use_cases.ask_agent import AskAgent
@@ -203,8 +203,19 @@ def get_vector_store() -> VectorStore:
     raise NotImplementedError("VectorStore adapter not yet wired (see vectorstore.* for impls)")
 
 
+@lru_cache(maxsize=1)
 def get_storage() -> Storage:
-    raise NotImplementedError("Storage adapter not yet implemented")
+    """Return SupabaseStorage when SUPABASE_URL is configured, else InMemoryStorage.
+
+    The app boots and all existing endpoints work with Supabase unset (OPTIONAL).
+    Re-added per user request — overrides §11/§13 deferral.
+    """
+    if settings.SUPABASE_URL and settings.SUPABASE_SERVICE_ROLE_KEY:
+        return SupabaseStorage(
+            url=settings.SUPABASE_URL,
+            service_role_key=settings.SUPABASE_SERVICE_ROLE_KEY.get_secret_value(),
+        )
+    return InMemoryStorage()
 
 
 def get_prompt_loader(request: Request) -> PromptLoader:

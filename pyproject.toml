@@ -28,6 +28,7 @@ dependencies = [
     "shap>=0.51.0",
     "sqlalchemy[asyncio]>=2.0.50",
     "structlog>=25.5.0",
+    "supabase>=2.15.1",
     "uvicorn[standard]>=0.48.0",
 ]
 

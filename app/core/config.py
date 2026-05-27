@@ -58,6 +58,19 @@ class Settings(BaseSettings):
     DATA_DIR: str = "data"
     LOAD_DATASET_ON_STARTUP: bool = True
 
+    # storage (Supabase Storage) — re-added per user request; overrides §11/§13 deferral; OPTIONAL
+    SUPABASE_URL: str | None = None
+    # server-side only; NEVER exposed to the frontend
+    SUPABASE_SERVICE_ROLE_KEY: SecretStr | None = None
+    SUPABASE_STORAGE_BUCKET: str = "siniestros-documentos"
+    UPLOAD_MAX_BYTES: int = 25 * 1024 * 1024  # 25 MB
+    UPLOAD_ALLOWED_MIME: list[str] = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+    ]
+
     # auth  (V0 — local JWT, env-seeded users)
     AUTH_ENABLED: bool = True
     JWT_SECRET: SecretStr = SecretStr("change-me-before-demo")
