@@ -48,7 +48,7 @@ from app.infrastructure.vectorstore import VectorStore
 from app.schemas.claim import ClaimDetail
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.auth.login import LoginUseCase
-from app.use_cases.claim_queries import InMemoryClaimQueries
+from app.use_cases.generate_dataset.loader import SyntheticClaimQueries
 
 
 def get_settings() -> Settings:
@@ -205,20 +205,21 @@ def _fallback_prompt_loader() -> PromptLoader:
 
 
 def _seed_claims() -> list[ClaimDetail]:
-    # In-memory ClaimQueries fallback until V1 dataset lands.
-    from tests.fixtures.claims import ALL_FIXTURES  # type: ignore[attr-defined]
+    # Fallback: 3 hand-crafted fixtures (used when dataset file is absent).
+    from tests.fixtures.claims import ALL_FIXTURES
 
     return list(ALL_FIXTURES)
 
 
 @lru_cache(maxsize=1)
 def get_claim_queries() -> ClaimQueries:
-    """Today: in-memory backed by 3 hand-crafted fixtures.
+    """Backed by the committed synthetic dataset (data/synthetic/claims.json).
 
-    Once Miquel's lane lands `ClaimsRepo`, swap to `DbClaimQueries` behind the
-    same Protocol — one new adapter file, no callers change.
+    Falls back to 3 hand-crafted fixtures when the file is absent.
+    Once the SQLAlchemy-backed DbClaimQueries lands, swap to it here —
+    one new adapter file, no callers change.
     """
-    return InMemoryClaimQueries(claims=_seed_claims())
+    return SyntheticClaimQueries()
 
 
 def get_ask_agent(

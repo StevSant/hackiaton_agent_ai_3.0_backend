@@ -1,0 +1,6350 @@
+[
+  {
+    "id": "SIN-0001",
+    "ramo": "Vehículos",
+    "cobertura": "Responsabilidad Civil",
+    "asegurado": "Asegurado 5011",
+    "asegurado_id": "ASE-50118E54",
+    "poliza": "POL-0001",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 900.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Cierre Sin Consecuencia",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Kia",
+      "modelo": "Corolla",
+      "anio": 2018,
+      "placa": "CFM-8591",
+      "chasis": "FC75FE9BF0BEB4C24"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Colisión menor en parqueo. Daño leve en guardafango.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0002",
+    "ramo": "Accidentes Personales",
+    "cobertura": "Cobertura Básica",
+    "asegurado": "Asegurado 10B1",
+    "asegurado_id": "ASE-10B1CD7F",
+    "poliza": "POL-0002",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 1000.0,
+    "suma_asegurada": 10000.0,
+    "estado": "Pago Total",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Accidente de tránsito menor, sin lesionados graves.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0003",
+    "ramo": "Incendio",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 743D",
+    "asegurado_id": "ASE-743DE03B",
+    "poliza": "POL-0003",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 4000.0,
+    "suma_asegurada": 50000.0,
+    "estado": "Liquidado",
+    "sucursal": "Cuenca",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Cortocircuito menor en cocina. Daños menores reparados.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0004",
+    "ramo": "Vehículos",
+    "cobertura": "Daños Parciales",
+    "asegurado": "Asegurado 91AB",
+    "asegurado_id": "ASE-91AB21D0",
+    "poliza": "POL-0004",
+    "ciudad": "Machala",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 1800.0,
+    "suma_asegurada": 12000.0,
+    "estado": "Pago Parcial",
+    "sucursal": "Machala",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "3",
+      "anio": 2016,
+      "placa": "RMR-1109",
+      "chasis": "BAC844404597FD8C8"
+    },
+    "proveedor": "Taller Central Guayaquil",
+    "descripcion": "Impacto con objeto fijo en vía urbana.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0005",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado DDE1",
+    "asegurado_id": "ASE-DDE1D541",
+    "poliza": "POL-0005",
+    "ciudad": "Loja",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 1680.0,
+    "suma_asegurada": 14000.0,
+    "estado": "Liquidado",
+    "sucursal": "Loja",
+    "vehiculo": {
+      "marca": "Chevrolet",
+      "modelo": "Corolla",
+      "anio": 2019,
+      "placa": "IKU-2400",
+      "chasis": "C414B9DC521AE48A6"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Raspón leve con poste; sin lesionados.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0006",
+    "ramo": "Accidentes Personales",
+    "cobertura": "Cobertura Básica",
+    "asegurado": "Asegurado D0D8",
+    "asegurado_id": "ASE-D0D86EC7",
+    "poliza": "POL-0006",
+    "ciudad": "Ambato",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 720.0,
+    "suma_asegurada": 8000.0,
+    "estado": "Pago Total",
+    "sucursal": "Ambato",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Caída en escaleras; lesión leve; documentación completa.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0007",
+    "ramo": "Vehículos",
+    "cobertura": "Daños Parciales",
+    "asegurado": "Asegurado 72A0",
+    "asegurado_id": "ASE-72A09B4A",
+    "poliza": "POL-0007",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 3000.0,
+    "suma_asegurada": 15000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Rio",
+      "anio": 2015,
+      "placa": "QUY-9518",
+      "chasis": "5F83D1C1293CA09B3"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Colisión a 20 días del inicio de póliza.",
+    "score": 4,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0008",
+    "ramo": "Vehículos",
+    "cobertura": "Robo Parcial",
+    "asegurado": "Asegurado 463E",
+    "asegurado_id": "ASE-463E1383",
+    "poliza": "POL-0008",
+    "ciudad": "Manta",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 2800.0,
+    "suma_asegurada": 14000.0,
+    "estado": "Reserva",
+    "sucursal": "Manta",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Rio",
+      "anio": 2023,
+      "placa": "EFF-2453",
+      "chasis": "99D4CF65EEA961D23"
+    },
+    "proveedor": "Taller Central Guayaquil",
+    "descripcion": "Robo de radio; denuncia al día siguiente.",
+    "score": 4,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0009",
+    "ramo": "Accidentes Personales",
+    "cobertura": "Cobertura Amplia",
+    "asegurado": "Asegurado C36D",
+    "asegurado_id": "ASE-C36DE609",
+    "poliza": "POL-0009",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 1600.0,
+    "suma_asegurada": 8000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Segundo siniestro del asegurado este año.",
+    "score": 4,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0010",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado D016",
+    "asegurado_id": "ASE-D016E703",
+    "poliza": "POL-0010",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 3000.0,
+    "suma_asegurada": 15000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Explorer",
+      "anio": 2016,
+      "placa": "IGK-9714",
+      "chasis": "62DF23D6A81607E48"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Segunda colisión para el mismo vehículo.",
+    "score": 3,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-04",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0011",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado FD95",
+    "asegurado_id": "ASE-FD95C6FB",
+    "poliza": "POL-0011",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 3080.0,
+    "suma_asegurada": 14000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Versa",
+      "anio": 2018,
+      "placa": "ADZ-1302",
+      "chasis": "C7DE99C5F1961BF13"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Conductor con dos siniestros previos este ciclo.",
+    "score": 4,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-05",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0012",
+    "ramo": "Vehículos",
+    "cobertura": "Responsabilidad Civil",
+    "asegurado": "Asegurado 2321",
+    "asegurado_id": "ASE-23218457",
+    "poliza": "POL-0012",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 1500.0,
+    "suma_asegurada": 10000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Ford",
+      "modelo": "Rio",
+      "anio": 2024,
+      "placa": "NAU-5526",
+      "chasis": "DD46298FE3329ABCE"
+    },
+    "proveedor": "Taller Central Guayaquil",
+    "descripcion": "Patrón RC observado por segunda vez en el asegurado.",
+    "score": 3,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-06",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0013",
+    "ramo": "Accidentes Personales",
+    "cobertura": "Cobertura Básica",
+    "asegurado": "Asegurado DE23",
+    "asegurado_id": "ASE-DE236A0B",
+    "poliza": "POL-0013",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "monto_reclamado": 1620.0,
+    "suma_asegurada": 9000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Reporte presentado cinco días después del accidente.",
+    "score": 3,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0014",
+    "ramo": "Accidentes Personales",
+    "cobertura": "Cobertura Básica",
+    "asegurado": "Asegurado 1975",
+    "asegurado_id": "ASE-1975FDE4",
+    "poliza": "POL-0014",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 1540.0,
+    "suma_asegurada": 7000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Accidente personal; historial clínico no aportado.",
+    "score": 4,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Historial médico",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0015",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado C35B",
+    "asegurado_id": "ASE-C35B386F",
+    "poliza": "POL-0015",
+    "ciudad": "Portoviejo",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 5600.0,
+    "suma_asegurada": 16000.0,
+    "estado": "Reserva",
+    "sucursal": "Portoviejo",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Corolla",
+      "anio": 2023,
+      "placa": "SNM-1274",
+      "chasis": "BED31FAFFA6AE64E4"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Daño moderado sin rastro de terceros; zona aislada.",
+    "score": 6,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0016",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 15A1",
+    "asegurado_id": "ASE-15A13032",
+    "poliza": "POL-0016",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 9700.0,
+    "suma_asegurada": 10000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "3",
+      "anio": 2015,
+      "placa": "IDZ-5990",
+      "chasis": "BC52F63F40020743D"
+    },
+    "proveedor": "Auto Repair Cuenca",
+    "descripcion": "Reclamación por monto casi igual a la suma asegurada.",
+    "score": 5,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0017",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 0281",
+    "asegurado_id": "ASE-02811DD6",
+    "poliza": "POL-0017",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 4000.0,
+    "suma_asegurada": 16000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Chevrolet",
+      "modelo": "3",
+      "anio": 2018,
+      "placa": "TAC-9975",
+      "chasis": "34B5A277EA0ED82CE"
+    },
+    "proveedor": "Mecánica Norte",
+    "descripcion": "Incidente menor ocurrido a medianoche.",
+    "score": 3,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-09",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0018",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado E4EB",
+    "asegurado_id": "ASE-E4EB5576",
+    "poliza": "POL-0018",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 4800.0,
+    "suma_asegurada": 16000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Versa",
+      "anio": 2018,
+      "placa": "QHN-5318",
+      "chasis": "1D4F5C0F8C3E15CAD"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Descripción con similitud media a casos anteriores.",
+    "score": 4,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-13",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0019",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 60E4",
+    "asegurado_id": "ASE-60E467DD",
+    "poliza": "POL-0019",
+    "ciudad": "Ambato",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 13200.0,
+    "suma_asegurada": 22000.0,
+    "estado": "Reserva",
+    "sucursal": "Ambato",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Corolla",
+      "anio": 2021,
+      "placa": "CFL-8743",
+      "chasis": "030447F70B34E377D"
+    },
+    "proveedor": "Mecánica Norte",
+    "descripcion": "Vehículo siniestrado el primer día de vigencia de la póliza.",
+    "score": 8,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "RF-05",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Siniestro registrado dentro de las primeras 48 h de vigencia de la póliza."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0020",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado BF83",
+    "asegurado_id": "ASE-BF83F3E4",
+    "poliza": "POL-0020",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 11000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Tucson",
+      "anio": 2020,
+      "placa": "NHN-0014",
+      "chasis": "3637C2FFD0DF4AD9A"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Siniestro el mismo día de inicio de póliza; documentación incompleta.",
+    "score": 12,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "RF-05",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Siniestro registrado dentro de las primeras 48 h de vigencia de la póliza."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0021",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado E00F",
+    "asegurado_id": "ASE-E00FA907",
+    "poliza": "POL-0021",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 19600.0,
+    "suma_asegurada": 28000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Kia",
+      "modelo": "Rio",
+      "anio": 2023,
+      "placa": "JRH-6171",
+      "chasis": "A2AEF03576B1F0BF0"
+    },
+    "proveedor": "Taller Central Guayaquil",
+    "descripcion": "Primer día de póliza; asegurado con historial elevado.",
+    "score": 16,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "RF-05",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Siniestro registrado dentro de las primeras 48 h de vigencia de la póliza."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0022",
+    "ramo": "Vehículos",
+    "cobertura": "Robo Parcial",
+    "asegurado": "Asegurado 9C1D",
+    "asegurado_id": "ASE-9C1DC941",
+    "poliza": "POL-0022",
+    "ciudad": "Esmeraldas",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "monto_reclamado": 9000.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Reserva",
+    "sucursal": "Esmeraldas",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Explorer",
+      "anio": 2019,
+      "placa": "XSZ-9833",
+      "chasis": "E67179D420B277086"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Robo de accesorios; denuncia policial tardía (110 h).",
+    "score": 11,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-06",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0023",
+    "ramo": "Vehículos",
+    "cobertura": "Robo Total",
+    "asegurado": "Asegurado C2C5",
+    "asegurado_id": "ASE-C2C56C0E",
+    "poliza": "POL-0023",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "monto_reclamado": 22500.0,
+    "suma_asegurada": 25000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Explorer",
+      "anio": 2020,
+      "placa": "ANH-6047",
+      "chasis": "F607A91C5D024D4A0"
+    },
+    "proveedor": "Taller Central Guayaquil",
+    "descripcion": "Vehículo robado; denuncia 5 días después; documentación incompleta.",
+    "score": 15,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-01",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+      },
+      {
+        "code": "RF-06",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0024",
+    "ramo": "Vehículos",
+    "cobertura": "Robo Parcial",
+    "asegurado": "Asegurado 42F5",
+    "asegurado_id": "ASE-42F598BC",
+    "poliza": "POL-0024",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-07",
+    "monto_reclamado": 7200.0,
+    "suma_asegurada": 16000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Toyota",
+      "modelo": "Versa",
+      "anio": 2019,
+      "placa": "DJP-2930",
+      "chasis": "B9261F24CFAF3DD48"
+    },
+    "proveedor": "Auto Repair Cuenca",
+    "descripcion": "Robo con denuncia tardía y reporte tardío al asegurador.",
+    "score": 13,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-06",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-03-07",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "10 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0025",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado A1B0",
+    "asegurado_id": "ASE-A1B06D01",
+    "poliza": "POL-0025",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 10000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Chevrolet",
+      "modelo": "Aveo",
+      "anio": 2024,
+      "placa": "SAZ-3411",
+      "chasis": "2E9E38ECA4BB2A208"
+    },
+    "proveedor": "Auto Repair Cuenca",
+    "descripcion": "Colisión en autopista; narrativa idéntica a caso previo SIN-F030.",
+    "score": 8,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-13",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      },
+      {
+        "code": "RF-07",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Descripción del siniestro prácticamente idéntica a otro caso registrado."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0026",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado C18C",
+    "asegurado_id": "ASE-C18C40D5",
+    "poliza": "POL-0026",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-28",
+    "monto_reclamado": 13200.0,
+    "suma_asegurada": 22000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Rio",
+      "anio": 2020,
+      "placa": "XAQ-9095",
+      "chasis": "474360912D4B95E52"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Narrativa clonada detectada; documentación incompleta.",
+    "score": 12,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-13",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      },
+      {
+        "code": "RF-07",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Descripción del siniestro prácticamente idéntica a otro caso registrado."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-28",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "3 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0027",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado F2F5",
+    "asegurado_id": "ASE-F2F55A89",
+    "poliza": "POL-0027",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 10450.0,
+    "suma_asegurada": 19000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Versa",
+      "anio": 2020,
+      "placa": "BML-8033",
+      "chasis": "0F925502CFE4187B4"
+    },
+    "proveedor": "Mecánica Norte",
+    "descripcion": "Narrativa idéntica a caso SIN-F031 con dinámica inconsistente.",
+    "score": 14,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-13",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      },
+      {
+        "code": "RF-07",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Descripción del siniestro prácticamente idéntica a otro caso registrado."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0028",
+    "ramo": "Vehículos",
+    "cobertura": "Daños Parciales",
+    "asegurado": "Asegurado 1064",
+    "asegurado_id": "ASE-1064FE87",
+    "poliza": "POL-0028",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-07",
+    "monto_reclamado": 6300.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Chevrolet",
+      "modelo": "3",
+      "anio": 2016,
+      "placa": "XFK-5593",
+      "chasis": "7240BB3CC268041FB"
+    },
+    "proveedor": "Mecánica Norte",
+    "descripcion": "Siniestro a 7 días del inicio; historial elevado; reporte tardío.",
+    "score": 21,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-07",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "10 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0029",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 909F",
+    "asegurado_id": "ASE-909F0DEA",
+    "poliza": "POL-0029",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 9000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Versa",
+      "anio": 2015,
+      "placa": "HVV-7680",
+      "chasis": "CAA53B07869029699"
+    },
+    "proveedor": "PROV-OBS-010",
+    "descripcion": "Frecuencia alta asegurado+conductor; proveedor observado; docs incompletos.",
+    "score": 25,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Proforma",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0030",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 6004",
+    "asegurado_id": "ASE-60041A71",
+    "poliza": "POL-0030",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-05",
+    "monto_reclamado": 11000.0,
+    "suma_asegurada": 22000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Kia",
+      "modelo": "Tucson",
+      "anio": 2017,
+      "placa": "KAW-1269",
+      "chasis": "7D87630047FD45D69"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Múltiples señales: inicio póliza, frecuencia conductor, dinámica anómala.",
+    "score": 27,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-05",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "8 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0031",
+    "ramo": "Vehículos",
+    "cobertura": "Responsabilidad Civil",
+    "asegurado": "Asegurado BC2B",
+    "asegurado_id": "ASE-BC2BF938",
+    "poliza": "POL-0031",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 3000.0,
+    "suma_asegurada": 12000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Corolla",
+      "anio": 2017,
+      "placa": "AEA-1505",
+      "chasis": "8CD4AF398CBA9A99B"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Alta frecuencia vehículo+conductor+asegurado+RC; docs incompletos.",
+    "score": 32,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-04",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-06",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Cédula",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0032",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado EC10",
+    "asegurado_id": "ASE-EC10FC99",
+    "poliza": "POL-0032",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "monto_reclamado": 11000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Versa",
+      "anio": 2020,
+      "placa": "XCM-2517",
+      "chasis": "3DB8AFB7F68661F8E"
+    },
+    "proveedor": "PROV-OBS-015",
+    "descripcion": "Siniestro temprano; proveedor observado; inconsistencia documental.",
+    "score": 21,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0033",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado 750B",
+    "asegurado_id": "ASE-750BE6A1",
+    "poliza": "POL-0033",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 23280.0,
+    "suma_asegurada": 24000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Tucson",
+      "anio": 2021,
+      "placa": "GPL-4546",
+      "chasis": "896659FEDC8B3F828"
+    },
+    "proveedor": "PROV-OBS-020",
+    "descripcion": "Asegurado frecuente; proveedor observado; dinámica anómala; daño sin rastro.",
+    "score": 30,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0034",
+    "ramo": "Vehículos",
+    "cobertura": "Pérdida Parcial",
+    "asegurado": "Asegurado C605",
+    "asegurado_id": "ASE-C60521F9",
+    "poliza": "POL-0034",
+    "ciudad": "Ambato",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-05",
+    "monto_reclamado": 7200.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Reserva",
+    "sucursal": "Ambato",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Explorer",
+      "anio": 2022,
+      "placa": "ZMD-8461",
+      "chasis": "18BD256BC5B45FD2E"
+    },
+    "proveedor": "Taller Central Guayaquil",
+    "descripcion": "Inicio de póliza + frecuencia alta vehículo+asegurado + docs tardíos.",
+    "score": 31,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-04",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-05",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "8 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Proforma",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0035",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 76AB",
+    "asegurado_id": "ASE-76AB06CE",
+    "poliza": "POL-0035",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 18200.0,
+    "suma_asegurada": 26000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Rio",
+      "anio": 2023,
+      "placa": "YIL-3575",
+      "chasis": "90CBB320A0FCABB87"
+    },
+    "proveedor": "PROV-OBS-025",
+    "descripcion": "Conductor frecuente; proveedor observado; dinámica incoherente; sin rastro.",
+    "score": 30,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0036",
+    "ramo": "Vehículos",
+    "cobertura": "Responsabilidad Civil",
+    "asegurado": "Asegurado B9AC",
+    "asegurado_id": "ASE-B9AC3705",
+    "poliza": "POL-0036",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-05",
+    "monto_reclamado": 13580.0,
+    "suma_asegurada": 14000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Toyota",
+      "modelo": "Versa",
+      "anio": 2015,
+      "placa": "ZVI-9971",
+      "chasis": "FDEAE96B326C4A0BD"
+    },
+    "proveedor": "PROV-OBS-030",
+    "descripcion": "RC recurrente; asegurado frecuente; proveedor observado; monto alto.",
+    "score": 29,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-06",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-05",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "8 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0037",
+    "ramo": "Vehículos",
+    "cobertura": "Robo Parcial",
+    "asegurado": "Asegurado BFA5",
+    "asegurado_id": "ASE-BFA5769E",
+    "poliza": "POL-0037",
+    "ciudad": "Manta",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-01",
+    "monto_reclamado": 12000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Manta",
+    "vehiculo": {
+      "marca": "Toyota",
+      "modelo": "Aveo",
+      "anio": 2016,
+      "placa": "ZZG-7599",
+      "chasis": "C2CAE69A9585BFF0A"
+    },
+    "proveedor": "PROV-OBS-035",
+    "descripcion": "Robo con demora; asegurado frecuente; docs inconsistentes; narrativa similar.",
+    "score": 33,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "FS-13",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-01",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "4 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0038",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado AA0F",
+    "asegurado_id": "ASE-AA0FFBFD",
+    "poliza": "POL-0038",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-05",
+    "monto_reclamado": 11000.0,
+    "suma_asegurada": 22000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Rio",
+      "anio": 2019,
+      "placa": "NKC-4186",
+      "chasis": "DFAA0B2DCCF74CCCC"
+    },
+    "proveedor": "PROV-OBS-040",
+    "descripcion": "Seis señales: póliza, asegurado, conductor, proveedor, docs, reporte.",
+    "score": 38,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-05",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "8 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Proforma",
+        "estado": "Pendiente",
+        "falta": true
+      },
+      {
+        "tipo": "Cédula",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0039",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 6189",
+    "asegurado_id": "ASE-6189938B",
+    "poliza": "POL-0039",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 29100.0,
+    "suma_asegurada": 30000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Ford",
+      "modelo": "Rio",
+      "anio": 2020,
+      "placa": "JXB-2482",
+      "chasis": "DD2B8B7B422AFB5E7"
+    },
+    "proveedor": "Auto Repair Cuenca",
+    "descripcion": "Siete señales: frecuencias alta+alta+alta, dinámica, daño, doc, monto.",
+    "score": 44,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-04",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0040",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 2C0F",
+    "asegurado_id": "ASE-2C0F2682",
+    "poliza": "POL-0040",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-06",
+    "monto_reclamado": 16250.0,
+    "suma_asegurada": 25000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Rio",
+      "anio": 2017,
+      "placa": "ZAD-6422",
+      "chasis": "67BE1BAA1A863AA54"
+    },
+    "proveedor": "PROV-OBS-045",
+    "descripcion": "Inicio de póliza; asegurado frecuente; proveedor observado; 7 señales.",
+    "score": 43,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-03-06",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "9 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0041",
+    "ramo": "Vehículos",
+    "cobertura": "Robo Parcial",
+    "asegurado": "Asegurado 2A2F",
+    "asegurado_id": "ASE-2A2FDDE0",
+    "poliza": "POL-0041",
+    "ciudad": "Esmeraldas",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-28",
+    "monto_reclamado": 9900.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Reserva",
+    "sucursal": "Esmeraldas",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Tucson",
+      "anio": 2015,
+      "placa": "PTR-5176",
+      "chasis": "81961351891007C73"
+    },
+    "proveedor": "PROV-OBS-050",
+    "descripcion": "Robo con demora; conductor+RC frecuentes; proveedor observado; similar.",
+    "score": 43,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-06",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-13",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-28",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "3 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0042",
+    "ramo": "Vehículos",
+    "cobertura": "Responsabilidad Civil",
+    "asegurado": "Asegurado 0FC0",
+    "asegurado_id": "ASE-0FC098B0",
+    "poliza": "POL-0042",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-07",
+    "monto_reclamado": 13580.0,
+    "suma_asegurada": 14000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Ford",
+      "modelo": "Rio",
+      "anio": 2022,
+      "placa": "OEB-4338",
+      "chasis": "33236F0877427F8C6"
+    },
+    "proveedor": "PROV-OBS-055",
+    "descripcion": "RC frecuente; vehículo repetido; proveedor observado; docs inconsistentes.",
+    "score": 36,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-04",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      },
+      {
+        "code": "FS-06",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-07",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "10 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Licencia",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0043",
+    "ramo": "Vehículos",
+    "cobertura": "Pérdida Total por Robo",
+    "asegurado": "Asegurado B94A",
+    "asegurado_id": "ASE-B94A989C",
+    "poliza": "POL-0043",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 35000.0,
+    "suma_asegurada": 35000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Ford",
+      "modelo": "3",
+      "anio": 2021,
+      "placa": "AFG-2912",
+      "chasis": "B1DBFC2E2DB3C8383"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Pérdida total del vehículo por robo; cobertura PTxRB activada.",
+    "score": 5,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      },
+      {
+        "code": "RF-01",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0044",
+    "ramo": "Vehículos",
+    "cobertura": "Pérdida Total por Robo",
+    "asegurado": "Asegurado 40C3",
+    "asegurado_id": "ASE-40C34EB8",
+    "poliza": "POL-0044",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 45000.0,
+    "suma_asegurada": 45000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Aveo",
+      "anio": 2023,
+      "placa": "NZU-9515",
+      "chasis": "D2CFA5B80633A4DC9"
+    },
+    "proveedor": "Mecánica Norte",
+    "descripcion": "Vehículo de alta gama hurtado; cobertura PTxRB activa.",
+    "score": 5,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      },
+      {
+        "code": "RF-01",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0045",
+    "ramo": "Vehículos",
+    "cobertura": "Pérdida Total por Robo",
+    "asegurado": "Asegurado DDEA",
+    "asegurado_id": "ASE-DDEA0376",
+    "poliza": "POL-0045",
+    "ciudad": "Manta",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-03",
+    "monto_reclamado": 30000.0,
+    "suma_asegurada": 30000.0,
+    "estado": "Reserva",
+    "sucursal": "Manta",
+    "vehiculo": {
+      "marca": "Ford",
+      "modelo": "Rio",
+      "anio": 2024,
+      "placa": "XDI-5680",
+      "chasis": "AF84B372F0AB5111E"
+    },
+    "proveedor": "Mecánica Norte",
+    "descripcion": "Vehículo robado; PTxRB con denuncia tardía.",
+    "score": 16,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      },
+      {
+        "code": "RF-01",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+      },
+      {
+        "code": "RF-06",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-03",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "6 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0046",
+    "ramo": "Vehículos",
+    "cobertura": "Pérdida Total por Robo",
+    "asegurado": "Asegurado BDE3",
+    "asegurado_id": "ASE-BDE38548",
+    "poliza": "POL-0046",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "monto_reclamado": 40000.0,
+    "suma_asegurada": 40000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Versa",
+      "anio": 2023,
+      "placa": "GHL-1368",
+      "chasis": "5508080C3B3F81BC1"
+    },
+    "proveedor": "Taller Central Guayaquil",
+    "descripcion": "PTxRB + asegurado con historial alto + monto total.",
+    "score": 13,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      },
+      {
+        "code": "RF-01",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0047",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 0F81",
+    "asegurado_id": "ASE-0F815548",
+    "poliza": "POL-0047",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-03",
+    "monto_reclamado": 17500.0,
+    "suma_asegurada": 25000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Explorer",
+      "anio": 2020,
+      "placa": "WML-2995",
+      "chasis": "B2FBCDFB36192152E"
+    },
+    "proveedor": "Servicio Exprés Quito",
+    "descripcion": "Alteración evidente en el informe de peritaje presentado.",
+    "score": 13,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-03",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "6 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0048",
+    "ramo": "Incendio",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 2A71",
+    "asegurado_id": "ASE-2A71CA2A",
+    "poliza": "POL-0048",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-05",
+    "monto_reclamado": 68000.0,
+    "suma_asegurada": 80000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Informe pericial falsificado con fechas manipuladas.",
+    "score": 15,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-05",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "8 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0049",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado 5B31",
+    "asegurado_id": "ASE-5B319499",
+    "poliza": "POL-0049",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-06",
+    "monto_reclamado": 16500.0,
+    "suma_asegurada": 22000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Kia",
+      "modelo": "Explorer",
+      "anio": 2015,
+      "placa": "BQQ-5096",
+      "chasis": "BFED1A91231A7E5C7"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Historial elevado + documentación falsificada.",
+    "score": 23,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-06",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "9 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0050",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado 4C0C",
+    "asegurado_id": "ASE-4C0CEC72",
+    "poliza": "POL-0050",
+    "ciudad": "Esmeraldas",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 10800.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Reserva",
+    "sucursal": "Esmeraldas",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Aveo",
+      "anio": 2022,
+      "placa": "ZVT-6188",
+      "chasis": "6751852BBB8F14BDA"
+    },
+    "proveedor": "PROV-LISTA-007",
+    "descripcion": "Taller en lista restrictiva con alertas previas.",
+    "score": 10,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0051",
+    "ramo": "Vida",
+    "cobertura": "Muerte Natural",
+    "asegurado": "Asegurado CA60",
+    "asegurado_id": "ASE-CA60B674",
+    "poliza": "POL-0051",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "monto_reclamado": 45000.0,
+    "suma_asegurada": 50000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Beneficiario en lista de monitoreo antilavado.",
+    "score": 13,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0052",
+    "ramo": "Vida",
+    "cobertura": "Muerte Accidental",
+    "asegurado": "Asegurado A132",
+    "asegurado_id": "ASE-A132490D",
+    "poliza": "POL-0052",
+    "ciudad": "Machala",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-28",
+    "monto_reclamado": 32000.0,
+    "suma_asegurada": 40000.0,
+    "estado": "Reserva",
+    "sucursal": "Machala",
+    "vehiculo": null,
+    "proveedor": null,
+    "descripcion": "Beneficiario identificado en lista de alerta antilavado.",
+    "score": 10,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-28",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "3 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0053",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 8897",
+    "asegurado_id": "ASE-8897E2A5",
+    "poliza": "POL-0053",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 13000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Toyota",
+      "modelo": "Tucson",
+      "anio": 2021,
+      "placa": "YLN-5559",
+      "chasis": "A6D34343B26C2374C"
+    },
+    "proveedor": "PROV-LISTA-003",
+    "descripcion": "Proveedor restrictivo + documentación incompleta.",
+    "score": 14,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia",
+        "estado": "Pendiente",
+        "falta": true
+      },
+      {
+        "tipo": "Licencia",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0054",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado EF7D",
+    "asegurado_id": "ASE-EF7D3A7E",
+    "poliza": "POL-0054",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 18000.0,
+    "suma_asegurada": 24000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Versa",
+      "anio": 2016,
+      "placa": "ZBF-2310",
+      "chasis": "C09B46BD8C5F3A344"
+    },
+    "proveedor": "Auto Repair Cuenca",
+    "descripcion": "Perito determina dinámica físicamente imposible.",
+    "score": 0,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "RF-04",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "La descripción del accidente es físicamente incoherente — requiere investigación de campo."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0055",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado BE14",
+    "asegurado_id": "ASE-BE146E79",
+    "poliza": "POL-0055",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-28",
+    "monto_reclamado": 24000.0,
+    "suma_asegurada": 30000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Mazda",
+      "modelo": "Corolla",
+      "anio": 2019,
+      "placa": "ILA-1061",
+      "chasis": "B79D8817DDFEED799"
+    },
+    "proveedor": "Taller Sur",
+    "descripcion": "Daños inconsistentes con trayectoria declarada.",
+    "score": 0,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "RF-04",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "La descripción del accidente es físicamente incoherente — requiere investigación de campo."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-28",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "3 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0056",
+    "ramo": "Vehículos",
+    "cobertura": "Colisión",
+    "asegurado": "Asegurado 9DE9",
+    "asegurado_id": "ASE-9DE90A41",
+    "poliza": "POL-0056",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-01",
+    "monto_reclamado": 23400.0,
+    "suma_asegurada": 26000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Ford",
+      "modelo": "Rio",
+      "anio": 2018,
+      "placa": "JSP-7160",
+      "chasis": "BA2EEE99F7E0AAF62"
+    },
+    "proveedor": "Auto Repair Cuenca",
+    "descripcion": "Narrativa incoherente; dinámica imposible confirmada por perito.",
+    "score": 9,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-04",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "La descripción del accidente es físicamente incoherente — requiere investigación de campo."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-01",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "4 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0057",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 9F6F",
+    "asegurado_id": "ASE-9F6F9EE9",
+    "poliza": "POL-0057",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-06",
+    "monto_reclamado": 28160.0,
+    "suma_asegurada": 32000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Rio",
+      "anio": 2017,
+      "placa": "ZXA-1300",
+      "chasis": "A814ABE7B3DA61D60"
+    },
+    "proveedor": "PROV-LISTA-003",
+    "descripcion": "Historial elevado; proveedor restrictivo; docs falsificados; reporte tardío.",
+    "score": 37,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-06",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "9 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia",
+        "estado": "Pendiente",
+        "falta": true
+      },
+      {
+        "tipo": "Licencia",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0058",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado 0614",
+    "asegurado_id": "ASE-0614F3B1",
+    "poliza": "POL-0058",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 24250.0,
+    "suma_asegurada": 25000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "Versa",
+      "anio": 2016,
+      "placa": "WEM-8792",
+      "chasis": "4CCA185FCDA456941"
+    },
+    "proveedor": "Mecánica Norte",
+    "descripcion": "Inicio póliza + asegurado+conductor frecuentes + daño sin testigos.",
+    "score": 35,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0059",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 4CEE",
+    "asegurado_id": "ASE-4CEE277D",
+    "poliza": "POL-0059",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-06",
+    "monto_reclamado": 29750.0,
+    "suma_asegurada": 35000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Chevrolet",
+      "modelo": "3",
+      "anio": 2015,
+      "placa": "KOJ-7922",
+      "chasis": "8F370B401C3F44F17"
+    },
+    "proveedor": "PROV-OBS-060",
+    "descripcion": "Máxima acumulación: inicio póliza + 4 frecuencias + proveedor + extras.",
+    "score": 57,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-04",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-03-06",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "9 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0060",
+    "ramo": "Vehículos",
+    "cobertura": "Todo Riesgo",
+    "asegurado": "Asegurado 77B5",
+    "asegurado_id": "ASE-77B50B6B",
+    "poliza": "POL-0060",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-07",
+    "monto_reclamado": 38800.0,
+    "suma_asegurada": 40000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": {
+      "marca": "Chevrolet",
+      "modelo": "Aveo",
+      "anio": 2018,
+      "placa": "MFU-0880",
+      "chasis": "C588B10FD8CCB86CF"
+    },
+    "proveedor": "PROV-LISTA-010",
+    "descripcion": "Caso de máximo riesgo: 11 señales acumuladas.",
+    "score": 71,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+      },
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-04",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El siniestro fue reportado con un retraso inusual."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-07",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "10 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia",
+        "estado": "Pendiente",
+        "falta": true
+      },
+      {
+        "tipo": "Matrícula",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0061",
+    "ramo": "Vehículos",
+    "cobertura": "Responsabilidad Civil",
+    "asegurado": "Asegurado 84A4",
+    "asegurado_id": "ASE-84A4C145",
+    "poliza": "POL-0061",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-28",
+    "monto_reclamado": 17460.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": {
+      "marca": "Nissan",
+      "modelo": "3",
+      "anio": 2022,
+      "placa": "KXK-2784",
+      "chasis": "045EC3E1CC4B8598D"
+    },
+    "proveedor": "PROV-LISTA-015",
+    "descripcion": "Caso RC con 11 señales acumuladas; score 78 pts.",
+    "score": 72,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-04",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+      },
+      {
+        "code": "FS-05",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+      },
+      {
+        "code": "FS-06",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "El siniestro presenta documentos requeridos faltantes."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-13",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-02-28",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "3 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Proforma",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  },
+  {
+    "id": "SIN-0062",
+    "ramo": "Vehículos",
+    "cobertura": "Daños",
+    "asegurado": "Asegurado 7134",
+    "asegurado_id": "ASE-7134D6BC",
+    "poliza": "POL-0062",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "monto_reclamado": 27160.0,
+    "suma_asegurada": 28000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": {
+      "marca": "Hyundai",
+      "modelo": "Aveo",
+      "anio": 2018,
+      "placa": "PSW-8601",
+      "chasis": "58FA0424A5188DCC9"
+    },
+    "proveedor": "PROV-OBS-070",
+    "descripcion": "Narrativa muy similar + proveedor + inconsistencias documentales.",
+    "score": 37,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+      },
+      {
+        "code": "FS-10",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+      },
+      {
+        "code": "FS-13",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null
+  }
+]

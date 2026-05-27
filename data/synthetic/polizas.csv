@@ -1,0 +1,63 @@
+id_poliza,id_asegurado,ramo,fecha_inicio,fecha_fin,prima,suma_asegurada,deducible,canal_venta,ciudad,estado_poliza
+POL-0001,ASE-50118E54,Vehículos,2026-02-25,,450.0,18000.0,900.0,Agente,Guayaquil,Vigente
+POL-0002,ASE-10B1CD7F,Accidentes Personales,2026-02-25,,250.0,10000.0,500.0,Agente,Quito,Vigente
+POL-0003,ASE-743DE03B,Incendio,2026-02-25,,1250.0,50000.0,2500.0,Agente,Cuenca,Vigente
+POL-0004,ASE-91AB21D0,Vehículos,2026-02-25,,300.0,12000.0,600.0,Agente,Machala,Vigente
+POL-0005,ASE-DDE1D541,Vehículos,2026-02-25,,350.0,14000.0,700.0,Agente,Loja,Vigente
+POL-0006,ASE-D0D86EC7,Accidentes Personales,2026-02-25,,200.0,8000.0,400.0,Agente,Ambato,Vigente
+POL-0007,ASE-72A09B4A,Vehículos,2026-02-25,,375.0,15000.0,750.0,Agente,Guayaquil,Vigente
+POL-0008,ASE-463E1383,Vehículos,2026-02-25,,350.0,14000.0,700.0,Agente,Manta,Vigente
+POL-0009,ASE-C36DE609,Accidentes Personales,2026-02-25,,200.0,8000.0,400.0,Agente,Guayaquil,Vigente
+POL-0010,ASE-D016E703,Vehículos,2026-02-25,,375.0,15000.0,750.0,Agente,Cuenca,Vigente
+POL-0011,ASE-FD95C6FB,Vehículos,2026-02-25,,350.0,14000.0,700.0,Agente,Guayaquil,Vigente
+POL-0012,ASE-23218457,Vehículos,2026-02-25,,250.0,10000.0,500.0,Agente,Guayaquil,Vigente
+POL-0013,ASE-DE236A0B,Accidentes Personales,2026-02-25,,225.0,9000.0,450.0,Agente,Quito,Vigente
+POL-0014,ASE-1975FDE4,Accidentes Personales,2026-02-25,,175.0,7000.0,350.0,Agente,Cuenca,Vigente
+POL-0015,ASE-C35B386F,Vehículos,2026-02-25,,400.0,16000.0,800.0,Agente,Portoviejo,Vigente
+POL-0016,ASE-15A13032,Vehículos,2026-02-25,,250.0,10000.0,500.0,Agente,Guayaquil,Vigente
+POL-0017,ASE-02811DD6,Vehículos,2026-02-25,,400.0,16000.0,800.0,Agente,Quito,Vigente
+POL-0018,ASE-E4EB5576,Vehículos,2026-02-25,,400.0,16000.0,800.0,Agente,Cuenca,Vigente
+POL-0019,ASE-60E467DD,Vehículos,2026-02-25,,550.0,22000.0,1100.0,Agente,Ambato,Vigente
+POL-0020,ASE-BF83F3E4,Vehículos,2026-02-25,,500.0,20000.0,1000.0,Agente,Quito,Vigente
+POL-0021,ASE-E00FA907,Vehículos,2026-02-25,,700.0,28000.0,1400.0,Agente,Guayaquil,Vigente
+POL-0022,ASE-9C1DC941,Vehículos,2026-02-25,,450.0,18000.0,900.0,Agente,Esmeraldas,Vigente
+POL-0023,ASE-C2C56C0E,Vehículos,2026-02-25,,625.0,25000.0,1250.0,Agente,Quito,Vigente
+POL-0024,ASE-42F598BC,Vehículos,2026-02-25,,400.0,16000.0,800.0,Agente,Guayaquil,Vigente
+POL-0025,ASE-A1B06D01,Vehículos,2026-02-25,,500.0,20000.0,1000.0,Agente,Quito,Vigente
+POL-0026,ASE-C18C40D5,Vehículos,2026-02-25,,550.0,22000.0,1100.0,Agente,Guayaquil,Vigente
+POL-0027,ASE-F2F55A89,Vehículos,2026-02-25,,475.0,19000.0,950.0,Agente,Cuenca,Vigente
+POL-0028,ASE-1064FE87,Vehículos,2026-02-25,,450.0,18000.0,900.0,Agente,Quito,Vigente
+POL-0029,ASE-909F0DEA,Vehículos,2026-02-25,,500.0,20000.0,1000.0,Agente,Guayaquil,Vigente
+POL-0030,ASE-60041A71,Vehículos,2026-02-25,,550.0,22000.0,1100.0,Agente,Cuenca,Vigente
+POL-0031,ASE-BC2BF938,Vehículos,2026-02-25,,300.0,12000.0,600.0,Agente,Quito,Vigente
+POL-0032,ASE-EC10FC99,Vehículos,2026-02-25,,500.0,20000.0,1000.0,Agente,Guayaquil,Vigente
+POL-0033,ASE-750BE6A1,Vehículos,2026-02-25,,600.0,24000.0,1200.0,Agente,Guayaquil,Vigente
+POL-0034,ASE-C60521F9,Vehículos,2026-02-25,,450.0,18000.0,900.0,Agente,Ambato,Vigente
+POL-0035,ASE-76AB06CE,Vehículos,2026-02-25,,650.0,26000.0,1300.0,Agente,Quito,Vigente
+POL-0036,ASE-B9AC3705,Vehículos,2026-02-25,,350.0,14000.0,700.0,Agente,Cuenca,Vigente
+POL-0037,ASE-BFA5769E,Vehículos,2026-02-25,,500.0,20000.0,1000.0,Agente,Manta,Vigente
+POL-0038,ASE-AA0FFBFD,Vehículos,2026-02-25,,550.0,22000.0,1100.0,Agente,Guayaquil,Vigente
+POL-0039,ASE-6189938B,Vehículos,2026-02-25,,750.0,30000.0,1500.0,Agente,Quito,Vigente
+POL-0040,ASE-2C0F2682,Vehículos,2026-02-25,,625.0,25000.0,1250.0,Agente,Guayaquil,Vigente
+POL-0041,ASE-2A2FDDE0,Vehículos,2026-02-25,,450.0,18000.0,900.0,Agente,Esmeraldas,Vigente
+POL-0042,ASE-0FC098B0,Vehículos,2026-02-25,,350.0,14000.0,700.0,Agente,Quito,Vigente
+POL-0043,ASE-B94A989C,Vehículos,2026-02-25,,875.0,35000.0,1750.0,Agente,Guayaquil,Vigente
+POL-0044,ASE-40C34EB8,Vehículos,2026-02-25,,1125.0,45000.0,2250.0,Agente,Quito,Vigente
+POL-0045,ASE-DDEA0376,Vehículos,2026-02-25,,750.0,30000.0,1500.0,Agente,Manta,Vigente
+POL-0046,ASE-BDE38548,Vehículos,2026-02-25,,1000.0,40000.0,2000.0,Agente,Cuenca,Vigente
+POL-0047,ASE-0F815548,Vehículos,2026-02-25,,625.0,25000.0,1250.0,Agente,Quito,Vigente
+POL-0048,ASE-2A71CA2A,Incendio,2026-02-25,,2000.0,80000.0,4000.0,Agente,Guayaquil,Vigente
+POL-0049,ASE-5B319499,Vehículos,2026-02-25,,550.0,22000.0,1100.0,Agente,Cuenca,Vigente
+POL-0050,ASE-4C0CEC72,Vehículos,2026-02-25,,450.0,18000.0,900.0,Agente,Esmeraldas,Vigente
+POL-0051,ASE-CA60B674,Vida,2026-02-25,,1250.0,50000.0,2500.0,Agente,Guayaquil,Vigente
+POL-0052,ASE-A132490D,Vida,2026-02-25,,1000.0,40000.0,2000.0,Agente,Machala,Vigente
+POL-0053,ASE-8897E2A5,Vehículos,2026-02-25,,500.0,20000.0,1000.0,Agente,Quito,Vigente
+POL-0054,ASE-EF7D3A7E,Vehículos,2026-02-25,,600.0,24000.0,1200.0,Agente,Quito,Vigente
+POL-0055,ASE-BE146E79,Vehículos,2026-02-25,,750.0,30000.0,1500.0,Agente,Guayaquil,Vigente
+POL-0056,ASE-9DE90A41,Vehículos,2026-02-25,,650.0,26000.0,1300.0,Agente,Cuenca,Vigente
+POL-0057,ASE-9F6F9EE9,Vehículos,2026-02-25,,800.0,32000.0,1600.0,Agente,Guayaquil,Vigente
+POL-0058,ASE-0614F3B1,Vehículos,2026-02-25,,625.0,25000.0,1250.0,Agente,Quito,Vigente
+POL-0059,ASE-4CEE277D,Vehículos,2026-02-25,,875.0,35000.0,1750.0,Agente,Guayaquil,Vigente
+POL-0060,ASE-77B50B6B,Vehículos,2026-02-25,,1000.0,40000.0,2000.0,Agente,Quito,Vigente
+POL-0061,ASE-84A4C145,Vehículos,2026-02-25,,450.0,18000.0,900.0,Agente,Cuenca,Vigente
+POL-0062,ASE-7134D6BC,Vehículos,2026-02-25,,700.0,28000.0,1400.0,Agente,Guayaquil,Vigente

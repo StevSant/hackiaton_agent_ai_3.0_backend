@@ -1,0 +1,22 @@
+id_proveedor,tipo,ciudad,reclamos_asociados,monto_promedio_reclamado,porcentaje_casos_observados,antiguedad
+PROV-86ECDA,Taller de reparación,Guayaquil,0,900.0,0.0,5
+PROV-B9F87F,Taller de reparación,Machala,0,1800.0,0.0,5
+PROV-FFBC36,Taller de reparación,Cuenca,0,3000.0,0.0,5
+PROV-098D06,Taller de reparación,Guayaquil,0,9700.0,0.0,5
+PROV-610297,Taller de reparación,Quito,0,4000.0,0.0,5
+PROV-0823B7,Taller de reparación,Guayaquil,5,9000.0,0.0,5
+PROV-779B69,Taller de reparación,Guayaquil,5,11000.0,0.0,5
+PROV-F958AD,Taller de reparación,Guayaquil,5,23280.0,0.0,5
+PROV-6236B3,Taller de reparación,Quito,5,18200.0,0.0,5
+PROV-78B4C4,Taller de reparación,Cuenca,5,13580.0,0.0,5
+PROV-416156,Taller de reparación,Manta,5,12000.0,0.0,5
+PROV-C712C2,Taller de reparación,Guayaquil,5,11000.0,0.0,5
+PROV-0E58FB,Taller de reparación,Guayaquil,5,16250.0,0.0,5
+PROV-B6608C,Taller de reparación,Esmeraldas,5,9900.0,0.0,5
+PROV-4830E0,Taller de reparación,Quito,5,13580.0,0.0,5
+PROV-E2B4EA,Taller de reparación,Esmeraldas,10,10800.0,0.0,5
+PROV-F3E593,Taller de reparación,Quito,10,13000.0,0.0,5
+PROV-244F48,Taller de reparación,Guayaquil,5,29750.0,0.0,5
+PROV-BB7B65,Taller de reparación,Quito,10,38800.0,0.0,5
+PROV-50F570,Taller de reparación,Cuenca,10,17460.0,0.0,5
+PROV-64EA4E,Taller de reparación,Guayaquil,5,27160.0,0.0,5
