@@ -43,6 +43,9 @@ class Settings(BaseSettings):
     RULES_CONFIG_PATH: str = "app/domain/rules/config.yaml"
     SIMILARITY_THRESHOLD_FS13: float = 0.85
 
+    # agent (ReAct loop)
+    MAX_REACT_STEPS: int = 3  # safety bound on tool-use iterations per query
+
     # data
     DATA_DIR: str = "data"
     LOAD_DATASET_ON_STARTUP: bool = True

@@ -83,26 +83,16 @@ class AskAgent:
                 name = event.get("name", "")
                 data = event.get("data", {})
 
-                if event_type == "on_chain_start" and name in {
-                    "route",
-                    "query_claims",
-                    "explain_case",
-                    "aggregate",
-                    "documents",
-                    "summarize",
-                }:
+                if event_type == "on_chain_start" and name == "react_step":
                     yield AgentStepEvent(data=AgentStepData(node=name))
 
-                if event_type == "on_chain_end" and name in {
-                    "query_claims",
-                    "explain_case",
-                    "aggregate",
-                    "documents",
-                    "summarize",
-                }:
+                if event_type == "on_chain_end" and name == "react_step":
                     node_output = data.get("output") or {}
+                    # react_step returns the DELTA tool_results from THIS iteration
+                    # (the reducer appends in state; the on_chain_end output is the
+                    # node's partial return).
                     new_results = node_output.get("tool_results") or []
-                    for tool_result in new_results[seen_tool_results:]:
+                    for tool_result in new_results:
                         tool_results.append(tool_result)
                         yield ToolCallEvent(
                             data=ToolCallData(
@@ -117,7 +107,7 @@ class AskAgent:
                                 result=tool_result.get("result"),
                             )
                         )
-                    seen_tool_results = len(new_results)
+                    seen_tool_results += len(new_results)
                     new_citations = node_output.get("citations") or []
                     citations.extend(c for c in new_citations if c)
 

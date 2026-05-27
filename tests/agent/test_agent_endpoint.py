@@ -27,8 +27,19 @@ from tests.fixtures.agent_claims import agent_fixtures
 
 def _make_fake_ask_agent() -> AskAgent:
     queries = InMemoryClaimQueries(claims=agent_fixtures())
+    # Script a tool decision for the smoke-test query so the loop calls a tool.
+    fake_llm = InMemoryFakeLLM(
+        script={
+            "proveedor": {
+                "thought": "ranking por proveedor",
+                "action": "use_tool",
+                "tool": "aggregate_by_dimension",
+                "args": {"dimension": "proveedor", "tier": "amarillo+rojo", "top_n": 10},
+            }
+        }
+    )
     deps = ClaimsAgentDeps(
-        llm=InMemoryFakeLLM(),
+        llm=fake_llm,
         llm_model="gpt-4o-mini",
         prompts=PromptLoader(
             base_dir=__import__("pathlib").Path(__file__).resolve().parents[2]

@@ -25,6 +25,7 @@ from app.agents.claims_agent.tools.summarize_critical_tool import (
     SummarizeCriticalOutput,
     SummarizeCriticalTool,
 )
+from app.agents.claims_agent.tools.tool_spec_view import ToolSpecView
 from app.agents.claims_agent.tools.types import (
     AggregateDimension,
     AggregateRow,
@@ -56,4 +57,5 @@ __all__ = [
     "SummarizeCriticalOutput",
     "SummarizeCriticalTool",
     "TierFilter",
+    "ToolSpecView",
 ]

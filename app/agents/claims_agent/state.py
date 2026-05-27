@@ -1,17 +1,21 @@
-"""LangGraph state for the claims agent.
+"""LangGraph state for the claims agent (ReAct flavor).
 
-`route` sets `intent`; the conditional edge in `graph.py` then dispatches to one
-of the 5 intent nodes; each intent node calls a tool and appends a `tool_results`
-entry; finally `compose` produces the Spanish answer with citations.
+Loop shape:
+    START → react_step → (continue → react_step | finish → END)
+                     ↑__________________|
+
+Each `react_step` is one LLM call that decides "use a tool" or "finish".
+List-typed channels (`scratchpad`, `tool_results`, `citations`) use `operator.add`
+as their reducer so each node return APPENDS instead of replacing — the loop
+accumulates the reasoning trace across iterations.
 
 Per backend CLAUDE.md §5: `TypedDict` with explicit reducers — never a free-form dict.
 """
 
-from typing import Annotated, Any, Literal, TypedDict
+from operator import add
+from typing import Annotated, Any, TypedDict
 
 from langgraph.graph.message import add_messages
-
-Intent = Literal["query_claims", "explain_case", "aggregate", "documents", "summarize"]
 
 
 class ToolResult(TypedDict):
@@ -24,15 +28,22 @@ class ToolResult(TypedDict):
 class ClaimsAgentState(TypedDict, total=False):
     """Shared state across all claims-agent nodes.
 
-    `total=False` so each node can return a partial dict to merge — the standard
-    LangGraph pattern. `messages` uses the `add_messages` reducer.
+    `total=False` so each node can return a partial dict. List channels use the
+    `operator.add` reducer (append semantics).
     """
 
     query: str
-    intent: Intent | None
-    tool_results: list[ToolResult]
-    citations: list[str]  # claim IDs
-    messages: Annotated[list[Any], add_messages]
     context: dict[str, Any] | None  # e.g. {"focus_claim_id": "SIN-0042"}
-    answer: str  # final composed Spanish answer
-    message_id: str
+
+    # ReAct loop state — accumulated across iterations
+    step_count: int  # last writer wins (we always set absolute value)
+    scratchpad: Annotated[list[dict[str, Any]], add]  # ScratchpadEntry.model_dump()
+    tool_results: Annotated[list[ToolResult], add]
+    citations: Annotated[list[str], add]
+
+    # Termination flag — flipped by react_step when the LLM picks `finish`
+    # or we hit MAX_REACT_STEPS.
+    finished: bool
+
+    # Standard LangGraph message log (unused today; reserved for future memory).
+    messages: Annotated[list[Any], add_messages]

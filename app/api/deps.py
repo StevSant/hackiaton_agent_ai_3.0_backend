@@ -146,6 +146,7 @@ def get_ask_agent(
         aggregate_by_dimension=AggregateByDimensionTool(queries),
         missing_documents=MissingDocumentsTool(queries),
         summarize_critical=SummarizeCriticalTool(queries),
+        max_react_steps=settings.MAX_REACT_STEPS,
     )
     return AskAgent(deps=deps)
 
