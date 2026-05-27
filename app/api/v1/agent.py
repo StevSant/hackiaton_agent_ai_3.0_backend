@@ -15,15 +15,18 @@ import json
 from collections.abc import AsyncIterator
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, UploadFile
 from fastapi.responses import StreamingResponse
 
-from app.api.deps import get_ask_agent, get_current_user
+from app.api.deps import get_ask_agent, get_current_user, get_speech_transcriber
 from app.domain.auth.user import User
 from app.schemas.agent import AgentAskContext
 from app.schemas.agent import AgentAskRequest as AskAgentRequest
 from app.schemas.chat.request import AgentAskRequest as WireAgentAskRequest
+from app.infrastructure.speech.ports import SpeechTranscriber
+from app.schemas.speech import TranscribeResponse
 from app.use_cases.ask_agent import AskAgent
+from app.use_cases.transcribe_audio import transcribe_audio
 
 router = APIRouter(prefix="/agent", tags=["agent"])
 
@@ -47,6 +50,21 @@ async def _stream_events(
     async for event in ask_agent.run(req, user=user):
         payload = event.model_dump(mode="json")
         yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
+
+
+@router.post("/transcribe", response_model=TranscribeResponse)
+async def agent_transcribe(
+    file: UploadFile,
+    transcriber: Annotated[SpeechTranscriber, Depends(get_speech_transcriber)],
+    _user: Annotated[User, Depends(get_current_user)],
+) -> TranscribeResponse:
+    data = await file.read()
+    return await transcribe_audio(
+        transcriber=transcriber,
+        data=data,
+        filename=file.filename or "audio.webm",
+        content_type=file.content_type or "application/octet-stream",
+    )
 
 
 @router.post("/ask")

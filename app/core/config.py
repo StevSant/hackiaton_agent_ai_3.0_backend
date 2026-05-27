@@ -32,6 +32,17 @@ class Settings(BaseSettings):
     LLM_PROVIDER: Literal["openai", "fake"] = "openai"
     LLM_DEFAULT_MODEL: str = "gpt-4o-mini"
     OPENAI_API_KEY: SecretStr | None = None
+    WHISPER_MODEL: str = "whisper-1"
+    TRANSCRIBE_MAX_BYTES: int = 10 * 1024 * 1024  # 10 MB
+    TRANSCRIBE_ALLOWED_MIME: list[str] = [
+        "audio/webm",
+        "audio/mp4",
+        "audio/mpeg",
+        "audio/wav",
+        "audio/ogg",
+        "audio/x-m4a",
+        "audio/mp3",
+    ]
 
     # embeddings  (OpenAI text-embedding-3-small w/ dimensions=384 by default;
     # sentence-transformers retained as an offline fallback — see infrastructure/embeddings/)

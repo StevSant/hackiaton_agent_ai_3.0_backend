@@ -141,3 +141,21 @@ async def test_react_loop_recovers_from_unknown_tool_name() -> None:
     assert not [e for e in events if isinstance(e, ErrorEvent)]
     # And should NOT have emitted a tool_call event since the tool wasn't found
     assert not [e for e in events if isinstance(e, ToolCallEvent)]
+
+
+@pytest.mark.asyncio
+async def test_react_loop_skips_tools_for_out_of_scope_query() -> None:
+    """Off-topic input should finish immediately without dispatching tools."""
+    script = {
+        "fucking hueso": {
+            "thought": "Texto sin relación con siniestros ni la bandeja.",
+            "action": "finish",
+            "reason": "consulta fuera de alcance — redirigir al analista",
+        }
+    }
+    agent = _build_agent(script)
+    events = [
+        event async for event in agent.run(AgentAskRequest(query="El fucking hueso"))
+    ]
+    assert not [e for e in events if isinstance(e, ToolCallEvent)]
+    assert not [e for e in events if isinstance(e, ErrorEvent)]
