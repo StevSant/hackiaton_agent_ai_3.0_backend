@@ -53,6 +53,7 @@ from app.infrastructure.speech import (
 )
 from app.infrastructure.audit import InMemoryAuditStore
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.rule_changes import InMemoryRuleChangesStore
 from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
 from app.use_cases.ask_agent import AskAgent
@@ -326,6 +327,16 @@ def get_audit_store() -> InMemoryAuditStore:
     use cases as real actions happen.
     """
     return InMemoryAuditStore()
+
+
+@lru_cache(maxsize=1)
+def get_rule_changes_store() -> InMemoryRuleChangesStore:
+    """Return the process-singleton in-memory rule-change log.
+
+    Starts empty — entries are appended when a rule edit endpoint lands
+    post-hackathon. Until then ``GET /rules/changes`` honestly returns ``[]``.
+    """
+    return InMemoryRuleChangesStore()
 
 
 def _get_session_factory() -> async_sessionmaker[AsyncSession] | None:

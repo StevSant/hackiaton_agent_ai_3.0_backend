@@ -17,9 +17,14 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, get_optional_db_session
+from app.api.deps import (
+    get_current_user,
+    get_optional_db_session,
+    get_rule_changes_store,
+)
 from app.domain.auth.user import User
 from app.domain.rules.catalog import all_meta, get_meta
+from app.infrastructure.rule_changes import InMemoryRuleChangesStore
 from app.schemas.rule_changes import RuleChangeOut
 from app.schemas.rules import RuleMetaOut
 from app.schemas.rules_config import RuleConfigOut
@@ -61,10 +66,11 @@ async def list_rules_config_route(
 
 @router.get("/changes", response_model=list[RuleChangeOut])
 async def list_rule_changes_route(
+    store: Annotated[InMemoryRuleChangesStore, Depends(get_rule_changes_store)],
     limit: int | None = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> list[RuleChangeOut]:
-    return await list_rule_changes(limit=limit)
+    return await list_rule_changes(store, limit=limit)
 
 
 @router.get("/{code}", response_model=RuleMetaOut)
