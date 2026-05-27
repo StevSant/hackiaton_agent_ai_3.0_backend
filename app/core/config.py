@@ -1,4 +1,5 @@
-from typing import Literal
+import json
+from typing import Any, Literal
 
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -35,6 +36,19 @@ class Settings(BaseSettings):
         "text/plain",
         "text/markdown",
     ]
+
+    # Auth — stored as raw JSON string, parsed on access
+    AUTH_ENABLED: bool = True
+    JWT_SECRET: str = "change-me-in-production"
+    JWT_ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_TTL_MINUTES: int = 480
+    AUTH_SEED_USERS: str = "[]"
+
+    def seed_users(self) -> list[dict[str, Any]]:
+        try:
+            return json.loads(self.AUTH_SEED_USERS)  # type: ignore[arg-type]
+        except (json.JSONDecodeError, TypeError):
+            return []
 
     model_config = SettingsConfigDict(
         env_file=".env",

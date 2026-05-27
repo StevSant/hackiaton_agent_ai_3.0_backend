@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1 import health_router
+from app.api.v1 import agent_router, auth_router, health_router
 from app.core.config import settings
 from app.core.errors import register_error_handlers
 from app.core.logging import configure_logging
@@ -34,6 +34,8 @@ def create_app() -> FastAPI:
     register_error_handlers(app)
 
     app.include_router(health_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(agent_router, prefix=settings.API_V1_PREFIX)
 
     return app
 
