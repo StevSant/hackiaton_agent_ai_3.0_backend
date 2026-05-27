@@ -16,8 +16,19 @@ META = RuleMeta(
     code="RF-05",
     name="Siniestro extremo al inicio de póliza",
     tier_hint=Tier.amarillo,
-    short_description="Siniestro registrado dentro de las primeras 48 h de vigencia de la póliza.",
-    what_triggers="Menos de 48 horas entre inicio de póliza y ocurrencia del siniestro.",
+    short_description=(
+        "Un siniestro que ocurre en las primeras 48 horas de vigencia es "
+        "estadísticamente extremo — gran parte de los casos de antifraude "
+        "confirmados en años recientes encajan en esta ventana. La regla "
+        "actúa como piso de amarillo: el caso no puede quedar en verde, "
+        "pero tampoco sube automáticamente a rojo sin más señales que lo "
+        "respalden."
+    ),
+    what_triggers=(
+        "Se activa cuando hay menos de 48 horas entre el inicio de vigencia "
+        "de la póliza y la ocurrencia del siniestro. Hard rule — fuerza "
+        "piso amarillo (sin sumar puntos)."
+    ),
     max_points=0,
 )
 

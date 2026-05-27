@@ -18,8 +18,19 @@ META = RuleMeta(
     code="RF-07",
     name="Narrativa idéntica (clonada)",
     tier_hint=Tier.amarillo,
-    short_description="Descripción del siniestro prácticamente idéntica a otro caso registrado.",
-    what_triggers="Similitud semántica ≥98% con narrativa de otro siniestro.",
+    short_description=(
+        "Mientras que FS-13 mide similitud progresiva (similar / muy similar), "
+        "esta regla captura el extremo: narrativas prácticamente idénticas a "
+        "un siniestro previo, indicando que dos o más reclamos están "
+        "reciclando el mismo texto descriptivo. Es uno de los patrones más "
+        "claros de coordinación entre asegurados o de cadenas de reclamos "
+        "operadas por el mismo actor."
+    ),
+    what_triggers=(
+        "Se activa cuando la similitud semántica con otro siniestro alcanza "
+        "el 98% o más, o cuando el flag narrativa_clonada viene marcado "
+        "desde la capa de similitud. Hard rule — fuerza piso amarillo."
+    ),
     max_points=0,
 )
 

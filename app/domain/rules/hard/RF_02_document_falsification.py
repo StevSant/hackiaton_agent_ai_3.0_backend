@@ -16,10 +16,18 @@ META = RuleMeta(
     name="Falsificación evidente de documentos",
     tier_hint=Tier.rojo,
     short_description=(
-        "Se detectó falsificación evidente en los documentos del siniestro"
-        " — requiere revisión urgente."
+        "Cuando el área documental confirma una falsificación evidente — "
+        "fechas alteradas, sellos manipulados, peritajes apócrifos — el "
+        "siniestro debe pasar inmediatamente a investigación especializada. "
+        "A diferencia de FS-11 (que pesa sospechas), esta es una constatación "
+        "del equipo de validación y por eso fuerza automáticamente tier rojo "
+        "sin sumar al score."
     ),
-    what_triggers="Documentos con alteraciones confirmadas o inconsistencias graves detectadas.",
+    what_triggers=(
+        "Se activa cuando el flag falsificacion_evidente está confirmado en "
+        "el contexto de la regla. Hard rule — fuerza tier rojo sin importar "
+        "el score acumulado."
+    ),
     max_points=0,
 )
 

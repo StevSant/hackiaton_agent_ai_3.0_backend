@@ -16,8 +16,19 @@ META = RuleMeta(
     code="FS-13",
     name="Narrativas similares detectadas",
     tier_hint=Tier.amarillo,
-    short_description="La descripción del siniestro es similar a narrativas de casos anteriores.",
-    what_triggers="Similitud semántica superior al 70% con otro siniestro registrado.",
+    short_description=(
+        "El motor de similitud por embeddings compara la narrativa del "
+        "siniestro contra todas las narrativas previas registradas. Cuando "
+        "encuentra coincidencias semánticas muy altas, suele tratarse de "
+        "reclamos coordinados con el mismo \"libreto\" — distintas pólizas "
+        "describiendo el mismo hecho con variaciones mínimas. La regla "
+        "distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
+    ),
+    what_triggers=(
+        "Aporta 8 puntos cuando la similitud supera el 85% (nivel \"clon\"), "
+        "y 4 puntos en el rango 70-85% (\"similar\"). El ID y el porcentaje "
+        "del caso más cercano se muestran en la evidencia."
+    ),
     max_points=8,
 )
 

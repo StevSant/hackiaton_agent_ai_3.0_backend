@@ -17,8 +17,18 @@ META = RuleMeta(
     code="FS-09",
     name="Dinámica sospechosa del siniestro",
     tier_hint=Tier.amarillo,
-    short_description="La descripción del siniestro presenta inconsistencias o patrones atípicos.",
-    what_triggers="Narrativa ilógica o evento multi-siniestro en horario nocturno.",
+    short_description=(
+        "La narrativa del reclamo es la versión del asegurado de cómo ocurrió "
+        "el siniestro. Cuando esa narrativa contiene incoherencias internas "
+        "(velocidades imposibles, secuencias temporales inconsistentes) o "
+        "el evento ocurrió en horario nocturno con múltiples siniestros "
+        "simultáneos, es un patrón que merece un peritaje más detallado."
+    ),
+    what_triggers=(
+        "Aporta 6 puntos cuando la narrativa contiene inconsistencias "
+        "lógicas explícitas, y 3 puntos cuando el evento ocurrió a "
+        "medianoche con múltiples siniestros encadenados."
+    ),
     max_points=6,
 )
 

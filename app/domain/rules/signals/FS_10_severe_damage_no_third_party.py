@@ -15,8 +15,18 @@ META = RuleMeta(
     code="FS-10",
     name="Daño grave sin rastro de tercero",
     tier_hint=Tier.amarillo,
-    short_description="El siniestro reporta daños graves sin ningún testigo o rastro de terceros.",
-    what_triggers="Monto significativo declarado sin evidencia de involucrado externo.",
+    short_description=(
+        "Un daño material significativo casi siempre deja rastros físicos "
+        "de la otra parte involucrada — restos en la calzada, daños "
+        "compatibles entre vehículos, testigos. Cuando el daño declarado es "
+        "alto pero no hay ningún elemento que confirme un tercero, el caso "
+        "puede estar reciclando un daño preexistente o autoinfligido."
+    ),
+    what_triggers=(
+        "Aporta 6 puntos cuando el peritaje registra daño grave pero el "
+        "expediente no contiene evidencia de tercero (testigos, contra-parte, "
+        "rastros en escena)."
+    ),
     max_points=6,
 )
 

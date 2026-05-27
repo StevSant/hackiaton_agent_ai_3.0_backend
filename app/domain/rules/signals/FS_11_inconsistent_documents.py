@@ -15,8 +15,18 @@ META = RuleMeta(
     code="FS-11",
     name="Documentos inconsistentes",
     tier_hint=Tier.amarillo,
-    short_description="Se detectaron alteraciones o inconsistencias en la documentación.",
-    what_triggers="Inconsistencia confirmada o sospecha de alteración en el expediente.",
+    short_description=(
+        "Documentos con fechas de emisión incompatibles con la cronología "
+        "del siniestro, sellos o firmas dudosas, o piezas alteradas son una "
+        "señal directa de manipulación del expediente. Esta regla distingue "
+        "entre alteración *sospechada* y alteración *confirmada* por el "
+        "área documental, y pesa más cuando hay evidencia confirmada."
+    ),
+    what_triggers=(
+        "Aporta 10 puntos cuando hay falsificación evidente confirmada, y "
+        "5 puntos cuando se detectan inconsistencias documentales aún sin "
+        "confirmar como falsificación."
+    ),
     max_points=10,
 )
 

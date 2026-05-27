@@ -16,8 +16,19 @@ META = RuleMeta(
     code="FS-02",
     name="Demora en denuncia por robo",
     tier_hint=Tier.amarillo,
-    short_description="La denuncia por robo fue presentada con retraso atípico.",
-    what_triggers="Más de 24 h entre ocurrencia y reporte en coberturas de robo.",
+    short_description=(
+        "En coberturas de robo, la denuncia ante la autoridad debe presentarse "
+        "lo más rápido posible — esa es la evidencia primaria del siniestro. "
+        "Demoras atípicas suelen indicar que la denuncia se construyó después "
+        "del hecho, o que se está cubriendo un evento que no fue realmente un "
+        "robo. La regla solo aplica cuando la cobertura del siniestro es de "
+        "tipo robo."
+    ),
+    what_triggers=(
+        "Aporta 8 puntos si la denuncia se presentó más de 48 horas después "
+        "de la ocurrencia, y 4 puntos entre 24 y 48 horas. Por debajo de las "
+        "24 horas no se activa."
+    ),
     max_points=8,
 )
 

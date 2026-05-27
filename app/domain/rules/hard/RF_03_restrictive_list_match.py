@@ -16,9 +16,18 @@ META = RuleMeta(
     name="Coincidencia con lista restrictiva",
     tier_hint=Tier.rojo,
     short_description=(
-        "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "La lista restrictiva interna registra actores (asegurados, "
+        "beneficiarios, proveedores) con casos previos confirmados como "
+        "sospechosos o con sanciones internas. Cuando alguno de los "
+        "involucrados en el siniestro está en esa lista, el caso se escala "
+        "directamente — no porque la persona sea culpable de nada en este "
+        "siniestro, sino porque su historial requiere un nivel de "
+        "verificación adicional."
     ),
-    what_triggers="Alguna de las partes involucradas figura en la lista restrictiva interna.",
+    what_triggers=(
+        "Se activa cuando el proveedor o beneficiario asociado al siniestro "
+        "figura en la lista restrictiva. Hard rule — fuerza tier rojo."
+    ),
     max_points=0,
 )
 

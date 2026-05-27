@@ -18,8 +18,19 @@ META = RuleMeta(
     code="RF-06",
     name="Demora atípica en denuncia de robo",
     tier_hint=Tier.amarillo,
-    short_description="La denuncia por robo fue presentada más de 4 días después de la ocurrencia.",
-    what_triggers="Más de 4 días entre ocurrencia y denuncia en coberturas de robo.",
+    short_description=(
+        "FS-02 ya pesa demoras moderadas (24-48h) en denuncias por robo. "
+        "Esta regla complementaria captura demoras extremas (>4 días), que "
+        "salen completamente del rango normal y son característicamente "
+        "asociadas a robos construidos a posteriori. Actúa como piso de "
+        "amarillo en lugar de sumar puntos, para que el caso entre "
+        "obligatoriamente al circuito de verificación documental."
+    ),
+    what_triggers=(
+        "Se activa cuando hay más de 4 días entre la ocurrencia y la "
+        "presentación de la denuncia, exclusivamente en coberturas de robo. "
+        "Hard rule — fuerza piso amarillo."
+    ),
     max_points=0,
 )
 

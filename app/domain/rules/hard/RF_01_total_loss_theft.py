@@ -16,8 +16,19 @@ META = RuleMeta(
     code="RF-01",
     name="Cobertura Pérdida Total por Robo",
     tier_hint=Tier.rojo,
-    short_description="Cobertura de pérdida total por robo activa — requiere revisión inmediata.",
-    what_triggers="La cobertura del siniestro corresponde a Pérdida Total por Robo (PTxRB).",
+    short_description=(
+        "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente "
+        "la de mayor exposición a manipulación: el bien desaparece, no hay "
+        "evidencia física directa, y el pago es el 100% de la suma asegurada. "
+        "Por eso, cualquier siniestro activando PTxRB es escalado automáticamente "
+        "a la Unidad Antifraude para verificación documental — esto NO implica "
+        "fraude, implica que el caso amerita revisión especializada."
+    ),
+    what_triggers=(
+        "Se activa cuando la cobertura del siniestro corresponde a Pérdida "
+        "Total por Robo (PTxRB) o variantes equivalentes listadas en la "
+        "configuración de la regla. Hard rule — fuerza tier rojo."
+    ),
     max_points=0,
 )
 

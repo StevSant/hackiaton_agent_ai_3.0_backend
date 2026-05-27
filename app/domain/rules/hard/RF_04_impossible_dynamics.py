@@ -16,10 +16,18 @@ META = RuleMeta(
     name="Dinámica del accidente físicamente imposible",
     tier_hint=Tier.rojo,
     short_description=(
-        "La descripción del accidente es físicamente incoherente"
-        " — requiere investigación de campo."
+        "El perito o la auditoría técnica determinó que la dinámica del "
+        "accidente declarada por el asegurado es físicamente imposible — "
+        "trayectorias, velocidades, ángulos de impacto o secuencias "
+        "temporales que no pueden haber ocurrido como se describen. Esto es "
+        "un indicio fuerte de un evento simulado o reconstruido, y demanda "
+        "revisión de campo antes de cualquier liquidación."
     ),
-    what_triggers="El análisis de la narrativa detecta una dinámica de accidente imposible.",
+    what_triggers=(
+        "Se activa cuando el flag dinamica_imposible está marcado en el "
+        "contexto, generalmente derivado de un peritaje técnico. Hard rule "
+        "— fuerza tier rojo."
+    ),
     max_points=0,
 )
 

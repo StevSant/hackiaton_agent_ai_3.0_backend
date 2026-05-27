@@ -15,8 +15,17 @@ META = RuleMeta(
     code="FS-05",
     name="Alta frecuencia de siniestros — conductor",
     tier_hint=Tier.amarillo,
-    short_description="El conductor involucrado presenta una frecuencia inusual de siniestros.",
-    what_triggers="2 o más siniestros del mismo conductor.",
+    short_description=(
+        "Cuando el mismo conductor figura en múltiples siniestros — incluso "
+        "bajo asegurados o vehículos distintos — puede tratarse de un perfil "
+        "de alto riesgo, un conductor profesional no declarado, o un actor "
+        "que opera coordinadamente entre pólizas. Esta regla mira el "
+        "historial del conductor, no del titular de la póliza."
+    ),
+    what_triggers=(
+        "Aporta 8 puntos si el conductor acumula 3 o más siniestros previos, "
+        "y 4 puntos cuando acumula exactamente 2."
+    ),
     max_points=8,
 )
 

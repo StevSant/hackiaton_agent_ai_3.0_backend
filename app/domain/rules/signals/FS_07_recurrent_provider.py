@@ -18,10 +18,16 @@ META = RuleMeta(
     name="Proveedor o beneficiario recurrente",
     tier_hint=Tier.amarillo,
     short_description=(
-        "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "Un proveedor (taller, clínica) o beneficiario que aparece "
+        "repetidamente en siniestros — sea porque ya está en la lista interna "
+        "de actores observados por la Unidad Antifraude, o porque acumula "
+        "varios casos previos sin estar formalmente listado — es uno de los "
+        "patrones más correlacionados con manipulación coordinada de reclamos."
     ),
     what_triggers=(
-        "Proveedor en lista restrictiva, o más de 2 casos observados para el mismo proveedor."
+        "Aporta 10 puntos cuando el proveedor o beneficiario figura en la "
+        "lista restrictiva, y 5 puntos cuando acumula más de 2 casos "
+        "observados sin estar listado."
     ),
     max_points=10,
 )

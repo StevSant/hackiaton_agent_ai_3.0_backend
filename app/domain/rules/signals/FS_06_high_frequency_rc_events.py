@@ -15,8 +15,18 @@ META = RuleMeta(
     code="FS-06",
     name="Alta frecuencia de eventos solo RC",
     tier_hint=Tier.amarillo,
-    short_description="Historial inusual de siniestros de responsabilidad civil.",
-    what_triggers="Más de un siniestro RC previo para el mismo asegurado o vehículo.",
+    short_description=(
+        "Los siniestros que solo afectan responsabilidad civil (sin daños "
+        "propios) tienen un costo de detección bajo y por eso son terreno "
+        "habitual para reclamos infundados o exagerados. Una concentración "
+        "de eventos RC sobre el mismo asegurado o vehículo en un período "
+        "corto sugiere uso recurrente de la cobertura para reclamar daños "
+        "a terceros que no necesariamente ocurrieron."
+    ),
+    what_triggers=(
+        "Aporta 6 puntos cuando hay más de 2 eventos RC previos, y 3 puntos "
+        "cuando hay exactamente 1 evento RC previo."
+    ),
     max_points=6,
 )
 

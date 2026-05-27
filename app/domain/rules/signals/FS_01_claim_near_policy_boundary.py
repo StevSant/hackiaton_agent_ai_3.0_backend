@@ -15,8 +15,18 @@ META = RuleMeta(
     code="FS-01",
     name="Siniestro cerca del inicio de póliza",
     tier_hint=Tier.amarillo,
-    short_description="El siniestro ocurrió muy cerca del inicio de la póliza.",
-    what_triggers="Menos de 30 días entre inicio de póliza y fecha de ocurrencia.",
+    short_description=(
+        "Cuando un siniestro ocurre pocos días después de emitida la póliza, "
+        "es una de las señales más correlacionadas con manipulación temporal: "
+        "el asegurado puede haber suscrito la cobertura sabiendo que el evento "
+        "ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un "
+        "patrón que merece confirmación documental antes de liquidar."
+    ),
+    what_triggers=(
+        "Aporta 8 puntos cuando el siniestro ocurre dentro de los primeros "
+        "10 días de vigencia, y 4 puntos entre los días 11 y 30. A partir "
+        "del día 31 deja de activarse."
+    ),
     max_points=8,
 )
 

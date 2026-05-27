@@ -15,8 +15,17 @@ META = RuleMeta(
     code="FS-04",
     name="Alta frecuencia de siniestros — vehículo",
     tier_hint=Tier.amarillo,
-    short_description="El vehículo tiene un historial inusualmente alto de siniestros.",
-    what_triggers="2 o más siniestros del mismo vehículo.",
+    short_description=(
+        "Un mismo vehículo (por placa o chasis) que aparece en varios "
+        "siniestros recientes apunta a un activo problemático — alquileres "
+        "informales, reventa de partes, daños pre-existentes que se "
+        "re-reclaman, o un patrón de exposición compartida. La regla se "
+        "evalúa sobre el historial del vehículo, independiente del asegurado."
+    ),
+    what_triggers=(
+        "Aporta 6 puntos cuando el vehículo tiene 3 o más siniestros previos, "
+        "y 3 puntos cuando tiene exactamente 2."
+    ),
     max_points=6,
 )
 

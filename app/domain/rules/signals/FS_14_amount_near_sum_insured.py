@@ -16,8 +16,19 @@ META = RuleMeta(
     code="FS-14",
     name="Monto cercano o superior a la suma asegurada",
     tier_hint=Tier.amarillo,
-    short_description="El monto reclamado es inusualmente alto en relación con la suma asegurada.",
-    what_triggers="Monto reclamado ≥95% de la suma asegurada o >150% del promedio de reparación.",
+    short_description=(
+        "Cuando el monto reclamado se acerca a la suma asegurada (techo de "
+        "la póliza) o excede ampliamente lo que cuesta reparar el daño "
+        "declarado, hay un incentivo económico a sobre-dimensionar la "
+        "pérdida. El patrón también aparece cuando se está intentando "
+        "obtener pago total por un activo cuyo valor de mercado real es "
+        "menor al asegurado."
+    ),
+    what_triggers=(
+        "Aporta 5 puntos cuando el monto reclamado iguala o supera el 95% "
+        "de la suma asegurada, o cuando supera el 150% del costo promedio "
+        "de reparación para el tipo de vehículo."
+    ),
     max_points=5,
 )
 

@@ -15,8 +15,17 @@ META = RuleMeta(
     code="FS-03",
     name="Alta frecuencia de siniestros — asegurado",
     tier_hint=Tier.amarillo,
-    short_description="El asegurado registra una cantidad inusualmente alta de siniestros.",
-    what_triggers="2 o más siniestros del mismo asegurado en los últimos 18 meses.",
+    short_description=(
+        "Un asegurado que acumula múltiples siniestros en poco tiempo no es "
+        "automáticamente sospechoso, pero sí entra en una categoría que la "
+        "unidad antifraude vigila: la frecuencia puede indicar acumulación "
+        "de pólizas paralelas, abuso del beneficio o un patrón coordinado. "
+        "La regla considera los últimos 18 meses del historial individual."
+    ),
+    what_triggers=(
+        "Aporta 8 puntos cuando el asegurado registra 3 o más siniestros en "
+        "los últimos 18 meses, y 4 puntos cuando registra exactamente 2."
+    ),
     max_points=8,
 )
 

@@ -15,8 +15,19 @@ META = RuleMeta(
     code="FS-12",
     name="Reporte tardío",
     tier_hint=Tier.amarillo,
-    short_description="El siniestro fue reportado con un retraso inusual.",
-    what_triggers="Más de 4 días entre la fecha de ocurrencia y la fecha de reporte.",
+    short_description=(
+        "Los siniestros típicos se reportan a la aseguradora en cuestión de "
+        "horas o pocos días. Un retraso prolongado puede indicar que el "
+        "asegurado intentó resolver el daño por su cuenta y solo recurrió a "
+        "la póliza cuando no lo logró, o que el evento mismo está siendo "
+        "reconstruido a posteriori. Mientras más tarde llegue el reporte, "
+        "más difícil es verificar la versión original del hecho."
+    ),
+    what_triggers=(
+        "Aporta 5 puntos cuando hay más de 7 días entre ocurrencia y reporte, "
+        "y 3 puntos cuando el rango es de 4 a 7 días. Hasta 3 días se "
+        "considera normal."
+    ),
     max_points=5,
 )
 

@@ -15,8 +15,17 @@ META = RuleMeta(
     code="FS-08",
     name="Documentos legales incompletos",
     tier_hint=Tier.amarillo,
-    short_description="El siniestro presenta documentos requeridos faltantes.",
-    what_triggers="Uno o más documentos marcados como faltantes en el expediente.",
+    short_description=(
+        "Un expediente de siniestro debe llegar con un conjunto mínimo de "
+        "documentos (denuncia, peritaje, cédula, matrícula, licencia, "
+        "proforma de taller). Cuando faltan piezas críticas, sea por descuido "
+        "o por tratarse de un caso que no tiene respaldo real, el expediente "
+        "no se puede evaluar completamente y el riesgo de pago indebido sube."
+    ),
+    what_triggers=(
+        "Aporta 4 puntos cuando uno o más documentos obligatorios figuran "
+        "como faltantes en el expediente."
+    ),
     max_points=4,
 )
 
