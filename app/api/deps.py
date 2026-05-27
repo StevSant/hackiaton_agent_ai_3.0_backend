@@ -46,6 +46,11 @@ from app.infrastructure.llm import (
     PromptLoader,
     build_openai_adapter,
 )
+from app.infrastructure.speech import (
+    InMemoryFakeTranscriber,
+    SpeechTranscriber,
+    build_openai_whisper_adapter,
+)
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
@@ -171,6 +176,17 @@ def _fallback_llm() -> LLMProvider:
     if settings.LLM_PROVIDER == "fake" or settings.OPENAI_API_KEY is None:
         return InMemoryFakeLLM()
     return build_openai_adapter()
+
+
+def get_speech_transcriber() -> SpeechTranscriber:
+    return _fallback_speech_transcriber()
+
+
+@lru_cache(maxsize=1)
+def _fallback_speech_transcriber() -> SpeechTranscriber:
+    if settings.LLM_PROVIDER == "fake" or settings.OPENAI_API_KEY is None:
+        return InMemoryFakeTranscriber()
+    return build_openai_whisper_adapter()
 
 
 def get_embeddings(request: Request) -> EmbeddingsProvider:

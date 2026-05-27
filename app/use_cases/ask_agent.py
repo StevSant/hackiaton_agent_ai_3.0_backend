@@ -124,6 +124,7 @@ class AskAgent:
         try:
             tool_results: list[dict[str, Any]] = []
             citations: list[str] = []
+            scratchpad: list[dict[str, Any]] = []
             seen_tool_results = 0
 
             async for event in self._graph.astream_events(
@@ -140,6 +141,7 @@ class AskAgent:
                     # not just "react_step ran". The latest entry is the one this
                     # iteration appended.
                     scratchpad_delta = node_output.get("scratchpad") or []
+                    scratchpad.extend(scratchpad_delta)
                     latest = scratchpad_delta[-1] if scratchpad_delta else None
                     meta: dict[str, Any] | None = None
                     if isinstance(latest, dict) and latest.get("thought"):
@@ -174,6 +176,7 @@ class AskAgent:
                 query=req.query,
                 tool_results=tool_results,
                 citations=citations,
+                scratchpad=scratchpad,
                 message_id=message_id,
             ):
                 answer_buffer.append(token.data.delta)
@@ -223,13 +226,20 @@ class AskAgent:
         query: str,
         tool_results: list[dict[str, Any]],
         citations: list[str],
+        scratchpad: list[dict[str, Any]],
         message_id: str,
     ) -> AsyncIterator[TokenEvent]:
         """Stream the compose LLM call token-by-token."""
         system_prompt = self._deps.prompts.load("claims_system", "v1")
         compose_prompt = self._deps.prompts.load("compose", "v1")
+        scratchpad_section = ""
+        if scratchpad:
+            scratchpad_section = (
+                f"## scratchpad\n```json\n{json.dumps(scratchpad, ensure_ascii=False, indent=2, default=str)}\n```\n\n"
+            )
         user_payload = (
             f"## Pregunta del analista\n{query}\n\n"
+            f"{scratchpad_section}"
             f"## tool_results\n```json\n{_serialize_tool_results(tool_results)}\n```\n\n"
             f"## citations\n{', '.join(citations) if citations else '—'}\n\n"
             f"Componé la respuesta final siguiendo las reglas de `compose.v1`."
