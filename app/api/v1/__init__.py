@@ -1,5 +1,5 @@
 from app.api.v1.agent import router as agent_router
-from app.api.v1.auth import router as auth_router
+from app.api.v1.auth import auth_router
 from app.api.v1.claims import router as claims_router
 from app.api.v1.documents import router as documents_router
 from app.api.v1.health import router as health_router

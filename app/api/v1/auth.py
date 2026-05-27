@@ -6,7 +6,7 @@ import jwt
 from fastapi import APIRouter, HTTPException, status
 
 from app.core.config import settings
-from app.schemas.auth import LoginRequest, LoginResponse
+from app.schemas.auth import CurrentUser, LoginRequest, LoginResponse
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -50,7 +50,7 @@ def _create_token(user: dict) -> str:
         "exp": expire,
         "iat": datetime.now(UTC),
     }
-    return jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
+    return jwt.encode(payload, settings.JWT_SECRET.get_secret_value(), algorithm=settings.JWT_ALGORITHM)
 
 
 @auth_router.post("/login", response_model=LoginResponse)
@@ -67,10 +67,12 @@ async def login(body: LoginRequest) -> LoginResponse:
     token = _create_token(user)
     return LoginResponse(
         access_token=token,
-        user_id=user["id"],
-        email=user["email"],
-        full_name=user["full_name"],
-        role=user["role"],
+        expires_in=settings.ACCESS_TOKEN_TTL_MINUTES * 60,
+        user=CurrentUser(
+            email=user["email"],
+            role=user["role"],
+            full_name=user["full_name"],
+        ),
     )
 
 

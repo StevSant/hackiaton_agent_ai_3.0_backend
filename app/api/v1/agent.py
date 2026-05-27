@@ -9,7 +9,7 @@ from fastapi.responses import StreamingResponse
 from app.core.config import settings
 from app.schemas.chat.request import AgentAskRequest
 
-agent_router = APIRouter(prefix="/agent", tags=["agent"])
+router = APIRouter(prefix="/agent", tags=["agent"])
 
 SYSTEM_PROMPT = """Eres Centinela IA, el asistente de análisis antifraude de Aseguradora del Sur (Ecuador).
 
@@ -77,7 +77,7 @@ def _build_messages(request: AgentAskRequest) -> list[dict]:
     return messages
 
 
-@agent_router.post("/ask")
+@router.post("/ask")
 async def agent_ask(body: AgentAskRequest) -> StreamingResponse:
     messages = _build_messages(body)
 

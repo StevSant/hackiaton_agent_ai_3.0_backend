@@ -6,17 +6,21 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class CurrentUser(BaseModel):
+    email: str
+    role: str
+    full_name: str
+
+
 class LoginResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
-    user_id: str
-    email: str
-    full_name: str
-    role: str
+    expires_in: int = 28800  # 480 min default
+    user: CurrentUser
 
 
 class TokenPayload(BaseModel):
-    sub: str  # user_id
+    sub: str  # user UUID
     email: str
     role: str
     full_name: str

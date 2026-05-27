@@ -1,4 +1,5 @@
-from typing import Literal
+import json
+from typing import Any, Literal
 
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -79,6 +80,12 @@ class Settings(BaseSettings):
     # JSON array of {email, password (plaintext in .env), role, full_name}.
     # Hashed with bcrypt at boot by EnvSeededUserRepo; hashes never persisted.
     AUTH_SEED_USERS: SecretStr = SecretStr("[]")
+
+    def seed_users(self) -> list[dict[str, Any]]:
+        try:
+            return json.loads(self.AUTH_SEED_USERS.get_secret_value())
+        except (json.JSONDecodeError, TypeError):
+            return []
 
     model_config = SettingsConfigDict(
         env_file=".env",
