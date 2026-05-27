@@ -1,0 +1,148 @@
+# Rules engine configuration — all numeric thresholds live here, never inline.
+# Loaded at import time by app/domain/rules/loader.py.
+# Edit thresholds here and restart; no code changes needed.
+
+# ──────────────────────────────────────────────
+# FS-01  Claim near policy boundary
+# ──────────────────────────────────────────────
+FS_01:
+  tier1_days: 10      # ≤ 10 days from policy start → max points
+  tier1_points: 8
+  tier2_days: 30      # 11–30 days → mid points
+  tier2_points: 4
+  # > 30 days → 0 points (rule does not fire)
+
+# ──────────────────────────────────────────────
+# FS-02  Theft denouncement delay
+# ──────────────────────────────────────────────
+FS_02:
+  threshold_high_hours: 48   # > 48 h → high points
+  points_high: 8
+  threshold_mid_hours: 24    # 24–48 h → mid points
+  points_mid: 4
+  # < 24 h → 0 (does not fire)
+
+# ──────────────────────────────────────────────
+# FS-03  High claim frequency — insured
+# ──────────────────────────────────────────────
+FS_03:
+  threshold_high: 3   # ≥ 3 claims in 18 months → max
+  points_high: 8
+  threshold_mid: 2    # exactly 2 claims → mid
+  points_mid: 4
+
+# ──────────────────────────────────────────────
+# FS-04  High claim frequency — vehicle
+# ──────────────────────────────────────────────
+FS_04:
+  threshold_high: 3
+  points_high: 6
+  threshold_mid: 2
+  points_mid: 3
+
+# ──────────────────────────────────────────────
+# FS-05  High claim frequency — driver
+# ──────────────────────────────────────────────
+FS_05:
+  threshold_high: 3
+  points_high: 8
+  threshold_mid: 2
+  points_mid: 4
+
+# ──────────────────────────────────────────────
+# FS-06  High frequency RC-only events
+# ──────────────────────────────────────────────
+FS_06:
+  threshold_high: 2   # > 2 prior RC events → max
+  points_high: 6
+  threshold_mid: 1    # exactly 1 → mid
+  points_mid: 3
+
+# ──────────────────────────────────────────────
+# FS-07  Recurrent beneficiary / provider
+# ──────────────────────────────────────────────
+FS_07:
+  points_lista_restrictiva: 10   # provider in restrictive list
+  threshold_observed: 2          # > 2 observed claims (but not on list)
+  points_observed: 5
+
+# ──────────────────────────────────────────────
+# FS-08  Incomplete legal documents
+# ──────────────────────────────────────────────
+FS_08:
+  points: 4
+
+# ──────────────────────────────────────────────
+# FS-09  Suspicious dynamics
+# ──────────────────────────────────────────────
+FS_09:
+  points_illogical: 6     # illogical narrative
+  points_midnight: 3      # midnight multi-event
+
+# ──────────────────────────────────────────────
+# FS-10  Severe damage with no third-party trace
+# ──────────────────────────────────────────────
+FS_10:
+  points: 6
+
+# ──────────────────────────────────────────────
+# FS-11  Inconsistent documents
+# ──────────────────────────────────────────────
+FS_11:
+  points_confirmed: 10    # confirmed alteration / pre-event dates
+  points_suspected: 5     # suspected inconsistency (grace)
+
+# ──────────────────────────────────────────────
+# FS-12  Late report
+# ──────────────────────────────────────────────
+FS_12:
+  threshold_high_days: 7   # > 7 days → max
+  points_high: 5
+  threshold_mid_days: 4    # 4–7 days → mid
+  points_mid: 3
+
+# ──────────────────────────────────────────────
+# FS-13  Similar narratives (pgvector cosine)
+# ──────────────────────────────────────────────
+FS_13:
+  threshold_clone: 0.85   # > 85% similarity → clone (max)
+  points_clone: 8
+  threshold_similar: 0.70 # 70–84% similarity → similar (mid)
+  points_similar: 4
+
+# ──────────────────────────────────────────────
+# FS-14  Amount near or above sum insured
+# ──────────────────────────────────────────────
+FS_14:
+  threshold_pct_high: 0.95  # monto_reclamado / suma_asegurada ≥ 95%
+  threshold_repair_pct: 1.50  # monto_reclamado > 150% del promedio de reparación
+  points: 5
+
+# ──────────────────────────────────────────────
+# Hard-rule tiers (RF-*)  — no points; tier_hint drives override
+# RF-01..04 → rojo (any one fires → red regardless of score)
+# RF-05..07 → amarillo (any one fires → floor at yellow)
+# ──────────────────────────────────────────────
+RF_01:
+  coberturas_ptxrb:
+    - "Pérdida Total por Robo"
+    - "Pérdida Total Robo"
+    - "PTxRB"
+    - "Robo Total"
+
+RF_05:
+  threshold_hours: 48   # < 48 h from policy start → fires
+
+RF_06:
+  threshold_days: 4     # > 4 days denouncement delay for theft → fires
+
+RF_07:
+  threshold_similarity: 0.98  # ≥ 98% similarity → cloned narrative
+
+# ──────────────────────────────────────────────
+# Tier bands (challenge spec §2.1)
+# ──────────────────────────────────────────────
+tier_bands:
+  verde_max: 40
+  amarillo_max: 75
+  # > 75 → rojo
