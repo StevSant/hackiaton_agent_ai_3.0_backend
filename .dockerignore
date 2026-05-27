@@ -1,0 +1,21 @@
+# Build context = backend/. This file MUST exclude .env so secrets never enter the image.
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+.env.*
+*.pem
+*.key
+.git/
+.gitignore
+.idea/
+.vscode/
+README.md
+CLAUDE.md
+tests/
+notebooks/
+data/raw/
+data/models/
