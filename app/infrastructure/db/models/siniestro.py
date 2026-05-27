@@ -8,8 +8,10 @@ from __future__ import annotations
 
 from datetime import date
 from typing import TYPE_CHECKING
+from uuid import UUID
 
 from sqlalchemy import Boolean, Date, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.infrastructure.db.base import Base
@@ -32,6 +34,9 @@ class Siniestro(Base):
     )
     id_asegurado: Mapped[str] = mapped_column(
         String(64), ForeignKey("asegurados.id_asegurado"), nullable=False, index=True
+    )
+    workspace_id: Mapped[UUID | None] = mapped_column(
+        PGUUID(as_uuid=True), nullable=True, index=True
     )
 
     ramo: Mapped[str] = mapped_column(String(120), nullable=False)

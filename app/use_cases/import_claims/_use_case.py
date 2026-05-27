@@ -12,11 +12,13 @@ from __future__ import annotations
 
 import logging
 from datetime import UTC, datetime
+from uuid import UUID
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.schemas.claim import ClaimAlert, ClaimDetail
 from app.schemas.imports import ImportResult
+from app.use_cases.load_dataset._aggregates import compute_aggregates
 from app.use_cases.load_dataset._mapping import (
     claim_detail_to_asegurado,
     claim_detail_to_documentos,
@@ -32,78 +34,79 @@ async def import_claims(
     session: AsyncSession,
     *,
     records: list[ClaimDetail],
+    workspace_id: UUID | None = None,
 ) -> ImportResult:
-    """Upsert every claim in *records* and return an ``ImportResult``.
-
-    Each record is scored independently; a failure on one record does NOT abort
-    the batch — it is collected in ``errors`` and the row is counted in
-    ``skipped``.
-    """
+    """Upsert every claim in *records* and return an ``ImportResult``."""
     imported = 0
     skipped = 0
     errors: list[str] = []
+    claim_ids: list[str] = []
 
     for record in records:
         try:
-            await _upsert_one(session, record)
+            await _upsert_one(session, record, workspace_id=workspace_id)
             imported += 1
+            claim_ids.append(record.id)
         except Exception as exc:  # collect, don't abort the batch
             skipped += 1
             errors.append(f"{record.id}: {exc}")
             logger.warning("import_claims: skipped %s — %s", record.id, exc)
 
     if imported:
+        await compute_aggregates(session)
         await session.commit()
 
     logger.info(
         "import_claims: imported=%d skipped=%d errors=%d",
-        imported, skipped, len(errors),
+        imported,
+        skipped,
+        len(errors),
     )
-    return ImportResult(imported=imported, skipped=skipped, errors=errors)
+    return ImportResult(
+        imported=imported,
+        skipped=skipped,
+        errors=errors,
+        claim_ids=claim_ids,
+    )
 
 
-async def _upsert_one(session: AsyncSession, claim: ClaimDetail) -> None:
+async def _upsert_one(
+    session: AsyncSession,
+    claim: ClaimDetail,
+    *,
+    workspace_id: UUID | None,
+) -> None:
     """Score and upsert a single claim into all relevant tables."""
-    # Score the claim so claim_score is populated at import time
     scored = _score_and_annotate(claim)
 
-    # 1. Asegurado (FK parent of Poliza)
     await session.merge(claim_detail_to_asegurado(scored))
     await session.flush()
 
-    # 2. Poliza (FK parent of Siniestro)
     await session.merge(claim_detail_to_poliza(scored))
     await session.flush()
 
-    # 3. Proveedor (independent FK — no child depends on it)
     proveedor = claim_detail_to_proveedor(scored)
     if proveedor is not None:
         await session.merge(proveedor)
         await session.flush()
 
-    # 4. Siniestro
-    await session.merge(claim_detail_to_siniestro(scored))
+    await session.merge(
+        claim_detail_to_siniestro(scored, workspace_id=workspace_id)
+    )
     await session.flush()
 
-    # 5. Documentos
     for doc in claim_detail_to_documentos(scored):
         await session.merge(doc)
     await session.flush()
 
-    # 6. ClaimScore
     score_row = _build_claim_score(scored)
     await session.merge(score_row)
     await session.flush()
 
 
 def _score_and_annotate(claim: ClaimDetail) -> ClaimDetail:
-    """Run score_claim and fold results back into the ClaimDetail.
-
-    If the incoming claim already has alertas (i.e. it was pre-scored), the
-    existing score is preserved to avoid clobbering rich archetype scores.
-    """
+    """Run score_claim and fold results back into the ClaimDetail."""
     if claim.alertas:
-        # Already scored — trust the incoming data
         return claim
 
     from app.domain.rules.catalog import get_meta
@@ -118,7 +121,7 @@ def _score_and_annotate(claim: ClaimDetail) -> ClaimDetail:
         ClaimAlert(
             code=a.code,
             puntos=a.points,
-            severidad=_sev.get(a.tier_hint.value, "low"),  # AlertSeverity coercion via dict lookup
+            severidad=_sev.get(a.tier_hint.value, "low"),
             detalle=(m.short_description if (m := get_meta(a.code)) else a.code),
         )
         for a in risk.activations

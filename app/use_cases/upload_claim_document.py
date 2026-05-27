@@ -1,19 +1,23 @@
 """Upload a document for a given claim (siniestro).
 
-Re-added per user request — overrides §11/§13 deferral; OPTIONAL feature.
 Validates size + MIME, stores to the configured adapter (Supabase or in-memory),
-returns a signed URL valid for 1 hour.
+persists the documento row, and returns a signed URL valid for 1 hour.
 """
 
 from __future__ import annotations
 
 import re
 import uuid
+from uuid import UUID
+
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.core.errors import ValidationFailed
+from app.core.errors import NotFound, ValidationFailed
+from app.infrastructure.db.models.siniestro import Siniestro
 from app.infrastructure.storage.ports import Storage
 from app.schemas.documents import UploadedDocument
+from app.use_cases.sync_claim_document import persist_uploaded_document
 
 
 def _safe_filename(name: str) -> str:
@@ -22,16 +26,29 @@ def _safe_filename(name: str) -> str:
     return re.sub(r"[^\w.\-]", "_", base) or "archivo"
 
 
+def _can_access_claim(sin: Siniestro | None, workspace_id: UUID | None) -> bool:
+    if sin is None:
+        return False
+    if workspace_id is None:
+        return True
+    return sin.workspace_id is None or sin.workspace_id == workspace_id
+
+
 async def upload_claim_document(
     *,
+    session: AsyncSession,
     storage: Storage,
     id_siniestro: str,
     data: bytes,
     filename: str,
     content_type: str,
     tipo: str,
+    workspace_id: UUID | None = None,
 ) -> UploadedDocument:
-    """Validate and store one document; return the upload record with a signed URL."""
+    """Validate and store one document; persist metadata and return upload record."""
+    sin = await session.get(Siniestro, id_siniestro)
+    if not _can_access_claim(sin, workspace_id):
+        raise NotFound(f"Siniestro {id_siniestro!r} no encontrado")
 
     if len(data) > settings.UPLOAD_MAX_BYTES:
         raise ValidationFailed(
@@ -53,8 +70,18 @@ async def upload_claim_document(
     await storage.put(key=key, data=data, content_type=content_type)
     url = await storage.signed_url(key=key, expires_in=3600)
 
-    return UploadedDocument(
+    doc = await persist_uploaded_document(
+        session,
+        id_siniestro=id_siniestro,
         tipo=tipo,
+        storage_path=path_within_bucket,
+        filename=safe_name,
+        content_type=content_type,
+    )
+    await session.commit()
+
+    return UploadedDocument(
+        tipo=doc.tipo_documento,
         estado="entregado",
         filename=safe_name,
         path=path_within_bucket,

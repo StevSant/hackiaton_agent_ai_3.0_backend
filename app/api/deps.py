@@ -123,14 +123,7 @@ async def get_current_user(
 
 
 def require_role(role: Role) -> Callable[[User], User]:
-    """Dependency factory that enforces a specific role.
-
-    Returns a callable that depends on ``get_current_user`` and raises HTTP 403
-    when the authenticated user's role does not match *role*.
-    Usage::
-
-        @router.post("/claims/{id}/resolve", dependencies=[Depends(require_role(Role.antifraude))])
-    """
+    """Dependency factory that enforces a specific role."""
 
     def _checker(user: Annotated[User, Depends(get_current_user)]) -> User:
         if user.role != role:
@@ -139,6 +132,24 @@ def require_role(role: Role) -> Callable[[User], User]:
                 detail={
                     "code": "role_required",
                     "message": f"Requires role: {role}",
+                },
+            )
+        return user
+
+    return _checker
+
+
+def require_any_role(*roles: Role) -> Callable[[User], User]:
+    """Dependency factory that accepts one of several roles."""
+
+    def _checker(user: Annotated[User, Depends(get_current_user)]) -> User:
+        if user.role not in roles:
+            allowed = ", ".join(role.value for role in roles)
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail={
+                    "code": "role_required",
+                    "message": f"Requires one of: {allowed}",
                 },
             )
         return user
@@ -275,6 +286,7 @@ async def get_optional_db_session() -> AsyncIterator[AsyncSession | None]:
 
 
 async def get_claim_queries_dep(
+    user: Annotated[User, Depends(get_current_user)],
     _session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
 ) -> ClaimQueries:
     """Return the active ClaimQueries implementation.
@@ -288,7 +300,8 @@ async def get_claim_queries_dep(
             "initialised. Ensure the lifespan has run (set_session_factory called) "
             "before serving requests."
         )
-    return DbClaimQueries(_session)
+    workspace_id = user.id if settings.AUTH_ENABLED else None
+    return DbClaimQueries(_session, workspace_id=workspace_id)
 
 
 # ---------------------------------------------------------------------------

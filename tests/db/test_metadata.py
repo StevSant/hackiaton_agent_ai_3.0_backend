@@ -56,6 +56,7 @@ def test_siniestros_core_columns() -> None:
         "dias_entre_ocurrencia_reporte",
         "historial_siniestros_asegurado",
         "etiqueta_fraude_simulada",
+        "workspace_id",
     ]:
         _col(t, col)
 
@@ -158,6 +159,9 @@ def test_documentos_core_columns() -> None:
         "fecha_emision",
         "inconsistencia_detectada",
         "observacion",
+        "storage_path",
+        "filename",
+        "content_type",
     ]:
         _col(t, col)
 

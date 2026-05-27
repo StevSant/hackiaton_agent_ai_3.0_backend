@@ -13,6 +13,7 @@ import hashlib
 import uuid
 from datetime import UTC, datetime, timedelta
 from typing import Any
+from uuid import UUID
 
 from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_score import ClaimScore
@@ -99,7 +100,11 @@ def claim_detail_to_poliza(c: ClaimDetail) -> Poliza:
     )
 
 
-def claim_detail_to_siniestro(c: ClaimDetail) -> Siniestro:
+def claim_detail_to_siniestro(
+    c: ClaimDetail,
+    *,
+    workspace_id: UUID | None = None,
+) -> Siniestro:
     """Map ClaimDetail → Siniestro ORM object with full §2.8 fields."""
     vehiculo = c.vehiculo
     estado_lower = c.estado.lower()
@@ -115,6 +120,7 @@ def claim_detail_to_siniestro(c: ClaimDetail) -> Siniestro:
         id_siniestro=c.id,
         id_poliza=c.poliza,
         id_asegurado=c.asegurado_id,
+        workspace_id=workspace_id,
         ramo=c.ramo,
         cobertura=c.cobertura,
         fecha_ocurrencia=c.fecha_ocurrencia,
