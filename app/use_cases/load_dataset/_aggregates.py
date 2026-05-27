@@ -5,9 +5,14 @@ from __future__ import annotations
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.use_cases.load_dataset._display_name_cleanup import backfill_display_names
+
 
 async def compute_aggregates(session: AsyncSession) -> None:
     """Backfill columns that aggregate over the freshly-loaded rows."""
+    # Backfill display names for rows that older imports left empty or coded.
+    await backfill_display_names(session)
+
     await session.execute(
         text(
             """

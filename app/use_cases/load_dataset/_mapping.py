@@ -71,6 +71,7 @@ def claim_detail_to_asegurado(c: ClaimDetail) -> Asegurado:
     seed = c.asegurado_id
     return Asegurado(
         id_asegurado=c.asegurado_id,
+        nombre=c.asegurado or None,
         segmento=_stable_pick(f"seg-{seed}", _SEGMENTOS),
         antiguedad=_stable_int(f"ant-{seed}", 6, 240),
         ciudad=c.ciudad,
@@ -288,6 +289,7 @@ def rows_to_claim_detail(
     score_row: ClaimScore | None,
     documentos: list[Documento],
     proveedor: Proveedor | None = None,
+    asegurado: Asegurado | None = None,
 ) -> ClaimDetail:
     """Assemble a ClaimDetail from ORM row objects (no DB I/O here)."""
     tier = Tier(score_row.tier) if score_row else Tier.verde
@@ -347,7 +349,11 @@ def rows_to_claim_detail(
         id=sin.id_siniestro,
         ramo=sin.ramo,
         cobertura=sin.cobertura,
-        asegurado=f"Asegurado {sin.id_asegurado[-4:]}",
+        asegurado=(
+            asegurado.nombre
+            if asegurado is not None and asegurado.nombre
+            else f"Asegurado {sin.id_asegurado[-4:]}"
+        ),
         asegurado_id=sin.id_asegurado,
         poliza=sin.id_poliza,
         ciudad=pol.ciudad if pol else "",

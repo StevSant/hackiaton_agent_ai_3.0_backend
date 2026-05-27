@@ -23,6 +23,7 @@ class Asegurado(Base):
 
     id_asegurado: Mapped[str] = mapped_column(String(64), primary_key=True)
 
+    nombre: Mapped[str | None] = mapped_column(String(160), nullable=True)
     segmento: Mapped[str | None] = mapped_column(String(80), nullable=True)
     antiguedad: Mapped[int | None] = mapped_column(Integer, nullable=True)  # years
     ciudad: Mapped[str] = mapped_column(String(100), nullable=False)

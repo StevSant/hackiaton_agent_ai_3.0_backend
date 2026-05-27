@@ -103,11 +103,15 @@ def _make_vehicle(archetype: ClaimArchetype, idx: int) -> ClaimVehicle | None:
     modelo = _stable_pick(f"modelo-{idx}", MODELOS_VEHICULO)
     # Ecuador tiene un parque automotor antiguo: ampliamos el rango a 2010
     anio = _stable_int(f"anio-{idx}", 2010, 2024)
-    letters = "".join(
-        chr(65 + _stable_int(f"pl-{idx}-{i}", 0, 25)) for i in range(3)
+    # Ecuadorian plates: first letter is a province code (A, B, C, E, G, H, I,
+    # K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z — D/F/J not used).
+    province_codes = "ABCEGHIKLMNOPQRSTUVWXYZ"
+    first = province_codes[_stable_int(f"pl-{idx}-0", 0, len(province_codes) - 1)]
+    rest = "".join(
+        chr(65 + _stable_int(f"pl-{idx}-{i}", 0, 25)) for i in (1, 2)
     )
     digits = "".join(str(_stable_int(f"pd-{idx}-{i}", 0, 9)) for i in range(4))
-    placa = f"{letters}-{digits}"
+    placa = f"{first}{rest}-{digits}"
     chasis_raw = hashlib.sha1(f"chasis-{idx}".encode()).hexdigest()[:17].upper()  # noqa: S324
     return ClaimVehicle(
         marca=marca,

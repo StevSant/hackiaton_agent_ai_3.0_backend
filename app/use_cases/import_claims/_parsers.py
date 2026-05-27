@@ -47,6 +47,10 @@ from pydantic import ValidationError
 
 from app.schemas.claim import ClaimDetail, ClaimDocument, ClaimReview, ReviewStatus
 from app.schemas.risk import Tier
+from app.use_cases.load_dataset._display_name_cleanup import (
+    _ecuador_provider_name_for_id,
+    _looks_like_provider_code,
+)
 
 # Columns the CSV parser looks for (case-insensitive match)
 _REQUIRED_CSV_COLS = {
@@ -129,6 +133,22 @@ def parse_csv(content: bytes) -> list[ClaimDetail]:
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
+
+def _clean_provider_value(raw: str, claim_id: str) -> str | None:
+    """Return a display-friendly proveedor name, or None when raw is empty.
+
+    Replaces internal-code strings (``PROV-LISTA-NNN`` / ``PROV-OBS-NNN``) with
+    a deterministic Ecuadorian business name so analysts never see codes on the
+    triage UI. The substitution mirrors what the synthetic generator does for
+    its own claims (`_claim_builder._looks_like_code` path).
+    """
+    value = (raw or "").strip()
+    if not value:
+        return None
+    if _looks_like_provider_code(value):
+        return _ecuador_provider_name_for_id(claim_id)
+    return value
 
 
 def _parse_date(value: str, field: str) -> date:
@@ -217,7 +237,7 @@ def _row_to_claim(row: dict[str, str], row_num: int) -> ClaimDetail:
         suma_asegurada=_parse_float(row.get("suma_asegurada", ""), "suma_asegurada", 0.0),
         estado=estado,
         sucursal=row.get("sucursal", "") or sucursal_default,
-        proveedor=row.get("proveedor", "") or None,
+        proveedor=_clean_provider_value(row.get("proveedor", ""), claim_id),
         descripcion=row.get("descripcion", "") or "",
         score=score,
         nivel=nivel,
