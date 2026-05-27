@@ -17,6 +17,7 @@ import uuid
 from collections.abc import Awaitable, Callable
 from typing import Any
 
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from pydantic import ValidationError
 
 from app.agents.claims_agent.dependencies import ClaimsAgentDeps
@@ -35,6 +36,42 @@ def _format_scratchpad(scratchpad: list[dict[str, Any]]) -> str:
     if not scratchpad:
         return "(vacío — primera iteración)"
     return json.dumps(scratchpad, ensure_ascii=False, indent=2, default=str)
+
+
+def _format_history(messages: list[BaseMessage], *, current_query: str, limit: int = 6) -> str:
+    """Render the last `limit` non-current messages as a short transcript.
+
+    Drops the CURRENT turn's HumanMessage (it's already in the user payload via
+    `## Pregunta del analista`) so we don't double-show it. Format keeps the
+    LLM oriented — "Analista said X, you answered Y" — without dumping JSON.
+    """
+    if not messages:
+        return "(sin historial — primera consulta)"
+    # Drop the most recent HumanMessage if it matches the current query (the
+    # one we just seeded for this turn).
+    history: list[BaseMessage] = list(messages)
+    if history and isinstance(history[-1], HumanMessage):
+        last = history[-1]
+        if isinstance(last.content, str) and last.content.strip() == current_query.strip():
+            history = history[:-1]
+    if not history:
+        return "(sin historial — primera consulta)"
+    tail = history[-limit:]
+    rendered: list[str] = []
+    for msg in tail:
+        if isinstance(msg, HumanMessage):
+            prefix = "Analista"
+        elif isinstance(msg, AIMessage):
+            prefix = "Asistente"
+        else:
+            prefix = msg.type.capitalize() if hasattr(msg, "type") else "Mensaje"
+        text = msg.content if isinstance(msg.content, str) else json.dumps(msg.content, default=str)
+        # Compact each turn — single line, truncate long answers.
+        text = " ".join(text.split())
+        if len(text) > 280:
+            text = text[:277] + "..."
+        rendered.append(f"- {prefix}: {text}")
+    return "\n".join(rendered)
 
 
 def _extract_citations(tool_name: str, result: Any) -> list[str]:
@@ -75,6 +112,7 @@ async def _decide(
     query: str,
     scratchpad: list[dict[str, Any]],
     context: dict[str, Any] | None,
+    history: list[BaseMessage],
 ) -> ReActDecision:
     system_prompt = deps.prompts.load("react", "v1")
     tool_catalog = _format_tool_catalog(deps)
@@ -86,13 +124,18 @@ async def _decide(
                 f"\n## Contexto del UI\nEl analista está mirando el caso "
                 f"`{focus}`. Si la pregunta es ambigua, asumí que se refiere a ese siniestro.\n\n"
             )
+    history_section = (
+        f"## Historial de conversación\n{_format_history(history, current_query=query)}\n\n"
+    )
     user_payload = (
         f"## Pregunta del analista\n{query}\n\n"
         f"{context_section}"
+        f"{history_section}"
         f"## Herramientas disponibles\n```json\n{tool_catalog}\n```\n\n"
         f"## scratchpad (pasos anteriores)\n```json\n{_format_scratchpad(scratchpad)}\n```\n\n"
         "Decide el próximo paso. Si ya tenés suficiente información, responde "
-        '`{"action":"finish",...}`. Si no, llamá a una herramienta.'
+        '`{"action":"finish",...}`. Si no, llamá a una herramienta. Usá el '
+        "historial para resolver referencias del tipo 'ese proveedor', 'el caso anterior'."
     )
     response_format = ResponseFormat(
         schema_name="ReActDecision",
@@ -125,6 +168,7 @@ def make_react_step(
                 query=state["query"],
                 scratchpad=scratchpad,
                 context=state.get("context"),
+                history=list(state.get("messages") or []),
             )
         except (ValidationError, ValueError) as exc:
             entry = ScratchpadEntry(

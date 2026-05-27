@@ -1,22 +1,21 @@
 """Drive the claims-agent LangGraph and stream `ChatStreamEvent`s to the client.
 
 Architecture:
-  1. The graph (route → intent → END) populates `tool_results` + `citations`.
+  1. The graph (ReAct loop) populates `tool_results` + `citations` per turn.
+     LangGraph's checkpointer persists `messages` across requests keyed by
+     `thread_id == conversation_id` so follow-up questions see prior turns.
   2. `_compose_stream()` then calls `llm.stream()` with the compose prompts +
      tool results, yielding each token delta as a `TokenEvent` AS IT ARRIVES.
+  3. After the stream finishes, we write the composed answer back into state
+     as an `AIMessage` via `aupdate_state` so the next turn sees it.
 
-This separation (graph for deterministic routing, streaming compose for generative
-output) is intentional — per backend CLAUDE.md §7 the frontend never sees raw
-LangGraph events, and compose is the only step that genuinely benefits from
-token-by-token UX.
+This separation (graph for routing + tool dispatch, streaming compose outside
+the graph) is intentional — compose is the only step that benefits from
+token-by-token UX, and LangGraph nodes return state diffs, not streams.
 
 Event sequence (golden path):
-    agent_step(route) → routing decided
-    agent_step(<intent>) → entering intent node
-    tool_call(<tool>) / tool_result(<tool>) → tool execution
-    agent_step(compose) → entering compose stream
-    token(delta)* → live token stream from the LLM
-    done(message_id) → end of stream
+    agent_step(react_step) → tool_call / tool_result → ... → agent_step(compose)
+      → token(delta)* → done(message_id)
 On any unhandled exception → error(code, message) → done.
 """
 
@@ -24,6 +23,8 @@ import json
 import uuid
 from collections.abc import AsyncIterator
 from typing import Any
+
+from langchain_core.messages import AIMessage, HumanMessage
 
 from app.agents.claims_agent import ClaimsAgentDeps, build_graph
 from app.infrastructure.llm.types import Message
@@ -51,9 +52,10 @@ def _serialize_tool_results(results: list[dict]) -> str:
 class AskAgent:
     """Orchestrates one agent turn over SSE.
 
-    Stateless across requests: the compiled graph is pinned to this instance but
-    each `run()` call gets fresh state. Conversation memory isn't needed for the
-    12-NL use case — each question is self-contained.
+    The compiled graph + its checkpointer are pinned to this instance. Each
+    `run()` call uses `conversation_id` as `thread_id`; LangGraph's checkpointer
+    loads prior `messages` for that thread, the new HumanMessage gets reduced
+    in, and the AIMessage gets written back after the compose stream.
     """
 
     def __init__(self, deps: ClaimsAgentDeps) -> None:
@@ -65,11 +67,19 @@ class AskAgent:
     ) -> AsyncIterator[
         TokenEvent | ToolCallEvent | ToolResultEvent | AgentStepEvent | ErrorEvent | DoneEvent
     ]:
-        initial_state = {
+        thread_id = req.conversation_id or uuid.uuid4().hex
+        config: dict[str, Any] = {"configurable": {"thread_id": thread_id}}
+        # Each turn resets the per-turn channels but seeds a NEW HumanMessage
+        # into the chat log (the trim_to_last_n_turns reducer appends + trims).
+        initial_state: dict[str, Any] = {
             "query": req.query,
             "context": req.context.model_dump() if req.context else None,
             "tool_results": [],
             "citations": [],
+            "step_count": 0,
+            "scratchpad": [],
+            "finished": False,
+            "messages": [HumanMessage(content=req.query)],
         }
         message_id = uuid.uuid4().hex
 
@@ -78,7 +88,9 @@ class AskAgent:
             citations: list[str] = []
             seen_tool_results = 0
 
-            async for event in self._graph.astream_events(initial_state, version="v2"):
+            async for event in self._graph.astream_events(
+                initial_state, config=config, version="v2"
+            ):
                 event_type = event.get("event", "")
                 name = event.get("name", "")
                 data = event.get("data", {})
@@ -88,9 +100,6 @@ class AskAgent:
 
                 if event_type == "on_chain_end" and name == "react_step":
                     node_output = data.get("output") or {}
-                    # react_step returns the DELTA tool_results from THIS iteration
-                    # (the reducer appends in state; the on_chain_end output is the
-                    # node's partial return).
                     new_results = node_output.get("tool_results") or []
                     for tool_result in new_results:
                         tool_results.append(tool_result)
@@ -111,15 +120,27 @@ class AskAgent:
                     new_citations = node_output.get("citations") or []
                     citations.extend(c for c in new_citations if c)
 
-            # Compose phase — streamed live from the LLM.
+            # Compose phase — streamed live from the LLM. Accumulate text so we
+            # can persist it as an AIMessage for the next turn.
             yield AgentStepEvent(data=AgentStepData(node="compose"))
+            answer_buffer: list[str] = []
             async for token in self._compose_stream(
                 query=req.query,
                 tool_results=tool_results,
                 citations=citations,
                 message_id=message_id,
             ):
+                answer_buffer.append(token.data.delta)
                 yield token
+
+            # Persist the composed answer so the next turn (same thread_id)
+            # sees it via the trim_to_last_n_turns reducer.
+            full_answer = "".join(answer_buffer)
+            if full_answer:
+                await self._graph.aupdate_state(
+                    config=config,
+                    values={"messages": [AIMessage(content=full_answer)]},
+                )
 
             yield DoneEvent(data=DoneData(message_id=message_id))
 
@@ -135,12 +156,7 @@ class AskAgent:
         citations: list[str],
         message_id: str,
     ) -> AsyncIterator[TokenEvent]:
-        """Stream the compose LLM call token-by-token.
-
-        Uses the LLM's `stream()` method directly. If streaming fails for any
-        reason (e.g. FakeLLM with no scripted entry), we fall back to a single
-        token containing the full text — keeps the demo robust.
-        """
+        """Stream the compose LLM call token-by-token."""
         system_prompt = self._deps.prompts.load("claims_system", "v1")
         compose_prompt = self._deps.prompts.load("compose", "v1")
         user_payload = (
@@ -161,10 +177,7 @@ class AskAgent:
                 if delta:
                     yield TokenEvent(data=TokenData(delta=delta, message_id=message_id))
             elif llm_event.type == "error":
-                # Surface LLM-side errors as a single error token then bail.
                 msg = str(llm_event.data.get("message", "LLM stream error"))
                 error_delta = f"[Error componiendo respuesta: {msg}]"
-                yield TokenEvent(
-                    data=TokenData(delta=error_delta, message_id=message_id)
-                )
+                yield TokenEvent(data=TokenData(delta=error_delta, message_id=message_id))
                 return

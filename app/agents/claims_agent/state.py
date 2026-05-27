@@ -1,21 +1,25 @@
-"""LangGraph state for the claims agent (ReAct flavor).
+"""LangGraph state for the claims agent (ReAct loop + conversation memory).
 
 Loop shape:
     START → react_step → (continue → react_step | finish → END)
                      ↑__________________|
 
-Each `react_step` is one LLM call that decides "use a tool" or "finish".
-List-typed channels (`scratchpad`, `tool_results`, `citations`) use `operator.add`
-as their reducer so each node return APPENDS instead of replacing — the loop
-accumulates the reasoning trace across iterations.
+`messages` is a multi-turn chat log persisted across requests via the LangGraph
+checkpointer. The custom `trim_to_last_n_turns` reducer keeps the last N
+HumanMessage exchanges intact (whole turns — never splits a ToolMessage from
+its parent AIMessage).
 
-Per backend CLAUDE.md §5: `TypedDict` with explicit reducers — never a free-form dict.
+Other list channels (`scratchpad`, `tool_results`, `citations`) use
+`operator.add` so the ReAct loop accumulates across iterations WITHIN one turn.
+They get reset at the start of each new turn by ask_agent's initial state.
 """
 
 from operator import add
 from typing import Annotated, Any, TypedDict
 
-from langgraph.graph.message import add_messages
+from langchain_core.messages import BaseMessage
+
+from app.agents.claims_agent.state_reducers import trim_to_last_n_turns
 
 
 class ToolResult(TypedDict):
@@ -28,22 +32,19 @@ class ToolResult(TypedDict):
 class ClaimsAgentState(TypedDict, total=False):
     """Shared state across all claims-agent nodes.
 
-    `total=False` so each node can return a partial dict. List channels use the
-    `operator.add` reducer (append semantics).
+    `total=False` so each node can return a partial dict.
     """
 
+    # Per-turn inputs (reset every request)
     query: str
     context: dict[str, Any] | None  # e.g. {"focus_claim_id": "SIN-0042"}
 
-    # ReAct loop state — accumulated across iterations
-    step_count: int  # last writer wins (we always set absolute value)
-    scratchpad: Annotated[list[dict[str, Any]], add]  # ScratchpadEntry.model_dump()
+    # Per-turn ReAct loop state (lists APPEND across loop iterations within a turn)
+    step_count: int  # last writer wins
+    scratchpad: Annotated[list[dict[str, Any]], add]
     tool_results: Annotated[list[ToolResult], add]
     citations: Annotated[list[str], add]
-
-    # Termination flag — flipped by react_step when the LLM picks `finish`
-    # or we hit MAX_REACT_STEPS.
     finished: bool
 
-    # Standard LangGraph message log (unused today; reserved for future memory).
-    messages: Annotated[list[Any], add_messages]
+    # Multi-turn chat log (persisted by the checkpointer across requests)
+    messages: Annotated[list[BaseMessage], trim_to_last_n_turns]

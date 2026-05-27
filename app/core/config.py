@@ -45,6 +45,7 @@ class Settings(BaseSettings):
 
     # agent (ReAct loop)
     MAX_REACT_STEPS: int = 3  # safety bound on tool-use iterations per query
+    MAX_CONVERSATION_TURNS: int = 8  # how many HumanMessage exchanges to retain
 
     # data
     DATA_DIR: str = "data"

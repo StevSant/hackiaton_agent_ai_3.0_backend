@@ -21,7 +21,13 @@ class AgentAskRequest(BaseModel):
     `query` is the user's natural-language question (Spanish). `context` lets the
     UI hint the agent ("the user is currently looking at SIN-0042"). The agent
     can use that for `explain_case` even when the user didn't paste the ID.
+    `conversation_id` is the multi-turn chat thread — same value across follow-up
+    questions binds them to one memory window. Omit to start fresh.
     """
 
     query: str = Field(..., min_length=1, max_length=2000)
     context: AgentAskContext | None = None
+    conversation_id: str | None = Field(
+        default=None,
+        description="UUID-ish opaque id that links a follow-up to its prior turns",
+    )
