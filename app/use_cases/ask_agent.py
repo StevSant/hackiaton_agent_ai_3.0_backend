@@ -95,11 +95,19 @@ class AskAgent:
                 name = event.get("name", "")
                 data = event.get("data", {})
 
-                if event_type == "on_chain_start" and name == "react_step":
-                    yield AgentStepEvent(data=AgentStepData(node=name))
-
                 if event_type == "on_chain_end" and name == "react_step":
                     node_output = data.get("output") or {}
+                    # Surface the LLM's reasoning thought from the scratchpad so the
+                    # UI's transparency card shows WHAT the agent decided this step,
+                    # not just "react_step ran". The latest entry is the one this
+                    # iteration appended.
+                    scratchpad_delta = node_output.get("scratchpad") or []
+                    latest = scratchpad_delta[-1] if scratchpad_delta else None
+                    meta: dict[str, Any] | None = None
+                    if isinstance(latest, dict) and latest.get("thought"):
+                        meta = {"thought": latest["thought"], "step": latest.get("step")}
+                    yield AgentStepEvent(data=AgentStepData(node=name, meta=meta))
+
                     new_results = node_output.get("tool_results") or []
                     for tool_result in new_results:
                         tool_results.append(tool_result)
