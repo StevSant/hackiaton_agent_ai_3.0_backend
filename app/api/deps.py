@@ -34,6 +34,7 @@ from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
 from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
+from app.infrastructure.db.db_claim_queries import DbClaimQueries
 from app.infrastructure.embeddings import (
     EmbeddingsProvider,
     SentenceTransformersAdapter,
@@ -241,14 +242,57 @@ def _seed_claims() -> list[ClaimDetail]:
 
 
 @lru_cache(maxsize=1)
-def get_claim_queries() -> ClaimQueries:
-    """Backed by the committed synthetic dataset (data/synthetic/claims.json).
-
-    Falls back to 3 hand-crafted fixtures when the file is absent.
-    Once the SQLAlchemy-backed DbClaimQueries lands, swap to it here —
-    one new adapter file, no callers change.
-    """
+def _synthetic_claim_queries() -> ClaimQueries:
+    """Process-singleton SyntheticClaimQueries (CLAIMS_SOURCE=memory)."""
     return SyntheticClaimQueries()
+
+
+def get_claim_queries() -> ClaimQueries:
+    """Return the active ClaimQueries implementation (sync, memory mode only).
+
+    CLAIMS_SOURCE=memory (default) → SyntheticClaimQueries singleton, no DB needed.
+    CLAIMS_SOURCE=db              → use Depends(get_claim_queries_dep) instead;
+                                    this path raises to surface misconfiguration early.
+    """
+    if settings.CLAIMS_SOURCE == "db":
+        raise RuntimeError(
+            "CLAIMS_SOURCE=db requires Depends(get_claim_queries_dep), "
+            "not get_claim_queries() directly."
+        )
+    return _synthetic_claim_queries()
+
+
+async def _get_optional_session() -> AsyncIterator[AsyncSession | None]:
+    """Yield an AsyncSession when the factory is initialised, else yield None.
+
+    Used by get_claim_queries_dep so the memory path never touches the DB engine.
+    FastAPI handles generator cleanup automatically.
+    """
+    from app.infrastructure.db.engine import _session_factory as _sf
+
+    if _sf is None:
+        yield None
+        return
+    async with _sf() as session:
+        yield session
+
+
+async def get_claim_queries_dep(
+    _session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
+) -> ClaimQueries:
+    """Async dep that honours CLAIMS_SOURCE — use this in all Depends() sites.
+
+    CLAIMS_SOURCE=memory (default) → SyntheticClaimQueries singleton; DB never touched.
+    CLAIMS_SOURCE=db               → DbClaimQueries with a request-scoped AsyncSession.
+    """
+    if settings.CLAIMS_SOURCE != "db":
+        return _synthetic_claim_queries()
+    if _session is None:
+        raise RuntimeError(
+            "CLAIMS_SOURCE=db but the DB session factory is not initialised. "
+            "Ensure the lifespan has run (set_session_factory called) before serving requests."
+        )
+    return DbClaimQueries(_session)
 
 
 # ---------------------------------------------------------------------------
@@ -264,10 +308,10 @@ def get_reviews_store() -> InMemoryReviewsStore:
     return InMemoryReviewsStore(seed=True)
 
 
-def get_ask_agent(
+async def get_ask_agent(
     llm: Annotated[LLMProvider, Depends(get_llm)],
     prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> AskAgent:
     deps = ClaimsAgentDeps(
         llm=llm,

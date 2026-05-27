@@ -17,7 +17,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.api.deps import (
     get_anomaly_detector,
-    get_claim_queries,
+    get_claim_queries_dep,
     get_current_user,
     get_fraud_classifier,
     get_reviews_store,
@@ -52,7 +52,7 @@ async def list_claims_route(
     q: str | None = None,
     page: int = 0,
     page_size: int = 25,
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> Page[ClaimSummary]:
     return await list_claims(
@@ -71,7 +71,7 @@ async def list_claims_route(
 @router.get("/{claim_id}", response_model=ClaimDetail)
 async def get_claim_detail_route(
     claim_id: str,
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     reviews_store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
@@ -94,7 +94,7 @@ async def get_claim_detail_route(
 @router.post("/{claim_id}/rescore", response_model=ClaimRiskScore)
 async def rescore_claim_route(
     claim_id: str,
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
@@ -121,7 +121,7 @@ async def rescore_claim_route(
 async def patch_claim_route(
     claim_id: str,
     patch: ClaimPatch,
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
     _user: Annotated[User, Depends(require_role(Role.antifraude))] = ...,  # type: ignore[assignment]

@@ -19,6 +19,11 @@ from app.core.config import settings
 from app.core.errors import register_error_handlers
 from app.core.lifespan_state import build_lifespan_state
 from app.core.logging import configure_logging
+from app.infrastructure.db.engine import (
+    create_engine,
+    create_session_factory,
+    set_session_factory,
+)
 
 
 @asynccontextmanager
@@ -29,11 +34,18 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # from app.state via `Request.app.state.*` in deps.py.
     state = build_lifespan_state()
     app.state.ai = state
+    # DB: register the async session factory (engine is lazy — no connection opens
+    # until the first request checks out a session). Powers DbClaimQueries + repos
+    # so the app reads/writes claims from Supabase Postgres (CLAIMS_SOURCE=db).
+    db_engine = create_engine()
+    set_session_factory(create_session_factory(db_engine))
+    app.state.db_engine = db_engine
     try:
         yield
     finally:
         # SentenceTransformer holds torch tensors; explicit drop helps in reload mode.
         app.state.ai = None
+        await db_engine.dispose()
 
 
 def create_app() -> FastAPI:
