@@ -6,11 +6,14 @@ from `Request.app.state.ai` when available, and fall back to lazy construction
 when state is unset (unit tests + scripts that bypass the FastAPI lifespan).
 """
 
-from collections.abc import AsyncIterator
+from __future__ import annotations
+
+import uuid
+from collections.abc import AsyncIterator, Callable
 from functools import lru_cache
 from typing import Annotated
 
-from fastapi import Depends, Header, Request
+from fastapi import Depends, Header, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.claims_agent import ClaimsAgentDeps
@@ -25,7 +28,9 @@ from app.agents.claims_agent.tools import (
 from app.core.config import Settings, settings
 from app.core.errors import Unauthorized
 from app.core.lifespan_state import AIState
-from app.infrastructure.auth import AuthVerifier, User
+from app.domain.auth.role import Role
+from app.domain.auth.user import User
+from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
 from app.infrastructure.embeddings import EmbeddingsProvider, SentenceTransformersAdapter
 from app.infrastructure.llm import (
     InMemoryFakeLLM,
@@ -37,6 +42,7 @@ from app.infrastructure.storage import Storage
 from app.infrastructure.vectorstore import VectorStore
 from app.schemas.claim import ClaimDetail
 from app.use_cases.ask_agent import AskAgent
+from app.use_cases.auth.login import LoginUseCase
 from app.use_cases.claim_queries import InMemoryClaimQueries
 
 
@@ -49,8 +55,79 @@ async def get_db_session() -> AsyncIterator[AsyncSession]:
     raise NotImplementedError("DB session factory not yet wired — see app/main.py lifespan")
 
 
-def get_auth_verifier() -> AuthVerifier:
-    raise NotImplementedError("AuthVerifier adapter not yet implemented")
+# ---------------------------------------------------------------------------
+# Auth
+# ---------------------------------------------------------------------------
+
+
+@lru_cache(maxsize=1)
+def _get_user_repo() -> EnvSeededUserRepo:
+    """Singleton: parsed + hashed at first call, reused forever."""
+    return EnvSeededUserRepo(settings.AUTH_SEED_USERS.get_secret_value())
+
+
+@lru_cache(maxsize=1)
+def get_auth_verifier() -> JwtIssuer:
+    """Return the JWT issuer / verifier singleton."""
+    return JwtIssuer()
+
+
+def get_login_use_case() -> LoginUseCase:
+    return LoginUseCase(repo=_get_user_repo(), issuer=get_auth_verifier())
+
+
+_DEV_STUB_USER = User(
+    id=uuid.uuid5(uuid.NAMESPACE_URL, "analista@dev.local"),
+    email="analista@dev.local",
+    role=Role.analista,
+    full_name="Dev Stub",
+)
+
+
+async def get_current_user(
+    authorization: Annotated[str | None, Header()] = None,
+    verifier: Annotated[JwtIssuer, Depends(get_auth_verifier)] = ...,  # type: ignore[assignment]
+) -> User:
+    """Decode the Bearer token and return the domain User.
+
+    When ``AUTH_ENABLED=false`` the check is bypassed and a stub analista is returned —
+    useful for local demo sessions where login is not needed.
+    """
+    if not settings.AUTH_ENABLED:
+        return _DEV_STUB_USER
+    if not authorization or not authorization.lower().startswith("bearer "):
+        raise Unauthorized("Missing or malformed Authorization header")
+    token = authorization.split(" ", 1)[1]
+    return await verifier.verify(token)
+
+
+def require_role(role: Role) -> Callable[[User], User]:
+    """Dependency factory that enforces a specific role.
+
+    Returns a callable that depends on ``get_current_user`` and raises HTTP 403
+    when the authenticated user's role does not match *role*.
+    Usage::
+
+        @router.post("/claims/{id}/resolve", dependencies=[Depends(require_role(Role.antifraude))])
+    """
+
+    def _checker(user: Annotated[User, Depends(get_current_user)]) -> User:
+        if user.role != role:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail={
+                    "code": "role_required",
+                    "message": f"Requires role: {role}",
+                },
+            )
+        return user
+
+    return _checker
+
+
+# ---------------------------------------------------------------------------
+# LLM / embeddings / vector store / storage  (AI stack — pinned to app.state.ai)
+# ---------------------------------------------------------------------------
 
 
 def _ai_state(request: Request) -> AIState | None:
@@ -149,13 +226,3 @@ def get_ask_agent(
         max_react_steps=settings.MAX_REACT_STEPS,
     )
     return AskAgent(deps=deps)
-
-
-async def get_current_user(
-    authorization: Annotated[str | None, Header()] = None,
-    verifier: AuthVerifier = Depends(get_auth_verifier),
-) -> User:
-    if not authorization or not authorization.lower().startswith("bearer "):
-        raise Unauthorized("Missing or malformed Authorization header")
-    token = authorization.split(" ", 1)[1]
-    return await verifier.verify(token)

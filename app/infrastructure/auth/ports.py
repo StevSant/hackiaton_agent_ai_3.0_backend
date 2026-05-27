@@ -1,6 +1,6 @@
 from typing import Protocol, runtime_checkable
 
-from app.infrastructure.auth.types import User
+from app.domain.auth.user import User
 
 
 @runtime_checkable
