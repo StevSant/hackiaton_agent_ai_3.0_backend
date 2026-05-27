@@ -1,13 +1,21 @@
-"""Use case: return the audit log (ordered most-recent first)."""
+"""Use case: return the audit log (ordered most-recent first).
+
+Reads from the in-memory audit store. Events are appended by the
+escalate / take / dictamen / close use cases as they run — the store
+starts empty so the log reflects real activity rather than seeded mocks.
+"""
 
 from __future__ import annotations
 
+from app.infrastructure.audit import InMemoryAuditStore
 from app.schemas.audit import AuditEventOut
-from app.use_cases._seeds.audit_seed import AUDIT_EVENTS
 
 
-async def list_audit_events(*, limit: int | None = None) -> list[AuditEventOut]:
-    events = sorted(AUDIT_EVENTS, key=lambda e: e.ts, reverse=True)
+async def list_audit_events(
+    store: InMemoryAuditStore,
+    *,
+    limit: int | None = None,
+) -> list[AuditEventOut]:
     if limit is not None:
-        events = events[:limit]
-    return events
+        return store.list_recent(limit)
+    return store.list_all()

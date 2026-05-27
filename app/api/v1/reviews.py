@@ -19,14 +19,23 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
-from app.api.deps import get_claim_queries_dep, get_current_user, get_reviews_store, require_role
+from app.api.deps import (
+    get_audit_store,
+    get_claim_queries_dep,
+    get_current_user,
+    get_reviews_store,
+    require_role,
+)
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.reviews.state_machine import ConflictError, GuardError, ReviewTransitionError
+from app.infrastructure.audit import InMemoryAuditStore
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.schemas.audit import AuditAction, AuditActor
 from app.schemas.claim import ClaimDetail, ClaimReview, ClaimSummary, ReviewStatus
 from app.schemas.page import Page
 from app.schemas.reviews import CloseRequest, DictamenRequest, EscalateRequest, InboxRow
+from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.get_claim_detail import get_claim_detail
 from app.use_cases.reviews.close_claim import close_claim
 from app.use_cases.reviews.emit_dictamen import emit_dictamen
@@ -68,6 +77,7 @@ async def escalate_claim_route(
     body: EscalateRequest,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
@@ -78,6 +88,17 @@ async def escalate_claim_route(
             status_code=status.HTTP_409_CONFLICT,
             detail={"code": "invalid_transition", "message": str(exc)},
         ) from exc
+    emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.escalamiento,
+        title=f"Escaló {claim_id} a Unidad Antifraude",
+        detail=(
+            f"Score {detail.score}/100 · nivel {detail.nivel.value}"
+            + (f" · nota: {body.note}" if body.note else "")
+        ),
+        target=claim_id,
+    )
     return _attach_review(detail, review)
 
 
@@ -91,6 +112,7 @@ async def close_claim_route(
     body: CloseRequest,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
@@ -106,6 +128,17 @@ async def close_claim_route(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail={"code": "guard_failed", "message": str(exc)},
         ) from exc
+    emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.cierre,
+        title=f"Cerró {claim_id} sin escalación",
+        detail=(
+            f"Score {detail.score}/100"
+            + (f" · nota: {body.note}" if body.note else "")
+        ),
+        target=claim_id,
+    )
     return _attach_review(detail, review)
 
 
@@ -141,11 +174,12 @@ async def take_claim_route(
     claim_id: str,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
-        review, _idempotent = take_claim(store, claim_id, user=user)
+        review, idempotent = take_claim(store, claim_id, user=user)
     except ReviewTransitionError as exc:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -156,6 +190,15 @@ async def take_claim_route(
             status_code=status.HTTP_409_CONFLICT,
             detail={"code": "already_taken", "message": str(exc)},
         ) from exc
+    if not idempotent:
+        emit_audit_event(
+            audit,
+            user=user,
+            action=AuditAction.apertura,
+            title=f"Tomó el caso {claim_id} para revisión antifraude",
+            detail=f"Score {detail.score}/100 · nivel {detail.nivel.value}",
+            target=claim_id,
+        )
     return _attach_review(detail, review)
 
 
@@ -169,6 +212,7 @@ async def dictamen_route(
     body: DictamenRequest,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
@@ -190,6 +234,15 @@ async def dictamen_route(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail={"code": "guard_failed", "message": str(exc)},
         ) from exc
+    emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.cierre,
+        title=f"Dictaminó {claim_id} · {body.outcome.value}",
+        detail=body.justificacion,
+        target=claim_id,
+        actor=AuditActor.analista,
+    )
     return _attach_review(detail, review)
 
 

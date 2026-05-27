@@ -51,6 +51,7 @@ from app.infrastructure.speech import (
     SpeechTranscriber,
     build_openai_whisper_adapter,
 )
+from app.infrastructure.audit import InMemoryAuditStore
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
@@ -315,6 +316,16 @@ def get_reviews_store() -> InMemoryReviewsStore:
     Seeded with 2 escalado + 1 dictaminado rows at first call.
     """
     return InMemoryReviewsStore(seed=True)
+
+
+@lru_cache(maxsize=1)
+def get_audit_store() -> InMemoryAuditStore:
+    """Return the process-singleton in-memory audit log.
+
+    Starts empty — events are appended by the escalate/take/dictamen/close
+    use cases as real actions happen.
+    """
+    return InMemoryAuditStore()
 
 
 def _get_session_factory() -> async_sessionmaker[AsyncSession] | None:
