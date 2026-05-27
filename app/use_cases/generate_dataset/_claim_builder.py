@@ -23,6 +23,13 @@ from app.schemas.claim import (
 )
 from app.schemas.risk import Tier
 from app.use_cases.generate_dataset._archetypes import ClaimArchetype
+from app.use_cases.generate_dataset._ecuador_data import (
+    APELLIDOS,
+    NOMBRES_FEMENINOS,
+    NOMBRES_MASCULINOS,
+    PROVEEDOR_PREFIJOS,
+    PROVEEDOR_QUALIFIERS,
+)
 
 # Reference date for offset calculations
 _REF_DATE = date(2026, 5, 26)
@@ -93,6 +100,32 @@ def _stable_int(seed: str, lo: int, hi: int) -> int:
 
 def _stable_pick(seed: str, items: list[str]) -> str:
     return items[_stable_int(seed, 0, len(items) - 1)]
+
+
+def _ecuador_full_name(idx: int) -> str:
+    """Deterministic plausible Ecuadorian full name for the asegurado at index ``idx``.
+
+    Pattern: ``<nombre> <apellido_paterno> <apellido_materno>``. Gender is also
+    derived from ``idx`` so the first name pool matches.
+    """
+    gender = _stable_int(f"ase-gender-{idx}", 0, 1)
+    pool = NOMBRES_MASCULINOS if gender == 0 else NOMBRES_FEMENINOS
+    nombre = _stable_pick(f"ase-nombre-{idx}", pool)
+    apellido1 = _stable_pick(f"ase-ap1-{idx}", APELLIDOS)
+    apellido2 = _stable_pick(f"ase-ap2-{idx}", APELLIDOS)
+    return f"{nombre} {apellido1} {apellido2}"
+
+
+def _ecuador_provider_name(idx: int) -> str:
+    """Deterministic plausible Ecuadorian business name for a provider.
+
+    Used as a fallback when an archetype doesn't pin an explicit ``proveedor``
+    string. The result is a `<prefijo> <qualifier>` combination — e.g.
+    "Taller Mecánico Cumbayá" or "Carrocerías del Pacífico".
+    """
+    prefijo = _stable_pick(f"prov-prefijo-{idx}", PROVEEDOR_PREFIJOS)
+    qualifier = _stable_pick(f"prov-qualifier-{idx}", PROVEEDOR_QUALIFIERS)
+    return f"{prefijo} {qualifier}"
 
 
 def _make_vehicle(archetype: ClaimArchetype, idx: int) -> ClaimVehicle | None:
@@ -178,12 +211,16 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
     asegurado_hash = hashlib.sha1(f"ase-{idx}".encode()).hexdigest()[:8].upper()  # noqa: S324
     asegurado_id = f"ASE-{asegurado_hash}"
     poliza_id = f"POL-{idx:04d}"
-    asegurado_name = f"Asegurado {asegurado_hash[:4]}"
+    asegurado_name = _ecuador_full_name(idx)
 
-    proveedor = archetype.proveedor or (
-        _stable_pick(f"prov-{idx}", _PROVEEDORES_DEFAULT)
-        if archetype.ramo in _RAMOS_VEHICULO else None
-    )
+    # Archetype-pinned provider wins; otherwise pick from the curated list for
+    # vehicle claims, falling back to a procedural Ecuadorian business name so
+    # we never emit codes (e.g. PROV-OBS-XXX) as a display nombre.
+    proveedor = archetype.proveedor
+    if proveedor is None and archetype.ramo in _RAMOS_VEHICULO:
+        proveedor = _stable_pick(f"prov-{idx}", _PROVEEDORES_DEFAULT)
+    if proveedor is not None and _looks_like_code(proveedor):
+        proveedor = _ecuador_provider_name(idx)
     sucursal = _SUCURSALES.get(archetype.ciudad, archetype.ciudad)
     coords = coords_for_claim(claim_id, sucursal)
     lat = coords[0] if coords else None

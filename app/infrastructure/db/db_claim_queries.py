@@ -22,6 +22,7 @@ from app.agents.claims_agent.tools.types import (
     MissingDocClaim,
     TierFilter,
 )
+from app.domain.ramos import normalize_ramo
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.documento import Documento
 from app.infrastructure.db.models.poliza import Poliza
@@ -110,7 +111,7 @@ class DbClaimQueries:
         """
         return ClaimSummary(
             id=sin.id_siniestro,
-            ramo=sin.ramo,
+            ramo=normalize_ramo(sin.ramo),
             cobertura=sin.cobertura,
             asegurado=f"Asegurado {sin.id_asegurado[-4:]}",
             ciudad=ciudad or "",
@@ -125,7 +126,7 @@ class DbClaimQueries:
         """ClaimDetail → ClaimSummary. Used by executive_summary (already-hydrated path)."""
         return ClaimSummary(
             id=detail.id,
-            ramo=detail.ramo,
+            ramo=normalize_ramo(detail.ramo),
             cobertura=detail.cobertura,
             asegurado=detail.asegurado,
             ciudad=detail.ciudad,

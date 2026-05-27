@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
+from app.domain.ramos import normalize_ramo
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.schemas.claim import ClaimSummary
 from app.schemas.page import Page
@@ -26,7 +27,7 @@ async def list_antifraude_historico(
         summaries.append(
             ClaimSummary(
                 id=detail.id,
-                ramo=detail.ramo,
+                ramo=normalize_ramo(detail.ramo),
                 cobertura=detail.cobertura,
                 asegurado=detail.asegurado,
                 ciudad=detail.ciudad,
@@ -70,7 +71,7 @@ async def list_analista_historico(
         summaries.append(
             ClaimSummary(
                 id=detail.id,
-                ramo=detail.ramo,
+                ramo=normalize_ramo(detail.ramo),
                 cobertura=detail.cobertura,
                 asegurado=detail.asegurado,
                 ciudad=detail.ciudad,

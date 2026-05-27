@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
+from app.domain.ramos import normalize_ramo
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.schemas.claim import ReviewStatus
 from app.schemas.page import Page
@@ -38,7 +39,7 @@ async def list_antifraude_inbox(
                 InboxRow(
                     claim_id=claim_id,
                     asegurado="(demo seed)",
-                    ramo="Auto",
+                    ramo="vehiculos",
                     score=85,
                     nivel=Tier.rojo,
                     escalated_at=review.escalated_at,
@@ -53,7 +54,7 @@ async def list_antifraude_inbox(
             InboxRow(
                 claim_id=claim_id,
                 asegurado=detail.asegurado,
-                ramo=detail.ramo,
+                ramo=normalize_ramo(detail.ramo),
                 score=detail.score,
                 nivel=detail.nivel,
                 escalated_at=review.escalated_at,
