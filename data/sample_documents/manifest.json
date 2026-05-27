@@ -1,0 +1,95 @@
+{
+  "claim_id": "SIN-2026-08412",
+  "asegurado": "María Fernanda Salazar Torres",
+  "generated_at": "2026-05-27",
+  "documents": [
+    {
+      "filename": "01_solicitud_siniestro.pdf",
+      "tipo": "Solicitud de siniestro",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "02_denuncia_fiscal.pdf",
+      "tipo": "Denuncia fiscal",
+      "estado_demo": "entregado_demora",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "03_acta_policial.pdf",
+      "tipo": "Acta policial",
+      "estado_demo": "faltante_demo",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": true
+    },
+    {
+      "filename": "04_matricula_vehicular.pdf",
+      "tipo": "Matrícula del vehículo",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "05_cedula_identidad.pdf",
+      "tipo": "Cédula de identidad",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "06_caratula_poliza.pdf",
+      "tipo": "Carátula de póliza",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "07_licencia_conducir.pdf",
+      "tipo": "Licencia de conducir",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "08_certificado_endoso.pdf",
+      "tipo": "Certificado de endoso",
+      "estado_demo": "faltante_demo",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": true
+    },
+    {
+      "filename": "09_peritaje_tecnico.pdf",
+      "tipo": "Peritaje técnico",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "10_proforma_taller.pdf",
+      "tipo": "Proforma de taller",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    },
+    {
+      "filename": "11_comprobante_reporte.pdf",
+      "tipo": "Comprobante de reporte",
+      "estado_demo": "entregado",
+      "claim_id": "SIN-2026-08412",
+      "mime_type": "application/pdf",
+      "falta_en_caso": false
+    }
+  ]
+}
