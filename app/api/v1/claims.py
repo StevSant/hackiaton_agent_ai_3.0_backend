@@ -12,7 +12,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.api.deps import (
@@ -51,7 +51,7 @@ async def list_claims_route(
     status_filter: ReviewStatus | None = None,
     q: str | None = None,
     page: int = 0,
-    page_size: int = 25,
+    page_size: Annotated[int, Query(ge=1, le=500)] = 25,
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> Page[ClaimSummary]:
