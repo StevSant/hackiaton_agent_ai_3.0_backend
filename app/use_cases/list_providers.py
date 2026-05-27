@@ -10,6 +10,7 @@ from __future__ import annotations
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.domain.ramos import normalize_ramo
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
@@ -56,7 +57,7 @@ async def list_providers(session: AsyncSession) -> list[ProviderOut]:
                 .distinct()
             )
         ).scalars().all()
-        ramos = sorted({r for r in ramos_rows if r})
+        ramos = sorted({normalize_ramo(r) for r in ramos_rows if r})
 
         if casos == 0:
             casos = p.reclamos_asociados
