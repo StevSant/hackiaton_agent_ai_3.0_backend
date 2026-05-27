@@ -1,0 +1,15 @@
+{
+  "_comment": "Curated list of plausible Ecuadorian seguros generales providers — transportistas, peritos comerciales, talleres de equipo electrónico, ajustadores. Used as default proveedor pool for claims whose canonical ramo is 'generales' (raw values: Generales, Transporte, Equipo Electrónico, Fianzas). Order matters for deterministic stable_pick.",
+  "items": [
+    "Logística Andina Carga",
+    "Transportes Ecuatorianos Unidos",
+    "Peritaje Comercial Pacífico",
+    "Servicios Electrónicos Industriales Quito",
+    "Ajustadores y Peritos del Sur",
+    "Carga Express Guayaquil-Manta",
+    "Inspecciones Marítimas Pacífico",
+    "Reparaciones Industriales Cuenca",
+    "Transporte y Logística Costa",
+    "Peritos Asociados Ecuador"
+  ]
+}

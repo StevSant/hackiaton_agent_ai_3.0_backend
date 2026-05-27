@@ -3,7 +3,7 @@
     "id": "SIN-0001",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Alejandro Carrillo Sánchez",
+    "asegurado": "Alejandro Vásquez Vega",
     "asegurado_id": "ASE-50118E54",
     "poliza": "POL-0001",
     "ciudad": "Guayaquil",
@@ -91,7 +91,7 @@
     "id": "SIN-0002",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Patricio Cárdenas Moreno",
+    "asegurado": "Patricio Paz Cárdenas",
     "asegurado_id": "ASE-10B1CD7F",
     "poliza": "POL-0002",
     "ciudad": "Quito",
@@ -104,7 +104,7 @@
     "estado": "Pago Total",
     "sucursal": "Quito Norte",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Clínica de la Mujer Quito",
     "descripcion": "Accidente de tránsito menor, sin lesionados graves.",
     "score": 0,
     "nivel": "verde",
@@ -173,7 +173,7 @@
     "id": "SIN-0003",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "David Aguirre Zambrano",
+    "asegurado": "David Paz Pérez",
     "asegurado_id": "ASE-743DE03B",
     "poliza": "POL-0003",
     "ciudad": "Cuenca",
@@ -186,7 +186,7 @@
     "estado": "Liquidado",
     "sucursal": "Cuenca",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Peritaje y Restauración Cuenca",
     "descripcion": "Cortocircuito menor en cocina. Daños menores reparados.",
     "score": 0,
     "nivel": "verde",
@@ -255,7 +255,7 @@
     "id": "SIN-0004",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Esteban Ortiz Toro",
+    "asegurado": "Esteban Cevallos Cevallos",
     "asegurado_id": "ASE-91AB21D0",
     "poliza": "POL-0004",
     "ciudad": "Machala",
@@ -343,7 +343,7 @@
     "id": "SIN-0005",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Adriana Vásquez Paredes",
+    "asegurado": "Adriana Paz Paredes",
     "asegurado_id": "ASE-DDE1D541",
     "poliza": "POL-0005",
     "ciudad": "Loja",
@@ -431,7 +431,7 @@
     "id": "SIN-0006",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Wilmer Rivera Torres",
+    "asegurado": "Wilmer Cruz Garcés",
     "asegurado_id": "ASE-D0D86EC7",
     "poliza": "POL-0006",
     "ciudad": "Ambato",
@@ -444,7 +444,7 @@
     "estado": "Pago Total",
     "sucursal": "Ambato",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Clínica Kennedy Norte",
     "descripcion": "Caída en escaleras; lesión leve; documentación completa.",
     "score": 0,
     "nivel": "verde",
@@ -513,7 +513,7 @@
     "id": "SIN-0007",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Mercedes López Pérez",
+    "asegurado": "Mercedes Cárdenas Cárdenas",
     "asegurado_id": "ASE-72A09B4A",
     "poliza": "POL-0007",
     "ciudad": "Guayaquil",
@@ -608,7 +608,7 @@
     "id": "SIN-0008",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Mishell Suárez Cevallos",
+    "asegurado": "Mishell Villacís Villacís",
     "asegurado_id": "ASE-463E1383",
     "poliza": "POL-0008",
     "ciudad": "Manta",
@@ -703,7 +703,7 @@
     "id": "SIN-0009",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Amplia",
-    "asegurado": "Tatiana Romero Rivera",
+    "asegurado": "Tatiana Villacís Sandoval",
     "asegurado_id": "ASE-C36DE609",
     "poliza": "POL-0009",
     "ciudad": "Guayaquil",
@@ -716,7 +716,7 @@
     "estado": "Reserva",
     "sucursal": "Guayaquil Centro",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Centro Médico Alborada",
     "descripcion": "Segundo siniestro del asegurado este año.",
     "score": 4,
     "nivel": "verde",
@@ -792,7 +792,7 @@
     "id": "SIN-0010",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Walter Velasco Bermeo",
+    "asegurado": "Walter Garcés Sánchez",
     "asegurado_id": "ASE-D016E703",
     "poliza": "POL-0010",
     "ciudad": "Cuenca",
@@ -887,7 +887,7 @@
     "id": "SIN-0011",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Cecilia Morales Torres",
+    "asegurado": "Cecilia Naranjo Bermeo",
     "asegurado_id": "ASE-FD95C6FB",
     "poliza": "POL-0011",
     "ciudad": "Guayaquil",
@@ -982,7 +982,7 @@
     "id": "SIN-0012",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "María Bravo Sandoval",
+    "asegurado": "María Cárdenas Sánchez",
     "asegurado_id": "ASE-23218457",
     "poliza": "POL-0012",
     "ciudad": "Guayaquil",
@@ -1077,7 +1077,7 @@
     "id": "SIN-0013",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Johanna Velasco Romero",
+    "asegurado": "Johanna Mosquera Cruz",
     "asegurado_id": "ASE-DE236A0B",
     "poliza": "POL-0013",
     "ciudad": "Quito",
@@ -1090,7 +1090,7 @@
     "estado": "Reserva",
     "sucursal": "Quito Norte",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Clínica de la Mujer Quito",
     "descripcion": "Reporte presentado cinco días después del accidente.",
     "score": 3,
     "nivel": "verde",
@@ -1166,7 +1166,7 @@
     "id": "SIN-0014",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Manuel Castro Solórzano",
+    "asegurado": "Manuel Villacís Maldonado",
     "asegurado_id": "ASE-1975FDE4",
     "poliza": "POL-0014",
     "ciudad": "Cuenca",
@@ -1179,7 +1179,7 @@
     "estado": "Reserva",
     "sucursal": "Cuenca",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Clínica de la Mujer Quito",
     "descripcion": "Accidente personal; historial clínico no aportado.",
     "score": 4,
     "nivel": "verde",
@@ -1255,7 +1255,7 @@
     "id": "SIN-0015",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Paola Torres Torres",
+    "asegurado": "Paola Barrera Morales",
     "asegurado_id": "ASE-C35B386F",
     "poliza": "POL-0015",
     "ciudad": "Portoviejo",
@@ -1350,7 +1350,7 @@
     "id": "SIN-0016",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Edison Romero Cruz",
+    "asegurado": "Edison Paz Salazar",
     "asegurado_id": "ASE-15A13032",
     "poliza": "POL-0016",
     "ciudad": "Guayaquil",
@@ -1445,7 +1445,7 @@
     "id": "SIN-0017",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Nicole Cruz Sandoval",
+    "asegurado": "Nicole Toro Aguirre",
     "asegurado_id": "ASE-02811DD6",
     "poliza": "POL-0017",
     "ciudad": "Quito",
@@ -1540,7 +1540,7 @@
     "id": "SIN-0018",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Pamela Rodríguez Cárdenas",
+    "asegurado": "Pamela Barrera Cevallos",
     "asegurado_id": "ASE-E4EB5576",
     "poliza": "POL-0018",
     "ciudad": "Cuenca",
@@ -1635,7 +1635,7 @@
     "id": "SIN-0019",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Iván Bermeo Vargas",
+    "asegurado": "Iván Salazar Zambrano",
     "asegurado_id": "ASE-60E467DD",
     "poliza": "POL-0019",
     "ciudad": "Ambato",
@@ -1736,7 +1736,7 @@
     "id": "SIN-0020",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Fernando Toro Garcés",
+    "asegurado": "Fernando Toro Toro",
     "asegurado_id": "ASE-BF83F3E4",
     "poliza": "POL-0020",
     "ciudad": "Quito",
@@ -1843,7 +1843,7 @@
     "id": "SIN-0021",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Jorge Zambrano Cevallos",
+    "asegurado": "Jorge Bravo Cevallos",
     "asegurado_id": "ASE-E00FA907",
     "poliza": "POL-0021",
     "ciudad": "Guayaquil",
@@ -1950,7 +1950,7 @@
     "id": "SIN-0022",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Carlos Sandoval Velasco",
+    "asegurado": "Carlos Suárez Mendoza",
     "asegurado_id": "ASE-9C1DC941",
     "poliza": "POL-0022",
     "ciudad": "Esmeraldas",
@@ -2057,7 +2057,7 @@
     "id": "SIN-0023",
     "ramo": "Vehículos",
     "cobertura": "Robo Total",
-    "asegurado": "Felipe Torres Zambrano",
+    "asegurado": "Felipe Pazmiño Menoscal",
     "asegurado_id": "ASE-C2C56C0E",
     "poliza": "POL-0023",
     "ciudad": "Quito",
@@ -2176,7 +2176,7 @@
     "id": "SIN-0024",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Luis Aguilar Cedeño",
+    "asegurado": "Luis Vega Bravo",
     "asegurado_id": "ASE-42F598BC",
     "poliza": "POL-0024",
     "ciudad": "Guayaquil",
@@ -2283,7 +2283,7 @@
     "id": "SIN-0025",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Diana Quiroz Solórzano",
+    "asegurado": "Diana Menoscal Moreno",
     "asegurado_id": "ASE-A1B06D01",
     "poliza": "POL-0025",
     "ciudad": "Quito",
@@ -2384,7 +2384,7 @@
     "id": "SIN-0026",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Marcelo Jiménez Morales",
+    "asegurado": "Marcelo López Tapia",
     "asegurado_id": "ASE-C18C40D5",
     "poliza": "POL-0026",
     "ciudad": "Guayaquil",
@@ -2491,7 +2491,7 @@
     "id": "SIN-0027",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Walter Cruz Rivera",
+    "asegurado": "Walter Villacís Barrera",
     "asegurado_id": "ASE-F2F55A89",
     "poliza": "POL-0027",
     "ciudad": "Cuenca",
@@ -2598,7 +2598,7 @@
     "id": "SIN-0028",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Anahí Torres Moreno",
+    "asegurado": "Anahí Vega Carrillo",
     "asegurado_id": "ASE-1064FE87",
     "poliza": "POL-0028",
     "ciudad": "Quito",
@@ -2705,7 +2705,7 @@
     "id": "SIN-0029",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Juan Ortiz Jiménez",
+    "asegurado": "Juan Carrillo Cárdenas",
     "asegurado_id": "ASE-909F0DEA",
     "poliza": "POL-0029",
     "ciudad": "Guayaquil",
@@ -2818,7 +2818,7 @@
     "id": "SIN-0030",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Mishell Aguilar Rivera",
+    "asegurado": "Mishell Romero Salazar",
     "asegurado_id": "ASE-60041A71",
     "poliza": "POL-0030",
     "ciudad": "Cuenca",
@@ -2931,7 +2931,7 @@
     "id": "SIN-0031",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "María Andrade Torres",
+    "asegurado": "María Barrera García",
     "asegurado_id": "ASE-BC2BF938",
     "poliza": "POL-0031",
     "ciudad": "Quito",
@@ -3050,7 +3050,7 @@
     "id": "SIN-0032",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Cecilia Mora Quiroz",
+    "asegurado": "Cecilia Toro Menoscal",
     "asegurado_id": "ASE-EC10FC99",
     "poliza": "POL-0032",
     "ciudad": "Guayaquil",
@@ -3163,7 +3163,7 @@
     "id": "SIN-0033",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Sofía Zambrano Suárez",
+    "asegurado": "Sofía Ramírez Romero",
     "asegurado_id": "ASE-750BE6A1",
     "poliza": "POL-0033",
     "ciudad": "Guayaquil",
@@ -3282,7 +3282,7 @@
     "id": "SIN-0034",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Parcial",
-    "asegurado": "Rosa Aguilar Mora",
+    "asegurado": "Rosa Naranjo Mosquera",
     "asegurado_id": "ASE-C60521F9",
     "poliza": "POL-0034",
     "ciudad": "Ambato",
@@ -3401,7 +3401,7 @@
     "id": "SIN-0035",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Silvia Mora Suárez",
+    "asegurado": "Silvia Toro García",
     "asegurado_id": "ASE-76AB06CE",
     "poliza": "POL-0035",
     "ciudad": "Quito",
@@ -3520,7 +3520,7 @@
     "id": "SIN-0036",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Iván Flores Jiménez",
+    "asegurado": "Iván Ortiz Solórzano",
     "asegurado_id": "ASE-B9AC3705",
     "poliza": "POL-0036",
     "ciudad": "Cuenca",
@@ -3639,7 +3639,7 @@
     "id": "SIN-0037",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "María Ramírez Bravo",
+    "asegurado": "María Cevallos Carrillo",
     "asegurado_id": "ASE-BFA5769E",
     "poliza": "POL-0037",
     "ciudad": "Manta",
@@ -3764,7 +3764,7 @@
     "id": "SIN-0038",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Paola Castro Castro",
+    "asegurado": "Paola Maldonado Paz",
     "asegurado_id": "ASE-AA0FFBFD",
     "poliza": "POL-0038",
     "ciudad": "Guayaquil",
@@ -3894,7 +3894,7 @@
     "id": "SIN-0039",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Pilar Pérez Gómez",
+    "asegurado": "Pilar Pacheco Paredes",
     "asegurado_id": "ASE-6189938B",
     "poliza": "POL-0039",
     "ciudad": "Quito",
@@ -4025,7 +4025,7 @@
     "id": "SIN-0040",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Erika Cevallos Flores",
+    "asegurado": "Erika Flores Cárdenas",
     "asegurado_id": "ASE-2C0F2682",
     "poliza": "POL-0040",
     "ciudad": "Guayaquil",
@@ -4156,7 +4156,7 @@
     "id": "SIN-0041",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Carmen Reyes Aguirre",
+    "asegurado": "Carmen Suárez Villacís",
     "asegurado_id": "ASE-2A2FDDE0",
     "poliza": "POL-0041",
     "ciudad": "Esmeraldas",
@@ -4287,7 +4287,7 @@
     "id": "SIN-0042",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Patricio Salazar Mora",
+    "asegurado": "Patricio Cevallos Maldonado",
     "asegurado_id": "ASE-0FC098B0",
     "poliza": "POL-0042",
     "ciudad": "Quito",
@@ -4418,7 +4418,7 @@
     "id": "SIN-0043",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Sebastián Pérez Zambrano",
+    "asegurado": "Sebastián Barrera Maldonado",
     "asegurado_id": "ASE-B94A989C",
     "poliza": "POL-0043",
     "ciudad": "Guayaquil",
@@ -4519,7 +4519,7 @@
     "id": "SIN-0044",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Sebastián Castro Castro",
+    "asegurado": "Sebastián Paz Carrillo",
     "asegurado_id": "ASE-40C34EB8",
     "poliza": "POL-0044",
     "ciudad": "Quito",
@@ -4620,7 +4620,7 @@
     "id": "SIN-0045",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Paola Gómez Rivera",
+    "asegurado": "Paola Castro Salazar",
     "asegurado_id": "ASE-DDEA0376",
     "poliza": "POL-0045",
     "ciudad": "Manta",
@@ -4739,7 +4739,7 @@
     "id": "SIN-0046",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Mercedes Cárdenas Rivera",
+    "asegurado": "Mercedes Villacís Espinoza",
     "asegurado_id": "ASE-BDE38548",
     "poliza": "POL-0046",
     "ciudad": "Cuenca",
@@ -4846,7 +4846,7 @@
     "id": "SIN-0047",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Wilmer Mosquera Cruz",
+    "asegurado": "Wilmer Maldonado Cevallos",
     "asegurado_id": "ASE-0F815548",
     "poliza": "POL-0047",
     "ciudad": "Quito",
@@ -4953,7 +4953,7 @@
     "id": "SIN-0048",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Camila Toro Paredes",
+    "asegurado": "Camila Rivera Ramírez",
     "asegurado_id": "ASE-2A71CA2A",
     "poliza": "POL-0048",
     "ciudad": "Guayaquil",
@@ -4966,7 +4966,7 @@
     "estado": "Reserva",
     "sucursal": "Guayaquil Centro",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Hogar Express Ambato",
     "descripcion": "Informe pericial falsificado con fechas manipuladas.",
     "score": 15,
     "nivel": "rojo",
@@ -5054,7 +5054,7 @@
     "id": "SIN-0049",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Jorge Castro Bravo",
+    "asegurado": "Jorge Carrillo Rodríguez",
     "asegurado_id": "ASE-5B319499",
     "poliza": "POL-0049",
     "ciudad": "Cuenca",
@@ -5167,7 +5167,7 @@
     "id": "SIN-0050",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Camila Aguilar Morales",
+    "asegurado": "Camila Maldonado Pazmiño",
     "asegurado_id": "ASE-4C0CEC72",
     "poliza": "POL-0050",
     "ciudad": "Esmeraldas",
@@ -5268,7 +5268,7 @@
     "id": "SIN-0051",
     "ramo": "Vida",
     "cobertura": "Muerte Natural",
-    "asegurado": "Jessica Ramírez Quiroz",
+    "asegurado": "Jessica Ramírez Rodríguez",
     "asegurado_id": "ASE-CA60B674",
     "poliza": "POL-0051",
     "ciudad": "Guayaquil",
@@ -5369,7 +5369,7 @@
     "id": "SIN-0052",
     "ramo": "Vida",
     "cobertura": "Muerte Accidental",
-    "asegurado": "Andrea Jiménez Andrade",
+    "asegurado": "Andrea López Pacheco",
     "asegurado_id": "ASE-A132490D",
     "poliza": "POL-0052",
     "ciudad": "Machala",
@@ -5464,7 +5464,7 @@
     "id": "SIN-0053",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Carmen Romero López",
+    "asegurado": "Carmen Espinoza Solórzano",
     "asegurado_id": "ASE-8897E2A5",
     "poliza": "POL-0053",
     "ciudad": "Quito",
@@ -5576,7 +5576,7 @@
     "id": "SIN-0054",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Doménica Moreno Toro",
+    "asegurado": "Doménica Gómez Velasco",
     "asegurado_id": "ASE-EF7D3A7E",
     "poliza": "POL-0054",
     "ciudad": "Quito",
@@ -5671,7 +5671,7 @@
     "id": "SIN-0055",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Rosa Gómez Flores",
+    "asegurado": "Rosa Barrera Cevallos",
     "asegurado_id": "ASE-BE146E79",
     "poliza": "POL-0055",
     "ciudad": "Guayaquil",
@@ -5766,7 +5766,7 @@
     "id": "SIN-0056",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Doménica Velasco Vargas",
+    "asegurado": "Doménica Paz Vásquez",
     "asegurado_id": "ASE-9DE90A41",
     "poliza": "POL-0056",
     "ciudad": "Cuenca",
@@ -5873,7 +5873,7 @@
     "id": "SIN-0057",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Anahí Tapia Carrillo",
+    "asegurado": "Anahí Maldonado Zambrano",
     "asegurado_id": "ASE-9F6F9EE9",
     "poliza": "POL-0057",
     "ciudad": "Guayaquil",
@@ -6009,7 +6009,7 @@
     "id": "SIN-0058",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Lucía Mendoza Suárez",
+    "asegurado": "Lucía Cevallos Sánchez",
     "asegurado_id": "ASE-0614F3B1",
     "poliza": "POL-0058",
     "ciudad": "Quito",
@@ -6128,7 +6128,7 @@
     "id": "SIN-0059",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Karina Tapia Jiménez",
+    "asegurado": "Karina Cevallos Gómez",
     "asegurado_id": "ASE-4CEE277D",
     "poliza": "POL-0059",
     "ciudad": "Guayaquil",
@@ -6271,7 +6271,7 @@
     "id": "SIN-0060",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Mishell Rivera Herrera",
+    "asegurado": "Mishell Velasco Barrera",
     "asegurado_id": "ASE-77B50B6B",
     "poliza": "POL-0060",
     "ciudad": "Quito",
@@ -6437,7 +6437,7 @@
     "id": "SIN-0061",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Bryan Cárdenas Aguirre",
+    "asegurado": "Bryan Cevallos Sánchez",
     "asegurado_id": "ASE-84A4C145",
     "poliza": "POL-0061",
     "ciudad": "Cuenca",
@@ -6598,7 +6598,7 @@
     "id": "SIN-0062",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Lorena Aguilar Cevallos",
+    "asegurado": "Lorena Salazar Jiménez",
     "asegurado_id": "ASE-7134D6BC",
     "poliza": "POL-0062",
     "ciudad": "Guayaquil",
@@ -6723,7 +6723,7 @@
     "id": "SIN-0063",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Yolanda Paredes Quiroz",
+    "asegurado": "Yolanda Solórzano Paz",
     "asegurado_id": "ASE-35BB5AE0",
     "poliza": "POL-0063",
     "ciudad": "Santo Domingo",
@@ -6811,7 +6811,7 @@
     "id": "SIN-0064",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Luis Carrillo Ramírez",
+    "asegurado": "Luis López Zambrano",
     "asegurado_id": "ASE-1285CE65",
     "poliza": "POL-0064",
     "ciudad": "Ibarra",
@@ -6824,7 +6824,7 @@
     "estado": "Pago Total",
     "sucursal": "Ibarra",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Hospital Metropolitano de Quito",
     "descripcion": "Caída de motociclista; documentación completa; lesión leve.",
     "score": 0,
     "nivel": "verde",
@@ -6893,7 +6893,7 @@
     "id": "SIN-0065",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Manuel Aguilar Mora",
+    "asegurado": "Manuel Salazar Sánchez",
     "asegurado_id": "ASE-38B7BE0D",
     "poliza": "POL-0065",
     "ciudad": "Riobamba",
@@ -6981,7 +6981,7 @@
     "id": "SIN-0066",
     "ramo": "Incendio",
     "cobertura": "Incendio y Líneas Aliadas",
-    "asegurado": "Hernán Aguirre Romero",
+    "asegurado": "Hernán Romero Morales",
     "asegurado_id": "ASE-F97F982C",
     "poliza": "POL-0066",
     "ciudad": "Latacunga",
@@ -6994,7 +6994,7 @@
     "estado": "Liquidado",
     "sucursal": "Latacunga",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Construcciones y Acabados Andinos",
     "descripcion": "Cortocircuito en instalación eléctrica; daños menores; póliza vigente.",
     "score": 0,
     "nivel": "verde",
@@ -7063,7 +7063,7 @@
     "id": "SIN-0067",
     "ramo": "Vehículos",
     "cobertura": "Robo Total",
-    "asegurado": "Johanna Mendoza Castro",
+    "asegurado": "Johanna Maldonado Cedeño",
     "asegurado_id": "ASE-143C7D22",
     "poliza": "POL-0067",
     "ciudad": "Riobamba",
@@ -7188,7 +7188,7 @@
     "id": "SIN-0068",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Carlos Gómez Aguilar",
+    "asegurado": "Carlos Quiroz Rivera",
     "asegurado_id": "ASE-E913C667",
     "poliza": "POL-0068",
     "ciudad": "Santo Domingo",
@@ -7301,7 +7301,7 @@
     "id": "SIN-0069",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "David Mora Vega",
+    "asegurado": "David Paz Cevallos",
     "asegurado_id": "ASE-B0B64350",
     "poliza": "POL-0069",
     "ciudad": "Quevedo",
@@ -7414,7 +7414,7 @@
     "id": "SIN-0070",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Felipe Tapia Naranjo",
+    "asegurado": "Felipe Morales Paz",
     "asegurado_id": "ASE-9A89A45F",
     "poliza": "POL-0070",
     "ciudad": "Ibarra",
@@ -7427,7 +7427,7 @@
     "estado": "Reserva",
     "sucursal": "Ibarra",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Restauraciones Costa Norte",
     "descripcion": "Incendio en bodega de comercio en Ibarra. Falta informe de bomberos; peritaje con inconsistencias; narrativa idéntica a siniestro anterior.",
     "score": 22,
     "nivel": "amarillo",
@@ -7532,7 +7532,7 @@
     "id": "SIN-0071",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Gabriela Sánchez Jiménez",
+    "asegurado": "Gabriela Sandoval Maldonado",
     "asegurado_id": "ASE-C689B229",
     "poliza": "POL-0071",
     "ciudad": "Milagro",
@@ -7645,7 +7645,7 @@
     "id": "SIN-0072",
     "ramo": "Transporte",
     "cobertura": "Mercancías en Tránsito",
-    "asegurado": "Daniel Zambrano Naranjo",
+    "asegurado": "Daniel López Toro",
     "asegurado_id": "ASE-BF70AFA8",
     "poliza": "POL-0072",
     "ciudad": "Babahoyo",
@@ -7658,7 +7658,7 @@
     "estado": "Reserva",
     "sucursal": "Babahoyo",
     "vehiculo": null,
-    "proveedor": null,
+    "proveedor": "Peritaje Comercial Pacífico",
     "descripcion": "Pérdida de mercancía agrícola en ruta Babahoyo-Guayaquil. Póliza con 5 días de vigencia; guía de remisión ausente; ruta declarada inconsistente con GPS.",
     "score": 26,
     "nivel": "verde",
@@ -7757,7 +7757,7 @@
     "id": "SIN-0073",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Mauricio Cevallos Moreno",
+    "asegurado": "Mauricio Vargas Paz",
     "asegurado_id": "ASE-522B28DA",
     "poliza": "POL-0073",
     "ciudad": "Guayaquil",
@@ -7882,7 +7882,7 @@
     "id": "SIN-0074",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "David Garcés Solórzano",
+    "asegurado": "David Sánchez Carrillo",
     "asegurado_id": "ASE-CAE966D3",
     "poliza": "POL-0074",
     "ciudad": "Quito",
@@ -8001,7 +8001,7 @@
     "id": "SIN-0075",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Camila Jiménez Paredes",
+    "asegurado": "Camila Villacís Cevallos",
     "asegurado_id": "ASE-D3BF7F4C",
     "poliza": "POL-0075",
     "ciudad": "Ibarra",
@@ -8126,7 +8126,7 @@
     "id": "SIN-0076",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Ana Reyes Sánchez",
+    "asegurado": "Ana Tapia Maldonado",
     "asegurado_id": "ASE-55674F98",
     "poliza": "POL-0076",
     "ciudad": "Santo Domingo",
@@ -8292,7 +8292,7 @@
     "id": "SIN-0077",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Carlos Zambrano Mosquera",
+    "asegurado": "Carlos Barrera Garcés",
     "asegurado_id": "ASE-D6EE89D1",
     "poliza": "POL-0077",
     "ciudad": "Riobamba",
@@ -8400,5 +8400,2216 @@
     "nearest_normal_claim_id": null,
     "latitude": -1.6785100000000002,
     "longitude": -78.67187999999999
+  },
+  {
+    "id": "SIN-0078",
+    "ramo": "Salud",
+    "cobertura": "Hospitalización",
+    "asegurado": "Marcelo Villacís Vásquez",
+    "asegurado_id": "ASE-125434FD",
+    "poliza": "POL-0078",
+    "ciudad": "Ambato",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 3600.0,
+    "suma_asegurada": 12000.0,
+    "estado": "Pago Total",
+    "sucursal": "Ambato",
+    "vehiculo": null,
+    "proveedor": "Clínica San Francisco Guayaquil",
+    "descripcion": "Hospitalización por apendicitis con cobertura quirúrgica. Documentación clínica completa; alta sin complicaciones.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -1.27392,
+    "longitude": -78.657
+  },
+  {
+    "id": "SIN-0079",
+    "ramo": "Salud",
+    "cobertura": "Consulta Ambulatoria",
+    "asegurado": "Rosa Garcés Garcés",
+    "asegurado_id": "ASE-2BFC9751",
+    "poliza": "POL-0079",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 1430.0,
+    "suma_asegurada": 6500.0,
+    "estado": "Pago Parcial",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": "Hospital Metropolitano de Quito",
+    "descripcion": "Consulta especializada en cardiología; factura presentada cinco días después.",
+    "score": 3,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.18516,
+    "longitude": -78.55463999999999
+  },
+  {
+    "id": "SIN-0080",
+    "ramo": "Salud",
+    "cobertura": "Hospitalización",
+    "asegurado": "Cecilia Cruz Villacís",
+    "asegurado_id": "ASE-3F74D3B2",
+    "poliza": "POL-0080",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 8800.0,
+    "suma_asegurada": 16000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": "Clínica Kennedy Norte",
+    "descripcion": "Asegurado con múltiples hospitalizaciones en la misma clínica este año. Historia clínica detallada no aportada; receta médica pendiente.",
+    "score": 17,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
+      },
+      {
+        "code": "FS-07",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Historia clínica",
+        "estado": "Pendiente",
+        "falta": true
+      },
+      {
+        "tipo": "Receta",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.17786,
+    "longitude": -79.91793
+  },
+  {
+    "id": "SIN-0081",
+    "ramo": "Salud",
+    "cobertura": "Atención Quirúrgica",
+    "asegurado": "Jessica Aguirre Pazmiño",
+    "asegurado_id": "ASE-36171004",
+    "poliza": "POL-0081",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-05",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 12600.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": null,
+    "proveedor": "Hospital del Río Cuenca",
+    "descripcion": "Diagnóstico declarado no coincide con los procedimientos facturados. Fechas del informe quirúrgico previas al ingreso del paciente.",
+    "score": 16,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-05",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "8 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.94736,
+    "longitude": -79.04468
+  },
+  {
+    "id": "SIN-0082",
+    "ramo": "Salud",
+    "cobertura": "Hospitalización",
+    "asegurado": "Pilar Vargas Paz",
+    "asegurado_id": "ASE-FB9DDE36",
+    "poliza": "POL-0082",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-03",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 25200.0,
+    "suma_asegurada": 28000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": "Hospital Metropolitano de Quito",
+    "descripcion": "Factura hospitalaria con sello adulterado detectado en auditoría. Asegurado con cuatro hospitalizaciones previas en 18 meses.",
+    "score": 21,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-03",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "6 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.18987,
+    "longitude": -78.50348
+  },
+  {
+    "id": "SIN-0083",
+    "ramo": "Salud",
+    "cobertura": "Reembolso Médico",
+    "asegurado": "Vinicio Bermeo Villacís",
+    "asegurado_id": "ASE-BA500C73",
+    "poliza": "POL-0083",
+    "ciudad": "Manta",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-01",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 17000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Manta",
+    "vehiculo": null,
+    "proveedor": "Centro Médico Latacunga",
+    "descripcion": "Centro médico identificado en lista restrictiva por reclamaciones observadas en regional Costa; reembolso por consultas no respaldadas.",
+    "score": 13,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-01",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "4 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.99787,
+    "longitude": -80.73944
+  },
+  {
+    "id": "SIN-0084",
+    "ramo": "Hogar",
+    "cobertura": "Daños por Agua",
+    "asegurado": "Sebastián Mosquera Carrillo",
+    "asegurado_id": "ASE-13B3DC70",
+    "poliza": "POL-0084",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 3960.0,
+    "suma_asegurada": 22000.0,
+    "estado": "Liquidado",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": "Vivienda Plus Guayaquil",
+    "descripcion": "Fuga en cañería de cocina; daño localizado en gabinetes inferiores. Peritaje rápido; documentación completa.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25352,
+    "longitude": -78.56061
+  },
+  {
+    "id": "SIN-0085",
+    "ramo": "Hogar",
+    "cobertura": "Incendio y Líneas Aliadas",
+    "asegurado": "Edison Suárez Naranjo",
+    "asegurado_id": "ASE-C69C53A2",
+    "poliza": "POL-0085",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "fecha_inicio_poliza": "2026-02-24",
+    "fecha_fin_poliza": "2027-02-24",
+    "monto_reclamado": 42000.0,
+    "suma_asegurada": 60000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": "Restauraciones Costa Norte",
+    "descripcion": "Incendio declarado al segundo día de vigencia de la póliza de hogar. Informe de bomberos no entregado al momento del reclamo.",
+    "score": 12,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
+      },
+      {
+        "code": "RF-05",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Un siniestro que ocurre en las primeras 48 horas de vigencia es estadísticamente extremo — gran parte de los casos de antifraude confirmados en años recientes encajan en esta ventana. La regla actúa como piso de amarillo: el caso no puede quedar en verde, pero tampoco sube automáticamente a rojo sin más señales que lo respalden."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Informe de bomberos",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2133399999999996,
+    "longitude": -79.89989
+  },
+  {
+    "id": "SIN-0086",
+    "ramo": "Hogar",
+    "cobertura": "Robo Domiciliario",
+    "asegurado": "Paola Vargas Flores",
+    "asegurado_id": "ASE-BD054AB5",
+    "poliza": "POL-0086",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-03",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 13750.0,
+    "suma_asegurada": 25000.0,
+    "estado": "Reserva",
+    "sucursal": "Cuenca",
+    "vehiculo": null,
+    "proveedor": "Peritaje y Restauración Cuenca",
+    "descripcion": "Robo en vivienda con denuncia ante la policía cinco días después. Inventario presentado de memoria, sin facturas de respaldo.",
+    "score": 11,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-02",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "RF-06",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "FS-02 ya pesa demoras moderadas (24-48h) en denuncias por robo. Esta regla complementaria captura demoras extremas (>4 días), que salen completamente del rango normal y son característicamente asociadas a robos construidos a posteriori. Actúa como piso de amarillo en lugar de sumar puntos, para que el caso entre obligatoriamente al circuito de verificación documental."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-03-03",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "6 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.94606,
+    "longitude": -79.03421999999999
+  },
+  {
+    "id": "SIN-0087",
+    "ramo": "Hogar",
+    "cobertura": "Incendio y Líneas Aliadas",
+    "asegurado": "Vinicio Ortiz Toro",
+    "asegurado_id": "ASE-9083704B",
+    "poliza": "POL-0087",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 77600.0,
+    "suma_asegurada": 80000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": "Restauradora Hogar Seguro",
+    "descripcion": "Incendio en bodega doméstica con facturas de avalúo alteradas. Monto reclamado prácticamente igual a la suma asegurada.",
+    "score": 22,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Avalúo independiente",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1721399999999997,
+    "longitude": -79.88750999999999
+  },
+  {
+    "id": "SIN-0088",
+    "ramo": "Hogar",
+    "cobertura": "Daños por Agua",
+    "asegurado": "Ximena Pazmiño Cevallos",
+    "asegurado_id": "ASE-6B3F3A27",
+    "poliza": "POL-0088",
+    "ciudad": "Manta",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-01",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 28000.0,
+    "suma_asegurada": 35000.0,
+    "estado": "Reserva",
+    "sucursal": "Manta",
+    "vehiculo": null,
+    "proveedor": "Servicios Integrales del Hogar Quito",
+    "descripcion": "Restaurador en lista restrictiva por reclamaciones recurrentes. Cotización original modificada después del primer peritaje.",
+    "score": 18,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-01",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "4 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.93908,
+    "longitude": -80.74088
+  },
+  {
+    "id": "SIN-0089",
+    "ramo": "Vida",
+    "cobertura": "Muerte Natural",
+    "asegurado": "Ana Barrera Ortiz",
+    "asegurado_id": "ASE-64EA2C7F",
+    "poliza": "POL-0089",
+    "ciudad": "Cuenca",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-07",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 30000.0,
+    "suma_asegurada": 30000.0,
+    "estado": "Pago Total",
+    "sucursal": "Cuenca",
+    "vehiculo": null,
+    "proveedor": "Funeraria San Pedro Cuenca",
+    "descripcion": "Fallecimiento por causas naturales de asegurado de 72 años. Certificado médico legal y partida de defunción en regla.",
+    "score": 10,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-07",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "10 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.89521,
+    "longitude": -78.97064
+  },
+  {
+    "id": "SIN-0090",
+    "ramo": "Vida",
+    "cobertura": "Muerte Accidental",
+    "asegurado": "Daniela Paz Quiroz",
+    "asegurado_id": "ASE-ED4A1468",
+    "poliza": "POL-0090",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-12",
+    "fecha_inicio_poliza": "2026-02-24",
+    "fecha_fin_poliza": "2027-02-24",
+    "monto_reclamado": 50000.0,
+    "suma_asegurada": 50000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": "Funeraria Memorial Quito",
+    "descripcion": "Fallecimiento accidental dos días después del inicio de vigencia. Aviso al asegurador presentado dos semanas después del evento.",
+    "score": 18,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
+      },
+      {
+        "code": "RF-05",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Un siniestro que ocurre en las primeras 48 horas de vigencia es estadísticamente extremo — gran parte de los casos de antifraude confirmados en años recientes encajan en esta ventana. La regla actúa como piso de amarillo: el caso no puede quedar en verde, pero tampoco sube automáticamente a rojo sin más señales que lo respalden."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-03-12",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "15 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19690000000000002,
+    "longitude": -78.55165
+  },
+  {
+    "id": "SIN-0091",
+    "ramo": "Vida",
+    "cobertura": "Muerte Accidental",
+    "asegurado": "Carlos Moreno Barrera",
+    "asegurado_id": "ASE-F2FE864C",
+    "poliza": "POL-0091",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-09",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 43650.0,
+    "suma_asegurada": 45000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": "Asesoría Legal Memorial Guayaquil",
+    "descripcion": "Beneficiario con tres reclamaciones de vida previas; monto cercano a la suma asegurada en pólizas duplicadas.",
+    "score": 18,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-09",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "12 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.13401,
+    "longitude": -79.95473
+  },
+  {
+    "id": "SIN-0092",
+    "ramo": "Vida",
+    "cobertura": "Muerte Natural",
+    "asegurado": "Daniela Villacís Sánchez",
+    "asegurado_id": "ASE-65CD93FC",
+    "poliza": "POL-0092",
+    "ciudad": "Manta",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-01",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 57000.0,
+    "suma_asegurada": 60000.0,
+    "estado": "Reserva",
+    "sucursal": "Manta",
+    "vehiculo": null,
+    "proveedor": "Funeraria Pacífico Manta",
+    "descripcion": "Beneficiario aparece en lista de monitoreo antilavado. Funeraria asociada también presenta reclamaciones observadas.",
+    "score": 18,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-01",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "4 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.9198,
+    "longitude": -80.68094
+  },
+  {
+    "id": "SIN-0093",
+    "ramo": "Vida",
+    "cobertura": "Muerte Accidental",
+    "asegurado": "Galo Salazar Ortiz",
+    "asegurado_id": "ASE-33F76B1C",
+    "poliza": "POL-0093",
+    "ciudad": "Riobamba",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-08",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 55000.0,
+    "suma_asegurada": 55000.0,
+    "estado": "Reserva",
+    "sucursal": "Riobamba",
+    "vehiculo": null,
+    "proveedor": "Médico Legal Centro Riobamba",
+    "descripcion": "Certificado de defunción con firmas y sellos adulterados según validación notarial; reporte tardío al asegurador.",
+    "score": 20,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-08",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "11 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -1.63437,
+    "longitude": -78.62996
+  },
+  {
+    "id": "SIN-0094",
+    "ramo": "Equipo Electrónico",
+    "cobertura": "Daño Súbito",
+    "asegurado": "Edison Rivera Aguirre",
+    "asegurado_id": "ASE-C157C2BB",
+    "poliza": "POL-0094",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-26",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 4500.0,
+    "suma_asegurada": 18000.0,
+    "estado": "Pago Parcial",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": "Servicios Electrónicos Industriales Quito",
+    "descripcion": "Daño súbito en servidor de oficina por descarga eléctrica. Peritaje técnico completo; reparación parcial autorizada.",
+    "score": 0,
+    "nivel": "verde",
+    "alertas": [],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-26",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "1 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23622,
+    "longitude": -78.50379
+  },
+  {
+    "id": "SIN-0095",
+    "ramo": "Transporte",
+    "cobertura": "Mercancías en Tránsito",
+    "asegurado": "Eduardo Espinoza Cabrera",
+    "asegurado_id": "ASE-0EEA0874",
+    "poliza": "POL-0095",
+    "ciudad": "Babahoyo",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-28",
+    "fecha_inicio_poliza": "2026-02-18",
+    "fecha_fin_poliza": "2027-02-18",
+    "monto_reclamado": 14300.0,
+    "suma_asegurada": 22000.0,
+    "estado": "Reserva",
+    "sucursal": "Babahoyo",
+    "vehiculo": null,
+    "proveedor": "Logística Andina Carga",
+    "descripcion": "Pérdida de mercancía en tránsito Babahoyo-Guayaquil con póliza recién emitida; guía de remisión y BL ausentes; ruta declarada inconsistente con GPS de la flota.",
+    "score": 18,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-01",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
+      },
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
+      },
+      {
+        "code": "FS-09",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-02-28",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "3 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Guía de remisión",
+        "estado": "Pendiente",
+        "falta": true
+      },
+      {
+        "tipo": "Bill of lading",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -1.79129,
+    "longitude": -79.51012
+  },
+  {
+    "id": "SIN-0096",
+    "ramo": "Equipo Electrónico",
+    "cobertura": "Robo",
+    "asegurado": "Galo Jiménez Sandoval",
+    "asegurado_id": "ASE-0E4D6C82",
+    "poliza": "POL-0096",
+    "ciudad": "Guayaquil",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-02-27",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 13200.0,
+    "suma_asegurada": 24000.0,
+    "estado": "Reserva",
+    "sucursal": "Guayaquil Centro",
+    "vehiculo": null,
+    "proveedor": "Reparaciones Industriales Cuenca",
+    "descripcion": "Robo de equipo informático en oficina; narrativa idéntica a reclamo previo SIN-G021 reportado tres meses antes.",
+    "score": 8,
+    "nivel": "amarillo",
+    "alertas": [
+      {
+        "code": "FS-13",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
+      },
+      {
+        "code": "RF-07",
+        "puntos": 0,
+        "severidad": "med",
+        "detalle": "Mientras que FS-13 mide similitud progresiva (similar / muy similar), esta regla captura el extremo: narrativas prácticamente idénticas a un siniestro previo, indicando que dos o más reclamos están reciclando el mismo texto descriptivo. Es uno de los patrones más claros de coordinación entre asegurados o de cadenas de reclamos operadas por el mismo actor."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "warn",
+        "desc": null
+      },
+      {
+        "date": "2026-02-27",
+        "title": "Reporte",
+        "tone": "warn",
+        "desc": "2 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1565,
+    "longitude": -79.95886
+  },
+  {
+    "id": "SIN-0097",
+    "ramo": "Responsabilidad Civil Comercial",
+    "cobertura": "Daños a Terceros",
+    "asegurado": "Mercedes Tapia Cevallos",
+    "asegurado_id": "ASE-0C04F245",
+    "poliza": "POL-0097",
+    "ciudad": "Loja",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-05",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 9000.0,
+    "suma_asegurada": 20000.0,
+    "estado": "Reserva",
+    "sucursal": "Loja",
+    "vehiculo": null,
+    "proveedor": "Ajustadores y Peritos del Sur",
+    "descripcion": "Tercera reclamación RC del comercio en 18 meses; aviso al asegurador con ocho días de demora.",
+    "score": 19,
+    "nivel": "verde",
+    "alertas": [
+      {
+        "code": "FS-03",
+        "puntos": 8,
+        "severidad": "med",
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
+      },
+      {
+        "code": "FS-06",
+        "puntos": 6,
+        "severidad": "med",
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "ok",
+        "desc": null
+      },
+      {
+        "date": "2026-03-05",
+        "title": "Reporte",
+        "tone": "ok",
+        "desc": "8 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -4.03487,
+    "longitude": -79.19094
+  },
+  {
+    "id": "SIN-0098",
+    "ramo": "Transporte",
+    "cobertura": "Mercancías en Tránsito",
+    "asegurado": "Karla Vásquez Mora",
+    "asegurado_id": "ASE-E0B564ED",
+    "poliza": "POL-0098",
+    "ciudad": "Manta",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-02",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 67900.0,
+    "suma_asegurada": 70000.0,
+    "estado": "Reserva",
+    "sucursal": "Manta",
+    "vehiculo": null,
+    "proveedor": "Carga Express Guayaquil-Manta",
+    "descripcion": "Pérdida total de carga marítima con facturas comerciales alteradas. Conduce del camión ausente; monto cercano a la suma asegurada.",
+    "score": 22,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-08",
+        "puntos": 4,
+        "severidad": "med",
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "FS-14",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
+      },
+      {
+        "code": "RF-02",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-02",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "5 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Conduce camión",
+        "estado": "Pendiente",
+        "falta": true
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.95925,
+    "longitude": -80.66754
+  },
+  {
+    "id": "SIN-0099",
+    "ramo": "Fianzas",
+    "cobertura": "Cumplimiento de Contrato",
+    "asegurado": "Miguel Barrera Barrera",
+    "asegurado_id": "ASE-19FC61C6",
+    "poliza": "POL-0099",
+    "ciudad": "Quito",
+    "fecha_ocurrencia": "2026-02-25",
+    "fecha_reporte": "2026-03-03",
+    "fecha_inicio_poliza": "2025-08-29",
+    "fecha_fin_poliza": "2026-08-29",
+    "monto_reclamado": 45000.0,
+    "suma_asegurada": 50000.0,
+    "estado": "Reserva",
+    "sucursal": "Quito Norte",
+    "vehiculo": null,
+    "proveedor": "Peritaje Comercial Pacífico",
+    "descripcion": "Ejecución de fianza de cumplimiento con perito en lista restrictiva. Acta de incumplimiento con fechas inconsistentes con cronograma.",
+    "score": 18,
+    "nivel": "rojo",
+    "alertas": [
+      {
+        "code": "FS-07",
+        "puntos": 10,
+        "severidad": "med",
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
+      },
+      {
+        "code": "FS-11",
+        "puntos": 5,
+        "severidad": "med",
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
+      },
+      {
+        "code": "FS-12",
+        "puntos": 3,
+        "severidad": "med",
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
+      },
+      {
+        "code": "RF-03",
+        "puntos": 0,
+        "severidad": "high",
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-25",
+        "title": "Ocurrencia",
+        "tone": "danger",
+        "desc": null
+      },
+      {
+        "date": "2026-03-03",
+        "title": "Reporte",
+        "tone": "danger",
+        "desc": "6 días después"
+      }
+    ],
+    "documentos": [
+      {
+        "tipo": "Cédula de identidad",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Matrícula vehicular",
+        "estado": "Entregado",
+        "falta": false
+      },
+      {
+        "tipo": "Denuncia policial",
+        "estado": "Entregado",
+        "falta": false
+      }
+    ],
+    "review": {
+      "status": "pendiente",
+      "escalated_by": null,
+      "escalated_by_name": null,
+      "escalated_at": null,
+      "escalation_note": null,
+      "assigned_to": null,
+      "assigned_to_name": null,
+      "taken_at": null,
+      "dictamen_outcome": null,
+      "dictamen_justificacion": null,
+      "dictaminado_by": null,
+      "dictaminado_by_name": null,
+      "dictaminado_at": null,
+      "bounce_count": 0,
+      "bounce_note": null,
+      "closed_by": null,
+      "closed_by_name": null,
+      "closed_at": null,
+      "closed_note": null
+    },
+    "ml_probability": null,
+    "ml_factors": [],
+    "similar": [],
+    "anomaly_score": null,
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25192000000000003,
+    "longitude": -78.47345
   }
 ]

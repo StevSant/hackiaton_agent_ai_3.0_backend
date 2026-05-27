@@ -25,9 +25,10 @@ import asyncio
 import logging
 from pathlib import Path
 
-from sqlalchemy import text
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.infrastructure.db.models.claim_score import ClaimScore
 from app.schemas.claim import ClaimDetail
 from app.use_cases.generate_dataset.runner import load_saved
 from app.use_cases.load_dataset._mapping import (
@@ -114,8 +115,17 @@ async def _upsert_claim(session: AsyncSession, claim: ClaimDetail) -> None:
         await session.merge(doc)
     await session.flush()
 
-    # 6. ClaimScore
+    # 6. ClaimScore — PK is auto-increment but claim_id has a UNIQUE constraint,
+    # so merge() can't upsert blindly (it would INSERT a duplicate). Look up the
+    # existing row's id by claim_id first so merge() does UPDATE not INSERT.
     score_row = claim_detail_to_score(claim)
+    existing_score_id = (
+        await session.execute(
+            select(ClaimScore.id).where(ClaimScore.claim_id == claim.id)
+        )
+    ).scalar_one_or_none()
+    if existing_score_id is not None:
+        score_row.id = existing_score_id
     await session.merge(score_row)
     await session.flush()
 

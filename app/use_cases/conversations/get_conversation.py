@@ -30,6 +30,7 @@ class GetConversation:
                     content=m.content,
                     sequence=m.sequence,
                     created_at=m.created_at,
+                    chart_payload=m.chart_payload,  # type: ignore[arg-type]
                 )
                 for m in row.messages
             ],

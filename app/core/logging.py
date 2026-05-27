@@ -4,6 +4,7 @@ import sys
 import structlog
 
 from app.core.config import settings
+from app.core.sqlalchemy_pool_cancel_filter import SQLAlchemyPoolCancelFilter
 
 
 def configure_logging() -> None:
@@ -12,6 +13,13 @@ def configure_logging() -> None:
         stream=sys.stdout,
         level=settings.LOG_LEVEL,
     )
+
+    # Drop the noisy "Exception terminating connection" records that
+    # SQLAlchemy emits when asyncpg's terminate() is cancelled by uvicorn's
+    # shutdown — see SQLAlchemyPoolCancelFilter docstring for the race.
+    _shutdown_filter = SQLAlchemyPoolCancelFilter()
+    for handler in logging.getLogger().handlers:
+        handler.addFilter(_shutdown_filter)
 
     structlog.configure(
         processors=[

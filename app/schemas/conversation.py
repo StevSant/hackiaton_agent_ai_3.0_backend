@@ -8,6 +8,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
+from app.schemas.chat.stream.chart_data import ChartData
+
 
 class MessageOut(BaseModel):
     id: UUID
@@ -15,6 +17,7 @@ class MessageOut(BaseModel):
     content: str
     sequence: int
     created_at: datetime
+    chart_payload: ChartData | None = None
 
 
 class ConversationSummary(BaseModel):

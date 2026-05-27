@@ -1084,4 +1084,335 @@ ARCHETYPES: list[ClaimArchetype] = [
             "Asegurado con cuatro siniestros previos; informe con fechas inconsistentes."
         ),
     ),
+
+    # ════════════════════════════════════════════════════════════════════
+    # DIVERSIDAD DE RAMOS — Salud / Hogar / Vida / Generales
+    # Hasta acá la mayoría de arquetipos son Vehículos. Esta sección
+    # introduce ramos no-vehículo para que el dashboard de proveedores y
+    # la tarjeta "Alertas por ramo" muestren la diversidad real del libro.
+    # Cada arquetipo dispara señales del catálogo FS/RF sin romper la
+    # cobertura existente.
+    # ════════════════════════════════════════════════════════════════════
+
+    # ── SALUD ────────────────────────────────────────────────────────────
+    ClaimArchetype(
+        label="verde-salud-hospitalizacion-ambato",
+        target_signals=[],
+        ramo="Salud", cobertura="Hospitalización",
+        ciudad="Ambato", estado="Pago Total",
+        monto_ratio=0.30, suma_asegurada=12_000.0,
+        descripcion=(
+            "Hospitalización por apendicitis con cobertura quirúrgica. "
+            "Documentación clínica completa; alta sin complicaciones."
+        ),
+    ),
+    ClaimArchetype(
+        label="verde-salud-consulta-quito",
+        target_signals=["FS-12"],
+        ramo="Salud", cobertura="Consulta Ambulatoria",
+        ciudad="Quito", estado="Pago Parcial",
+        monto_ratio=0.22, suma_asegurada=6_500.0,
+        reporte_delay_days=5,   # mid: 3 pts, stays verde
+        descripcion=(
+            "Consulta especializada en cardiología; factura presentada cinco días después."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-salud-clinica-recurrente",
+        target_signals=["FS-03", "FS-07", "FS-08"],
+        ramo="Salud", cobertura="Hospitalización",
+        ciudad="Guayaquil", estado="Reserva",
+        monto_ratio=0.55, suma_asegurada=16_000.0,
+        historial_siniestros_asegurado=3,   # FS-03: 8 pts
+        proveedor="Clínica Kennedy Norte",
+        proveedor_casos_observados=4,        # FS-07: 5 pts
+        documentos_incompletos=True,
+        docs_faltantes=["Historia clínica", "Receta"],  # FS-08: 4 pts → 17 pts
+        reporte_delay_days=2,
+        descripcion=(
+            "Asegurado con múltiples hospitalizaciones en la misma clínica este año. "
+            "Historia clínica detallada no aportada; receta médica pendiente."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-salud-dx-inconsistente",
+        target_signals=["FS-09", "FS-11", "FS-12"],
+        ramo="Salud", cobertura="Atención Quirúrgica",
+        ciudad="Cuenca", estado="Reserva",
+        monto_ratio=0.70, suma_asegurada=18_000.0,
+        proveedor="Hospital del Río Cuenca",
+        narrativa_ilógica=True,             # FS-09: 6 pts
+        inconsistencia_documental=True,      # FS-11: 5 pts
+        reporte_delay_days=8,                # FS-12: 5 pts → 16 pts
+        descripcion=(
+            "Diagnóstico declarado no coincide con los procedimientos facturados. "
+            "Fechas del informe quirúrgico previas al ingreso del paciente."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-salud-rf02-quito",
+        target_signals=["FS-03", "FS-11", "RF-02"],
+        ramo="Salud", cobertura="Hospitalización",
+        ciudad="Quito", estado="Reserva",
+        monto_ratio=0.90, suma_asegurada=28_000.0,
+        proveedor="Hospital Metropolitano de Quito",
+        falsificacion_evidente=True, inconsistencia_documental=True,  # RF-02 → rojo
+        historial_siniestros_asegurado=4,   # FS-03: 8 pts
+        reporte_delay_days=6,
+        descripcion=(
+            "Factura hospitalaria con sello adulterado detectado en auditoría. "
+            "Asegurado con cuatro hospitalizaciones previas en 18 meses."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-salud-rf03-beneficiario-listado",
+        target_signals=["FS-07", "RF-03"],
+        ramo="Salud", cobertura="Reembolso Médico",
+        ciudad="Manta", estado="Reserva",
+        monto_ratio=0.85, suma_asegurada=20_000.0,
+        proveedor="Centro Médico Latacunga",
+        proveedor_en_lista_restrictiva=True,   # RF-03 → rojo
+        reporte_delay_days=4,
+        descripcion=(
+            "Centro médico identificado en lista restrictiva por reclamaciones "
+            "observadas en regional Costa; reembolso por consultas no respaldadas."
+        ),
+    ),
+
+    # ── HOGAR ────────────────────────────────────────────────────────────
+    ClaimArchetype(
+        label="verde-hogar-fuga-agua",
+        target_signals=[],
+        ramo="Hogar", cobertura="Daños por Agua",
+        ciudad="Quito", estado="Liquidado",
+        monto_ratio=0.18, suma_asegurada=22_000.0,
+        descripcion=(
+            "Fuga en cañería de cocina; daño localizado en gabinetes inferiores. "
+            "Peritaje rápido; documentación completa."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-hogar-incendio-rf05",
+        target_signals=["FS-01", "FS-08", "RF-05"],
+        ramo="Hogar", cobertura="Incendio y Líneas Aliadas",
+        ciudad="Guayaquil", estado="Reserva",
+        monto_ratio=0.70, suma_asegurada=60_000.0,
+        proveedor="Restauraciones Costa Norte",
+        dias_desde_inicio_poliza=1,         # RF-05 → amarillo floor
+        documentos_incompletos=True,
+        docs_faltantes=["Informe de bomberos"],  # FS-08: 4 pts
+        reporte_delay_days=2,
+        descripcion=(
+            "Incendio declarado al segundo día de vigencia de la póliza de hogar. "
+            "Informe de bomberos no entregado al momento del reclamo."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-hogar-robo-edge",
+        target_signals=["FS-02", "FS-12", "RF-06"],
+        ramo="Hogar", cobertura="Robo Domiciliario",
+        ciudad="Cuenca", estado="Reserva",
+        monto_ratio=0.55, suma_asegurada=25_000.0,
+        proveedor="Peritaje y Restauración Cuenca",
+        es_robo=True, demora_denuncia_horas=120.0,   # RF-06
+        reporte_delay_days=6,                          # FS-12: 3 pts
+        descripcion=(
+            "Robo en vivienda con denuncia ante la policía cinco días después. "
+            "Inventario presentado de memoria, sin facturas de respaldo."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-hogar-rf02-falsificacion",
+        target_signals=["FS-08", "FS-11", "FS-14", "RF-02"],
+        ramo="Hogar", cobertura="Incendio y Líneas Aliadas",
+        ciudad="Guayaquil", estado="Reserva",
+        monto_ratio=0.97, suma_asegurada=80_000.0,
+        proveedor="Restauradora Hogar Seguro",
+        falsificacion_evidente=True, inconsistencia_documental=True,  # RF-02 → rojo
+        documentos_incompletos=True,
+        docs_faltantes=["Avalúo independiente"],   # FS-08: 4 pts
+        reporte_delay_days=5,
+        descripcion=(
+            "Incendio en bodega doméstica con facturas de avalúo alteradas. "
+            "Monto reclamado prácticamente igual a la suma asegurada."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-hogar-rf03-restaurador",
+        target_signals=["FS-07", "FS-11", "RF-03"],
+        ramo="Hogar", cobertura="Daños por Agua",
+        ciudad="Manta", estado="Reserva",
+        monto_ratio=0.80, suma_asegurada=35_000.0,
+        proveedor="Servicios Integrales del Hogar Quito",
+        proveedor_en_lista_restrictiva=True,   # RF-03 → rojo
+        inconsistencia_documental=True,         # FS-11: 5 pts
+        reporte_delay_days=4,
+        descripcion=(
+            "Restaurador en lista restrictiva por reclamaciones recurrentes. "
+            "Cotización original modificada después del primer peritaje."
+        ),
+    ),
+
+    # ── VIDA ─────────────────────────────────────────────────────────────
+    ClaimArchetype(
+        label="verde-vida-muerte-natural",
+        target_signals=[],
+        ramo="Vida", cobertura="Muerte Natural",
+        ciudad="Cuenca", estado="Pago Total",
+        monto_ratio=1.00, suma_asegurada=30_000.0,
+        proveedor="Funeraria San Pedro Cuenca",
+        reporte_delay_days=10,
+        descripcion=(
+            "Fallecimiento por causas naturales de asegurado de 72 años. "
+            "Certificado médico legal y partida de defunción en regla."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-vida-fs01-edge",
+        target_signals=["FS-01", "FS-12", "RF-05"],
+        ramo="Vida", cobertura="Muerte Accidental",
+        ciudad="Quito", estado="Reserva",
+        monto_ratio=1.00, suma_asegurada=50_000.0,
+        proveedor="Funeraria Memorial Quito",
+        dias_desde_inicio_poliza=1,         # RF-05 → amarillo
+        reporte_delay_days=15,              # FS-12: 5 pts
+        descripcion=(
+            "Fallecimiento accidental dos días después del inicio de vigencia. "
+            "Aviso al asegurador presentado dos semanas después del evento."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-vida-doble-cobertura",
+        target_signals=["FS-03", "FS-12", "FS-14"],
+        ramo="Vida", cobertura="Muerte Accidental",
+        ciudad="Guayaquil", estado="Reserva",
+        monto_ratio=0.97, suma_asegurada=45_000.0,
+        proveedor="Asesoría Legal Memorial Guayaquil",
+        historial_siniestros_asegurado=3,   # FS-03: 8 pts
+        reporte_delay_days=12,              # FS-12: 5 pts → 13 pts
+        descripcion=(
+            "Beneficiario con tres reclamaciones de vida previas; "
+            "monto cercano a la suma asegurada en pólizas duplicadas."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-vida-rf03-lavado",
+        target_signals=["FS-07", "RF-03"],
+        ramo="Vida", cobertura="Muerte Natural",
+        ciudad="Manta", estado="Reserva",
+        monto_ratio=0.95, suma_asegurada=60_000.0,
+        proveedor="Funeraria Pacífico Manta",
+        beneficiario_en_lista_restrictiva=True,   # RF-03 → rojo
+        reporte_delay_days=4,
+        descripcion=(
+            "Beneficiario aparece en lista de monitoreo antilavado. "
+            "Funeraria asociada también presenta reclamaciones observadas."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-vida-rf02-certificado",
+        target_signals=["FS-11", "FS-12", "RF-02"],
+        ramo="Vida", cobertura="Muerte Accidental",
+        ciudad="Riobamba", estado="Reserva",
+        monto_ratio=1.00, suma_asegurada=55_000.0,
+        proveedor="Médico Legal Centro Riobamba",
+        falsificacion_evidente=True, inconsistencia_documental=True,  # RF-02 → rojo
+        reporte_delay_days=11,
+        descripcion=(
+            "Certificado de defunción con firmas y sellos adulterados según "
+            "validación notarial; reporte tardío al asegurador."
+        ),
+    ),
+
+    # ── GENERALES (Transporte / Equipo / Comercial) ──────────────────────
+    ClaimArchetype(
+        label="verde-generales-equipo-electronico",
+        target_signals=[],
+        ramo="Equipo Electrónico", cobertura="Daño Súbito",
+        ciudad="Quito", estado="Pago Parcial",
+        monto_ratio=0.25, suma_asegurada=18_000.0,
+        proveedor="Servicios Electrónicos Industriales Quito",
+        descripcion=(
+            "Daño súbito en servidor de oficina por descarga eléctrica. "
+            "Peritaje técnico completo; reparación parcial autorizada."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-generales-transporte-fs08",
+        target_signals=["FS-01", "FS-08", "FS-09"],
+        ramo="Transporte", cobertura="Mercancías en Tránsito",
+        ciudad="Babahoyo", estado="Reserva",
+        monto_ratio=0.65, suma_asegurada=22_000.0,
+        proveedor="Logística Andina Carga",
+        dias_desde_inicio_poliza=7,         # FS-01: 8 pts
+        documentos_incompletos=True,
+        docs_faltantes=["Guía de remisión", "Bill of lading"],  # FS-08: 4 pts
+        narrativa_ilógica=True,             # FS-09: 6 pts → 18 pts
+        reporte_delay_days=3,
+        descripcion=(
+            "Pérdida de mercancía en tránsito Babahoyo-Guayaquil con póliza "
+            "recién emitida; guía de remisión y BL ausentes; ruta declarada "
+            "inconsistente con GPS de la flota."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-generales-equipo-rf07",
+        target_signals=["FS-13", "RF-07"],
+        ramo="Equipo Electrónico", cobertura="Robo",
+        ciudad="Guayaquil", estado="Reserva",
+        monto_ratio=0.55, suma_asegurada=24_000.0,
+        proveedor="Reparaciones Industriales Cuenca",
+        narrativa_similar_score=0.98, narrativa_clonada=True,   # RF-07 → amarillo
+        reporte_delay_days=2,
+        descripcion=(
+            "Robo de equipo informático en oficina; narrativa idéntica a "
+            "reclamo previo SIN-G021 reportado tres meses antes."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-generales-rc-comercial",
+        target_signals=["FS-03", "FS-06", "FS-12"],
+        ramo="Responsabilidad Civil Comercial", cobertura="Daños a Terceros",
+        ciudad="Loja", estado="Reserva",
+        monto_ratio=0.45, suma_asegurada=20_000.0,
+        proveedor="Ajustadores y Peritos del Sur",
+        historial_siniestros_asegurado=3,   # FS-03: 8 pts
+        eventos_rc_previos=3,                # FS-06: 6 pts
+        reporte_delay_days=8,                # FS-12: 5 pts → 19 pts
+        descripcion=(
+            "Tercera reclamación RC del comercio en 18 meses; "
+            "aviso al asegurador con ocho días de demora."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-generales-transporte-rf02",
+        target_signals=["FS-08", "FS-11", "FS-14", "RF-02"],
+        ramo="Transporte", cobertura="Mercancías en Tránsito",
+        ciudad="Manta", estado="Reserva",
+        monto_ratio=0.97, suma_asegurada=70_000.0,
+        proveedor="Carga Express Guayaquil-Manta",
+        falsificacion_evidente=True, inconsistencia_documental=True,  # RF-02 → rojo
+        documentos_incompletos=True,
+        docs_faltantes=["Conduce camión"],   # FS-08: 4 pts
+        reporte_delay_days=5,
+        descripcion=(
+            "Pérdida total de carga marítima con facturas comerciales alteradas. "
+            "Conduce del camión ausente; monto cercano a la suma asegurada."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-generales-fianzas-rf03",
+        target_signals=["FS-07", "FS-11", "RF-03"],
+        ramo="Fianzas", cobertura="Cumplimiento de Contrato",
+        ciudad="Quito", estado="Reserva",
+        monto_ratio=0.90, suma_asegurada=50_000.0,
+        proveedor="Peritaje Comercial Pacífico",
+        proveedor_en_lista_restrictiva=True,   # RF-03 → rojo
+        inconsistencia_documental=True,         # FS-11: 5 pts
+        reporte_delay_days=6,
+        descripcion=(
+            "Ejecución de fianza de cumplimiento con perito en lista restrictiva. "
+            "Acta de incumplimiento con fechas inconsistentes con cronograma."
+        ),
+    ),
 ]

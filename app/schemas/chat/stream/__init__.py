@@ -2,6 +2,7 @@ from app.schemas.chat.stream.agent_step_data import AgentStepData
 from app.schemas.chat.stream.agent_step_event import AgentStepEvent
 from app.schemas.chat.stream.chart_data import ChartData, ChartSeries, ChartType
 from app.schemas.chat.stream.chart_event import ChartEvent
+from app.schemas.chat.stream.chart_hint import ChartHint
 from app.schemas.chat.stream.chat_stream_event import ChatStreamEvent
 from app.schemas.chat.stream.done_data import DoneData
 from app.schemas.chat.stream.done_event import DoneEvent
@@ -19,6 +20,7 @@ __all__ = [
     "AgentStepEvent",
     "ChartData",
     "ChartEvent",
+    "ChartHint",
     "ChartSeries",
     "ChartType",
     "ChatStreamEvent",

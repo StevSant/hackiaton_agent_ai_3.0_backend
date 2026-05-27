@@ -65,11 +65,14 @@ class ConversationPersister:
         conversation_id: UUID,
         user: User,
         answer: str,
+        chart_payload: dict[str, Any] | None = None,
     ) -> int:
         async with self._sf() as session:
             convs = ConversationsRepo(session)
             msgs = MessagesRepo(session)
-            written = await msgs.add(conversation_id, "assistant", answer)
+            written = await msgs.add(
+                conversation_id, "assistant", answer, chart_payload=chart_payload
+            )
             await convs.touch(conversation_id)
             await session.commit()
             return written.sequence

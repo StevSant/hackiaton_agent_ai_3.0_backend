@@ -17,6 +17,7 @@ from __future__ import annotations
 import csv
 import json
 from pathlib import Path
+from random import Random
 
 from app.schemas.claim import ClaimDetail
 from app.use_cases.generate_dataset._archetypes import ARCHETYPES, ClaimArchetype
@@ -24,17 +25,35 @@ from app.use_cases.generate_dataset._claim_builder import build_claim
 
 _SAMPLES_DIR = Path("data/samples")
 
+# Deterministic seed for the archetype-order permutation. Bumping this number
+# reshuffles small samples (claims.dev.json) — only do so intentionally.
+_PERMUTATION_SEED = 7
+
 
 # ---------------------------------------------------------------------------
 # Sampling helpers
 # ---------------------------------------------------------------------------
 
 
+def _archetype_order() -> list[int]:
+    """Deterministic permutation of archetype indices.
+
+    ``ARCHETYPES`` groups archetypes by tier and adds new ramos at the end, so
+    a naive ``i % archetype_count`` makes the dev sample (40 claims) hit only
+    the first ~40 archetypes — which are all Vehículos. Shuffling once with a
+    fixed seed spreads non-Vehículos ramos throughout, so even the smallest
+    sample shows ramo diversity in the providers / network UI.
+    """
+    indices = list(range(len(ARCHETYPES)))
+    Random(_PERMUTATION_SEED).shuffle(indices)
+    return indices
+
+
 def _build_sample(
     target: int,
     base_offset: int = 0,
 ) -> list[ClaimDetail]:
-    """Build *target* claims by cycling through ARCHETYPES.
+    """Build *target* claims by cycling through a permuted ARCHETYPES order.
 
     ``base_offset`` allows different variants to produce distinct IDs so their
     claim IDs don't collide when both are loaded into the same DB.
@@ -42,9 +61,10 @@ def _build_sample(
     rename pass needed).
     """
     claims: list[ClaimDetail] = []
-    archetype_count = len(ARCHETYPES)
+    order = _archetype_order()
+    archetype_count = len(order)
     for i in range(target):
-        arch_idx = i % archetype_count
+        arch_idx = order[i % archetype_count]
         archetype: ClaimArchetype = ARCHETYPES[arch_idx]
         # Global index so IDs are unique across variants
         global_idx = base_offset + i + 1

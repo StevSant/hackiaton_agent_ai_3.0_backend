@@ -11,6 +11,7 @@ from datetime import date, timedelta
 from typing import Any
 
 from app.core.city_coords import coords_for_claim
+from app.domain.ramos import normalize_ramo
 from app.domain.rules.context import RuleContext
 from app.schemas.claim import (
     ClaimAlert,
@@ -33,9 +34,22 @@ from app.use_cases.generate_dataset._pools import (
     PROVEEDOR_PREFIJOS,
     PROVEEDOR_QUALIFIERS,
     PROVEEDORES_DEFAULT,
+    PROVEEDORES_GENERALES,
+    PROVEEDORES_HOGAR,
+    PROVEEDORES_SALUD,
     RAMOS_VEHICULO,
     SUCURSALES,
 )
+
+# Default proveedor pool per canonical ramo. "vida" intentionally omitted —
+# life-insurance claims use beneficiarios, not proveedores; archetypes that need
+# a service provider (funeraria, médico legal) pin one explicitly.
+_PROVEEDOR_POOL_BY_CANONICAL: dict[str, list[str]] = {
+    "vehiculos": PROVEEDORES_DEFAULT,
+    "salud": PROVEEDORES_SALUD,
+    "hogar": PROVEEDORES_HOGAR,
+    "generales": PROVEEDORES_GENERALES,
+}
 
 # Reference date for offset calculations
 _REF_DATE = date(2026, 5, 26)
@@ -167,12 +181,17 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
     poliza_id = f"POL-{idx:04d}"
     asegurado_name = _ecuador_full_name(idx)
 
-    # Archetype-pinned provider wins; otherwise pick from the curated list for
-    # vehicle claims, falling back to a procedural Ecuadorian business name so
-    # we never emit codes (e.g. PROV-OBS-XXX) as a display nombre.
+    # Archetype-pinned provider wins; otherwise pick from the curated pool for
+    # the claim's canonical ramo (vehiculos / salud / hogar / generales). Vida
+    # claims keep proveedor=None unless the archetype pins one. Codes that
+    # accidentally look like internal IDs are replaced with a procedural
+    # Ecuadorian business name so we never emit "PROV-OBS-XXX" as a display nombre.
     proveedor = archetype.proveedor
-    if proveedor is None and archetype.ramo in RAMOS_VEHICULO:
-        proveedor = _stable_pick(f"prov-{idx}", PROVEEDORES_DEFAULT)
+    if proveedor is None:
+        canonical = normalize_ramo(archetype.ramo)
+        pool = _PROVEEDOR_POOL_BY_CANONICAL.get(canonical)
+        if pool:
+            proveedor = _stable_pick(f"prov-{idx}", pool)
     if proveedor is not None and _looks_like_code(proveedor):
         proveedor = _ecuador_provider_name(idx)
     sucursal = SUCURSALES.get(archetype.ciudad, archetype.ciudad)

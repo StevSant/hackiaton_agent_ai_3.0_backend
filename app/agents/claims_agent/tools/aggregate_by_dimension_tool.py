@@ -12,12 +12,21 @@ from pydantic import BaseModel, Field
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.agents.claims_agent.tools.types import AggregateDimension, AggregateRow, TierFilter
+from app.schemas.chat.stream.chart_hint import ChartHint
 
 
 class AggregateByDimensionInput(BaseModel):
     dimension: AggregateDimension
     tier: TierFilter = "amarillo+rojo"
     top_n: int = Field(10, ge=1, le=50)
+    chart_hint: ChartHint | None = Field(
+        default=None,
+        description=(
+            "Set ONLY when the analyst explicitly asked for a chart/visualization in this turn "
+            "(e.g. 'gráfico', 'chart', 'scatterplot', 'visualiza', 'muéstrame un diagrama'). "
+            "Leave null otherwise — chart emission is opt-in."
+        ),
+    )
 
 
 class AggregateByDimensionOutput(BaseModel):

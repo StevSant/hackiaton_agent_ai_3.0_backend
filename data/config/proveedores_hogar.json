@@ -1,0 +1,15 @@
+{
+  "_comment": "Curated list of plausible Ecuadorian hogar (home insurance) providers — contratistas, restauradoras y peritos de daños residenciales. Used as default proveedor pool for claims whose canonical ramo is 'hogar' (raw values: Hogar, Incendio). Order matters for deterministic stable_pick.",
+  "items": [
+    "Restauradora Hogar Seguro",
+    "Construcciones y Acabados Andinos",
+    "Servicios Integrales del Hogar Quito",
+    "Restauraciones Costa Norte",
+    "Peritaje y Restauración Cuenca",
+    "Vivienda Plus Guayaquil",
+    "Servitécnicos del Pacífico",
+    "Restauradora Manabita",
+    "Acabados y Remodelaciones Loja",
+    "Hogar Express Ambato"
+  ]
+}

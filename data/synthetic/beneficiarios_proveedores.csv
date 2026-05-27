@@ -1,7 +1,11 @@
 id_proveedor,tipo,ciudad,reclamos_asociados,monto_promedio_reclamado,porcentaje_casos_observados,antiguedad
 PROV-C8736A,Taller de reparación,Guayaquil,0,900.0,0.0,5
+PROV-5B7B0E,Taller de reparación,Quito,0,1000.0,0.0,5
+PROV-824437,Taller de reparación,Cuenca,0,4000.0,0.0,5
 PROV-3C1F79,Taller de reparación,Machala,0,1800.0,0.0,5
+PROV-63BF7F,Taller de reparación,Ambato,0,720.0,0.0,5
 PROV-38707C,Taller de reparación,Manta,0,2800.0,0.0,5
+PROV-082649,Taller de reparación,Guayaquil,0,1600.0,0.0,5
 PROV-33536E,Taller de reparación,Cuenca,0,3000.0,0.0,5
 PROV-8ABB56,Taller de reparación,Portoviejo,0,5600.0,0.0,5
 PROV-6B3D9A,Taller de reparación,Guayaquil,0,9700.0,0.0,5
@@ -17,6 +21,7 @@ PROV-1047CD,Taller de reparación,Guayaquil,5,11000.0,0.0,5
 PROV-67F5FC,Taller de reparación,Guayaquil,5,16250.0,0.0,5
 PROV-E1F351,Taller de reparación,Esmeraldas,5,9900.0,0.0,5
 PROV-52234C,Taller de reparación,Quito,5,13580.0,0.0,5
+PROV-239241,Taller de reparación,Guayaquil,0,68000.0,0.0,5
 PROV-23B15B,Taller de reparación,Esmeraldas,10,10800.0,0.0,5
 PROV-44CBD8,Taller de reparación,Quito,10,13000.0,0.0,5
 PROV-8B4427,Taller de reparación,Quito,0,18000.0,0.0,5
@@ -24,7 +29,27 @@ PROV-E3DD2E,Taller de reparación,Guayaquil,5,29750.0,0.0,5
 PROV-0970BD,Taller de reparación,Quito,10,38800.0,0.0,5
 PROV-7DED56,Taller de reparación,Cuenca,10,17460.0,0.0,5
 PROV-99BA29,Taller de reparación,Guayaquil,5,27160.0,0.0,5
+PROV-4230B5,Taller de reparación,Ibarra,0,720.0,0.0,5
+PROV-8A0F01,Taller de reparación,Latacunga,0,3150.0,0.0,5
 PROV-9971BE,Taller de reparación,Quevedo,5,31040.0,0.0,5
+PROV-F06658,Taller de reparación,Ibarra,0,44000.0,0.0,5
 PROV-D3D2E2,Taller de reparación,Milagro,5,4000.0,0.0,5
+PROV-D1F109,Taller de reparación,Babahoyo,0,11700.0,0.0,5
 PROV-DA7740,Taller de reparación,Guayaquil,10,18000.0,0.0,5
 PROV-B6EE80,Taller de reparación,Santo Domingo,10,33950.0,0.0,5
+PROV-6F8976,Taller de reparación,Ambato,0,3600.0,0.0,5
+PROV-C22E82,Taller de reparación,Cuenca,0,12600.0,0.0,5
+PROV-C0B5D7,Taller de reparación,Manta,10,17000.0,0.0,5
+PROV-ABA139,Taller de reparación,Quito,0,3960.0,0.0,5
+PROV-91B031,Taller de reparación,Guayaquil,0,77600.0,0.0,5
+PROV-8436B9,Taller de reparación,Manta,10,28000.0,0.0,5
+PROV-CE244C,Taller de reparación,Cuenca,0,30000.0,0.0,5
+PROV-4F65E3,Taller de reparación,Quito,0,50000.0,0.0,5
+PROV-99D3D8,Taller de reparación,Guayaquil,0,43650.0,0.0,5
+PROV-B26B21,Taller de reparación,Manta,10,57000.0,0.0,5
+PROV-395468,Taller de reparación,Riobamba,0,55000.0,0.0,5
+PROV-87554C,Taller de reparación,Quito,0,4500.0,0.0,5
+PROV-49FFAF,Taller de reparación,Babahoyo,0,14300.0,0.0,5
+PROV-CA5AED,Taller de reparación,Guayaquil,0,13200.0,0.0,5
+PROV-F5BFDE,Taller de reparación,Loja,0,9000.0,0.0,5
+PROV-37E113,Taller de reparación,Manta,0,67900.0,0.0,5

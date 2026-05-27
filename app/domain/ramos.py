@@ -26,7 +26,6 @@ CANONICAL_RAMOS: tuple[str, ...] = (
 _RAW_TO_CANONICAL: dict[str, str] = {
     "vehiculos": "vehiculos",
     "vehículos": "vehiculos",
-    "transporte": "vehiculos",
     "auto": "vehiculos",
     "salud": "salud",
     "accidentes personales": "salud",
@@ -34,6 +33,15 @@ _RAW_TO_CANONICAL: dict[str, str] = {
     "hogar": "hogar",
     "incendio": "hogar",
     "generales": "generales",
+    # Commercial / cargo / equipment lines roll up under "generales" for the
+    # triage donut — they share the same operational queue and provider pool.
+    "transporte": "generales",
+    "mercancias en transito": "generales",
+    "mercancías en tránsito": "generales",
+    "equipo electronico": "generales",
+    "equipo electrónico": "generales",
+    "fianzas": "generales",
+    "responsabilidad civil comercial": "generales",
 }
 
 _RAMO_LABELS_PATH = (

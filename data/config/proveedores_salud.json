@@ -1,0 +1,15 @@
+{
+  "_comment": "Curated list of plausible Ecuadorian salud (health) providers — clínicas, hospitales y centros médicos. Used as the default proveedor pool for claims whose canonical ramo is 'salud' (raw values: Salud, Accidentes Personales). Order matters for deterministic stable_pick.",
+  "items": [
+    "Clínica Kennedy Norte",
+    "Hospital Metropolitano de Quito",
+    "Clínica Pichincha",
+    "Centro Médico Alborada",
+    "Hospital del Río Cuenca",
+    "Clínica San Francisco Guayaquil",
+    "Centro Médico Latacunga",
+    "Clínica Santa Inés Cuenca",
+    "Hospital Vozandes",
+    "Clínica de la Mujer Quito"
+  ]
+}

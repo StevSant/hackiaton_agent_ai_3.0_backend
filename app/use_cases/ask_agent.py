@@ -199,7 +199,16 @@ class AskAgent:
                     values={"messages": [AIMessage(content=full_answer)]},
                 )
 
-            # --- Persist the assistant message + schedule title generation.
+            # Build the chart BEFORE persistence so we can store its payload
+            # alongside the assistant message. Chart emission is intent-gated:
+            # `maybe_build_chart` returns None unless a tool call carried a
+            # `chart_hint` (set by the LLM only when the user asked for one).
+            chart_event = maybe_build_chart(tool_results, message_id)
+            chart_payload_dict = (
+                chart_event.data.model_dump(mode="json") if chart_event is not None else None
+            )
+
+            # --- Persist the assistant message + chart payload + schedule title generation.
             if (
                 self._persistence is not None
                 and user is not None
@@ -211,6 +220,7 @@ class AskAgent:
                         conversation_id=conversation_uuid,
                         user=user,
                         answer=full_answer,
+                        chart_payload=chart_payload_dict,
                     )
                     self._persistence.schedule_title(
                         conversation_id=conversation_uuid,
@@ -222,8 +232,6 @@ class AskAgent:
                 except Exception:
                     logger.exception("Persisting assistant message failed; chat continues.")
 
-            # Emit a chart event when the tool results contain chartable data.
-            chart_event = maybe_build_chart(tool_results, message_id)
             if chart_event is not None:
                 yield chart_event
 

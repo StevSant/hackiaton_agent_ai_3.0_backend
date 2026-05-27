@@ -20,6 +20,15 @@ from app.use_cases.generate_dataset._pools.proveedor_qualifiers import (
 from app.use_cases.generate_dataset._pools.proveedores_default import (
     PROVEEDORES_DEFAULT,
 )
+from app.use_cases.generate_dataset._pools.proveedores_generales import (
+    PROVEEDORES_GENERALES,
+)
+from app.use_cases.generate_dataset._pools.proveedores_hogar import (
+    PROVEEDORES_HOGAR,
+)
+from app.use_cases.generate_dataset._pools.proveedores_salud import (
+    PROVEEDORES_SALUD,
+)
 from app.use_cases.generate_dataset._pools.ramos_vehiculo import RAMOS_VEHICULO
 from app.use_cases.generate_dataset._pools.sucursales import SUCURSALES
 
@@ -33,6 +42,9 @@ __all__ = [
     "PROVEEDOR_PREFIJOS",
     "PROVEEDOR_QUALIFIERS",
     "PROVEEDORES_DEFAULT",
+    "PROVEEDORES_GENERALES",
+    "PROVEEDORES_HOGAR",
+    "PROVEEDORES_SALUD",
     "RAMOS_VEHICULO",
     "SUCURSALES",
 ]
