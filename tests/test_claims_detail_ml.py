@@ -1,13 +1,11 @@
 """GET /claims/{id} smoke test — ml/anomaly fields are present in the response.
 
-Artifacts are not loaded in the test lifespan, so we expect:
-- ``ml_probability``      → None
-- ``ml_factors``          → []
-- ``anomaly_score``       → None
-- ``nearest_normal_claim_id`` → None
-
-This locks down the wire contract: the fields exist on the response even when
-the adapters aren't wired, so the frontend can rely on their presence.
+This locks down the wire contract: every claim detail surfaces all four
+explainability extras (`ml_probability`, `ml_factors`, `anomaly_score`,
+`nearest_normal_claim_id`) so the frontend can rely on their presence.
+Values vary depending on whether the optional model artifacts were loaded
+by the lifespan — the assertions only check that the keys exist and (when
+present) carry sane shapes.
 """
 
 from __future__ import annotations
@@ -37,9 +35,15 @@ async def test_claim_detail_returns_ml_fields_at_default() -> None:
     app = create_app()
     app.dependency_overrides[get_current_user] = _stub_user
 
-    transport = httpx.ASGITransport(app=app)
-    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
-        response = await client.get("/api/v1/claims/SIN-0001")
+    # `httpx.ASGITransport` does not run FastAPI's lifespan — wrap the client
+    # block in the app's lifespan context so `set_session_factory` runs and
+    # `DbClaimQueries` can resolve a session.
+    async with app.router.lifespan_context(app):
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(
+            transport=transport, base_url="http://test"
+        ) as client:
+            response = await client.get("/api/v1/claims/SIN-0001")
 
     if response.status_code == 404:
         pytest.skip("Synthetic dataset SIN-0001 not present in this environment.")
@@ -51,7 +55,9 @@ async def test_claim_detail_returns_ml_fields_at_default() -> None:
     assert "anomaly_score" in body
     assert "nearest_normal_claim_id" in body
 
-    # No artifacts loaded → defaults.
-    assert body["ml_probability"] is None
-    assert body["ml_factors"] == []
-    assert body["nearest_normal_claim_id"] is None
+    # Shapes are stable whether or not the optional model artifacts loaded.
+    if body["ml_probability"] is not None:
+        assert 0.0 <= body["ml_probability"] <= 1.0
+    assert isinstance(body["ml_factors"], list)
+    if body["anomaly_score"] is not None:
+        assert isinstance(body["anomaly_score"], (int, float))
