@@ -19,7 +19,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
-from app.api.deps import get_claim_queries, get_current_user, get_reviews_store, require_role
+from app.api.deps import get_claim_queries_dep, get_current_user, get_reviews_store, require_role
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.reviews.state_machine import ConflictError, GuardError, ReviewTransitionError
@@ -68,7 +68,7 @@ async def escalate_claim_route(
     body: EscalateRequest,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
@@ -91,7 +91,7 @@ async def close_claim_route(
     body: CloseRequest,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
@@ -117,7 +117,7 @@ async def close_claim_route(
 async def claims_historico_route(
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     page: int = 0,
     page_size: int = 25,
 ) -> Page[ClaimSummary]:
@@ -141,7 +141,7 @@ async def take_claim_route(
     claim_id: str,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
@@ -169,7 +169,7 @@ async def dictamen_route(
     body: DictamenRequest,
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
@@ -205,7 +205,7 @@ async def dictamen_route(
 )
 async def antifraude_inbox_route(
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     status_filter: ReviewStatus | None = None,
     page: int = 0,
     page_size: int = 25,
@@ -229,7 +229,7 @@ async def antifraude_inbox_route(
 async def antifraude_historico_route(
     user: Annotated[User, Depends(get_current_user)],
     store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
-    queries: Annotated[ClaimQueries, Depends(get_claim_queries)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     page: int = 0,
     page_size: int = 25,
 ) -> Page[ClaimSummary]:
