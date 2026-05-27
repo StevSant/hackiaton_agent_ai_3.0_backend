@@ -1,17 +1,21 @@
-"""get_claim_detail — fetch one claim and attach rules-engine scores.
+"""get_claim_detail — fetch one claim and attach rules + ML/anomaly enrichment.
 
 **Scoring strategy (double-scoring guard)**:
 - If the claim already has ``alertas`` populated (i.e. it came from the
   synthetic dataset, where scores are baked at generation time), return it
-  as-is.  Re-running ``score_claim`` via the context-poor
-  ``RuleContext.from_claim`` path would clobber the rich demo scores because
-  many signal flags (frequency, restrictive lists, similarity) can only be
-  derived from the full DB context, not from ``ClaimDetail`` alone.
+  as-is without re-running the rules engine. Re-running ``score_claim`` via
+  the context-poor ``RuleContext.from_claim`` path would clobber the rich
+  demo scores because many signal flags (frequency, restrictive lists,
+  similarity) can only be derived from the full DB context, not from
+  ``ClaimDetail`` alone.
 - If ``alertas`` is empty (un-scored DB claim, future path), run the live
-  rules engine as before so new claims always get fresh scores.
+  rules engine.
 
-ML factors, anomaly score, and similar narratives are left at defaults until
-Layer 7 fills the respective ports.
+**ML / anomaly enrichment runs in BOTH branches** — synthetic pre-scored claims
+still get ``ml_probability``, ``ml_factors``, ``anomaly_score``, and
+``nearest_normal_claim_id`` filled in via ``enrich_claim_score`` when the
+adapters are wired (artifacts present at boot). When adapters are absent the
+fields stay at their defaults and the UI hides the corresponding widgets.
 
 Returns None when the claim is not found (caller maps to 404).
 """
@@ -19,11 +23,14 @@ Returns None when the claim is not found (caller maps to 404).
 from __future__ import annotations
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
+from app.domain.anomaly import AnomalyDetector
+from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.schemas.claim import ClaimAlert, ClaimDetail
 from app.schemas.risk import Tier
+from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.score_claim import score_claim
 
 
@@ -37,12 +44,16 @@ async def get_claim_detail(
     claim_id: str,
     *,
     reviews_store: InMemoryReviewsStore | None = None,
+    classifier: FraudClassifier | None = None,
+    detector: AnomalyDetector | None = None,
 ) -> ClaimDetail | None:
-    """Return a ClaimDetail with score/nivel/alertas, or None if not found.
+    """Return a ClaimDetail with score/nivel/alertas + ML enrichment, or None if not found.
 
     Claims already scored at generation time (non-empty ``alertas``) are
-    returned as-is (double-scoring guard).  Un-scored claims are scored live
-    via the rules engine.
+    returned as-is from the rules side (double-scoring guard). Un-scored
+    claims are scored live via the rules engine. Both branches feed through
+    ``enrich_claim_score`` so ML/anomaly fields are populated regardless of
+    whether the rules were baked or live.
 
     When *reviews_store* is provided the live ``ClaimReview`` is attached so the
     detail page always reflects the current workflow state (§6 V2.6 §10 contract).
@@ -51,44 +62,39 @@ async def get_claim_detail(
     if claim is None:
         return None
 
-    # Double-scoring guard: skip live re-scoring for pre-scored claims.
-    # Pre-scored claims have alertas populated by the generator with a full
-    # RuleContext; re-scoring here would use only the context-poor from_claim
-    # path and would clobber the rich demo scores.
     if claim.alertas:
+        # Pre-scored claim: keep rules side as-is; just attach the live review.
         if reviews_store is not None:
             live_review = reviews_store.get(claim_id)
-            return claim.model_copy(update={"review": live_review})
-        return claim
+            claim = claim.model_copy(update={"review": live_review})
+    else:
+        # Live-scoring path for un-scored DB claims (post-hackathon).
+        ctx = RuleContext.from_claim(claim)
+        risk = score_claim(claim, ctx=ctx)
 
-    # Live-scoring path for un-scored DB claims (post-hackathon).
-    ctx = RuleContext.from_claim(claim)
-    risk = score_claim(claim, ctx=ctx)
-
-    # Project RuleActivation list → ClaimAlert list
-    alertas: list[ClaimAlert] = []
-    for activation in risk.activations:
-        meta = get_meta(activation.code)
-        detalle = meta.short_description if meta is not None else activation.code
-        severidad = _tier_to_severidad(activation.tier_hint)
-        alertas.append(
-            ClaimAlert(
-                code=activation.code,
-                puntos=activation.points,
-                severidad=severidad,
-                detalle=detalle,
+        alertas: list[ClaimAlert] = []
+        for activation in risk.activations:
+            meta = get_meta(activation.code)
+            detalle = meta.short_description if meta is not None else activation.code
+            severidad = _tier_to_severidad(activation.tier_hint)
+            alertas.append(
+                ClaimAlert(
+                    code=activation.code,
+                    puntos=activation.points,
+                    severidad=severidad,
+                    detalle=detalle,
+                )
             )
-        )
 
-    updates: dict[str, object] = {
-        "score": risk.score,
-        "nivel": risk.tier,
-        "alertas": alertas,
-        "ml_factors": risk.ml_factors,
-        "similar": risk.similar,
-        "anomaly_score": risk.anomaly_score,
-    }
-    if reviews_store is not None:
-        updates["review"] = reviews_store.get(claim_id)
+        updates: dict[str, object] = {
+            "score": risk.score,
+            "nivel": risk.tier,
+            "alertas": alertas,
+            "similar": risk.similar,
+        }
+        if reviews_store is not None:
+            updates["review"] = reviews_store.get(claim_id)
+        claim = claim.model_copy(update=updates)
 
-    return claim.model_copy(update=updates)
+    # ML + anomaly enrichment — runs in BOTH branches. Pass-through when ports unwired.
+    return await enrich_claim_score(claim, classifier=classifier, detector=detector)

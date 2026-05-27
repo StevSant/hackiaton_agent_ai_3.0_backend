@@ -15,16 +15,26 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
-from app.api.deps import get_claim_queries, get_current_user, get_reviews_store, require_role
+from app.api.deps import (
+    get_anomaly_detector,
+    get_claim_queries,
+    get_current_user,
+    get_fraud_classifier,
+    get_reviews_store,
+    require_role,
+)
 from app.core.config import settings
+from app.domain.anomaly import AnomalyDetector
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
+from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ReviewStatus
 from app.schemas.page import Page
 from app.schemas.risk import ClaimRiskScore, Tier
+from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.get_claim_detail import _tier_to_severidad, get_claim_detail
 from app.use_cases.list_claims import list_claims
 from app.use_cases.score_claim import score_claim
@@ -63,9 +73,17 @@ async def get_claim_detail_route(
     claim_id: str,
     queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
     reviews_store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
-    detail = await get_claim_detail(queries, claim_id, reviews_store=reviews_store)
+    detail = await get_claim_detail(
+        queries,
+        claim_id,
+        reviews_store=reviews_store,
+        classifier=classifier,
+        detector=detector,
+    )
     if detail is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
@@ -77,6 +95,8 @@ async def get_claim_detail_route(
 async def rescore_claim_route(
     claim_id: str,
     queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimRiskScore:
     claim = await queries.get_detail(claim_id)
@@ -85,7 +105,16 @@ async def rescore_claim_route(
             status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
         )
     ctx = RuleContext.from_claim(claim)
-    return score_claim(claim, ctx=ctx)
+    risk = score_claim(claim, ctx=ctx)
+    enriched = await enrich_claim_score(claim, classifier=classifier, detector=detector)
+    return risk.model_copy(
+        update={
+            "ml_probability": enriched.ml_probability,
+            "ml_factors": enriched.ml_factors,
+            "anomaly_score": enriched.anomaly_score,
+            "nearest_normal_claim_id": enriched.nearest_normal_claim_id,
+        }
+    )
 
 
 @router.patch("/{claim_id}", response_model=ClaimDetail)
@@ -93,6 +122,8 @@ async def patch_claim_route(
     claim_id: str,
     patch: ClaimPatch,
     queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
     _user: Annotated[User, Depends(require_role(Role.antifraude))] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
     """Debug fire-test endpoint — gated by DEBUG_ENABLED (§10).
@@ -116,11 +147,10 @@ async def patch_claim_route(
         updates["fecha_reporte"] = patch.fecha_reporte
     if patch.monto_reclamado is not None:
         updates["monto_reclamado"] = patch.monto_reclamado
-    if patch.documentos_completos is not None:
+    if patch.documentos_completos is not None and patch.documentos_completos:
         # Reflect on existing documentos list — clear falta flags when set to True
-        if patch.documentos_completos:
-            new_docs = [d.model_copy(update={"falta": False}) for d in claim.documentos]
-            updates["documentos"] = new_docs
+        new_docs = [d.model_copy(update={"falta": False}) for d in claim.documentos]
+        updates["documentos"] = new_docs
 
     patched = claim.model_copy(update=updates)
 
@@ -136,13 +166,12 @@ async def patch_claim_route(
         for a in risk.activations
     ]
 
-    return patched.model_copy(
+    rescored = patched.model_copy(
         update={
             "score": risk.score,
             "nivel": risk.tier,
             "alertas": alertas,
-            "ml_factors": risk.ml_factors,
             "similar": risk.similar,
-            "anomaly_score": risk.anomaly_score,
         }
     )
+    return await enrich_claim_score(rescored, classifier=classifier, detector=detector)

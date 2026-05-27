@@ -128,9 +128,11 @@ class ClaimDetail(BaseModel):
     documentos: list[ClaimDocument] = Field(default_factory=list)
     review: ClaimReview = Field(default_factory=ClaimReview)
     # explainability extras (not in the FE mock yet — feed the V8 accordions)
+    ml_probability: float | None = Field(default=None, ge=0.0, le=1.0)
     ml_factors: list[FactorContribution] = Field(default_factory=list)
     similar: list[SimilarClaim] = Field(default_factory=list)
     anomaly_score: float | None = None
+    nearest_normal_claim_id: str | None = None
 
 
 class ClaimPatch(BaseModel):

@@ -29,8 +29,10 @@ from app.agents.claims_agent.tools import (
 from app.core.config import Settings, settings
 from app.core.errors import Unauthorized
 from app.core.lifespan_state import AIState
+from app.domain.anomaly import AnomalyDetector
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
+from app.domain.ml import FraudClassifier
 from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
 from app.infrastructure.embeddings import (
     EmbeddingsProvider,
@@ -180,6 +182,21 @@ def _fallback_embeddings() -> EmbeddingsProvider:
     if settings.EMBEDDINGS_PROVIDER == "openai" and settings.OPENAI_API_KEY is not None:
         return build_openai_embeddings_adapter()
     return SentenceTransformersAdapter(model_name=settings.EMBEDDINGS_MODEL)
+
+
+def get_fraud_classifier(request: Request) -> FraudClassifier | None:
+    """Lifespan-pinned LightGBM classifier; None when the artifact is absent.
+
+    Callers must accept None gracefully — ``enrich_claim_score`` does.
+    """
+    state = _ai_state(request)
+    return state.fraud_classifier if state is not None else None
+
+
+def get_anomaly_detector(request: Request) -> AnomalyDetector | None:
+    """Lifespan-pinned IsolationForest detector; None when the artifact is absent."""
+    state = _ai_state(request)
+    return state.anomaly_detector if state is not None else None
 
 
 def get_vector_store() -> VectorStore:

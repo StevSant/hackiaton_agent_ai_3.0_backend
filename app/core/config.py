@@ -44,6 +44,7 @@ class Settings(BaseSettings):
     # ml
     FRAUD_MODEL_PATH: str = "data/models/fraud_lgbm.txt"
     ANOMALY_MODEL_PATH: str = "data/models/anomaly_iforest.joblib"
+    NEAREST_NORMAL_INDEX_PATH: str = "data/models/anomaly_knn.joblib"
 
     # rules
     RULES_CONFIG_PATH: str = "app/domain/rules/config.yaml"

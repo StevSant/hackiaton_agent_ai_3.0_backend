@@ -28,8 +28,11 @@ def _fake_ai_state() -> AIState:
         embeddings_model="paraphrase-multilingual-MiniLM-L12-v2",
         embeddings_dim=384,
         prompts=PromptLoader(base_dir=prompts_dir),
+        fraud_classifier=None,
         fraud_model_present=False,
+        anomaly_detector=None,
         anomaly_model_present=False,
+        nearest_normal_index_present=False,
     )
 
 
