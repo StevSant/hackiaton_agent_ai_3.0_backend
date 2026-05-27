@@ -186,9 +186,17 @@ docker/
 docker-compose.yml                 ← app + postgres+pgvector
 ```
 
-**Deferred (out of scope for the hackathon submission — do NOT scaffold):** `infrastructure/storage/`, `use_cases/rag/`, `use_cases/uploads/`, `domain/memory/`, `agents/router_agent/`. See the spec §11 for the re-introduction trigger.
+**Deferred (out of scope for the hackathon submission — do NOT scaffold):** `use_cases/rag/`, `domain/memory/`, `agents/router_agent/`. See the spec §11 for the re-introduction trigger.
 
 > **Auth is in scope now (V0):** `infrastructure/auth/`, `domain/auth/`, `use_cases/auth/`, and `api/v1/auth.py` are first-class. They were originally on the deferred list; spec §17 (2026-05-26) added them back as **local JWT only** (no Supabase, no OAuth) for demo-day insurance.
+
+> **The following were originally deferred but landed during the hackathon and are now in scope:**
+> - `infrastructure/storage/` — backend file storage adapter for uploaded claim documents.
+> - `infrastructure/speech/` — Whisper transcription adapter for the voice-input chat.
+> - `use_cases/import_claims/` + `use_cases/upload_claim_document.py` + `upload_claim_documents_bulk.py` + `sync_claim_document.py` + `delete_claim_document.py` — analyst-facing CSV/JSON import + per-claim PDF upload flow.
+> - `use_cases/conversations/` + `use_cases/transcribe_audio.py` — conversation history for the agent chat and voice-to-text transcription.
+> - `infrastructure/audit/` + `infrastructure/rule_changes/` — append-only in-memory stores feeding the Audit page and the Rules-changes log respectively (added 2026-05-27).
+> Treat these as first-class; do not delete them or move them back behind the deferred line.
 
 **Dependency direction (the only one that's allowed):**
 
