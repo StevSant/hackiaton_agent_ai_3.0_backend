@@ -1,0 +1,2 @@
+id,ramo,cobertura,asegurado,asegurado_id,poliza,ciudad,fecha_ocurrencia,fecha_reporte,fecha_inicio_poliza,fecha_fin_poliza,monto_reclamado,suma_asegurada,estado,sucursal,proveedor,descripcion,score,nivel
+SIN-2026-99001,Vehículos,Pérdida total por robo,Carlos Andrés Mendoza Vega,ASG-99001,PV-9900101,Quito,2026-04-18,2026-05-03,2026-03-28,2027-03-28,38500.0,42000.0,Reserva,Quito Norte,Taller Mecánico Auto-Élite,"Toyota Fortuner reportado robado en La Carolina. Denuncia fiscal presentada 12 días después del hecho.",91,rojo

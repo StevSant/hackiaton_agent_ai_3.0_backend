@@ -11,11 +11,14 @@ Returns an ``ImportResult`` with counts and error messages.
 from __future__ import annotations
 
 import logging
-from datetime import UTC, datetime
 from uuid import UUID
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.use_cases.claim_score_persist import (
+    claim_detail_to_score_row,
+    upsert_claim_score,
+)
 from app.schemas.claim import ClaimAlert, ClaimDetail
 from app.schemas.imports import ImportResult
 from app.use_cases.load_dataset._aggregates import compute_aggregates
@@ -99,8 +102,8 @@ async def _upsert_one(
         await session.merge(doc)
     await session.flush()
 
-    score_row = _build_claim_score(scored)
-    await session.merge(score_row)
+    score_row = claim_detail_to_score_row(scored)
+    await upsert_claim_score(session, score_row)
     await session.flush()
 
 
@@ -133,48 +136,4 @@ def _score_and_annotate(claim: ClaimDetail) -> ClaimDetail:
             "nivel": risk.tier,
             "alertas": alertas,
         }
-    )
-
-
-def _build_claim_score(claim: ClaimDetail) -> object:
-    """Build a ``ClaimScore`` ORM object from an annotated ``ClaimDetail``."""
-    from typing import Any
-
-    from app.infrastructure.db.models.claim_score import ClaimScore
-
-    activations_json: list[dict[str, Any]] = [
-        {
-            "code": a.code,
-            "puntos": a.puntos,
-            "severidad": a.severidad,
-            "detalle": a.detalle,
-        }
-        for a in claim.alertas
-    ]
-    ml_factors_json: list[dict[str, Any]] = [
-        {
-            "feature": f.feature,
-            "shap_value": f.shap_value,
-            "direction": f.direction,
-        }
-        for f in claim.ml_factors
-    ]
-    similar_json: list[dict[str, Any]] = [
-        {
-            "claim_id": s.claim_id,
-            "similarity": s.similarity,
-            "snippet": s.snippet,
-        }
-        for s in claim.similar
-    ]
-    return ClaimScore(
-        claim_id=claim.id,
-        score=claim.score,
-        tier=claim.nivel.value,
-        activations=activations_json,
-        ml_probability=claim.ml_probability,
-        ml_factors=ml_factors_json,
-        anomaly_score=claim.anomaly_score,
-        similar=similar_json,
-        computed_at=datetime.now(tz=UTC),
     )

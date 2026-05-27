@@ -1,7 +1,7 @@
 """Upload a document for a given claim (siniestro).
 
 Validates size + MIME, stores to the configured adapter (Supabase or in-memory),
-persists the documento row, and returns a signed URL valid for 1 hour.
+persists the documento row, recalculates the fraud score, and returns a signed URL.
 """
 
 from __future__ import annotations
@@ -17,6 +17,7 @@ from app.core.errors import NotFound, ValidationFailed
 from app.infrastructure.db.models.siniestro import Siniestro
 from app.infrastructure.storage.ports import Storage
 from app.schemas.documents import UploadedDocument
+from app.use_cases.claim_score_persist import rescore_claim_persisted
 from app.use_cases.sync_claim_document import persist_uploaded_document
 
 
@@ -44,6 +45,8 @@ async def upload_claim_document(
     content_type: str,
     tipo: str,
     workspace_id: UUID | None = None,
+    rescore_after_upload: bool = True,
+    commit: bool = True,
 ) -> UploadedDocument:
     """Validate and store one document; persist metadata and return upload record."""
     sin = await session.get(Siniestro, id_siniestro)
@@ -78,7 +81,12 @@ async def upload_claim_document(
         filename=safe_name,
         content_type=content_type,
     )
-    await session.commit()
+
+    if rescore_after_upload:
+        await rescore_claim_persisted(session, id_siniestro)
+
+    if commit:
+        await session.commit()
 
     return UploadedDocument(
         tipo=doc.tipo_documento,
