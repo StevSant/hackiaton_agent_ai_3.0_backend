@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     API_V1_PREFIX: str = "/api/v1"
     CORS_ALLOW_ORIGINS: list[str] = ["http://localhost:4200"]
 
+    # uvicorn server (consumed by `uv run app` entrypoint in app/cli.py)
+    SERVER_HOST: str = "0.0.0.0"  # noqa: S104  bind-all is intentional for docker/dev
+    SERVER_PORT: int = 8000
+    SERVER_RELOAD: bool = True
+
     # database
     DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres"
 
