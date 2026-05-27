@@ -44,6 +44,8 @@ class LightGBMClassifier(FraudClassifier):
         return await asyncio.to_thread(self._predict_sync, features)
 
     def _predict_sync(self, features: dict[str, float]) -> MLPrediction:
+        import warnings
+
         import numpy as np
 
         row = np.array(
@@ -52,7 +54,13 @@ class LightGBMClassifier(FraudClassifier):
         )
         prob_arr = self._booster.predict(row)
         probability = float(np.asarray(prob_arr).reshape(-1)[0])
-        shap_values = self._explainer.shap_values(row)
+        # SHAP emits a one-time deprecation UserWarning the first time
+        # TreeExplainer.shap_values is called on a LightGBM binary classifier
+        # ("output has changed to a list of ndarray"). We already handle both
+        # shapes below — silence the noise so logs stay clean during the demo.
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=UserWarning, module="shap")
+            shap_values = self._explainer.shap_values(row)
         # binary classifier — shap may return either ndarray or [class0, class1]
         if isinstance(shap_values, list):
             sv = shap_values[1] if len(shap_values) > 1 else shap_values[0]
