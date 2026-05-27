@@ -43,6 +43,7 @@ from app.infrastructure.llm import (
     PromptLoader,
     build_openai_adapter,
 )
+from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.infrastructure.storage import Storage
 from app.infrastructure.vectorstore import VectorStore
 from app.schemas.claim import ClaimDetail
@@ -220,6 +221,19 @@ def get_claim_queries() -> ClaimQueries:
     one new adapter file, no callers change.
     """
     return SyntheticClaimQueries()
+
+
+# ---------------------------------------------------------------------------
+# Reviews store (in-memory process singleton for V2.6 workflow)
+# ---------------------------------------------------------------------------
+
+@lru_cache(maxsize=1)
+def get_reviews_store() -> InMemoryReviewsStore:
+    """Return the process-singleton in-memory reviews store.
+
+    Seeded with 2 escalado + 1 dictaminado rows at first call.
+    """
+    return InMemoryReviewsStore(seed=True)
 
 
 def get_ask_agent(

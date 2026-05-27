@@ -4,7 +4,16 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1 import agent_router, auth_router, claims_router, health_router, rules_router, status_router
+from app.api.v1 import (
+    agent_router,
+    antifraude_router,
+    auth_router,
+    claims_reviews_router,
+    claims_router,
+    health_router,
+    rules_router,
+    status_router,
+)
 from app.core.config import settings
 from app.core.errors import register_error_handlers
 from app.core.lifespan_state import build_lifespan_state
@@ -47,7 +56,11 @@ def create_app() -> FastAPI:
     app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
     app.include_router(agent_router, prefix=settings.API_V1_PREFIX)
     app.include_router(status_router, prefix=settings.API_V1_PREFIX)
+    # claims_reviews_router must be included BEFORE claims_router because
+    # /claims/historico (a fixed path) must not be shadowed by /claims/{id}.
+    app.include_router(claims_reviews_router, prefix=settings.API_V1_PREFIX)
     app.include_router(claims_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(antifraude_router, prefix=settings.API_V1_PREFIX)
     app.include_router(rules_router, prefix=settings.API_V1_PREFIX)
 
     return app

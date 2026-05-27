@@ -15,12 +15,13 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
-from app.api.deps import get_claim_queries, get_current_user, require_role
+from app.api.deps import get_claim_queries, get_current_user, get_reviews_store, require_role
 from app.core.config import settings
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
+from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ReviewStatus
 from app.schemas.page import Page
 from app.schemas.risk import ClaimRiskScore, Tier
@@ -61,9 +62,10 @@ async def list_claims_route(
 async def get_claim_detail_route(
     claim_id: str,
     queries: Annotated[ClaimQueries, Depends(get_claim_queries)] = ...,  # type: ignore[assignment]
+    reviews_store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
-    detail = await get_claim_detail(queries, claim_id)
+    detail = await get_claim_detail(queries, claim_id, reviews_store=reviews_store)
     if detail is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"

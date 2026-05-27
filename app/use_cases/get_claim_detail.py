@@ -21,6 +21,7 @@ from __future__ import annotations
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
+from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
 from app.schemas.claim import ClaimAlert, ClaimDetail
 from app.schemas.risk import Tier
 from app.use_cases.score_claim import score_claim
@@ -31,12 +32,20 @@ def _tier_to_severidad(tier: Tier) -> str:
     return {"rojo": "high", "amarillo": "med", "verde": "low"}[tier.value]
 
 
-async def get_claim_detail(queries: ClaimQueries, claim_id: str) -> ClaimDetail | None:
+async def get_claim_detail(
+    queries: ClaimQueries,
+    claim_id: str,
+    *,
+    reviews_store: InMemoryReviewsStore | None = None,
+) -> ClaimDetail | None:
     """Return a ClaimDetail with score/nivel/alertas, or None if not found.
 
     Claims already scored at generation time (non-empty ``alertas``) are
     returned as-is (double-scoring guard).  Un-scored claims are scored live
     via the rules engine.
+
+    When *reviews_store* is provided the live ``ClaimReview`` is attached so the
+    detail page always reflects the current workflow state (§6 V2.6 §10 contract).
     """
     claim = await queries.get_detail(claim_id)
     if claim is None:
@@ -47,6 +56,9 @@ async def get_claim_detail(queries: ClaimQueries, claim_id: str) -> ClaimDetail 
     # RuleContext; re-scoring here would use only the context-poor from_claim
     # path and would clobber the rich demo scores.
     if claim.alertas:
+        if reviews_store is not None:
+            live_review = reviews_store.get(claim_id)
+            return claim.model_copy(update={"review": live_review})
         return claim
 
     # Live-scoring path for un-scored DB claims (post-hackathon).
@@ -68,13 +80,15 @@ async def get_claim_detail(queries: ClaimQueries, claim_id: str) -> ClaimDetail 
             )
         )
 
-    return claim.model_copy(
-        update={
-            "score": risk.score,
-            "nivel": risk.tier,
-            "alertas": alertas,
-            "ml_factors": risk.ml_factors,
-            "similar": risk.similar,
-            "anomaly_score": risk.anomaly_score,
-        }
-    )
+    updates: dict[str, object] = {
+        "score": risk.score,
+        "nivel": risk.tier,
+        "alertas": alertas,
+        "ml_factors": risk.ml_factors,
+        "similar": risk.similar,
+        "anomaly_score": risk.anomaly_score,
+    }
+    if reviews_store is not None:
+        updates["review"] = reviews_store.get(claim_id)
+
+    return claim.model_copy(update=updates)
