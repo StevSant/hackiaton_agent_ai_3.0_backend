@@ -13,11 +13,13 @@ from __future__ import annotations
 import asyncio
 from typing import TYPE_CHECKING
 
+from app.infrastructure.embeddings.ports import EmbeddingsProvider
+
 if TYPE_CHECKING:
     from sentence_transformers import SentenceTransformer
 
 
-class SentenceTransformersAdapter:
+class SentenceTransformersAdapter(EmbeddingsProvider):
     """`EmbeddingsProvider` impl backed by sentence-transformers."""
 
     def __init__(self, model_name: str) -> None:

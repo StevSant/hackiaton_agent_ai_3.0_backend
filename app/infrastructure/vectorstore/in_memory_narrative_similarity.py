@@ -12,11 +12,12 @@ import asyncio
 
 import numpy as np
 
+from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.embeddings import EmbeddingsProvider
 from app.schemas.risk import SimilarClaim
 
 
-class InMemoryNarrativeSimilarity:
+class InMemoryNarrativeSimilarity(NarrativeSimilarity):
     """`NarrativeSimilarity` impl backed by an in-process numpy matrix."""
 
     def __init__(self, embeddings: EmbeddingsProvider) -> None:

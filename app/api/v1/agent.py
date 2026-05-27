@@ -1,88 +1,61 @@
-"""Agent SSE endpoint — streams real OpenAI responses token-by-token."""
-import json
-import uuid
-from collections.abc import AsyncIterator
+"""Agent SSE endpoint — streams `ChatStreamEvent` from the LangGraph claims agent.
 
-from fastapi import APIRouter
+The legacy wire shape (`message` / `history` / `context_claim_id`) used by the
+Angular client (`agent.store.ts`) is preserved here and adapted on entry to the
+use-case shape (`query` / `context.focus_claim_id` / `conversation_id`) expected
+by `AskAgent`. `history` is intentionally dropped: multi-turn memory is owned by
+the LangGraph checkpointer keyed by `conversation_id`.
+
+This route holds zero business logic and never imports an LLM SDK directly —
+it delegates to `AskAgent` (ReAct loop + 5 tools wired in `deps.py`), which goes
+through the `LLMProvider` port.
+"""
+
+import json
+from collections.abc import AsyncIterator
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
-from app.core.config import settings
-from app.schemas.chat.request import AgentAskRequest
+from app.api.deps import get_ask_agent
+from app.schemas.agent import AgentAskContext
+from app.schemas.agent import AgentAskRequest as AskAgentRequest
+from app.schemas.chat.request import AgentAskRequest as WireAgentAskRequest
+from app.use_cases.ask_agent import AskAgent
 
 router = APIRouter(prefix="/agent", tags=["agent"])
 
-SYSTEM_PROMPT = """Eres Centinela IA, el asistente de análisis antifraude de Aseguradora del Sur (Ecuador).
 
-Tu rol:
-- Ayudas a analistas e investigadores de fraude a entender, priorizar y explicar siniestros sospechosos.
-- Tienes acceso a datos de siniestros, alertas IA, scores de fraude (0-100) y patrones de comportamiento.
-- Citas evidencia concreta: IDs de siniestro, códigos de alerta (RF01, AF02...), montos, fechas, proveedores.
-- Eres directo, técnico y conciso. No haces suposiciones que no se apoyen en datos.
-- Nunca acusas a asegurados — surfaceas casos que requieren revisión especializada.
-
-Contexto del sistema: Aseguradora del Sur opera en Ecuador. Los ramos principales son vehículos, salud, hogar y vida.
-Las alertas de fraude se codifican como RF (reglas de fraude) y AF (anomalías IA).
-El score de fraude va de 0 (bajo riesgo) a 100 (alto riesgo); rojo ≥ 70, amarillo 40-69, verde < 40.
-"""
-
-
-async def _stream_openai(messages: list[dict]) -> AsyncIterator[str]:
-    """Yields SSE-formatted lines from OpenAI chat completions stream."""
-    try:
-        from openai import AsyncOpenAI  # type: ignore[import-untyped]
-
-        client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY.get_secret_value())  # type: ignore[union-attr]
-        message_id = str(uuid.uuid4())
-
-        stream = await client.chat.completions.create(
-            model=settings.LLM_DEFAULT_MODEL,
-            messages=messages,  # type: ignore[arg-type]
-            stream=True,
-            max_tokens=800,
-            temperature=0.3,
-        )
-
-        async for chunk in stream:
-            delta = chunk.choices[0].delta if chunk.choices else None
-            if delta and delta.content:
-                event = {"type": "token", "data": {"delta": delta.content, "message_id": message_id}}
-                yield f"data: {json.dumps(event, ensure_ascii=False)}\n\n"
-
-        done = {"type": "done", "data": {"message_id": message_id}}
-        yield f"data: {json.dumps(done)}\n\n"
-
-    except Exception as exc:  # noqa: BLE001
-        error = {"type": "error", "data": {"code": "llm_error", "message": str(exc)}}
-        yield f"data: {json.dumps(error)}\n\n"
+def _to_use_case_request(wire: WireAgentAskRequest) -> AskAgentRequest:
+    context = (
+        AgentAskContext(focus_claim_id=wire.context_claim_id)
+        if wire.context_claim_id
+        else None
+    )
+    return AskAgentRequest(
+        query=wire.message,
+        context=context,
+        conversation_id=wire.conversation_id,
+    )
 
 
-def _build_messages(request: AgentAskRequest) -> list[dict]:
-    messages: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
-
-    for turn in request.history[-10:]:  # keep last 10 turns
-        role = turn.get("role", "user")
-        content = turn.get("content", "")
-        if role in {"user", "assistant"} and content:
-            messages.append({"role": role, "content": content})
-
-    if request.context_claim_id:
-        messages.append(
-            {
-                "role": "system",
-                "content": f"El analista está revisando actualmente el siniestro {request.context_claim_id}.",
-            }
-        )
-
-    messages.append({"role": "user", "content": request.message})
-    return messages
+async def _stream_events(
+    ask_agent: AskAgent, req: AskAgentRequest
+) -> AsyncIterator[str]:
+    async for event in ask_agent.run(req):
+        payload = event.model_dump(mode="json")
+        yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
 
 
 @router.post("/ask")
-async def agent_ask(body: AgentAskRequest) -> StreamingResponse:
-    messages = _build_messages(body)
-
+async def agent_ask(
+    body: WireAgentAskRequest,
+    ask_agent: Annotated[AskAgent, Depends(get_ask_agent)],
+) -> StreamingResponse:
+    req = _to_use_case_request(body)
     return StreamingResponse(
-        _stream_openai(messages),
+        _stream_events(ask_agent, req),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",

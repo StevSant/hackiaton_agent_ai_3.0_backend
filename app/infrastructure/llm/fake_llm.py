@@ -15,6 +15,7 @@ Spec reference: V7.5 (12-NL-questions acceptance test).
 from collections.abc import AsyncIterator
 from typing import Any
 
+from app.infrastructure.llm.ports import LLMProvider
 from app.infrastructure.llm.types import (
     LLMEvent,
     LLMResult,
@@ -24,7 +25,7 @@ from app.infrastructure.llm.types import (
 )
 
 
-class InMemoryFakeLLM:
+class InMemoryFakeLLM(LLMProvider):
     """`LLMProvider` impl driven by an in-memory script.
 
     `script` maps query substrings (case-insensitive) to either:

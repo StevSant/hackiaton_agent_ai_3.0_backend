@@ -20,6 +20,7 @@ from app.use_cases.claim_queries.in_memory_claim_queries import InMemoryClaimQue
 from app.use_cases.generate_dataset.runner import load_saved
 
 _DATASET_PATH = Path("data/synthetic/claims.json")
+_DEMO_PATH = Path("data/synthetic/demo_claims.json")
 
 
 def _fallback_claims() -> list[ClaimDetail]:
@@ -28,15 +29,31 @@ def _fallback_claims() -> list[ClaimDetail]:
     return list(ALL_FIXTURES)
 
 
-def build_synthetic_queries(path: Path = _DATASET_PATH) -> InMemoryClaimQueries:
-    """Load the synthetic dataset or fall back to fixtures.
+def _merge_demo_first(
+    demo: list[ClaimDetail] | None, synthetic: list[ClaimDetail]
+) -> list[ClaimDetail]:
+    """Demo claims take precedence: same ``id`` from synthetic is dropped.
 
-    Returns an ``InMemoryClaimQueries`` instance ready to serve claims.
+    The demo set mirrors the frontend's hand-authored cases (SIN-2026-08412 and
+    its 17 siblings) — the analyst sees them on screen, so the agent must serve
+    those exact rows when its ``get_claim_detail`` tool is invoked.
     """
-    claims = load_saved(path)
-    if claims is None or len(claims) == 0:
-        claims = _fallback_claims()
-    return InMemoryClaimQueries(claims=claims)
+    if not demo:
+        return synthetic
+    demo_ids = {c.id for c in demo}
+    return [*demo, *(c for c in synthetic if c.id not in demo_ids)]
+
+
+def build_synthetic_queries(
+    path: Path = _DATASET_PATH, demo_path: Path = _DEMO_PATH
+) -> InMemoryClaimQueries:
+    """Load the synthetic dataset (+ demo overrides) or fall back to fixtures."""
+    synthetic = load_saved(path) or []
+    demo = load_saved(demo_path)
+    merged = _merge_demo_first(demo, synthetic)
+    if not merged:
+        merged = _fallback_claims()
+    return InMemoryClaimQueries(claims=merged)
 
 
 class SyntheticClaimQueries(InMemoryClaimQueries):
@@ -44,9 +61,15 @@ class SyntheticClaimQueries(InMemoryClaimQueries):
 
     Inherits all query methods from ``InMemoryClaimQueries``; the only
     difference is the source of the claim list (JSON file vs. hand-crafted
-    fixtures).
+    fixtures). Demo claims from ``data/synthetic/demo_claims.json`` (which
+    mirror the frontend mock) are prepended so the agent serves the cases the
+    analyst actually sees on screen.
     """
 
-    def __init__(self, path: Path = _DATASET_PATH) -> None:
-        claims = load_saved(path) or _fallback_claims()
-        super().__init__(claims=claims)
+    def __init__(
+        self, path: Path = _DATASET_PATH, demo_path: Path = _DEMO_PATH
+    ) -> None:
+        synthetic = load_saved(path) or []
+        demo = load_saved(demo_path)
+        merged = _merge_demo_first(demo, synthetic) or _fallback_claims()
+        super().__init__(claims=merged)

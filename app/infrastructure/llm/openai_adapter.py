@@ -7,12 +7,15 @@ is a single new adapter file behind the same `LLMProvider` port.
 AI). Feature code goes through `get_llm()` → `LLMProvider`.
 """
 
+import copy
 from collections.abc import AsyncIterator
+from typing import Any
 
 from openai import AsyncOpenAI
 
 from app.core.config import settings
 from app.core.errors import ProviderError
+from app.infrastructure.llm.ports import LLMProvider
 from app.infrastructure.llm.types import (
     LLMEvent,
     LLMResult,
@@ -21,8 +24,47 @@ from app.infrastructure.llm.types import (
     ToolSpec,
 )
 
+_STRIP_KEYS = ("default", "title")
 
-class OpenAIAdapter:
+
+def _normalize_strict_schema(schema: dict[str, Any]) -> dict[str, Any]:
+    """Patch a pydantic JSON schema for OpenAI structured outputs in strict mode.
+
+    OpenAI's strict mode requires every object node to declare
+    `additionalProperties: false`, list ALL properties in `required`, and omit
+    `default` keys. This walker enforces those rules on a deep copy so the
+    caller's schema isn't mutated.
+    """
+    patched = copy.deepcopy(schema)
+    _walk_strict(patched)
+    return patched
+
+
+def _walk_strict(node: Any) -> None:
+    if isinstance(node, list):
+        for item in node:
+            _walk_strict(item)
+        return
+    if not isinstance(node, dict):
+        return
+
+    for key in _STRIP_KEYS:
+        node.pop(key, None)
+
+    if node.get("type") == "object" or "properties" in node:
+        node["additionalProperties"] = False
+        props = node.get("properties")
+        if isinstance(props, dict):
+            node["required"] = list(props.keys())
+            for prop_schema in props.values():
+                _walk_strict(prop_schema)
+
+    for key in ("items", "$defs", "definitions", "anyOf", "allOf", "oneOf"):
+        if key in node:
+            _walk_strict(node[key])
+
+
+class OpenAIAdapter(LLMProvider):
     """`LLMProvider` impl backed by OpenAI's Chat Completions API."""
 
     def __init__(self, api_key: str, default_model: str) -> None:
@@ -54,12 +96,17 @@ class OpenAIAdapter:
                 for t in tools
             ]
         if response_format is not None:
+            schema = (
+                _normalize_strict_schema(response_format.json_schema)
+                if response_format.strict
+                else response_format.json_schema
+            )
             kwargs["response_format"] = {
                 "type": "json_schema",
                 "json_schema": {
                     "name": response_format.schema_name,
-                    "schema": response_format.json_schema,
-                    "strict": True,
+                    "schema": schema,
+                    "strict": response_format.strict,
                 },
             }
 

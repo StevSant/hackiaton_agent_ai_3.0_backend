@@ -9,9 +9,10 @@ from app.core.config import settings
 from app.core.errors import Unauthorized
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
+from app.infrastructure.auth.ports import AuthVerifier
 
 
-class JwtIssuer:
+class JwtIssuer(AuthVerifier):
     """Issues and verifies HS256 JWTs.
 
     This is the concrete adapter behind the ``AuthVerifier`` port.

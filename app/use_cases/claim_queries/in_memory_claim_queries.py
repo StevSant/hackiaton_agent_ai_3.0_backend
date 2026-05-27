@@ -11,6 +11,7 @@ from collections import Counter
 from collections.abc import Callable
 from typing import cast
 
+from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.agents.claims_agent.tools.types import (
     AggregateDimension,
     AggregateRow,
@@ -29,7 +30,7 @@ _TIER_FILTERS: dict[TierFilter, set[Tier]] = {
 }
 
 
-class InMemoryClaimQueries:
+class InMemoryClaimQueries(ClaimQueries):
     """`ClaimQueries` impl over an in-process list of `ClaimDetail` fixtures."""
 
     def __init__(self, claims: list[ClaimDetail]) -> None:

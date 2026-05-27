@@ -17,9 +17,7 @@ from __future__ import annotations
 import asyncio
 from typing import TYPE_CHECKING
 
-from app.domain.ml import (
-    FraudClassifier as _FraudClassifierProto,  # noqa: F401  (interface assertion)
-)
+from app.domain.ml import FraudClassifier
 from app.domain.ml.types import MLPrediction
 from app.schemas.risk import FactorContribution
 
@@ -27,7 +25,7 @@ if TYPE_CHECKING:
     import lightgbm as lgb
 
 
-class LightGBMClassifier:
+class LightGBMClassifier(FraudClassifier):
     """`FraudClassifier` impl backed by a saved LightGBM Booster."""
 
     def __init__(self, model_path: str) -> None:

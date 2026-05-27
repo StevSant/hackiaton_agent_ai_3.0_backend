@@ -66,7 +66,7 @@ async def test_agent_ask_endpoint_streams_sse_events() -> None:
     async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
         response = await client.post(
             "/api/v1/agent/ask",
-            json={"query": "¿Qué proveedores concentran más alertas?"},
+            json={"message": "¿Qué proveedores concentran más alertas?"},
         )
         assert response.status_code == 200
         assert response.headers["content-type"].startswith("text/event-stream")

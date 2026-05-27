@@ -15,12 +15,12 @@ from __future__ import annotations
 
 import asyncio
 
-from app.domain.anomaly import AnomalyDetector as _AnomalyDetectorProto  # noqa: F401
+from app.domain.anomaly import AnomalyDetector
 from app.domain.anomaly.types import AnomalyResult
 from app.infrastructure.anomaly.nearest_normal_index import NearestNormalIndex
 
 
-class IsolationForestDetector:
+class IsolationForestDetector(AnomalyDetector):
     """`AnomalyDetector` impl backed by a joblib-saved sklearn IsolationForest."""
 
     def __init__(

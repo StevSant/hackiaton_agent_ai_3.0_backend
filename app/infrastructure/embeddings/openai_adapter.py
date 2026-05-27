@@ -17,9 +17,10 @@ from openai import AsyncOpenAI
 
 from app.core.config import settings
 from app.core.errors import ProviderError
+from app.infrastructure.embeddings.ports import EmbeddingsProvider
 
 
-class OpenAIEmbeddingsAdapter:
+class OpenAIEmbeddingsAdapter(EmbeddingsProvider):
     """`EmbeddingsProvider` impl backed by OpenAI's embeddings endpoint."""
 
     def __init__(self, api_key: str, model_name: str, dimension: int) -> None:

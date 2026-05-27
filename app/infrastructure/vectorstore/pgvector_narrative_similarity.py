@@ -22,11 +22,12 @@ from __future__ import annotations
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.embeddings import EmbeddingsProvider
 from app.schemas.risk import SimilarClaim
 
 
-class PgVectorNarrativeSimilarity:
+class PgVectorNarrativeSimilarity(NarrativeSimilarity):
     """`NarrativeSimilarity` impl backed by pgvector + cosine HNSW index."""
 
     def __init__(self, embeddings: EmbeddingsProvider, session_factory: object) -> None:
