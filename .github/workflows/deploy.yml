@@ -1,0 +1,53 @@
+name: Deploy backend to Cloud Run
+
+# Auto-deploy on push to main. Auth via Workload Identity Federation (keyless — no SA key in GitHub secrets).
+# Requires (one-time GCP setup): WIF pool/provider bound to this repo + deployer SA + Secret Manager secrets.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'pyproject.toml'
+      - 'uv.lock'
+      - 'docker/**'
+      - 'cloudbuild.yaml'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  id-token: write   # required for Workload Identity Federation
+
+env:
+  PROJECT_ID: hackton-497606
+  REGION: us-central1
+  SERVICE: fraudia-backend
+  IMAGE: us-central1-docker.pkg.dev/hackton-497606/fraudia/backend:latest
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: hackton-497606
+          workload_identity_provider: projects/234361930947/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gh-deployer@hackton-497606.iam.gserviceaccount.com
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build & push image
+        run: gcloud builds submit . --config cloudbuild.yaml
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --image "$IMAGE" \
+            --region "$REGION" --project "$PROJECT_ID" \
+            --port 8000 --allow-unauthenticated \
+            --memory 2Gi --cpu 2 --min-instances 0 --max-instances 3 \
+            --set-secrets "DATABASE_URL=DATABASE_URL:latest,OPENAI_API_KEY=OPENAI_API_KEY:latest,SUPABASE_SERVICE_ROLE_KEY=SUPABASE_SERVICE_ROLE_KEY:latest,JWT_SECRET=JWT_SECRET:latest,AUTH_SEED_USERS=AUTH_SEED_USERS:latest" \
+            --set-env-vars "^@^APP_ENV=prod@CLAIMS_SOURCE=db@LLM_PROVIDER=openai@LLM_DEFAULT_MODEL=gpt-4o-mini@EMBEDDINGS_PROVIDER=openai@EMBEDDINGS_MODEL=text-embedding-3-small@EMBEDDINGS_DIM=384@VECTOR_STORE=pgvector@AUTH_ENABLED=true@SUPABASE_URL=https://rbdrjqynxszejbtuxczf.supabase.co@SUPABASE_STORAGE_BUCKET=siniestros-documentos@LOAD_DATASET_ON_STARTUP=false@DEBUG_ENABLED=true@SIMILARITY_THRESHOLD_FS13=0.85@DATA_DIR=data"
