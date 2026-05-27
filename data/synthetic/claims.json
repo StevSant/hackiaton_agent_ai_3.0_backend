@@ -541,7 +541,7 @@
         "code": "FS-01",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       }
     ],
     "timeline": [
@@ -636,7 +636,7 @@
         "code": "FS-02",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       }
     ],
     "timeline": [
@@ -725,7 +725,7 @@
         "code": "FS-03",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       }
     ],
     "timeline": [
@@ -820,7 +820,7 @@
         "code": "FS-04",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       }
     ],
     "timeline": [
@@ -915,7 +915,7 @@
         "code": "FS-05",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       }
     ],
     "timeline": [
@@ -1010,7 +1010,7 @@
         "code": "FS-06",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
       }
     ],
     "timeline": [
@@ -1099,7 +1099,7 @@
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -1188,7 +1188,7 @@
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       }
     ],
     "timeline": [
@@ -1283,7 +1283,7 @@
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       }
     ],
     "timeline": [
@@ -1378,7 +1378,7 @@
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -1473,7 +1473,7 @@
         "code": "FS-09",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       }
     ],
     "timeline": [
@@ -1568,7 +1568,7 @@
         "code": "FS-13",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       }
     ],
     "timeline": [
@@ -1663,13 +1663,13 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "RF-05",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "Siniestro registrado dentro de las primeras 48 h de vigencia de la póliza."
+        "detalle": "Un siniestro que ocurre en las primeras 48 horas de vigencia es estadísticamente extremo — gran parte de los casos de antifraude confirmados en años recientes encajan en esta ventana. La regla actúa como piso de amarillo: el caso no puede quedar en verde, pero tampoco sube automáticamente a rojo sin más señales que lo respalden."
       }
     ],
     "timeline": [
@@ -1764,19 +1764,19 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "RF-05",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "Siniestro registrado dentro de las primeras 48 h de vigencia de la póliza."
+        "detalle": "Un siniestro que ocurre en las primeras 48 horas de vigencia es estadísticamente extremo — gran parte de los casos de antifraude confirmados en años recientes encajan en esta ventana. La regla actúa como piso de amarillo: el caso no puede quedar en verde, pero tampoco sube automáticamente a rojo sin más señales que lo respalden."
       }
     ],
     "timeline": [
@@ -1871,19 +1871,19 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "RF-05",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "Siniestro registrado dentro de las primeras 48 h de vigencia de la póliza."
+        "detalle": "Un siniestro que ocurre en las primeras 48 horas de vigencia es estadísticamente extremo — gran parte de los casos de antifraude confirmados en años recientes encajan en esta ventana. La regla actúa como piso de amarillo: el caso no puede quedar en verde, pero tampoco sube automáticamente a rojo sin más señales que lo respalden."
       }
     ],
     "timeline": [
@@ -1978,19 +1978,19 @@
         "code": "FS-02",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-06",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+        "detalle": "FS-02 ya pesa demoras moderadas (24-48h) en denuncias por robo. Esta regla complementaria captura demoras extremas (>4 días), que salen completamente del rango normal y son característicamente asociadas a robos construidos a posteriori. Actúa como piso de amarillo en lugar de sumar puntos, para que el caso entre obligatoriamente al circuito de verificación documental."
       }
     ],
     "timeline": [
@@ -2085,31 +2085,31 @@
         "code": "FS-02",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-01",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+        "detalle": "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente la de mayor exposición a manipulación: el bien desaparece, no hay evidencia física directa, y el pago es el 100% de la suma asegurada. Por eso, cualquier siniestro activando PTxRB es escalado automáticamente a la Unidad Antifraude para verificación documental — esto NO implica fraude, implica que el caso amerita revisión especializada."
       },
       {
         "code": "RF-06",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+        "detalle": "FS-02 ya pesa demoras moderadas (24-48h) en denuncias por robo. Esta regla complementaria captura demoras extremas (>4 días), que salen completamente del rango normal y son característicamente asociadas a robos construidos a posteriori. Actúa como piso de amarillo en lugar de sumar puntos, para que el caso entre obligatoriamente al circuito de verificación documental."
       }
     ],
     "timeline": [
@@ -2204,19 +2204,19 @@
         "code": "FS-02",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-06",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+        "detalle": "FS-02 ya pesa demoras moderadas (24-48h) en denuncias por robo. Esta regla complementaria captura demoras extremas (>4 días), que salen completamente del rango normal y son característicamente asociadas a robos construidos a posteriori. Actúa como piso de amarillo en lugar de sumar puntos, para que el caso entre obligatoriamente al circuito de verificación documental."
       }
     ],
     "timeline": [
@@ -2311,13 +2311,13 @@
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "RF-07",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "Descripción del siniestro prácticamente idéntica a otro caso registrado."
+        "detalle": "Mientras que FS-13 mide similitud progresiva (similar / muy similar), esta regla captura el extremo: narrativas prácticamente idénticas a un siniestro previo, indicando que dos o más reclamos están reciclando el mismo texto descriptivo. Es uno de los patrones más claros de coordinación entre asegurados o de cadenas de reclamos operadas por el mismo actor."
       }
     ],
     "timeline": [
@@ -2412,19 +2412,19 @@
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "RF-07",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "Descripción del siniestro prácticamente idéntica a otro caso registrado."
+        "detalle": "Mientras que FS-13 mide similitud progresiva (similar / muy similar), esta regla captura el extremo: narrativas prácticamente idénticas a un siniestro previo, indicando que dos o más reclamos están reciclando el mismo texto descriptivo. Es uno de los patrones más claros de coordinación entre asegurados o de cadenas de reclamos operadas por el mismo actor."
       }
     ],
     "timeline": [
@@ -2519,19 +2519,19 @@
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "RF-07",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "Descripción del siniestro prácticamente idéntica a otro caso registrado."
+        "detalle": "Mientras que FS-13 mide similitud progresiva (similar / muy similar), esta regla captura el extremo: narrativas prácticamente idénticas a un siniestro previo, indicando que dos o más reclamos están reciclando el mismo texto descriptivo. Es uno de los patrones más claros de coordinación entre asegurados o de cadenas de reclamos operadas por el mismo actor."
       }
     ],
     "timeline": [
@@ -2626,19 +2626,19 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -2733,25 +2733,25 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       }
     ],
     "timeline": [
@@ -2846,25 +2846,25 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -2959,31 +2959,31 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-06",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       }
     ],
     "timeline": [
@@ -3078,25 +3078,25 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -3191,31 +3191,31 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -3310,31 +3310,31 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -3429,31 +3429,31 @@
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       }
     ],
     "timeline": [
@@ -3548,31 +3548,31 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-06",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -3667,37 +3667,37 @@
         "code": "FS-02",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-13",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       }
     ],
     "timeline": [
@@ -3792,37 +3792,37 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -3922,43 +3922,43 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -4053,43 +4053,43 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -4184,43 +4184,43 @@
         "code": "FS-02",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-06",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-13",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       }
     ],
     "timeline": [
@@ -4315,43 +4315,43 @@
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-06",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -4446,13 +4446,13 @@
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-01",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+        "detalle": "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente la de mayor exposición a manipulación: el bien desaparece, no hay evidencia física directa, y el pago es el 100% de la suma asegurada. Por eso, cualquier siniestro activando PTxRB es escalado automáticamente a la Unidad Antifraude para verificación documental — esto NO implica fraude, implica que el caso amerita revisión especializada."
       }
     ],
     "timeline": [
@@ -4547,13 +4547,13 @@
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-01",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+        "detalle": "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente la de mayor exposición a manipulación: el bien desaparece, no hay evidencia física directa, y el pago es el 100% de la suma asegurada. Por eso, cualquier siniestro activando PTxRB es escalado automáticamente a la Unidad Antifraude para verificación documental — esto NO implica fraude, implica que el caso amerita revisión especializada."
       }
     ],
     "timeline": [
@@ -4648,31 +4648,31 @@
         "code": "FS-02",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-01",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+        "detalle": "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente la de mayor exposición a manipulación: el bien desaparece, no hay evidencia física directa, y el pago es el 100% de la suma asegurada. Por eso, cualquier siniestro activando PTxRB es escalado automáticamente a la Unidad Antifraude para verificación documental — esto NO implica fraude, implica que el caso amerita revisión especializada."
       },
       {
         "code": "RF-06",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+        "detalle": "FS-02 ya pesa demoras moderadas (24-48h) en denuncias por robo. Esta regla complementaria captura demoras extremas (>4 días), que salen completamente del rango normal y son característicamente asociadas a robos construidos a posteriori. Actúa como piso de amarillo en lugar de sumar puntos, para que el caso entre obligatoriamente al circuito de verificación documental."
       }
     ],
     "timeline": [
@@ -4767,19 +4767,19 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-01",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+        "detalle": "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente la de mayor exposición a manipulación: el bien desaparece, no hay evidencia física directa, y el pago es el 100% de la suma asegurada. Por eso, cualquier siniestro activando PTxRB es escalado automáticamente a la Unidad Antifraude para verificación documental — esto NO implica fraude, implica que el caso amerita revisión especializada."
       }
     ],
     "timeline": [
@@ -4874,19 +4874,19 @@
         "code": "FS-11",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-02",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
       }
     ],
     "timeline": [
@@ -4975,19 +4975,19 @@
         "code": "FS-11",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-02",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
       }
     ],
     "timeline": [
@@ -5082,25 +5082,25 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-11",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-02",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
       }
     ],
     "timeline": [
@@ -5195,13 +5195,13 @@
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -5290,19 +5290,19 @@
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -5391,13 +5391,13 @@
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -5492,19 +5492,19 @@
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -5604,7 +5604,7 @@
         "code": "RF-04",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "La descripción del accidente es físicamente incoherente — requiere investigación de campo."
+        "detalle": "El perito o la auditoría técnica determinó que la dinámica del accidente declarada por el asegurado es físicamente imposible — trayectorias, velocidades, ángulos de impacto o secuencias temporales que no pueden haber ocurrido como se describen. Esto es un indicio fuerte de un evento simulado o reconstruido, y demanda revisión de campo antes de cualquier liquidación."
       }
     ],
     "timeline": [
@@ -5699,7 +5699,7 @@
         "code": "RF-04",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "La descripción del accidente es físicamente incoherente — requiere investigación de campo."
+        "detalle": "El perito o la auditoría técnica determinó que la dinámica del accidente declarada por el asegurado es físicamente imposible — trayectorias, velocidades, ángulos de impacto o secuencias temporales que no pueden haber ocurrido como se describen. Esto es un indicio fuerte de un evento simulado o reconstruido, y demanda revisión de campo antes de cualquier liquidación."
       }
     ],
     "timeline": [
@@ -5794,19 +5794,19 @@
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-04",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "La descripción del accidente es físicamente incoherente — requiere investigación de campo."
+        "detalle": "El perito o la auditoría técnica determinó que la dinámica del accidente declarada por el asegurado es físicamente imposible — trayectorias, velocidades, ángulos de impacto o secuencias temporales que no pueden haber ocurrido como se describen. Esto es un indicio fuerte de un evento simulado o reconstruido, y demanda revisión de campo antes de cualquier liquidación."
       }
     ],
     "timeline": [
@@ -5901,43 +5901,43 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-11",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-02",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -6037,31 +6037,31 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -6156,55 +6156,55 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -6299,73 +6299,73 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -6465,73 +6465,73 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-06",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
       },
       {
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -6626,37 +6626,37 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -7091,37 +7091,37 @@
         "code": "FS-02",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-01",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+        "detalle": "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente la de mayor exposición a manipulación: el bien desaparece, no hay evidencia física directa, y el pago es el 100% de la suma asegurada. Por eso, cualquier siniestro activando PTxRB es escalado automáticamente a la Unidad Antifraude para verificación documental — esto NO implica fraude, implica que el caso amerita revisión especializada."
       },
       {
         "code": "RF-06",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada más de 4 días después de la ocurrencia."
+        "detalle": "FS-02 ya pesa demoras moderadas (24-48h) en denuncias por robo. Esta regla complementaria captura demoras extremas (>4 días), que salen completamente del rango normal y son característicamente asociadas a robos construidos a posteriori. Actúa como piso de amarillo en lugar de sumar puntos, para que el caso entre obligatoriamente al circuito de verificación documental."
       }
     ],
     "timeline": [
@@ -7216,25 +7216,25 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -7329,25 +7329,25 @@
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       }
     ],
     "timeline": [
@@ -7436,31 +7436,31 @@
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "RF-07",
         "puntos": 0,
         "severidad": "med",
-        "detalle": "Descripción del siniestro prácticamente idéntica a otro caso registrado."
+        "detalle": "Mientras que FS-13 mide similitud progresiva (similar / muy similar), esta regla captura el extremo: narrativas prácticamente idénticas a un siniestro previo, indicando que dos o más reclamos están reciclando el mismo texto descriptivo. Es uno de los patrones más claros de coordinación entre asegurados o de cadenas de reclamos operadas por el mismo actor."
       }
     ],
     "timeline": [
@@ -7560,25 +7560,25 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-06",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "Historial inusual de siniestros de responsabilidad civil."
+        "detalle": "Los siniestros que solo afectan responsabilidad civil (sin daños propios) tienen un costo de detección bajo y por eso son terreno habitual para reclamos infundados o exagerados. Una concentración de eventos RC sobre el mismo asegurado o vehículo en un período corto sugiere uso recurrente de la cobertura para reclamar daños a terceros que no necesariamente ocurrieron."
       },
       {
         "code": "FS-07",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       }
     ],
     "timeline": [
@@ -7667,25 +7667,25 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       }
     ],
     "timeline": [
@@ -7785,37 +7785,37 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -7910,31 +7910,31 @@
         "code": "FS-02",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "La denuncia por robo fue presentada con retraso atípico."
+        "detalle": "En coberturas de robo, la denuncia ante la autoridad debe presentarse lo más rápido posible — esa es la evidencia primaria del siniestro. Demoras atípicas suelen indicar que la denuncia se construyó después del hecho, o que se está cubriendo un evento que no fue realmente un robo. La regla solo aplica cuando la cobertura del siniestro es de tipo robo."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-01",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Cobertura de pérdida total por robo activa — requiere revisión inmediata."
+        "detalle": "La cobertura de Pérdida Total por Robo (PTxRB) es históricamente la de mayor exposición a manipulación: el bien desaparece, no hay evidencia física directa, y el pago es el 100% de la suma asegurada. Por eso, cualquier siniestro activando PTxRB es escalado automáticamente a la Unidad Antifraude para verificación documental — esto NO implica fraude, implica que el caso amerita revisión especializada."
       }
     ],
     "timeline": [
@@ -8029,37 +8029,37 @@
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 3,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-13",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "La descripción del siniestro es similar a narrativas de casos anteriores."
+        "detalle": "El motor de similitud por embeddings compara la narrativa del siniestro contra todas las narrativas previas registradas. Cuando encuentra coincidencias semánticas muy altas, suele tratarse de reclamos coordinados con el mismo \"libreto\" — distintas pólizas describiendo el mismo hecho con variaciones mínimas. La regla distingue \"similar\" (70-85%) de \"clonado\" (>85%) por peso."
       },
       {
         "code": "RF-04",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "La descripción del accidente es físicamente incoherente — requiere investigación de campo."
+        "detalle": "El perito o la auditoría técnica determinó que la dinámica del accidente declarada por el asegurado es físicamente imposible — trayectorias, velocidades, ángulos de impacto o secuencias temporales que no pueden haber ocurrido como se describen. Esto es un indicio fuerte de un evento simulado o reconstruido, y demanda revisión de campo antes de cualquier liquidación."
       }
     ],
     "timeline": [
@@ -8154,73 +8154,73 @@
         "code": "FS-01",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El siniestro ocurrió muy cerca del inicio de la póliza."
+        "detalle": "Cuando un siniestro ocurre pocos días después de emitida la póliza, es una de las señales más correlacionadas con manipulación temporal: el asegurado puede haber suscrito la cobertura sabiendo que el evento ya había ocurrido o estaba por ocurrir. No es prueba de fraude — es un patrón que merece confirmación documental antes de liquidar."
       },
       {
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-04",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El vehículo tiene un historial inusualmente alto de siniestros."
+        "detalle": "Un mismo vehículo (por placa o chasis) que aparece en varios siniestros recientes apunta a un activo problemático — alquileres informales, reventa de partes, daños pre-existentes que se re-reclaman, o un patrón de exposición compartida. La regla se evalúa sobre el historial del vehículo, independiente del asegurado."
       },
       {
         "code": "FS-05",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El conductor involucrado presenta una frecuencia inusual de siniestros."
+        "detalle": "Cuando el mismo conductor figura en múltiples siniestros — incluso bajo asegurados o vehículos distintos — puede tratarse de un perfil de alto riesgo, un conductor profesional no declarado, o un actor que opera coordinadamente entre pólizas. Esta regla mira el historial del conductor, no del titular de la póliza."
       },
       {
         "code": "FS-07",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "El proveedor o beneficiario aparece en lista restrictiva o con alta frecuencia."
+        "detalle": "Un proveedor (taller, clínica) o beneficiario que aparece repetidamente en siniestros — sea porque ya está en la lista interna de actores observados por la Unidad Antifraude, o porque acumula varios casos previos sin estar formalmente listado — es uno de los patrones más correlacionados con manipulación coordinada de reclamos."
       },
       {
         "code": "FS-08",
         "puntos": 4,
         "severidad": "med",
-        "detalle": "El siniestro presenta documentos requeridos faltantes."
+        "detalle": "Un expediente de siniestro debe llegar con un conjunto mínimo de documentos (denuncia, peritaje, cédula, matrícula, licencia, proforma de taller). Cuando faltan piezas críticas, sea por descuido o por tratarse de un caso que no tiene respaldo real, el expediente no se puede evaluar completamente y el riesgo de pago indebido sube."
       },
       {
         "code": "FS-09",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "La descripción del siniestro presenta inconsistencias o patrones atípicos."
+        "detalle": "La narrativa del reclamo es la versión del asegurado de cómo ocurrió el siniestro. Cuando esa narrativa contiene incoherencias internas (velocidades imposibles, secuencias temporales inconsistentes) o el evento ocurrió en horario nocturno con múltiples siniestros simultáneos, es un patrón que merece un peritaje más detallado."
       },
       {
         "code": "FS-10",
         "puntos": 6,
         "severidad": "med",
-        "detalle": "El siniestro reporta daños graves sin ningún testigo o rastro de terceros."
+        "detalle": "Un daño material significativo casi siempre deja rastros físicos de la otra parte involucrada — restos en la calzada, daños compatibles entre vehículos, testigos. Cuando el daño declarado es alto pero no hay ningún elemento que confirme un tercero, el caso puede estar reciclando un daño preexistente o autoinfligido."
       },
       {
         "code": "FS-11",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "FS-14",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El monto reclamado es inusualmente alto en relación con la suma asegurada."
+        "detalle": "Cuando el monto reclamado se acerca a la suma asegurada (techo de la póliza) o excede ampliamente lo que cuesta reparar el daño declarado, hay un incentivo económico a sobre-dimensionar la pérdida. El patrón también aparece cuando se está intentando obtener pago total por un activo cuyo valor de mercado real es menor al asegurado."
       },
       {
         "code": "RF-03",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "El asegurado, beneficiario o proveedor está en la lista restrictiva de la aseguradora."
+        "detalle": "La lista restrictiva interna registra actores (asegurados, beneficiarios, proveedores) con casos previos confirmados como sospechosos o con sanciones internas. Cuando alguno de los involucrados en el siniestro está en esa lista, el caso se escala directamente — no porque la persona sea culpable de nada en este siniestro, sino porque su historial requiere un nivel de verificación adicional."
       }
     ],
     "timeline": [
@@ -8320,25 +8320,25 @@
         "code": "FS-03",
         "puntos": 8,
         "severidad": "med",
-        "detalle": "El asegurado registra una cantidad inusualmente alta de siniestros."
+        "detalle": "Un asegurado que acumula múltiples siniestros en poco tiempo no es automáticamente sospechoso, pero sí entra en una categoría que la unidad antifraude vigila: la frecuencia puede indicar acumulación de pólizas paralelas, abuso del beneficio o un patrón coordinado. La regla considera los últimos 18 meses del historial individual."
       },
       {
         "code": "FS-11",
         "puntos": 10,
         "severidad": "med",
-        "detalle": "Se detectaron alteraciones o inconsistencias en la documentación."
+        "detalle": "Documentos con fechas de emisión incompatibles con la cronología del siniestro, sellos o firmas dudosas, o piezas alteradas son una señal directa de manipulación del expediente. Esta regla distingue entre alteración *sospechada* y alteración *confirmada* por el área documental, y pesa más cuando hay evidencia confirmada."
       },
       {
         "code": "FS-12",
         "puntos": 5,
         "severidad": "med",
-        "detalle": "El siniestro fue reportado con un retraso inusual."
+        "detalle": "Los siniestros típicos se reportan a la aseguradora en cuestión de horas o pocos días. Un retraso prolongado puede indicar que el asegurado intentó resolver el daño por su cuenta y solo recurrió a la póliza cuando no lo logró, o que el evento mismo está siendo reconstruido a posteriori. Mientras más tarde llegue el reporte, más difícil es verificar la versión original del hecho."
       },
       {
         "code": "RF-02",
         "puntos": 0,
         "severidad": "high",
-        "detalle": "Se detectó falsificación evidente en los documentos del siniestro — requiere revisión urgente."
+        "detalle": "Cuando el área documental confirma una falsificación evidente — fechas alteradas, sellos manipulados, peritajes apócrifos — el siniestro debe pasar inmediatamente a investigación especializada. A diferencia de FS-11 (que pesa sospechas), esta es una constatación del equipo de validación y por eso fuerza automáticamente tier rojo sin sumar al score."
       }
     ],
     "timeline": [
