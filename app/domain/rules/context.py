@@ -74,12 +74,30 @@ class RuleContext:
 
     @classmethod
     def from_claim(cls, claim: ClaimDetail) -> RuleContext:
-        """Derive what we can from ClaimDetail; defaults everything else."""
+        """Derive what we can from ClaimDetail; defaults everything else.
+
+        When ``fecha_inicio_poliza`` / ``fecha_fin_poliza`` are present on the
+        claim, the policy-proximity deltas are recomputed from actual dates so
+        that patching ``fecha_ocurrencia`` (fire-test endpoint) re-fires FS-01
+        and RF-05 correctly.  Falls back to 9999 (non-firing) when absent.
+        """
         dias = (claim.fecha_reporte - claim.fecha_ocurrencia).days
         monto_pct = (
             claim.monto_reclamado / claim.suma_asegurada
             if claim.suma_asegurada > 0
             else 0.0
+        )
+
+        # Policy-proximity — re-derive when dates are available
+        dias_desde_inicio = (
+            (claim.fecha_ocurrencia - claim.fecha_inicio_poliza).days
+            if claim.fecha_inicio_poliza is not None
+            else 9999
+        )
+        dias_desde_fin = (
+            (claim.fecha_fin_poliza - claim.fecha_ocurrencia).days
+            if claim.fecha_fin_poliza is not None
+            else 9999
         )
 
         # Coverage-based flags
@@ -103,6 +121,8 @@ class RuleContext:
 
         return cls(
             dias_entre_ocurrencia_reporte=dias,
+            dias_desde_inicio_poliza=dias_desde_inicio,
+            dias_desde_fin_poliza=dias_desde_fin,
             monto_vs_suma_pct=monto_pct,
             es_robo=es_robo,
             es_cobertura_ptxrb=es_cobertura_ptxrb,

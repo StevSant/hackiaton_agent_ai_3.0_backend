@@ -129,6 +129,15 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
     fecha_ocurrencia = _REF_DATE - timedelta(days=archetype.fecha_ocurrencia_offset)
     fecha_reporte = fecha_ocurrencia + timedelta(days=archetype.reporte_delay_days)
 
+    # Derive policy dates so fecha_inicio_poliza is consistent with dias_desde_inicio_poliza.
+    # When the archetype has an explicit dias value, set fecha_inicio = fecha_ocurrencia - dias.
+    # This ensures PATCH /claims/{id} + RuleContext.from_claim() re-fires FS-01/RF-05.
+    dias_inicio = archetype.dias_desde_inicio_poliza
+    _inicio_offset = dias_inicio if dias_inicio is not None else 180
+    # always a concrete date — never None — used as base for fin calculation below
+    fecha_inicio_poliza: date = fecha_ocurrencia - timedelta(days=_inicio_offset)
+    fecha_fin_poliza: date = fecha_inicio_poliza + timedelta(days=365)
+
     monto_reclamado = round(archetype.suma_asegurada * archetype.monto_ratio, 2)
 
     # Stable but unique IDs — no real PII
@@ -217,6 +226,8 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
         ciudad=archetype.ciudad,
         fecha_ocurrencia=fecha_ocurrencia,
         fecha_reporte=fecha_reporte,
+        fecha_inicio_poliza=fecha_inicio_poliza,
+        fecha_fin_poliza=fecha_fin_poliza,
         monto_reclamado=monto_reclamado,
         suma_asegurada=archetype.suma_asegurada,
         estado=archetype.estado,
@@ -289,8 +300,16 @@ def claim_to_row(claim: ClaimDetail) -> dict[str, Any]:
         "descripcion": claim.descripcion,
         "documentos_completos": "no" if any(d.falta for d in claim.documentos) else "sí",
         "beneficiario": "",
-        "dias_desde_inicio_poliza": "",
-        "dias_desde_fin_poliza": "",
+        "fecha_inicio_poliza": str(claim.fecha_inicio_poliza) if claim.fecha_inicio_poliza else "",
+        "fecha_fin_poliza": str(claim.fecha_fin_poliza) if claim.fecha_fin_poliza else "",
+        "dias_desde_inicio_poliza": (
+            (claim.fecha_ocurrencia - claim.fecha_inicio_poliza).days
+            if claim.fecha_inicio_poliza else ""
+        ),
+        "dias_desde_fin_poliza": (
+            (claim.fecha_fin_poliza - claim.fecha_ocurrencia).days
+            if claim.fecha_fin_poliza else ""
+        ),
         "dias_entre_ocurrencia_reporte": (
             (claim.fecha_reporte - claim.fecha_ocurrencia).days
         ),
