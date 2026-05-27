@@ -3,7 +3,7 @@
     "id": "IMP-00121",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Lucía Andrade Tipán",
+    "asegurado": "Daniel Moreno Suárez",
     "asegurado_id": "ASE-54D1F0AD",
     "poliza": "POL-IMP-00121",
     "ciudad": "Guayaquil",
@@ -83,13 +83,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.13861,
+    "longitude": -79.88884999999999
   },
   {
     "id": "IMP-00122",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Alexandra Macias Chafla",
+    "asegurado": "Mishell Garcés Andrade",
     "asegurado_id": "ASE-73634E31",
     "poliza": "POL-IMP-00122",
     "ciudad": "Quito",
@@ -163,13 +165,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23811000000000002,
+    "longitude": -78.47961
   },
   {
     "id": "IMP-00123",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Natalia Luzuriaga Molina",
+    "asegurado": "Fernando Sandoval Paredes",
     "asegurado_id": "ASE-BCAB6AB1",
     "poliza": "POL-IMP-00123",
     "ciudad": "Cuenca",
@@ -243,13 +247,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.9146300000000003,
+    "longitude": -78.97937999999999
   },
   {
     "id": "IMP-00124",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "María Molina Torres",
+    "asegurado": "Génesis Rodríguez Cárdenas",
     "asegurado_id": "ASE-E964A6C9",
     "poliza": "POL-IMP-00124",
     "ciudad": "Machala",
@@ -329,13 +335,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.21607,
+    "longitude": -79.95228
   },
   {
     "id": "IMP-00125",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Miguel Figueroa Bone",
+    "asegurado": "Cecilia Mora Mendoza",
     "asegurado_id": "ASE-AA264A4A",
     "poliza": "POL-IMP-00125",
     "ciudad": "Loja",
@@ -415,13 +423,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -4.0216,
+    "longitude": -79.22029
   },
   {
     "id": "IMP-00126",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Luis Molina Jaramillo",
+    "asegurado": "Rosa Rodríguez Salazar",
     "asegurado_id": "ASE-C8CC3838",
     "poliza": "POL-IMP-00126",
     "ciudad": "Ambato",
@@ -495,13 +505,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.28022,
+    "longitude": -78.61583999999999
   },
   {
     "id": "IMP-00127",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Viviana Molina Saquinga",
+    "asegurado": "Diana Aguirre Mosquera",
     "asegurado_id": "ASE-B4525695",
     "poliza": "POL-IMP-00127",
     "ciudad": "Guayaquil",
@@ -588,13 +600,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.14053,
+    "longitude": -79.9721
   },
   {
     "id": "IMP-00128",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Jorge Pilataxi Galarza",
+    "asegurado": "Mauricio Rivera Paredes",
     "asegurado_id": "ASE-3683E1FC",
     "poliza": "POL-IMP-00128",
     "ciudad": "Manta",
@@ -681,13 +695,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.00002,
+    "longitude": -80.7127
   },
   {
     "id": "IMP-00129",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Amplia",
-    "asegurado": "Klever Paredes Macias",
+    "asegurado": "Paola Tapia Sandoval",
     "asegurado_id": "ASE-4D3EE536",
     "poliza": "POL-IMP-00129",
     "ciudad": "Guayaquil",
@@ -768,13 +784,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.18953,
+    "longitude": -79.95772
   },
   {
     "id": "IMP-00130",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "María Chila Cunalata",
+    "asegurado": "Víctor Flores Cabrera",
     "asegurado_id": "ASE-909505F6",
     "poliza": "POL-IMP-00130",
     "ciudad": "Cuenca",
@@ -861,13 +879,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.92028,
+    "longitude": -78.95885
   },
   {
     "id": "IMP-00131",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Marco Ortega Torres",
+    "asegurado": "Silvia Morales Pérez",
     "asegurado_id": "ASE-C3D9D291",
     "poliza": "POL-IMP-00131",
     "ciudad": "Guayaquil",
@@ -954,13 +974,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1847499999999997,
+    "longitude": -79.87989
   },
   {
     "id": "IMP-00132",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Valeria Galarza Ramos",
+    "asegurado": "Jessica Vega Vásquez",
     "asegurado_id": "ASE-CFA18CB0",
     "poliza": "POL-IMP-00132",
     "ciudad": "Guayaquil",
@@ -1047,13 +1069,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2183699999999997,
+    "longitude": -79.87881
   },
   {
     "id": "IMP-00133",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Nelson Chafla Zambrano",
+    "asegurado": "Víctor Sánchez Cárdenas",
     "asegurado_id": "ASE-964BA408",
     "poliza": "POL-IMP-00133",
     "ciudad": "Quito",
@@ -1134,13 +1158,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23557,
+    "longitude": -78.47874
   },
   {
     "id": "IMP-00134",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Tatiana Zambrano Figueroa",
+    "asegurado": "Pamela Romero Andrade",
     "asegurado_id": "ASE-5418990F",
     "poliza": "POL-IMP-00134",
     "ciudad": "Cuenca",
@@ -1221,13 +1247,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.93364,
+    "longitude": -79.00645999999999
   },
   {
     "id": "IMP-00135",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Byron Chafla Cárdenas",
+    "asegurado": "Alex Cruz López",
     "asegurado_id": "ASE-911E7672",
     "poliza": "POL-IMP-00135",
     "ciudad": "Portoviejo",
@@ -1314,13 +1342,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.0229,
+    "longitude": -80.42908
   },
   {
     "id": "IMP-00136",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Patricia Muñoz Aguirre",
+    "asegurado": "Johanna Cárdenas Vásquez",
     "asegurado_id": "ASE-185788D3",
     "poliza": "POL-IMP-00136",
     "ciudad": "Guayaquil",
@@ -1407,13 +1437,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1371499999999997,
+    "longitude": -79.96397999999999
   },
   {
     "id": "IMP-00137",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Leonardo Ríos Andrade",
+    "asegurado": "Valeria Herrera Rivera",
     "asegurado_id": "ASE-F22D89EA",
     "poliza": "POL-IMP-00137",
     "ciudad": "Quito",
@@ -1500,13 +1532,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.26981,
+    "longitude": -78.50764
   },
   {
     "id": "IMP-00138",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Danilo Estrella Ortega",
+    "asegurado": "Diego Ortiz Bermeo",
     "asegurado_id": "ASE-2E58977E",
     "poliza": "POL-IMP-00138",
     "ciudad": "Cuenca",
@@ -1593,13 +1627,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.85801,
+    "longitude": -78.95879
   },
   {
     "id": "IMP-00139",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Byron Narváez Vera",
+    "asegurado": "Mishell Sánchez Paredes",
     "asegurado_id": "ASE-5F6CCF28",
     "poliza": "POL-IMP-00139",
     "ciudad": "Ambato",
@@ -1692,13 +1728,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.21878,
+    "longitude": -78.63007999999999
   },
   {
     "id": "IMP-00140",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Natalia Ulloa Vélez",
+    "asegurado": "Diana Velasco Pacheco",
     "asegurado_id": "ASE-0BCA1DF7",
     "poliza": "POL-IMP-00140",
     "ciudad": "Quito",
@@ -1797,13 +1835,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19804,
+    "longitude": -78.47746
   },
   {
     "id": "IMP-00141",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Patricio Naranjo Aguirre",
+    "asegurado": "Miguel Toro Velasco",
     "asegurado_id": "ASE-3C3B62D3",
     "poliza": "POL-IMP-00141",
     "ciudad": "Guayaquil",
@@ -1902,13 +1942,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.21373,
+    "longitude": -79.89183
   },
   {
     "id": "IMP-00142",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Carlos Loor Ponce",
+    "asegurado": "Karina Torres Andrade",
     "asegurado_id": "ASE-3E99545F",
     "poliza": "POL-IMP-00142",
     "ciudad": "Esmeraldas",
@@ -2007,13 +2049,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.9604100000000001,
+    "longitude": -79.68843000000001
   },
   {
     "id": "IMP-00143",
     "ramo": "Vehículos",
     "cobertura": "Robo Total",
-    "asegurado": "Ramiro Delgado Reyes",
+    "asegurado": "Tatiana Carrillo Ramírez",
     "asegurado_id": "ASE-23D7AEAC",
     "poliza": "POL-IMP-00143",
     "ciudad": "Quito",
@@ -2124,13 +2168,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25039,
+    "longitude": -78.55024
   },
   {
     "id": "IMP-00144",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Pablo Palacios Moreira",
+    "asegurado": "Ramiro Pérez Castro",
     "asegurado_id": "ASE-EF6075CE",
     "poliza": "POL-IMP-00144",
     "ciudad": "Guayaquil",
@@ -2229,13 +2275,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.18479,
+    "longitude": -79.87458
   },
   {
     "id": "IMP-00145",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Iván Cárdenas Espinoza",
+    "asegurado": "Anahí Ramírez Andrade",
     "asegurado_id": "ASE-72142E51",
     "poliza": "POL-IMP-00145",
     "ciudad": "Quito",
@@ -2328,13 +2376,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.26254,
+    "longitude": -78.48707
   },
   {
     "id": "IMP-00146",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Danilo Defas Muñoz",
+    "asegurado": "Bryan Cevallos Garcés",
     "asegurado_id": "ASE-5138EB85",
     "poliza": "POL-IMP-00146",
     "ciudad": "Guayaquil",
@@ -2433,13 +2483,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1230499999999997,
+    "longitude": -79.93432
   },
   {
     "id": "IMP-00147",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Ana Hidalgo Guerrero",
+    "asegurado": "Sandra Suárez Jiménez",
     "asegurado_id": "ASE-13BF74D0",
     "poliza": "POL-IMP-00147",
     "ciudad": "Cuenca",
@@ -2538,13 +2590,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.9267000000000003,
+    "longitude": -79.03904
   },
   {
     "id": "IMP-00148",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Tatiana Naranjo Chila",
+    "asegurado": "Erika Vega Carrillo",
     "asegurado_id": "ASE-E4ABA5DA",
     "poliza": "POL-IMP-00148",
     "ciudad": "Quito",
@@ -2643,13 +2697,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23235,
+    "longitude": -78.4737
   },
   {
     "id": "IMP-00149",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Diego Mendoza Chimbo",
+    "asegurado": "Pamela Paredes Rivera",
     "asegurado_id": "ASE-7E24FE88",
     "poliza": "POL-IMP-00149",
     "ciudad": "Guayaquil",
@@ -2668,7 +2724,7 @@
       "placa": "DQN-5718",
       "chasis": "0A544225EEA399188"
     },
-    "proveedor": "PROV-OBS-010",
+    "proveedor": "Taller Pacífico Sur",
     "descripcion": "Frecuencia alta asegurado+conductor; proveedor observado; docs incompletos.",
     "score": 25,
     "nivel": "verde",
@@ -2754,13 +2810,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.13495,
+    "longitude": -79.92506999999999
   },
   {
     "id": "IMP-00150",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Carlos Guacho Jaramillo",
+    "asegurado": "Karina Mosquera Cárdenas",
     "asegurado_id": "ASE-293128D0",
     "poliza": "POL-IMP-00150",
     "ciudad": "Cuenca",
@@ -2865,13 +2923,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.86856,
+    "longitude": -79.04397
   },
   {
     "id": "IMP-00151",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Gabriela Guacho Tipán",
+    "asegurado": "Kevin Paredes Cruz",
     "asegurado_id": "ASE-70B8BE89",
     "poliza": "POL-IMP-00151",
     "ciudad": "Quito",
@@ -2982,13 +3042,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24091,
+    "longitude": -78.48281
   },
   {
     "id": "IMP-00152",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Ramiro Luzuriaga Cunalata",
+    "asegurado": "Valeria Torres Gómez",
     "asegurado_id": "ASE-F94FE888",
     "poliza": "POL-IMP-00152",
     "ciudad": "Guayaquil",
@@ -3007,7 +3069,7 @@
       "placa": "ALD-3853",
       "chasis": "82D38D0781B617297"
     },
-    "proveedor": "PROV-OBS-015",
+    "proveedor": "Carrocerías Manabí",
     "descripcion": "Siniestro temprano; proveedor observado; inconsistencia documental.",
     "score": 21,
     "nivel": "verde",
@@ -3093,13 +3155,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2011,
+    "longitude": -79.92939
   },
   {
     "id": "IMP-00153",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Miguel Ortega Fonseca",
+    "asegurado": "Mishell Bermeo Rodríguez",
     "asegurado_id": "ASE-4D2962B5",
     "poliza": "POL-IMP-00153",
     "ciudad": "Guayaquil",
@@ -3118,7 +3182,7 @@
       "placa": "DIT-7828",
       "chasis": "D7E0C1C26ECF4D319"
     },
-    "proveedor": "PROV-OBS-020",
+    "proveedor": "Servicar Andinos",
     "descripcion": "Asegurado frecuente; proveedor observado; dinámica anómala; daño sin rastro.",
     "score": 30,
     "nivel": "verde",
@@ -3210,13 +3274,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1294399999999998,
+    "longitude": -79.96789
   },
   {
     "id": "IMP-00154",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Parcial",
-    "asegurado": "Jaime Cedeño Chimbo",
+    "asegurado": "Marco Reyes Bravo",
     "asegurado_id": "ASE-091BA21D",
     "poliza": "POL-IMP-00154",
     "ciudad": "Ambato",
@@ -3327,13 +3393,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.25156,
+    "longitude": -78.57943999999999
   },
   {
     "id": "IMP-00155",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Sonia Muñoz Ramos",
+    "asegurado": "Paola Tapia Aguilar",
     "asegurado_id": "ASE-2777D042",
     "poliza": "POL-IMP-00155",
     "ciudad": "Quito",
@@ -3352,7 +3420,7 @@
       "placa": "EZI-8403",
       "chasis": "8AC8E8FA9D38B48EA"
     },
-    "proveedor": "PROV-OBS-025",
+    "proveedor": "Reparaciones El Valle",
     "descripcion": "Conductor frecuente; proveedor observado; dinámica incoherente; sin rastro.",
     "score": 30,
     "nivel": "verde",
@@ -3444,13 +3512,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.26808,
+    "longitude": -78.54122
   },
   {
     "id": "IMP-00156",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Jéssica Ríos Macias",
+    "asegurado": "Anahí Gómez Pérez",
     "asegurado_id": "ASE-4F9A36E9",
     "poliza": "POL-IMP-00156",
     "ciudad": "Cuenca",
@@ -3469,7 +3539,7 @@
       "placa": "HYM-8264",
       "chasis": "06F7C33D3A9B48817"
     },
-    "proveedor": "PROV-OBS-030",
+    "proveedor": "Multiservicios Quevedo",
     "descripcion": "RC recurrente; asegurado frecuente; proveedor observado; monto alto.",
     "score": 29,
     "nivel": "verde",
@@ -3561,13 +3631,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.93677,
+    "longitude": -79.04558
   },
   {
     "id": "IMP-00157",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Karina Cunalata Mero",
+    "asegurado": "Lucía Zambrano Sandoval",
     "asegurado_id": "ASE-22D75871",
     "poliza": "POL-IMP-00157",
     "ciudad": "Manta",
@@ -3586,7 +3658,7 @@
       "placa": "WOL-1458",
       "chasis": "D55AD82863FF09A3B"
     },
-    "proveedor": "PROV-OBS-035",
+    "proveedor": "Tecnomotor Loja",
     "descripcion": "Robo con demora; asegurado frecuente; docs inconsistentes; narrativa similar.",
     "score": 33,
     "nivel": "verde",
@@ -3684,13 +3756,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.93762,
+    "longitude": -80.72259
   },
   {
     "id": "IMP-00158",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Karina Macías Figueroa",
+    "asegurado": "Ricardo Morales Morales",
     "asegurado_id": "ASE-45BA6EF3",
     "poliza": "POL-IMP-00158",
     "ciudad": "Guayaquil",
@@ -3709,7 +3783,7 @@
       "placa": "PRN-8262",
       "chasis": "841A54B08C316BC66"
     },
-    "proveedor": "PROV-OBS-040",
+    "proveedor": "Taller Costa Brava",
     "descripcion": "Seis señales: póliza, asegurado, conductor, proveedor, docs, reporte.",
     "score": 38,
     "nivel": "verde",
@@ -3812,13 +3886,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.18273,
+    "longitude": -79.93472
   },
   {
     "id": "IMP-00159",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Diana Cedeño Fonseca",
+    "asegurado": "Pamela Vega Castro",
     "asegurado_id": "ASE-314E4565",
     "poliza": "POL-IMP-00159",
     "ciudad": "Quito",
@@ -3941,13 +4017,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23036,
+    "longitude": -78.51086
   },
   {
     "id": "IMP-00160",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Viviana Ulloa Zambrano",
+    "asegurado": "Walter Salazar Castro",
     "asegurado_id": "ASE-38287AFA",
     "poliza": "POL-IMP-00160",
     "ciudad": "Guayaquil",
@@ -3966,7 +4044,7 @@
       "placa": "LKK-6327",
       "chasis": "8C34D5689D6E4F9F7"
     },
-    "proveedor": "PROV-OBS-045",
+    "proveedor": "Auto Express La Aurora",
     "descripcion": "Inicio de póliza; asegurado frecuente; proveedor observado; 7 señales.",
     "score": 43,
     "nivel": "amarillo",
@@ -4070,13 +4148,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2104199999999996,
+    "longitude": -79.95796
   },
   {
     "id": "IMP-00161",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Lourdes Guerrero Yasig",
+    "asegurado": "Génesis Vásquez Ramírez",
     "asegurado_id": "ASE-F96BDB33",
     "poliza": "POL-IMP-00161",
     "ciudad": "Esmeraldas",
@@ -4095,7 +4175,7 @@
       "placa": "OYM-6686",
       "chasis": "EB751604E7EA89D82"
     },
-    "proveedor": "PROV-OBS-050",
+    "proveedor": "Mecánica Universal Daule",
     "descripcion": "Robo con demora; conductor+RC frecuentes; proveedor observado; similar.",
     "score": 43,
     "nivel": "amarillo",
@@ -4199,13 +4279,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 1.00459,
+    "longitude": -79.64026000000001
   },
   {
     "id": "IMP-00162",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Roberto Ponce Moreira",
+    "asegurado": "Galo Solórzano Tapia",
     "asegurado_id": "ASE-91D18122",
     "poliza": "POL-IMP-00162",
     "ciudad": "Quito",
@@ -4224,7 +4306,7 @@
       "placa": "ELH-5405",
       "chasis": "B2CB83CC488CB0EF4"
     },
-    "proveedor": "PROV-OBS-055",
+    "proveedor": "Talleres Salinas",
     "descripcion": "RC frecuente; vehículo repetido; proveedor observado; docs inconsistentes.",
     "score": 36,
     "nivel": "verde",
@@ -4328,13 +4410,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.2268,
+    "longitude": -78.53099999999999
   },
   {
     "id": "IMP-00163",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Víctor Tipán Guacho",
+    "asegurado": "Wilmer Herrera Herrera",
     "asegurado_id": "ASE-1F03CC69",
     "poliza": "POL-IMP-00163",
     "ciudad": "Guayaquil",
@@ -4427,13 +4511,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.17452,
+    "longitude": -79.95429
   },
   {
     "id": "IMP-00164",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Danilo Estrella Muñoz",
+    "asegurado": "Nicole Cárdenas Paredes",
     "asegurado_id": "ASE-24AECF34",
     "poliza": "POL-IMP-00164",
     "ciudad": "Quito",
@@ -4526,13 +4612,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.2319,
+    "longitude": -78.54352
   },
   {
     "id": "IMP-00165",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Verónica Estrella Guerrero",
+    "asegurado": "Marco Moreno Sandoval",
     "asegurado_id": "ASE-E4B213E7",
     "poliza": "POL-IMP-00165",
     "ciudad": "Manta",
@@ -4643,13 +4731,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.94164,
+    "longitude": -80.75452
   },
   {
     "id": "IMP-00166",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Diego Jaramillo Mendoza",
+    "asegurado": "Ximena Tapia Vega",
     "asegurado_id": "ASE-4B8889A6",
     "poliza": "POL-IMP-00166",
     "ciudad": "Cuenca",
@@ -4748,13 +4838,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.8536300000000003,
+    "longitude": -79.04086
   },
   {
     "id": "IMP-00167",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Fabián Andrade Reyes",
+    "asegurado": "Alejandro Herrera Torres",
     "asegurado_id": "ASE-F157EEE1",
     "poliza": "POL-IMP-00167",
     "ciudad": "Quito",
@@ -4853,13 +4945,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.26614000000000004,
+    "longitude": -78.55581
   },
   {
     "id": "IMP-00168",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Natalia Salazar Alvarado",
+    "asegurado": "Mauricio Aguilar Romero",
     "asegurado_id": "ASE-BEE54F95",
     "poliza": "POL-IMP-00168",
     "ciudad": "Guayaquil",
@@ -4952,13 +5046,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2050699999999996,
+    "longitude": -79.94973999999999
   },
   {
     "id": "IMP-00169",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Eduardo Imbaquingo Paredes",
+    "asegurado": "Hernán Tapia Pérez",
     "asegurado_id": "ASE-1329467C",
     "poliza": "POL-IMP-00169",
     "ciudad": "Cuenca",
@@ -5063,13 +5159,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.85318,
+    "longitude": -78.99359
   },
   {
     "id": "IMP-00170",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Pilar Vélez Moreira",
+    "asegurado": "Pamela Castro Torres",
     "asegurado_id": "ASE-6DF855B4",
     "poliza": "POL-IMP-00170",
     "ciudad": "Esmeraldas",
@@ -5088,7 +5186,7 @@
       "placa": "OWF-9759",
       "chasis": "AB7A8F7E466ED4069"
     },
-    "proveedor": "PROV-LISTA-007",
+    "proveedor": "Mega Repuestos Cordero",
     "descripcion": "Taller en lista restrictiva con alertas previas.",
     "score": 10,
     "nivel": "rojo",
@@ -5162,13 +5260,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.9442,
+    "longitude": -79.63369
   },
   {
     "id": "IMP-00171",
     "ramo": "Vida",
     "cobertura": "Muerte Natural",
-    "asegurado": "Nelson Moreira Palacios",
+    "asegurado": "Ana Flores Morales",
     "asegurado_id": "ASE-0CCF69DC",
     "poliza": "POL-IMP-00171",
     "ciudad": "Guayaquil",
@@ -5261,13 +5361,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2009399999999997,
+    "longitude": -79.93867999999999
   },
   {
     "id": "IMP-00172",
     "ramo": "Vida",
     "cobertura": "Muerte Accidental",
-    "asegurado": "Fernanda Galarza Yasig",
+    "asegurado": "Edison Mora Cruz",
     "asegurado_id": "ASE-89CFDC99",
     "poliza": "POL-IMP-00172",
     "ciudad": "Machala",
@@ -5354,13 +5456,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.2868000000000004,
+    "longitude": -79.95571
   },
   {
     "id": "IMP-00173",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Karina Cárdenas Torres",
+    "asegurado": "Karina Gómez Pérez",
     "asegurado_id": "ASE-82A67314",
     "poliza": "POL-IMP-00173",
     "ciudad": "Quito",
@@ -5379,7 +5483,7 @@
       "placa": "DYU-0083",
       "chasis": "59DDD573E45E18B98"
     },
-    "proveedor": "PROV-LISTA-003",
+    "proveedor": "Carrocerías Aguilera y Hnos",
     "descripcion": "Proveedor restrictivo + documentación incompleta.",
     "score": 14,
     "nivel": "rojo",
@@ -5464,13 +5568,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.22476000000000002,
+    "longitude": -78.49307
   },
   {
     "id": "IMP-00174",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Rodrigo Zambrano Torres",
+    "asegurado": "Vinicio Mendoza Aguilar",
     "asegurado_id": "ASE-3E3A7E41",
     "poliza": "POL-IMP-00174",
     "ciudad": "Quito",
@@ -5557,13 +5663,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19005,
+    "longitude": -78.5358
   },
   {
     "id": "IMP-00175",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Fernando Espinoza Hidalgo",
+    "asegurado": "Hernán Cárdenas Tapia",
     "asegurado_id": "ASE-55363ECA",
     "poliza": "POL-IMP-00175",
     "ciudad": "Guayaquil",
@@ -5650,13 +5758,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.20395,
+    "longitude": -79.9007
   },
   {
     "id": "IMP-00176",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Pablo Reyes Chávez",
+    "asegurado": "Edison Solórzano Carrillo",
     "asegurado_id": "ASE-D15C1176",
     "poliza": "POL-IMP-00176",
     "ciudad": "Cuenca",
@@ -5755,13 +5865,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.87072,
+    "longitude": -79.01611
   },
   {
     "id": "IMP-00177",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Ruth Macias Vera",
+    "asegurado": "Mercedes Mendoza Aguilar",
     "asegurado_id": "ASE-66D69971",
     "poliza": "POL-IMP-00177",
     "ciudad": "Guayaquil",
@@ -5780,7 +5892,7 @@
       "placa": "CBK-4239",
       "chasis": "6C2A381839082266E"
     },
-    "proveedor": "PROV-LISTA-003",
+    "proveedor": "Carrocerías Aguilera y Hnos",
     "descripcion": "Historial elevado; proveedor restrictivo; docs falsificados; reporte tardío.",
     "score": 37,
     "nivel": "rojo",
@@ -5889,13 +6001,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.16607,
+    "longitude": -79.94972
   },
   {
     "id": "IMP-00178",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Paola Cedeño Ordóñez",
+    "asegurado": "Ricardo Morales Vargas",
     "asegurado_id": "ASE-9429A4AE",
     "poliza": "POL-IMP-00178",
     "ciudad": "Quito",
@@ -6006,13 +6120,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.22909000000000002,
+    "longitude": -78.50735999999999
   },
   {
     "id": "IMP-00179",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Natalia Figueroa Ponce",
+    "asegurado": "Bryan Pacheco Vásquez",
     "asegurado_id": "ASE-73E9CDA0",
     "poliza": "POL-IMP-00179",
     "ciudad": "Guayaquil",
@@ -6031,7 +6147,7 @@
       "placa": "DPT-3822",
       "chasis": "4724E245507A4CCD9"
     },
-    "proveedor": "PROV-OBS-060",
+    "proveedor": "Reparaciones Río Verde",
     "descripcion": "Máxima acumulación: inicio póliza + 4 frecuencias + proveedor + extras.",
     "score": 57,
     "nivel": "amarillo",
@@ -6147,13 +6263,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1527,
+    "longitude": -79.95071999999999
   },
   {
     "id": "IMP-00180",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Jaime Defas Cunalata",
+    "asegurado": "Elena Aguirre Vargas",
     "asegurado_id": "ASE-B2B1867D",
     "poliza": "POL-IMP-00180",
     "ciudad": "Quito",
@@ -6172,7 +6290,7 @@
       "placa": "SEB-6225",
       "chasis": "89FC4BF4615038A51"
     },
-    "proveedor": "PROV-LISTA-010",
+    "proveedor": "Taller Mecánico Vergara",
     "descripcion": "Caso de máximo riesgo: 11 señales acumuladas.",
     "score": 71,
     "nivel": "rojo",
@@ -6311,13 +6429,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.22890000000000002,
+    "longitude": -78.47798999999999
   },
   {
     "id": "IMP-00181",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Jaime Fonseca Guerrero",
+    "asegurado": "Fernando Naranjo Aguilar",
     "asegurado_id": "ASE-9CB2E156",
     "poliza": "POL-IMP-00181",
     "ciudad": "Cuenca",
@@ -6336,7 +6456,7 @@
       "placa": "CSU-7434",
       "chasis": "64E6F69D77A9FEB9E"
     },
-    "proveedor": "PROV-LISTA-015",
+    "proveedor": "Reparaciones Salvador",
     "descripcion": "Caso RC con 11 señales acumuladas; score 78 pts.",
     "score": 72,
     "nivel": "rojo",
@@ -6470,13 +6590,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.8834500000000003,
+    "longitude": -79.0288
   },
   {
     "id": "IMP-00182",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Ana Ulloa Herrera",
+    "asegurado": "Patricia Herrera Moreno",
     "asegurado_id": "ASE-C1DB33E4",
     "poliza": "POL-IMP-00182",
     "ciudad": "Guayaquil",
@@ -6495,7 +6617,7 @@
       "placa": "EFT-1898",
       "chasis": "1B6AE9F8206697622"
     },
-    "proveedor": "PROV-OBS-070",
+    "proveedor": "Carrocerías El Inca",
     "descripcion": "Narrativa muy similar + proveedor + inconsistencias documentales.",
     "score": 37,
     "nivel": "verde",
@@ -6593,13 +6715,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.18832,
+    "longitude": -79.88329
   },
   {
     "id": "IMP-00183",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Alexandra Aguirre Palacios",
+    "asegurado": "Adriana Morales Herrera",
     "asegurado_id": "ASE-25D712CA",
     "poliza": "POL-IMP-00183",
     "ciudad": "Santo Domingo",
@@ -6679,13 +6803,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24100999999999997,
+    "longitude": -79.18939999999999
   },
   {
     "id": "IMP-00184",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Patricia Ortega Muñoz",
+    "asegurado": "Walter Espinoza Jiménez",
     "asegurado_id": "ASE-09CBE2EF",
     "poliza": "POL-IMP-00184",
     "ciudad": "Ibarra",
@@ -6759,13 +6885,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.36528999999999995,
+    "longitude": -78.14215
   },
   {
     "id": "IMP-00185",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "David Guerrero Cárdenas",
+    "asegurado": "Ricardo Romero Espinoza",
     "asegurado_id": "ASE-12388859",
     "poliza": "POL-IMP-00185",
     "ciudad": "Riobamba",
@@ -6845,13 +6973,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.71185,
+    "longitude": -78.60265
   },
   {
     "id": "IMP-00186",
     "ramo": "Incendio",
     "cobertura": "Incendio y Líneas Aliadas",
-    "asegurado": "Milton Tipán Jácome",
+    "asegurado": "Hernán Vásquez García",
     "asegurado_id": "ASE-093586D7",
     "poliza": "POL-IMP-00186",
     "ciudad": "Latacunga",
@@ -6925,13 +7055,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.97002,
+    "longitude": -78.64907
   },
   {
     "id": "IMP-00187",
     "ramo": "Vehículos",
     "cobertura": "Robo Total",
-    "asegurado": "Adriana Caicedo Mero",
+    "asegurado": "Lorena Aguilar Vásquez",
     "asegurado_id": "ASE-895EB6DF",
     "poliza": "POL-IMP-00187",
     "ciudad": "Riobamba",
@@ -7048,13 +7180,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.71889,
+    "longitude": -78.68088999999999
   },
   {
     "id": "IMP-00188",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Viviana Saquinga Yasig",
+    "asegurado": "Eduardo Cedeño Ramírez",
     "asegurado_id": "ASE-EF8999C8",
     "poliza": "POL-IMP-00188",
     "ciudad": "Santo Domingo",
@@ -7159,13 +7293,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.27931999999999996,
+    "longitude": -79.19788
   },
   {
     "id": "IMP-00189",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Roberto Lara Loor",
+    "asegurado": "Wilmer Rodríguez Pérez",
     "asegurado_id": "ASE-DB5F46DA",
     "poliza": "POL-IMP-00189",
     "ciudad": "Quevedo",
@@ -7184,7 +7320,7 @@
       "placa": "ACS-8500",
       "chasis": "654F3DE1C1F1E8034"
     },
-    "proveedor": "PROV-OBS-080",
+    "proveedor": "Taller Av. de los Shyris",
     "descripcion": "Chevrolet D-Max con daños extensos; peritaje indica impacto frontal sin evidencia de tercero en la escena.",
     "score": 24,
     "nivel": "verde",
@@ -7270,13 +7406,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.02697,
+    "longitude": -79.49308
   },
   {
     "id": "IMP-00190",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Marco Iza Loor",
+    "asegurado": "Cristian Herrera Castro",
     "asegurado_id": "ASE-D5ABDA50",
     "poliza": "POL-IMP-00190",
     "ciudad": "Ibarra",
@@ -7386,13 +7524,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.32027999999999995,
+    "longitude": -78.17775999999999
   },
   {
     "id": "IMP-00191",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Alexandra Guerrero Andrade",
+    "asegurado": "Paola Carrillo Castro",
     "asegurado_id": "ASE-838499A7",
     "poliza": "POL-IMP-00191",
     "ciudad": "Milagro",
@@ -7411,7 +7551,7 @@
       "placa": "CNP-4245",
       "chasis": "6A06E1373F7B54DEE"
     },
-    "proveedor": "PROV-OBS-085",
+    "proveedor": "Servicios Automotrices Calderón",
     "descripcion": "Tercer evento RC para el asegurado en 18 meses; proveedor vinculado a reclamaciones observadas en zona de Milagro.",
     "score": 24,
     "nivel": "verde",
@@ -7497,13 +7637,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.0945,
+    "longitude": -79.6228
   },
   {
     "id": "IMP-00192",
     "ramo": "Transporte",
     "cobertura": "Mercancías en Tránsito",
-    "asegurado": "Diana Moreira Paredes",
+    "asegurado": "Sandra Andrade Pérez",
     "asegurado_id": "ASE-2DD31E76",
     "poliza": "POL-IMP-00192",
     "ciudad": "Babahoyo",
@@ -7607,13 +7749,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.78095,
+    "longitude": -79.48559
   },
   {
     "id": "IMP-00193",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Lorena Vélez Chimbo",
+    "asegurado": "Bryan Vega Jiménez",
     "asegurado_id": "ASE-DB7EC5F2",
     "poliza": "POL-IMP-00193",
     "ciudad": "Guayaquil",
@@ -7632,7 +7776,7 @@
       "placa": "ZJR-0572",
       "chasis": "A3A5730B87C25F09C"
     },
-    "proveedor": "PROV-LISTA-020",
+    "proveedor": "Carrocerías Toral",
     "descripcion": "Siniestro derivado a taller en lista restrictiva. Conductor con múltiples reclamaciones previas; narrativa muy similar a otro caso reciente.",
     "score": 40,
     "nivel": "rojo",
@@ -7730,13 +7874,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.20187,
+    "longitude": -79.9126
   },
   {
     "id": "IMP-00194",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Ana Moreira Moreira",
+    "asegurado": "Mercedes Vargas Herrera",
     "asegurado_id": "ASE-1EE383AF",
     "poliza": "POL-IMP-00194",
     "ciudad": "Quito",
@@ -7847,13 +7993,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25173,
+    "longitude": -78.49884
   },
   {
     "id": "IMP-00195",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Danilo Salazar Chila",
+    "asegurado": "Ana Cedeño Jiménez",
     "asegurado_id": "ASE-A6EF7C1D",
     "poliza": "POL-IMP-00195",
     "ciudad": "Ibarra",
@@ -7970,13 +8118,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.38287,
+    "longitude": -78.14981
   },
   {
     "id": "IMP-00196",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Carmen Imbaquingo Narváez",
+    "asegurado": "Walter Suárez Vargas",
     "asegurado_id": "ASE-C896F2EE",
     "poliza": "POL-IMP-00196",
     "ciudad": "Santo Domingo",
@@ -7995,7 +8145,7 @@
       "placa": "HBG-8159",
       "chasis": "99CE8A6178847A3B9"
     },
-    "proveedor": "PROV-LISTA-025",
+    "proveedor": "Multitalleres Espinoza",
     "descripcion": "Caso de máximo riesgo en Santo Domingo: 11 señales simultáneas. Póliza reciente; alta frecuencia vehículo+conductor+asegurado; taller en lista restrictiva; documentos incompletos e inconsistentes.",
     "score": 71,
     "nivel": "rojo",
@@ -8134,13 +8284,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.27974,
+    "longitude": -79.20608
   },
   {
     "id": "IMP-00197",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Milton Fonseca Quiñónez",
+    "asegurado": "Diana Solórzano Jiménez",
     "asegurado_id": "ASE-BC42CF42",
     "poliza": "POL-IMP-00197",
     "ciudad": "Riobamba",
@@ -8245,13 +8397,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.6241,
+    "longitude": -78.69572
   },
   {
     "id": "IMP-00198",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Gissela Naranjo Figueroa",
+    "asegurado": "Erika Torres López",
     "asegurado_id": "ASE-C093885E",
     "poliza": "POL-IMP-00198",
     "ciudad": "Guayaquil",
@@ -8331,13 +8485,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.19101,
+    "longitude": -79.96824
   },
   {
     "id": "IMP-00199",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Sonia Cedeño Bone",
+    "asegurado": "Erika Ortiz Herrera",
     "asegurado_id": "ASE-33D26A4C",
     "poliza": "POL-IMP-00199",
     "ciudad": "Quito",
@@ -8411,13 +8567,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.20735,
+    "longitude": -78.52486999999999
   },
   {
     "id": "IMP-00200",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Ramiro Salazar Mendoza",
+    "asegurado": "Esteban Gómez Gómez",
     "asegurado_id": "ASE-6F6A2283",
     "poliza": "POL-IMP-00200",
     "ciudad": "Cuenca",
@@ -8491,13 +8649,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.89061,
+    "longitude": -78.96206
   },
   {
     "id": "IMP-00201",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Natalia Cárdenas Orozco",
+    "asegurado": "Marcelo Morales Jiménez",
     "asegurado_id": "ASE-01C4ACE4",
     "poliza": "POL-IMP-00201",
     "ciudad": "Machala",
@@ -8577,13 +8737,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.2110100000000004,
+    "longitude": -79.9493
   },
   {
     "id": "IMP-00202",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Rosa Barriga Ortega",
+    "asegurado": "Marcelo Solórzano Bravo",
     "asegurado_id": "ASE-4768995B",
     "poliza": "POL-IMP-00202",
     "ciudad": "Loja",
@@ -8663,13 +8825,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.98166,
+    "longitude": -79.18918
   },
   {
     "id": "IMP-00203",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Carlos Delgado Saquinga",
+    "asegurado": "Wilmer Andrade Vásquez",
     "asegurado_id": "ASE-172E7637",
     "poliza": "POL-IMP-00203",
     "ciudad": "Ambato",
@@ -8743,13 +8907,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.2236799999999999,
+    "longitude": -78.59185
   },
   {
     "id": "IMP-00204",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "José Mero Quiñónez",
+    "asegurado": "Alex López Castro",
     "asegurado_id": "ASE-53BCBD25",
     "poliza": "POL-IMP-00204",
     "ciudad": "Guayaquil",
@@ -8836,13 +9002,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1955899999999997,
+    "longitude": -79.95891
   },
   {
     "id": "IMP-00205",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Lorena Estrella Alvarado",
+    "asegurado": "Tatiana Romero Rodríguez",
     "asegurado_id": "ASE-17B553B0",
     "poliza": "POL-IMP-00205",
     "ciudad": "Manta",
@@ -8929,13 +9097,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.97929,
+    "longitude": -80.70437
   },
   {
     "id": "IMP-00206",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Amplia",
-    "asegurado": "David Aguirre Imbaquingo",
+    "asegurado": "Verónica Sánchez Mendoza",
     "asegurado_id": "ASE-5E4B93CD",
     "poliza": "POL-IMP-00206",
     "ciudad": "Guayaquil",
@@ -9016,13 +9186,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1245399999999997,
+    "longitude": -79.89947
   },
   {
     "id": "IMP-00207",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Iván Cárdenas Vélez",
+    "asegurado": "Diana Cárdenas Cárdenas",
     "asegurado_id": "ASE-218EFC4A",
     "poliza": "POL-IMP-00207",
     "ciudad": "Cuenca",
@@ -9109,13 +9281,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.94481,
+    "longitude": -78.95716999999999
   },
   {
     "id": "IMP-00208",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Natalia Palacios Ortega",
+    "asegurado": "Santiago Ramírez Moreno",
     "asegurado_id": "ASE-9E6E6ECA",
     "poliza": "POL-IMP-00208",
     "ciudad": "Guayaquil",
@@ -9202,13 +9376,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1639399999999998,
+    "longitude": -79.95688
   },
   {
     "id": "IMP-00209",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Sonia Alvarado Molina",
+    "asegurado": "Felipe Rivera Aguirre",
     "asegurado_id": "ASE-05BAAC8F",
     "poliza": "POL-IMP-00209",
     "ciudad": "Guayaquil",
@@ -9295,13 +9471,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1700899999999996,
+    "longitude": -79.90285999999999
   },
   {
     "id": "IMP-00210",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "David Naranjo Andrade",
+    "asegurado": "Adriana Morales Romero",
     "asegurado_id": "ASE-966446BB",
     "poliza": "POL-IMP-00210",
     "ciudad": "Quito",
@@ -9382,13 +9560,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25005,
+    "longitude": -78.53918
   },
   {
     "id": "IMP-00211",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Nelson Chávez Naranjo",
+    "asegurado": "Diana Cabrera Jiménez",
     "asegurado_id": "ASE-E0C4718C",
     "poliza": "POL-IMP-00211",
     "ciudad": "Cuenca",
@@ -9469,13 +9649,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.867,
+    "longitude": -79.04581
   },
   {
     "id": "IMP-00212",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Valeria Ordóñez Herrera",
+    "asegurado": "Gabriela Pérez Solórzano",
     "asegurado_id": "ASE-1DDA605F",
     "poliza": "POL-IMP-00212",
     "ciudad": "Portoviejo",
@@ -9562,13 +9744,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.0852,
+    "longitude": -80.43822
   },
   {
     "id": "IMP-00213",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Claudia Mero Zambrano",
+    "asegurado": "Andrés Solórzano Naranjo",
     "asegurado_id": "ASE-8DFDB817",
     "poliza": "POL-IMP-00213",
     "ciudad": "Guayaquil",
@@ -9655,13 +9839,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.17176,
+    "longitude": -79.91993
   },
   {
     "id": "IMP-00214",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Elena Delgado Defas",
+    "asegurado": "Eduardo Tapia Moreno",
     "asegurado_id": "ASE-5F1BCE35",
     "poliza": "POL-IMP-00214",
     "ciudad": "Quito",
@@ -9748,13 +9934,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.20091,
+    "longitude": -78.49416
   },
   {
     "id": "IMP-00215",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Diana Muñoz Vélez",
+    "asegurado": "Silvia Salazar Salazar",
     "asegurado_id": "ASE-B496D158",
     "poliza": "POL-IMP-00215",
     "ciudad": "Cuenca",
@@ -9841,13 +10029,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.91908,
+    "longitude": -78.99016
   },
   {
     "id": "IMP-00216",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Marcela Chimbo Moreira",
+    "asegurado": "Carlos Mora Suárez",
     "asegurado_id": "ASE-07489D22",
     "poliza": "POL-IMP-00216",
     "ciudad": "Ambato",
@@ -9940,13 +10130,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.24019,
+    "longitude": -78.61634
   },
   {
     "id": "IMP-00217",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "David Jácome Andrade",
+    "asegurado": "Mauricio Castro Cárdenas",
     "asegurado_id": "ASE-57066161",
     "poliza": "POL-IMP-00217",
     "ciudad": "Quito",
@@ -10045,13 +10237,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.21052,
+    "longitude": -78.55041
   },
   {
     "id": "IMP-00218",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Alex Muñoz Macías",
+    "asegurado": "Gabriela Carrillo Gómez",
     "asegurado_id": "ASE-950E9D89",
     "poliza": "POL-IMP-00218",
     "ciudad": "Guayaquil",
@@ -10150,13 +10344,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.13311,
+    "longitude": -79.90204
   },
   {
     "id": "IMP-00219",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Marcela Andrade Chimbo",
+    "asegurado": "Andrés Salazar Cruz",
     "asegurado_id": "ASE-BA1EAEEC",
     "poliza": "POL-IMP-00219",
     "ciudad": "Esmeraldas",
@@ -10255,13 +10451,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.9532700000000001,
+    "longitude": -79.62672
   },
   {
     "id": "IMP-00220",
     "ramo": "Vehículos",
     "cobertura": "Robo Total",
-    "asegurado": "Rosa Aguirre Mero",
+    "asegurado": "Ana Gómez Vásquez",
     "asegurado_id": "ASE-3DCDF4E1",
     "poliza": "POL-IMP-00220",
     "ciudad": "Quito",
@@ -10372,13 +10570,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24045,
+    "longitude": -78.48768
   },
   {
     "id": "IMP-00221",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Ramiro Reyes Cunalata",
+    "asegurado": "Sandra Aguilar Torres",
     "asegurado_id": "ASE-603549F4",
     "poliza": "POL-IMP-00221",
     "ciudad": "Guayaquil",
@@ -10477,13 +10677,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1868299999999996,
+    "longitude": -79.90781
   },
   {
     "id": "IMP-00222",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Alexandra Orozco Ríos",
+    "asegurado": "Belén Cárdenas Cevallos",
     "asegurado_id": "ASE-416675A3",
     "poliza": "POL-IMP-00222",
     "ciudad": "Quito",
@@ -10576,13 +10778,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.17887,
+    "longitude": -78.50614
   },
   {
     "id": "IMP-00223",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Fernanda Andrade Paredes",
+    "asegurado": "Diego Andrade García",
     "asegurado_id": "ASE-3949A6B4",
     "poliza": "POL-IMP-00223",
     "ciudad": "Guayaquil",
@@ -10681,13 +10885,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1351799999999996,
+    "longitude": -79.96338
   },
   {
     "id": "IMP-00224",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Marcela Quiñónez Defas",
+    "asegurado": "Estefanía Espinoza Mosquera",
     "asegurado_id": "ASE-19AE01FF",
     "poliza": "POL-IMP-00224",
     "ciudad": "Cuenca",
@@ -10786,13 +10992,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.93534,
+    "longitude": -79.05333999999999
   },
   {
     "id": "IMP-00225",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Alexandra Imbaquingo Castro",
+    "asegurado": "Alex Sandoval Garcés",
     "asegurado_id": "ASE-785FC7CD",
     "poliza": "POL-IMP-00225",
     "ciudad": "Quito",
@@ -10891,13 +11099,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23744,
+    "longitude": -78.55227
   },
   {
     "id": "IMP-00226",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Danilo Vélez Luzuriaga",
+    "asegurado": "Felipe Jiménez Cedeño",
     "asegurado_id": "ASE-92FEB8B0",
     "poliza": "POL-IMP-00226",
     "ciudad": "Guayaquil",
@@ -10916,7 +11126,7 @@
       "placa": "IBY-2313",
       "chasis": "D6ECFE105279227E9"
     },
-    "proveedor": "PROV-OBS-010",
+    "proveedor": "Taller Pacífico Sur",
     "descripcion": "Frecuencia alta asegurado+conductor; proveedor observado; docs incompletos.",
     "score": 25,
     "nivel": "verde",
@@ -11002,13 +11212,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.171,
+    "longitude": -79.90332
   },
   {
     "id": "IMP-00227",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Juan Figueroa Defas",
+    "asegurado": "Diana Mosquera Vásquez",
     "asegurado_id": "ASE-860044ED",
     "poliza": "POL-IMP-00227",
     "ciudad": "Cuenca",
@@ -11113,13 +11325,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.8858900000000003,
+    "longitude": -79.01185
   },
   {
     "id": "IMP-00228",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Mónica Moreira Cunalata",
+    "asegurado": "Fernando Quiroz Garcés",
     "asegurado_id": "ASE-EED544BE",
     "poliza": "POL-IMP-00228",
     "ciudad": "Quito",
@@ -11230,13 +11444,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19356,
+    "longitude": -78.54034
   },
   {
     "id": "IMP-00229",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Esteban Cunalata Mero",
+    "asegurado": "Karla Bermeo Cárdenas",
     "asegurado_id": "ASE-8A701AD2",
     "poliza": "POL-IMP-00229",
     "ciudad": "Guayaquil",
@@ -11255,7 +11471,7 @@
       "placa": "WRH-8014",
       "chasis": "580B943F8A9EBBFFF"
     },
-    "proveedor": "PROV-OBS-015",
+    "proveedor": "Carrocerías Manabí",
     "descripcion": "Siniestro temprano; proveedor observado; inconsistencia documental.",
     "score": 21,
     "nivel": "verde",
@@ -11341,13 +11557,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.19718,
+    "longitude": -79.90411
   },
   {
     "id": "IMP-00230",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Miguel Reyes Chimbo",
+    "asegurado": "Andrés Cabrera Cabrera",
     "asegurado_id": "ASE-114975B1",
     "poliza": "POL-IMP-00230",
     "ciudad": "Guayaquil",
@@ -11366,7 +11584,7 @@
       "placa": "ILL-4629",
       "chasis": "4995CAB2E0032627A"
     },
-    "proveedor": "PROV-OBS-020",
+    "proveedor": "Servicar Andinos",
     "descripcion": "Asegurado frecuente; proveedor observado; dinámica anómala; daño sin rastro.",
     "score": 30,
     "nivel": "verde",
@@ -11458,13 +11676,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1852899999999997,
+    "longitude": -79.96437999999999
   },
   {
     "id": "IMP-00231",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Parcial",
-    "asegurado": "Germán Aguirre Tipán",
+    "asegurado": "Carlos Toro Bravo",
     "asegurado_id": "ASE-202CF19B",
     "poliza": "POL-IMP-00231",
     "ciudad": "Ambato",
@@ -11575,13 +11795,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.23799,
+    "longitude": -78.60884
   },
   {
     "id": "IMP-00232",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Ana Chávez Cunalata",
+    "asegurado": "Adriana Salazar Mora",
     "asegurado_id": "ASE-183B92FC",
     "poliza": "POL-IMP-00232",
     "ciudad": "Quito",
@@ -11600,7 +11822,7 @@
       "placa": "PBL-7625",
       "chasis": "2C3C62B41F44252AC"
     },
-    "proveedor": "PROV-OBS-025",
+    "proveedor": "Reparaciones El Valle",
     "descripcion": "Conductor frecuente; proveedor observado; dinámica incoherente; sin rastro.",
     "score": 30,
     "nivel": "verde",
@@ -11692,13 +11914,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.26032,
+    "longitude": -78.48375999999999
   },
   {
     "id": "IMP-00233",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Natalia Espinoza Aguirre",
+    "asegurado": "Alejandro Vega Vásquez",
     "asegurado_id": "ASE-1ADAEAC5",
     "poliza": "POL-IMP-00233",
     "ciudad": "Cuenca",
@@ -11717,7 +11941,7 @@
       "placa": "ZGD-0238",
       "chasis": "CB2785185BED93A90"
     },
-    "proveedor": "PROV-OBS-030",
+    "proveedor": "Multiservicios Quevedo",
     "descripcion": "RC recurrente; asegurado frecuente; proveedor observado; monto alto.",
     "score": 29,
     "nivel": "verde",
@@ -11809,13 +12033,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.9086700000000003,
+    "longitude": -79.02609
   },
   {
     "id": "IMP-00234",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Mónica Reyes Ponce",
+    "asegurado": "Ana Castro Aguilar",
     "asegurado_id": "ASE-F0259EE0",
     "poliza": "POL-IMP-00234",
     "ciudad": "Manta",
@@ -11834,7 +12060,7 @@
       "placa": "YAL-8551",
       "chasis": "181DACFD80DC25B90"
     },
-    "proveedor": "PROV-OBS-035",
+    "proveedor": "Tecnomotor Loja",
     "descripcion": "Robo con demora; asegurado frecuente; docs inconsistentes; narrativa similar.",
     "score": 33,
     "nivel": "verde",
@@ -11932,13 +12158,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.91814,
+    "longitude": -80.67942
   },
   {
     "id": "IMP-00235",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Germán Aguirre Palacios",
+    "asegurado": "Patricia Reyes Jiménez",
     "asegurado_id": "ASE-F6FB25A2",
     "poliza": "POL-IMP-00235",
     "ciudad": "Guayaquil",
@@ -11957,7 +12185,7 @@
       "placa": "HQE-8899",
       "chasis": "FDC5B2D15987FD834"
     },
-    "proveedor": "PROV-OBS-040",
+    "proveedor": "Taller Costa Brava",
     "descripcion": "Seis señales: póliza, asegurado, conductor, proveedor, docs, reporte.",
     "score": 38,
     "nivel": "verde",
@@ -12060,13 +12288,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.19137,
+    "longitude": -79.88434
   },
   {
     "id": "IMP-00236",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Fernanda Vélez Molina",
+    "asegurado": "Juan Torres Mendoza",
     "asegurado_id": "ASE-06A4C63A",
     "poliza": "POL-IMP-00236",
     "ciudad": "Quito",
@@ -12189,13 +12419,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.18708,
+    "longitude": -78.52166
   },
   {
     "id": "IMP-00237",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Diego Macias Zambrano",
+    "asegurado": "Hugo Paredes Flores",
     "asegurado_id": "ASE-8D8EA22B",
     "poliza": "POL-IMP-00237",
     "ciudad": "Guayaquil",
@@ -12214,7 +12446,7 @@
       "placa": "YMZ-8979",
       "chasis": "544C0886218FB5234"
     },
-    "proveedor": "PROV-OBS-045",
+    "proveedor": "Auto Express La Aurora",
     "descripcion": "Inicio de póliza; asegurado frecuente; proveedor observado; 7 señales.",
     "score": 43,
     "nivel": "amarillo",
@@ -12318,13 +12550,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1615699999999998,
+    "longitude": -79.87653
   },
   {
     "id": "IMP-00238",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Lorena Loor Galarza",
+    "asegurado": "Cristian Quiroz Castro",
     "asegurado_id": "ASE-5371361B",
     "poliza": "POL-IMP-00238",
     "ciudad": "Esmeraldas",
@@ -12343,7 +12577,7 @@
       "placa": "RPT-1711",
       "chasis": "C055C7E6C219225B9"
     },
-    "proveedor": "PROV-OBS-050",
+    "proveedor": "Mecánica Universal Daule",
     "descripcion": "Robo con demora; conductor+RC frecuentes; proveedor observado; similar.",
     "score": 43,
     "nivel": "amarillo",
@@ -12447,13 +12681,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.96535,
+    "longitude": -79.63498
   },
   {
     "id": "IMP-00239",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Lenin Mendoza Loor",
+    "asegurado": "Belén Jiménez Naranjo",
     "asegurado_id": "ASE-8C52268B",
     "poliza": "POL-IMP-00239",
     "ciudad": "Quito",
@@ -12472,7 +12708,7 @@
       "placa": "XKH-5731",
       "chasis": "18FFE00FEBBAFD7CE"
     },
-    "proveedor": "PROV-OBS-055",
+    "proveedor": "Talleres Salinas",
     "descripcion": "RC frecuente; vehículo repetido; proveedor observado; docs inconsistentes.",
     "score": 36,
     "nivel": "verde",
@@ -12576,13 +12812,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19633,
+    "longitude": -78.48606
   },
   {
     "id": "IMP-00240",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Claudia Figueroa Paredes",
+    "asegurado": "Valeria Carrillo Mendoza",
     "asegurado_id": "ASE-8C8BE4D2",
     "poliza": "POL-IMP-00240",
     "ciudad": "Guayaquil",
@@ -12675,13 +12913,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.18023,
+    "longitude": -79.96614
   },
   {
     "id": "IMP-00241",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Fernanda Suárez Salazar",
+    "asegurado": "Silvia García Suárez",
     "asegurado_id": "ASE-0608745B",
     "poliza": "POL-IMP-00241",
     "ciudad": "Quito",
@@ -12774,13 +13014,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23249,
+    "longitude": -78.55815
   },
   {
     "id": "IMP-00242",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Lorena Saquinga Cunalata",
+    "asegurado": "Felipe Vega Garcés",
     "asegurado_id": "ASE-619E0CA8",
     "poliza": "POL-IMP-00242",
     "ciudad": "Manta",
@@ -12891,13 +13133,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.99025,
+    "longitude": -80.69003
   },
   {
     "id": "IMP-00243",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "Juan Mero Galarza",
+    "asegurado": "Ximena Velasco Torres",
     "asegurado_id": "ASE-AD3426F9",
     "poliza": "POL-IMP-00243",
     "ciudad": "Cuenca",
@@ -12996,13 +13240,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.9423500000000002,
+    "longitude": -79.02481999999999
   },
   {
     "id": "IMP-00244",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Ruth Aguirre Guerrero",
+    "asegurado": "Pamela Suárez Flores",
     "asegurado_id": "ASE-53F5776A",
     "poliza": "POL-IMP-00244",
     "ciudad": "Quito",
@@ -13101,13 +13347,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.17515,
+    "longitude": -78.54357999999999
   },
   {
     "id": "IMP-00245",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Carmen Naranjo Narváez",
+    "asegurado": "Sofía Solórzano Suárez",
     "asegurado_id": "ASE-43CEF95C",
     "poliza": "POL-IMP-00245",
     "ciudad": "Guayaquil",
@@ -13200,13 +13448,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1335699999999997,
+    "longitude": -79.90115999999999
   },
   {
     "id": "IMP-00246",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Germán Torres Chimbo",
+    "asegurado": "Alejandro Sánchez Castro",
     "asegurado_id": "ASE-314FA453",
     "poliza": "POL-IMP-00246",
     "ciudad": "Cuenca",
@@ -13311,13 +13561,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.91465,
+    "longitude": -78.99986
   },
   {
     "id": "IMP-00247",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Ramiro Castro Cedeño",
+    "asegurado": "Mauricio Aguirre Quiroz",
     "asegurado_id": "ASE-4ADE75E9",
     "poliza": "POL-IMP-00247",
     "ciudad": "Esmeraldas",
@@ -13336,7 +13588,7 @@
       "placa": "IUG-5386",
       "chasis": "1DC16347596CCAF75"
     },
-    "proveedor": "PROV-LISTA-007",
+    "proveedor": "Mega Repuestos Cordero",
     "descripcion": "Taller en lista restrictiva con alertas previas.",
     "score": 10,
     "nivel": "rojo",
@@ -13410,13 +13662,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.96725,
+    "longitude": -79.66653000000001
   },
   {
     "id": "IMP-00248",
     "ramo": "Vida",
     "cobertura": "Muerte Natural",
-    "asegurado": "Fernanda Imbaquingo Chafla",
+    "asegurado": "Gabriela Reyes Cárdenas",
     "asegurado_id": "ASE-40437E12",
     "poliza": "POL-IMP-00248",
     "ciudad": "Guayaquil",
@@ -13509,13 +13763,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1887999999999996,
+    "longitude": -79.90692
   },
   {
     "id": "IMP-00249",
     "ramo": "Vida",
     "cobertura": "Muerte Accidental",
-    "asegurado": "Daniela Mendoza Muñoz",
+    "asegurado": "María Cruz Cárdenas",
     "asegurado_id": "ASE-77F1383F",
     "poliza": "POL-IMP-00249",
     "ciudad": "Machala",
@@ -13602,13 +13858,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.29625,
+    "longitude": -79.92366
   },
   {
     "id": "IMP-00250",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Andrés Bravo Ordóñez",
+    "asegurado": "Patricia Quiroz Paredes",
     "asegurado_id": "ASE-AFE123CA",
     "poliza": "POL-IMP-00250",
     "ciudad": "Quito",
@@ -13627,7 +13885,7 @@
       "placa": "DUT-7727",
       "chasis": "01CCEB936A1057D42"
     },
-    "proveedor": "PROV-LISTA-003",
+    "proveedor": "Carrocerías Aguilera y Hnos",
     "descripcion": "Proveedor restrictivo + documentación incompleta.",
     "score": 14,
     "nivel": "rojo",
@@ -13712,13 +13970,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25295,
+    "longitude": -78.52996
   },
   {
     "id": "IMP-00251",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Edison Luzuriaga Paredes",
+    "asegurado": "José Cevallos Mendoza",
     "asegurado_id": "ASE-91E1BDEC",
     "poliza": "POL-IMP-00251",
     "ciudad": "Quito",
@@ -13805,13 +14065,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.17239000000000002,
+    "longitude": -78.54245
   },
   {
     "id": "IMP-00252",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Adriana Ordóñez Mendoza",
+    "asegurado": "Elena Vargas Suárez",
     "asegurado_id": "ASE-BD4D5D95",
     "poliza": "POL-IMP-00252",
     "ciudad": "Guayaquil",
@@ -13898,13 +14160,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.21082,
+    "longitude": -79.96503
   },
   {
     "id": "IMP-00253",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Luis Saquinga Tipán",
+    "asegurado": "Jessica Espinoza Aguirre",
     "asegurado_id": "ASE-DCA935ED",
     "poliza": "POL-IMP-00253",
     "ciudad": "Cuenca",
@@ -14003,13 +14267,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.85224,
+    "longitude": -79.0287
   },
   {
     "id": "IMP-00254",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Ramiro Tipán Saquinga",
+    "asegurado": "Marcelo Quiroz Cevallos",
     "asegurado_id": "ASE-F3BCA052",
     "poliza": "POL-IMP-00254",
     "ciudad": "Guayaquil",
@@ -14028,7 +14294,7 @@
       "placa": "SJQ-1344",
       "chasis": "C218A063C627013BB"
     },
-    "proveedor": "PROV-LISTA-003",
+    "proveedor": "Carrocerías Aguilera y Hnos",
     "descripcion": "Historial elevado; proveedor restrictivo; docs falsificados; reporte tardío.",
     "score": 37,
     "nivel": "rojo",
@@ -14137,13 +14403,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1780999999999997,
+    "longitude": -79.88562999999999
   },
   {
     "id": "IMP-00255",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Diana Macias Tipán",
+    "asegurado": "Yolanda Cruz García",
     "asegurado_id": "ASE-325707BF",
     "poliza": "POL-IMP-00255",
     "ciudad": "Quito",
@@ -14254,13 +14522,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.27004,
+    "longitude": -78.46461
   },
   {
     "id": "IMP-00256",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Karina Guacho Hidalgo",
+    "asegurado": "Sebastián Pérez Rivera",
     "asegurado_id": "ASE-FCA1D700",
     "poliza": "POL-IMP-00256",
     "ciudad": "Guayaquil",
@@ -14279,7 +14549,7 @@
       "placa": "JWU-7867",
       "chasis": "BB4E83733EDEACDF2"
     },
-    "proveedor": "PROV-OBS-060",
+    "proveedor": "Reparaciones Río Verde",
     "descripcion": "Máxima acumulación: inicio póliza + 4 frecuencias + proveedor + extras.",
     "score": 57,
     "nivel": "amarillo",
@@ -14395,13 +14665,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1364799999999997,
+    "longitude": -79.88304
   },
   {
     "id": "IMP-00257",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Silvia Castro Cárdenas",
+    "asegurado": "Camila Gómez García",
     "asegurado_id": "ASE-4AC45266",
     "poliza": "POL-IMP-00257",
     "ciudad": "Quito",
@@ -14420,7 +14692,7 @@
       "placa": "IKO-5002",
       "chasis": "C2B908AFB5E5A1AF7"
     },
-    "proveedor": "PROV-LISTA-010",
+    "proveedor": "Taller Mecánico Vergara",
     "descripcion": "Caso de máximo riesgo: 11 señales acumuladas.",
     "score": 71,
     "nivel": "rojo",
@@ -14559,13 +14831,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.20505,
+    "longitude": -78.54354
   },
   {
     "id": "IMP-00258",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Viviana Muñoz Luzuriaga",
+    "asegurado": "Silvia Castro Mora",
     "asegurado_id": "ASE-022296F3",
     "poliza": "POL-IMP-00258",
     "ciudad": "Cuenca",
@@ -14584,7 +14858,7 @@
       "placa": "QRS-4717",
       "chasis": "0531473BDDC92791F"
     },
-    "proveedor": "PROV-LISTA-015",
+    "proveedor": "Reparaciones Salvador",
     "descripcion": "Caso RC con 11 señales acumuladas; score 78 pts.",
     "score": 72,
     "nivel": "rojo",
@@ -14718,13 +14992,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.9003300000000003,
+    "longitude": -79.04778
   },
   {
     "id": "IMP-00259",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Natalia Ortega Jaramillo",
+    "asegurado": "Daniela Mendoza Rivera",
     "asegurado_id": "ASE-2E179453",
     "poliza": "POL-IMP-00259",
     "ciudad": "Guayaquil",
@@ -14743,7 +15019,7 @@
       "placa": "QJI-1672",
       "chasis": "4D45DB96ED3F1B793"
     },
-    "proveedor": "PROV-OBS-070",
+    "proveedor": "Carrocerías El Inca",
     "descripcion": "Narrativa muy similar + proveedor + inconsistencias documentales.",
     "score": 37,
     "nivel": "verde",
@@ -14841,13 +15117,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.19616,
+    "longitude": -79.94388
   },
   {
     "id": "IMP-00260",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Viviana Chafla Ríos",
+    "asegurado": "Kevin Espinoza Ortiz",
     "asegurado_id": "ASE-DC876C87",
     "poliza": "POL-IMP-00260",
     "ciudad": "Santo Domingo",
@@ -14927,13 +15205,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23643999999999998,
+    "longitude": -79.20106
   },
   {
     "id": "IMP-00261",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Fernando Paredes Chimbo",
+    "asegurado": "Karla Bermeo Morales",
     "asegurado_id": "ASE-C4C4337B",
     "poliza": "POL-IMP-00261",
     "ciudad": "Ibarra",
@@ -15007,13 +15287,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.38642,
+    "longitude": -78.16441
   },
   {
     "id": "IMP-00262",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Gissela Cunalata Jácome",
+    "asegurado": "Paola Sandoval Herrera",
     "asegurado_id": "ASE-28FF310D",
     "poliza": "POL-IMP-00262",
     "ciudad": "Riobamba",
@@ -15093,13 +15375,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.6287,
+    "longitude": -78.61918999999999
   },
   {
     "id": "IMP-00263",
     "ramo": "Incendio",
     "cobertura": "Incendio y Líneas Aliadas",
-    "asegurado": "Fabián Macias Reyes",
+    "asegurado": "Walter Pérez Ortiz",
     "asegurado_id": "ASE-9752D5AA",
     "poliza": "POL-IMP-00263",
     "ciudad": "Latacunga",
@@ -15173,13 +15457,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.88707,
+    "longitude": -78.6276
   },
   {
     "id": "IMP-00264",
     "ramo": "Vehículos",
     "cobertura": "Robo Total",
-    "asegurado": "Gissela Palacios Iza",
+    "asegurado": "Valeria Bermeo Aguirre",
     "asegurado_id": "ASE-B202F474",
     "poliza": "POL-IMP-00264",
     "ciudad": "Riobamba",
@@ -15296,13 +15582,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.69785,
+    "longitude": -78.68336
   },
   {
     "id": "IMP-00265",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Juan Luzuriaga Narváez",
+    "asegurado": "Manuel Cárdenas Carrillo",
     "asegurado_id": "ASE-4C88C353",
     "poliza": "POL-IMP-00265",
     "ciudad": "Santo Domingo",
@@ -15407,13 +15695,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.29713999999999996,
+    "longitude": -79.21464999999999
   },
   {
     "id": "IMP-00266",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "María Palacios Cárdenas",
+    "asegurado": "Daniela Suárez Pérez",
     "asegurado_id": "ASE-A7926D43",
     "poliza": "POL-IMP-00266",
     "ciudad": "Quevedo",
@@ -15432,7 +15722,7 @@
       "placa": "CSX-8205",
       "chasis": "A08EB27FA5543B9F8"
     },
-    "proveedor": "PROV-OBS-080",
+    "proveedor": "Taller Av. de los Shyris",
     "descripcion": "Chevrolet D-Max con daños extensos; peritaje indica impacto frontal sin evidencia de tercero en la escena.",
     "score": 24,
     "nivel": "verde",
@@ -15518,13 +15808,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.0214999999999999,
+    "longitude": -79.42382
   },
   {
     "id": "IMP-00267",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Ruth Moreira Vélez",
+    "asegurado": "Camila Aguilar Vargas",
     "asegurado_id": "ASE-9FA7A721",
     "poliza": "POL-IMP-00267",
     "ciudad": "Ibarra",
@@ -15634,13 +15926,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.39289999999999997,
+    "longitude": -78.10346
   },
   {
     "id": "IMP-00268",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Ruth Chila Chimbo",
+    "asegurado": "Lorena Mendoza García",
     "asegurado_id": "ASE-4DAE3E3D",
     "poliza": "POL-IMP-00268",
     "ciudad": "Milagro",
@@ -15659,7 +15953,7 @@
       "placa": "BEN-8709",
       "chasis": "4BAEB1A399A26AA91"
     },
-    "proveedor": "PROV-OBS-085",
+    "proveedor": "Servicios Automotrices Calderón",
     "descripcion": "Tercer evento RC para el asegurado en 18 meses; proveedor vinculado a reclamaciones observadas en zona de Milagro.",
     "score": 24,
     "nivel": "verde",
@@ -15745,13 +16039,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.16256,
+    "longitude": -79.62216
   },
   {
     "id": "IMP-00269",
     "ramo": "Transporte",
     "cobertura": "Mercancías en Tránsito",
-    "asegurado": "Roberto Alvarado Castro",
+    "asegurado": "Daniel Mosquera Andrade",
     "asegurado_id": "ASE-D4CC5AA8",
     "poliza": "POL-IMP-00269",
     "ciudad": "Babahoyo",
@@ -15855,13 +16151,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.80783,
+    "longitude": -79.51285
   },
   {
     "id": "IMP-00270",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Rosa Galarza Saquinga",
+    "asegurado": "Iván Andrade Pérez",
     "asegurado_id": "ASE-AAC21167",
     "poliza": "POL-IMP-00270",
     "ciudad": "Guayaquil",
@@ -15880,7 +16178,7 @@
       "placa": "PRZ-7377",
       "chasis": "FD5A68D9A3BF684E6"
     },
-    "proveedor": "PROV-LISTA-020",
+    "proveedor": "Carrocerías Toral",
     "descripcion": "Siniestro derivado a taller en lista restrictiva. Conductor con múltiples reclamaciones previas; narrativa muy similar a otro caso reciente.",
     "score": 40,
     "nivel": "rojo",
@@ -15978,13 +16276,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1723,
+    "longitude": -79.95791
   },
   {
     "id": "IMP-00271",
     "ramo": "Vehículos",
     "cobertura": "Pérdida Total por Robo",
-    "asegurado": "María Chila Caicedo",
+    "asegurado": "Esteban Mendoza Velasco",
     "asegurado_id": "ASE-2406FBF7",
     "poliza": "POL-IMP-00271",
     "ciudad": "Quito",
@@ -16095,13 +16395,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24168,
+    "longitude": -78.53179
   },
   {
     "id": "IMP-00272",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Rosa Imbaquingo Espinoza",
+    "asegurado": "Felipe Jiménez Vásquez",
     "asegurado_id": "ASE-56244CA6",
     "poliza": "POL-IMP-00272",
     "ciudad": "Ibarra",
@@ -16218,13 +16520,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.38060999999999995,
+    "longitude": -78.12463
   },
   {
     "id": "IMP-00273",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Lourdes Guacho Bone",
+    "asegurado": "Valeria Cárdenas Herrera",
     "asegurado_id": "ASE-B929E5E3",
     "poliza": "POL-IMP-00273",
     "ciudad": "Santo Domingo",
@@ -16243,7 +16547,7 @@
       "placa": "GBV-4610",
       "chasis": "49B5196A8E7C6BB3F"
     },
-    "proveedor": "PROV-LISTA-025",
+    "proveedor": "Multitalleres Espinoza",
     "descripcion": "Caso de máximo riesgo en Santo Domingo: 11 señales simultáneas. Póliza reciente; alta frecuencia vehículo+conductor+asegurado; taller en lista restrictiva; documentos incompletos e inconsistentes.",
     "score": 71,
     "nivel": "rojo",
@@ -16382,13 +16686,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23571999999999999,
+    "longitude": -79.20017
   },
   {
     "id": "IMP-00274",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Cristian Castro Mendoza",
+    "asegurado": "Sebastián Aguilar Vega",
     "asegurado_id": "ASE-639524AC",
     "poliza": "POL-IMP-00274",
     "ciudad": "Riobamba",
@@ -16493,13 +16799,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.67876,
+    "longitude": -78.62518
   },
   {
     "id": "IMP-00275",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Marco Figueroa Alvarado",
+    "asegurado": "Verónica Moreno López",
     "asegurado_id": "ASE-106C2299",
     "poliza": "POL-IMP-00275",
     "ciudad": "Guayaquil",
@@ -16579,13 +16887,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.12642,
+    "longitude": -79.89914999999999
   },
   {
     "id": "IMP-00276",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Sonia Ortega Jácome",
+    "asegurado": "Daniela Jiménez Vargas",
     "asegurado_id": "ASE-A2DFFA5B",
     "poliza": "POL-IMP-00276",
     "ciudad": "Quito",
@@ -16659,13 +16969,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24816,
+    "longitude": -78.53419
   },
   {
     "id": "IMP-00277",
     "ramo": "Incendio",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Claudia Palacios Suárez",
+    "asegurado": "Anahí Romero Naranjo",
     "asegurado_id": "ASE-A135F776",
     "poliza": "POL-IMP-00277",
     "ciudad": "Cuenca",
@@ -16739,13 +17051,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.9463600000000003,
+    "longitude": -78.97400999999999
   },
   {
     "id": "IMP-00278",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Fernando Figueroa Ponce",
+    "asegurado": "Nicole Sandoval Paredes",
     "asegurado_id": "ASE-FF009C86",
     "poliza": "POL-IMP-00278",
     "ciudad": "Machala",
@@ -16825,13 +17139,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.2406300000000003,
+    "longitude": -79.95899
   },
   {
     "id": "IMP-00279",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Ruth Ponce Herrera",
+    "asegurado": "Marcelo Sandoval Zambrano",
     "asegurado_id": "ASE-CBE1611D",
     "poliza": "POL-IMP-00279",
     "ciudad": "Loja",
@@ -16911,13 +17227,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.9776100000000003,
+    "longitude": -79.23583
   },
   {
     "id": "IMP-00280",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Miguel Ramos Jaramillo",
+    "asegurado": "Andrea Aguilar Sánchez",
     "asegurado_id": "ASE-62D016E2",
     "poliza": "POL-IMP-00280",
     "ciudad": "Ambato",
@@ -16991,13 +17309,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.28755,
+    "longitude": -78.57576
   },
   {
     "id": "IMP-00281",
     "ramo": "Vehículos",
     "cobertura": "Daños Parciales",
-    "asegurado": "Edison Jaramillo Estrella",
+    "asegurado": "Lucía Cárdenas López",
     "asegurado_id": "ASE-0FD42EAF",
     "poliza": "POL-IMP-00281",
     "ciudad": "Guayaquil",
@@ -17084,13 +17404,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.19969,
+    "longitude": -79.95407999999999
   },
   {
     "id": "IMP-00282",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Viviana Cunalata Caicedo",
+    "asegurado": "Johanna Romero Velasco",
     "asegurado_id": "ASE-952E0647",
     "poliza": "POL-IMP-00282",
     "ciudad": "Manta",
@@ -17177,13 +17499,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.94965,
+    "longitude": -80.70165
   },
   {
     "id": "IMP-00283",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Amplia",
-    "asegurado": "Iván Cedeño Salazar",
+    "asegurado": "Doménica Bermeo García",
     "asegurado_id": "ASE-503C766D",
     "poliza": "POL-IMP-00283",
     "ciudad": "Guayaquil",
@@ -17264,13 +17588,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.17055,
+    "longitude": -79.93639999999999
   },
   {
     "id": "IMP-00284",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Héctor Herrera Herrera",
+    "asegurado": "Galo Garcés Garcés",
     "asegurado_id": "ASE-8013E605",
     "poliza": "POL-IMP-00284",
     "ciudad": "Cuenca",
@@ -17357,13 +17683,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.93159,
+    "longitude": -79.02608
   },
   {
     "id": "IMP-00285",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Patricio Iza Muñoz",
+    "asegurado": "Galo Aguilar Mosquera",
     "asegurado_id": "ASE-BCF1AF39",
     "poliza": "POL-IMP-00285",
     "ciudad": "Guayaquil",
@@ -17450,13 +17778,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.19297,
+    "longitude": -79.87254999999999
   },
   {
     "id": "IMP-00286",
     "ramo": "Vehículos",
     "cobertura": "Responsabilidad Civil",
-    "asegurado": "Valeria Figueroa Espinoza",
+    "asegurado": "Cecilia Herrera Vásquez",
     "asegurado_id": "ASE-FEA3A03A",
     "poliza": "POL-IMP-00286",
     "ciudad": "Guayaquil",
@@ -17543,13 +17873,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1364199999999998,
+    "longitude": -79.88714999999999
   },
   {
     "id": "IMP-00287",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Elena Ortega Naranjo",
+    "asegurado": "Wilmer Torres Jiménez",
     "asegurado_id": "ASE-AC382311",
     "poliza": "POL-IMP-00287",
     "ciudad": "Quito",
@@ -17630,13 +17962,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.21442,
+    "longitude": -78.50679
   },
   {
     "id": "IMP-00288",
     "ramo": "Accidentes Personales",
     "cobertura": "Cobertura Básica",
-    "asegurado": "Lourdes Jácome Ortega",
+    "asegurado": "Santiago Moreno Pacheco",
     "asegurado_id": "ASE-7946E565",
     "poliza": "POL-IMP-00288",
     "ciudad": "Cuenca",
@@ -17717,13 +18051,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.86889,
+    "longitude": -79.01378
   },
   {
     "id": "IMP-00289",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Leonardo Guacho Guerrero",
+    "asegurado": "Diana Morales Aguilar",
     "asegurado_id": "ASE-DBF12B09",
     "poliza": "POL-IMP-00289",
     "ciudad": "Portoviejo",
@@ -17810,13 +18146,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.0726200000000001,
+    "longitude": -80.42373
   },
   {
     "id": "IMP-00290",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Milton Barriga Salazar",
+    "asegurado": "Iván Solórzano Cárdenas",
     "asegurado_id": "ASE-E5DC7C5C",
     "poliza": "POL-IMP-00290",
     "ciudad": "Guayaquil",
@@ -17903,13 +18241,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1854099999999996,
+    "longitude": -79.91538
   },
   {
     "id": "IMP-00291",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Patricio Quiñónez Saquinga",
+    "asegurado": "Alejandro Vargas Torres",
     "asegurado_id": "ASE-1FDE916C",
     "poliza": "POL-IMP-00291",
     "ciudad": "Quito",
@@ -17996,13 +18336,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.22168000000000002,
+    "longitude": -78.4703
   },
   {
     "id": "IMP-00292",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Jéssica Ordóñez Naranjo",
+    "asegurado": "Bryan Rodríguez Velasco",
     "asegurado_id": "ASE-0809E499",
     "poliza": "POL-IMP-00292",
     "ciudad": "Cuenca",
@@ -18089,13 +18431,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.94827,
+    "longitude": -78.97617
   },
   {
     "id": "IMP-00293",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Andrés Delgado Espinoza",
+    "asegurado": "Marco Vásquez Herrera",
     "asegurado_id": "ASE-4012A61D",
     "poliza": "POL-IMP-00293",
     "ciudad": "Ambato",
@@ -18188,13 +18532,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.2813599999999998,
+    "longitude": -78.59494
   },
   {
     "id": "IMP-00294",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Klever Macias Ordóñez",
+    "asegurado": "Felipe Garcés Toro",
     "asegurado_id": "ASE-A8FF043C",
     "poliza": "POL-IMP-00294",
     "ciudad": "Quito",
@@ -18293,13 +18639,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24568,
+    "longitude": -78.54952999999999
   },
   {
     "id": "IMP-00295",
     "ramo": "Vehículos",
     "cobertura": "Todo Riesgo",
-    "asegurado": "Alex Aguirre Muñoz",
+    "asegurado": "María Torres Rivera",
     "asegurado_id": "ASE-E748E0F1",
     "poliza": "POL-IMP-00295",
     "ciudad": "Guayaquil",
@@ -18398,13 +18746,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.12736,
+    "longitude": -79.93609
   },
   {
     "id": "IMP-00296",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Miguel Naranjo Delgado",
+    "asegurado": "Rosa Solórzano Gómez",
     "asegurado_id": "ASE-24496C95",
     "poliza": "POL-IMP-00296",
     "ciudad": "Esmeraldas",
@@ -18503,13 +18853,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.9764900000000001,
+    "longitude": -79.66264000000001
   },
   {
     "id": "IMP-00297",
     "ramo": "Vehículos",
     "cobertura": "Robo Total",
-    "asegurado": "Karina Alvarado Paredes",
+    "asegurado": "Doménica Mendoza Rodríguez",
     "asegurado_id": "ASE-7F1D548C",
     "poliza": "POL-IMP-00297",
     "ciudad": "Quito",
@@ -18620,13 +18972,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.26917,
+    "longitude": -78.47725
   },
   {
     "id": "IMP-00298",
     "ramo": "Vehículos",
     "cobertura": "Robo Parcial",
-    "asegurado": "Cristian Muñoz Luzuriaga",
+    "asegurado": "Mishell Castro Cárdenas",
     "asegurado_id": "ASE-8DCF51B4",
     "poliza": "POL-IMP-00298",
     "ciudad": "Guayaquil",
@@ -18725,13 +19079,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.15954,
+    "longitude": -79.92769
   },
   {
     "id": "IMP-00299",
     "ramo": "Vehículos",
     "cobertura": "Daños",
-    "asegurado": "Andrés Ponce Paredes",
+    "asegurado": "Lucía Naranjo Toro",
     "asegurado_id": "ASE-C5EF7F23",
     "poliza": "POL-IMP-00299",
     "ciudad": "Quito",
@@ -18824,13 +19180,15 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.2328,
+    "longitude": -78.5446
   },
   {
     "id": "IMP-00300",
     "ramo": "Vehículos",
     "cobertura": "Colisión",
-    "asegurado": "Jorge Cunalata Guerrero",
+    "asegurado": "Diana Aguirre Mendoza",
     "asegurado_id": "ASE-0094624F",
     "poliza": "POL-IMP-00300",
     "ciudad": "Guayaquil",
@@ -18929,6 +19287,8 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.21921,
+    "longitude": -79.89438
   }
 ]

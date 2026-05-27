@@ -1,7 +1,8 @@
 """Generator for importable sample files under ``data/samples/``.
 
 Produces three JSON variants and one CSV file, all using the same Ecuador
-archetypes + names from ``_ecuador_data.py``.
+archetypes from ``_archetypes.py`` and the real-name pools from
+``_ecuador_data.py``.
 
     claims.dev.json   ~ 40 claims  (fast local testing)
     claims.test.json  ~ 80 claims  (CI / demo rehearsal)
@@ -9,55 +10,19 @@ archetypes + names from ``_ecuador_data.py``.
     claims.sample.csv               handful of rows showing the CSV import format
 
 The generator is deterministic: running it twice produces the same files.
-Every archetype (including the enriquecimiento section) cycles through Ecuador
-names from ``_ecuador_data.py`` so the output has real-looking identifiers, not
-"Asegurado 3981".
 """
 
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 from pathlib import Path
 
 from app.schemas.claim import ClaimDetail
 from app.use_cases.generate_dataset._archetypes import ARCHETYPES, ClaimArchetype
 from app.use_cases.generate_dataset._claim_builder import build_claim
-from app.use_cases.generate_dataset._ecuador_data import (
-    APELLIDOS,
-    NOMBRES_FEMENINOS,
-    NOMBRES_MASCULINOS,
-)
 
 _SAMPLES_DIR = Path("data/samples")
-
-
-# ---------------------------------------------------------------------------
-# Name injection helpers
-# ---------------------------------------------------------------------------
-
-
-def _stable_int(seed: str, lo: int, hi: int) -> int:
-    h = int(hashlib.md5(seed.encode()).hexdigest(), 16)  # noqa: S324
-    return lo + (h % (hi - lo + 1))
-
-
-def _ecuador_name(idx: int) -> str:
-    """Return a deterministic, plausible Ecuadorian full name."""
-    gender_seed = _stable_int(f"gender-{idx}", 0, 1)
-    given_pool = NOMBRES_MASCULINOS if gender_seed == 0 else NOMBRES_FEMENINOS
-    given_count = len(given_pool)
-    apellido_count = len(APELLIDOS)
-    given = given_pool[_stable_int(f"given-{idx}", 0, given_count - 1)]
-    ap1 = APELLIDOS[_stable_int(f"ap1-{idx}", 0, apellido_count - 1)]
-    ap2 = APELLIDOS[_stable_int(f"ap2-{idx}", 0, apellido_count - 1)]
-    return f"{given} {ap1} {ap2}"
-
-
-def _with_real_name(claim: ClaimDetail, idx: int) -> ClaimDetail:
-    """Substitute the generic 'Asegurado XXXX' with a real Ecuador name."""
-    return claim.model_copy(update={"asegurado": _ecuador_name(idx)})
 
 
 # ---------------------------------------------------------------------------
@@ -73,6 +38,8 @@ def _build_sample(
 
     ``base_offset`` allows different variants to produce distinct IDs so their
     claim IDs don't collide when both are loaded into the same DB.
+    Real Ecuadorian names are already injected by ``build_claim`` (no separate
+    rename pass needed).
     """
     claims: list[ClaimDetail] = []
     archetype_count = len(ARCHETYPES)
@@ -89,8 +56,7 @@ def _build_sample(
                 "poliza": f"POL-IMP-{global_idx:05d}",
             }
         )
-        named = _with_real_name(prefixed, global_idx)
-        claims.append(named)
+        claims.append(prefixed)
     return claims
 
 

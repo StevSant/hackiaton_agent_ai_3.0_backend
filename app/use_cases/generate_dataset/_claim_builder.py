@@ -128,6 +128,15 @@ def _ecuador_provider_name(idx: int) -> str:
     return f"{prefijo} {qualifier}"
 
 
+# Patterns that indicate a value is an internal code, not a display name.
+_CODE_PROVIDER_PATTERNS = ("PROV-LISTA", "PROV-OBS", "PROV-")
+
+
+def _looks_like_code(value: str) -> bool:
+    upper = value.upper()
+    return any(upper.startswith(p) for p in _CODE_PROVIDER_PATTERNS)
+
+
 def _make_vehicle(archetype: ClaimArchetype, idx: int) -> ClaimVehicle | None:
     if archetype.ramo not in _RAMOS_VEHICULO:
         return None
