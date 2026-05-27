@@ -28,18 +28,42 @@ _REF_DATE = date(2026, 5, 26)
 
 _RAMOS_VEHICULO = {"Vehículos"}
 
-_MARCAS = ["Toyota", "Chevrolet", "Hyundai", "Kia", "Ford", "Mazda", "Nissan"]
-_MODELOS = ["Corolla", "Aveo", "Tucson", "Rio", "Explorer", "3", "Versa"]
-_ESTADOS = ["Reserva", "Pago Parcial", "Pago Total", "Liquidado", "Negativa"]
-
-_PROVEEDORES_DEFAULT = [
-    "Taller Central Guayaquil",
-    "Servicio Exprés Quito",
-    "Auto Repair Cuenca",
-    "Mecánica Norte",
-    "Taller Sur",
+# Top marcas vendidas en Ecuador (SRI estadísticas vehículos 2023-2024)
+_MARCAS = [
+    "Chevrolet", "Toyota", "Hyundai", "Kia", "Nissan",
+    "Mazda", "Ford", "Suzuki", "Volkswagen", "Renault",
 ]
 
+# Modelos más frecuentes en el parque automotor ecuatoriano
+_MODELOS = [
+    "Sail", "D-Max", "Tracker", "Aveo", "N300", "Captiva",
+    "Hilux", "Corolla", "Fortuner", "Prado", "Yaris",
+    "Tucson", "Santa Fe", "Accent", "Grand i10",
+    "Sportage", "Rio", "Seltos", "Picanto",
+    "Frontier", "Versa", "Kicks", "Sentra",
+    "3", "CX-5", "BT-50",
+    "Ranger", "EcoSport", "Territory",
+    "Vitara", "Swift", "S-Cross",
+    "Duster", "Logan", "Sandero",
+]
+
+_ESTADOS = ["Reserva", "Pago Parcial", "Pago Total", "Liquidado", "Negativa"]
+
+# Talleres y centros de reparación con nombres representativos de Ecuador
+_PROVEEDORES_DEFAULT = [
+    "Taller Automotriz Del Valle",
+    "MultiService Quito Norte",
+    "Reparaciones Express Guayaquil",
+    "Auto Repair Cuenca",
+    "Automotores Imbabura",
+    "Centro Automotriz Los Andes",
+    "Servicios Mecánicos Austro",
+    "Taller Mecánico Puerto Nuevo",
+    "AutoRepair Costa",
+    "Mecánica Integral Sur",
+]
+
+# Sucursales por ciudad — cubre todas las ciudades usadas en arquetipos
 _SUCURSALES = {
     "Guayaquil": "Guayaquil Centro",
     "Quito": "Quito Norte",
@@ -50,6 +74,13 @@ _SUCURSALES = {
     "Manta": "Manta",
     "Esmeraldas": "Esmeraldas",
     "Portoviejo": "Portoviejo",
+    "Santo Domingo": "Santo Domingo",
+    "Ibarra": "Ibarra",
+    "Riobamba": "Riobamba",
+    "Babahoyo": "Babahoyo",
+    "Latacunga": "Latacunga",
+    "Quevedo": "Quevedo",
+    "Milagro": "Milagro",
 }
 
 
@@ -68,7 +99,8 @@ def _make_vehicle(archetype: ClaimArchetype, idx: int) -> ClaimVehicle | None:
         return None
     marca = _stable_pick(f"marca-{idx}", _MARCAS)
     modelo = _stable_pick(f"modelo-{idx}", _MODELOS)
-    anio = _stable_int(f"anio-{idx}", 2015, 2024)
+    # Ecuador tiene un parque automotor antiguo: ampliamos el rango a 2010
+    anio = _stable_int(f"anio-{idx}", 2010, 2024)
     letters = "".join(
         chr(65 + _stable_int(f"pl-{idx}-{i}", 0, 25)) for i in range(3)
     )

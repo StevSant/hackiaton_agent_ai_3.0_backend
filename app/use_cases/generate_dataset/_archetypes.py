@@ -850,4 +850,238 @@ ARCHETYPES: list[ClaimArchetype] = [
         reporte_delay_days=2,
         descripcion="Narrativa muy similar + proveedor + inconsistencias documentales.",
     ),
+
+    # ════════════════════════════════════════════════════════════════════
+    # ENRIQUECIMIENTO — nuevas ciudades, ramos y patrones Ecuador
+    # ════════════════════════════════════════════════════════════════════
+
+    # ── Nuevos VERDE (diversidad geográfica y ramos) ──────────────────
+    ClaimArchetype(
+        label="verde-clean-santo-domingo",
+        target_signals=[],
+        ramo="Vehículos", cobertura="Daños Parciales",
+        ciudad="Santo Domingo", estado="Liquidado",
+        monto_ratio=0.12, suma_asegurada=15_500.0,
+        descripcion="Raspón lateral en redondel vial. Sin lesionados. Taller autorizado.",
+    ),
+    ClaimArchetype(
+        label="verde-clean-ibarra",
+        target_signals=[],
+        ramo="Accidentes Personales", cobertura="Cobertura Básica",
+        ciudad="Ibarra", estado="Pago Total",
+        monto_ratio=0.08, suma_asegurada=9_000.0,
+        descripcion="Caída de motociclista; documentación completa; lesión leve.",
+    ),
+    ClaimArchetype(
+        label="verde-clean-riobamba",
+        target_signals=[],
+        ramo="Vehículos", cobertura="Colisión",
+        ciudad="Riobamba", estado="Pago Parcial",
+        monto_ratio=0.14, suma_asegurada=13_000.0,
+        descripcion="Colisión menor en intersección urbana de Riobamba.",
+    ),
+    ClaimArchetype(
+        label="verde-clean-latacunga",
+        target_signals=[],
+        ramo="Incendio", cobertura="Incendio y Líneas Aliadas",
+        ciudad="Latacunga", estado="Liquidado",
+        monto_ratio=0.07, suma_asegurada=45_000.0,
+        descripcion="Cortocircuito en instalación eléctrica; daños menores; póliza vigente.",
+    ),
+
+    # ── Nuevos AMARILLO (patrones de fraude adicionales en Ecuador) ───
+    ClaimArchetype(
+        label="amarillo-hilux-robo-riobamba",
+        target_signals=["FS-02", "FS-03", "RF-06"],
+        ramo="Vehículos", cobertura="Robo Total",
+        ciudad="Riobamba", estado="Reserva",
+        monto_ratio=0.95, suma_asegurada=42_000.0,
+        es_robo=True, demora_denuncia_horas=105.0,   # RF-06
+        historial_siniestros_asegurado=3,             # FS-03: 8 pts
+        reporte_delay_days=5,
+        descripcion=(
+            "Toyota Hilux robada en zona periférica de Riobamba. "
+            "Propietario reportó la sustracción 4 días después del hecho."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-stacked-santo-domingo",
+        target_signals=["FS-01", "FS-05", "FS-08", "FS-12"],
+        ramo="Vehículos", cobertura="Todo Riesgo",
+        ciudad="Santo Domingo", estado="Reserva",
+        monto_ratio=0.55, suma_asegurada=22_000.0,
+        dias_desde_inicio_poliza=7,    # FS-01: 8 pts
+        frecuencia_conductor=3,        # FS-05: 8 pts
+        documentos_incompletos=True,
+        docs_faltantes=["Denuncia policial"],  # FS-08: 4 pts
+        reporte_delay_days=9,          # FS-12: 5 pts → 25 pts
+        descripcion=(
+            "Siniestro en semana de vigencia de póliza; conductor con historial; "
+            "falta denuncia policial; reporte con nueve días de demora."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-dmx-pickup-peritaje",
+        target_signals=["FS-05", "FS-07", "FS-10", "FS-14"],
+        ramo="Vehículos", cobertura="Daños",
+        ciudad="Quevedo", estado="Reserva",
+        monto_ratio=0.97, suma_asegurada=32_000.0,
+        frecuencia_conductor=3,        # FS-05: 8 pts
+        proveedor="PROV-OBS-080",
+        proveedor_casos_observados=3,  # FS-07: 5 pts
+        sin_rastro_tercero=True,       # FS-10: 6 pts → 24 pts
+        reporte_delay_days=2,
+        descripcion=(
+            "Chevrolet D-Max con daños extensos; peritaje indica impacto frontal "
+            "sin evidencia de tercero en la escena."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-incendio-ibarra",
+        target_signals=["FS-08", "FS-11", "FS-12", "RF-07"],
+        ramo="Incendio", cobertura="Todo Riesgo",
+        ciudad="Ibarra", estado="Reserva",
+        monto_ratio=0.80, suma_asegurada=55_000.0,
+        documentos_incompletos=True,
+        docs_faltantes=["Informe del cuerpo de bomberos", "Peritaje"],  # FS-08: 4 pts
+        inconsistencia_documental=True,   # FS-11: 5 pts
+        reporte_delay_days=8,             # FS-12: 5 pts
+        narrativa_similar_score=0.99, narrativa_clonada=True,   # RF-07
+        descripcion=(
+            "Incendio en bodega de comercio en Ibarra. "
+            "Falta informe de bomberos; peritaje con inconsistencias; "
+            "narrativa idéntica a siniestro anterior."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-rc-milagro",
+        target_signals=["FS-03", "FS-06", "FS-07", "FS-12"],
+        ramo="Vehículos", cobertura="Responsabilidad Civil",
+        ciudad="Milagro", estado="Reserva",
+        monto_ratio=0.40, suma_asegurada=10_000.0,
+        historial_siniestros_asegurado=3,  # FS-03: 8 pts
+        eventos_rc_previos=3,              # FS-06: 6 pts
+        proveedor="PROV-OBS-085",
+        proveedor_casos_observados=3,      # FS-07: 5 pts
+        reporte_delay_days=8,              # FS-12: 5 pts → 24 pts
+        cobertura_rc=True,
+        descripcion=(
+            "Tercer evento RC para el asegurado en 18 meses; "
+            "proveedor vinculado a reclamaciones observadas en zona de Milagro."
+        ),
+    ),
+    ClaimArchetype(
+        label="amarillo-carga-transporte",
+        target_signals=["FS-01", "FS-03", "FS-08", "FS-09"],
+        ramo="Transporte", cobertura="Mercancías en Tránsito",
+        ciudad="Babahoyo", estado="Reserva",
+        monto_ratio=0.65, suma_asegurada=18_000.0,
+        dias_desde_inicio_poliza=7,        # FS-01: 8 pts
+        historial_siniestros_asegurado=3,  # FS-03: 8 pts
+        documentos_incompletos=True,
+        docs_faltantes=["Guía de remisión", "Foto de carga"],  # FS-08: 4 pts
+        narrativa_ilógica=True,            # FS-09: 6 pts → 26 pts
+        reporte_delay_days=3,
+        descripcion=(
+            "Pérdida de mercancía agrícola en ruta Babahoyo-Guayaquil. "
+            "Póliza con 5 días de vigencia; guía de remisión ausente; "
+            "ruta declarada inconsistente con GPS."
+        ),
+    ),
+
+    # ── Nuevos ROJO (patrones de alto riesgo Ecuador) ─────────────────
+    ClaimArchetype(
+        label="rojo-red-talleres-guayaquil",
+        target_signals=["FS-03", "FS-05", "FS-07", "FS-09", "FS-13", "RF-03"],
+        ramo="Vehículos", cobertura="Daños",
+        ciudad="Guayaquil", estado="Reserva",
+        monto_ratio=0.75, suma_asegurada=24_000.0,
+        historial_siniestros_asegurado=4,  # FS-03: 8 pts
+        frecuencia_conductor=3,            # FS-05: 8 pts
+        proveedor="PROV-LISTA-020",
+        proveedor_en_lista_restrictiva=True,  # RF-03 + FS-07: 10 pts
+        narrativa_ilógica=True,            # FS-09: 6 pts
+        narrativa_similar_score=0.87,      # FS-13: 8 pts
+        reporte_delay_days=3,
+        descripcion=(
+            "Siniestro derivado a taller en lista restrictiva. "
+            "Conductor con múltiples reclamaciones previas; "
+            "narrativa muy similar a otro caso reciente."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-abandono-vehiculo-quito",
+        target_signals=["RF-01", "FS-02", "FS-03", "FS-12"],
+        ramo="Vehículos", cobertura="Pérdida Total por Robo",
+        ciudad="Quito", estado="Reserva",
+        monto_ratio=1.00, suma_asegurada=38_000.0,
+        es_robo=True, es_cobertura_ptxrb=True,
+        demora_denuncia_horas=25.0,        # FS-02 mid
+        historial_siniestros_asegurado=3,  # FS-03: 8 pts
+        reporte_delay_days=7,              # FS-12: 5 pts; RF-01 fuerza rojo
+        descripcion=(
+            "Toyota Prado reportada robada en Quito Norte. "
+            "Asegurado con dos PTxRB en últimos 24 meses; "
+            "denuncia ante el ECU-911 con 25 horas de demora."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-montaje-accidente-ibarra",
+        target_signals=["RF-04", "FS-05", "FS-09", "FS-11", "FS-13"],
+        ramo="Vehículos", cobertura="Colisión",
+        ciudad="Ibarra", estado="Reserva",
+        monto_ratio=0.88, suma_asegurada=20_000.0,
+        dinamica_imposible=True,           # RF-04 → rojo
+        frecuencia_conductor=3,            # FS-05: 8 pts
+        narrativa_ilógica=True,            # FS-09: 6 pts
+        inconsistencia_documental=True,    # FS-11: 5 pts
+        narrativa_similar_score=0.91,      # FS-13: 8 pts
+        reporte_delay_days=4,
+        descripcion=(
+            "Perito determina que los daños son incompatibles con la dinámica declarada. "
+            "Conductor con historial; documentos con fechas alteradas; "
+            "descripción casi idéntica a caso SIN-F045."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-score-high-04",
+        target_signals=[
+            "FS-01", "FS-03", "FS-04", "FS-05", "FS-07",
+            "FS-08", "FS-09", "FS-10", "FS-11", "FS-12", "FS-14",
+        ],
+        ramo="Vehículos", cobertura="Todo Riesgo",
+        ciudad="Santo Domingo", estado="Reserva",
+        monto_ratio=0.97, suma_asegurada=35_000.0,
+        dias_desde_inicio_poliza=5,        # FS-01: 8 pts
+        historial_siniestros_asegurado=5,  # FS-03: 8 pts
+        frecuencia_vehiculo=4,             # FS-04: 6 pts
+        frecuencia_conductor=4,            # FS-05: 8 pts
+        proveedor="PROV-LISTA-025",
+        proveedor_en_lista_restrictiva=True,  # FS-07: 10 pts
+        documentos_incompletos=True,
+        docs_faltantes=["Denuncia", "Matrícula"],  # FS-08: 4 pts
+        narrativa_ilógica=True,            # FS-09: 6 pts
+        sin_rastro_tercero=True,           # FS-10: 6 pts
+        inconsistencia_documental=True,    # FS-11: 5 pts
+        reporte_delay_days=10,             # FS-12: 5 pts → 76 pts → rojo
+        descripcion=(
+            "Caso de máximo riesgo en Santo Domingo: 11 señales simultáneas. "
+            "Póliza reciente; alta frecuencia vehículo+conductor+asegurado; "
+            "taller en lista restrictiva; documentos incompletos e inconsistentes."
+        ),
+    ),
+    ClaimArchetype(
+        label="rojo-falsificacion-riobamba",
+        target_signals=["FS-03", "FS-11", "FS-12", "RF-02"],
+        ramo="Vehículos", cobertura="Daños",
+        ciudad="Riobamba", estado="Reserva",
+        monto_ratio=0.78, suma_asegurada=21_000.0,
+        falsificacion_evidente=True, inconsistencia_documental=True,  # RF-02 → rojo
+        historial_siniestros_asegurado=4,  # FS-03: 8 pts
+        reporte_delay_days=9,              # FS-12: 5 pts
+        descripcion=(
+            "Peritaje con sello falsificado detectado por auditoría interna. "
+            "Asegurado con cuatro siniestros previos; informe con fechas inconsistentes."
+        ),
+    ),
 ]
