@@ -31,7 +31,11 @@ from app.core.lifespan_state import AIState
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
-from app.infrastructure.embeddings import EmbeddingsProvider, SentenceTransformersAdapter
+from app.infrastructure.embeddings import (
+    EmbeddingsProvider,
+    SentenceTransformersAdapter,
+    build_openai_embeddings_adapter,
+)
 from app.infrastructure.llm import (
     InMemoryFakeLLM,
     LLMProvider,
@@ -166,6 +170,8 @@ def get_embeddings(request: Request) -> EmbeddingsProvider:
 
 @lru_cache(maxsize=1)
 def _fallback_embeddings() -> EmbeddingsProvider:
+    if settings.EMBEDDINGS_PROVIDER == "openai" and settings.OPENAI_API_KEY is not None:
+        return build_openai_embeddings_adapter()
     return SentenceTransformersAdapter(model_name=settings.EMBEDDINGS_MODEL)
 
 

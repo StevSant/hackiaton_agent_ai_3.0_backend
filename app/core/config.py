@@ -32,9 +32,10 @@ class Settings(BaseSettings):
     LLM_DEFAULT_MODEL: str = "gpt-4o-mini"
     OPENAI_API_KEY: SecretStr | None = None
 
-    # embeddings  (sentence-transformers, Spanish-aware)
-    EMBEDDINGS_PROVIDER: Literal["sentence_transformers"] = "sentence_transformers"
-    EMBEDDINGS_MODEL: str = "paraphrase-multilingual-MiniLM-L12-v2"
+    # embeddings  (OpenAI text-embedding-3-small w/ dimensions=384 by default;
+    # sentence-transformers retained as an offline fallback — see infrastructure/embeddings/)
+    EMBEDDINGS_PROVIDER: Literal["openai", "sentence_transformers"] = "openai"
+    EMBEDDINGS_MODEL: str = "text-embedding-3-small"
     EMBEDDINGS_DIM: int = 384
 
     # vector store

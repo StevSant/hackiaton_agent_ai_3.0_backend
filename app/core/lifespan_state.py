@@ -14,7 +14,11 @@ from pathlib import Path
 import structlog
 
 from app.core.config import settings
-from app.infrastructure.embeddings import EmbeddingsProvider, SentenceTransformersAdapter
+from app.infrastructure.embeddings import (
+    EmbeddingsProvider,
+    SentenceTransformersAdapter,
+    build_openai_embeddings_adapter,
+)
 from app.infrastructure.llm import (
     InMemoryFakeLLM,
     LLMProvider,
@@ -54,15 +58,24 @@ def _build_llm() -> tuple[LLMProvider, str]:
 
 
 def _build_embeddings() -> EmbeddingsProvider | None:
-    """Eagerly load the sentence-transformer encoder. Returns None on failure
-    so the app still boots (the agent's 12 NL questions don't need embeddings —
-    only FS-13 does, which Miquel's lane plugs in later)."""
+    """Build the embeddings adapter selected by ``settings.EMBEDDINGS_PROVIDER``.
+
+    Returns None on failure so the app still boots (the agent's 12 NL questions
+    don't need embeddings — only FS-13 does).
+    """
     try:
-        adapter = SentenceTransformersAdapter(model_name=settings.EMBEDDINGS_MODEL)
+        if settings.EMBEDDINGS_PROVIDER == "openai":
+            if settings.OPENAI_API_KEY is None:
+                logger.warning("ai.embeddings.no_api_key_skipping_openai")
+                return None
+            adapter: EmbeddingsProvider = build_openai_embeddings_adapter()
+        else:
+            adapter = SentenceTransformersAdapter(model_name=settings.EMBEDDINGS_MODEL)
         logger.info(
             "ai.embeddings.loaded",
+            provider=settings.EMBEDDINGS_PROVIDER,
             model=settings.EMBEDDINGS_MODEL,
-            dim=adapter.dimension,
+            dim=getattr(adapter, "dimension", settings.EMBEDDINGS_DIM),
         )
         return adapter
     except Exception as exc:
