@@ -33,6 +33,10 @@ class Settings(BaseSettings):
     LLM_DEFAULT_MODEL: str = "gpt-4o-mini"
     OPENAI_API_KEY: SecretStr | None = None
     WHISPER_MODEL: str = "whisper-1"
+    # TTS — gpt-4o-mini-tts is preferred; fall back to "tts-1" if it errors at runtime
+    TTS_MODEL: str = "gpt-4o-mini-tts"
+    TTS_VOICE: str = "nova"
+    TTS_MAX_CHARS: int = 5000  # hard cap for the /tts endpoint
     TRANSCRIBE_MAX_BYTES: int = 10 * 1024 * 1024  # 10 MB
     TRANSCRIBE_ALLOWED_MIME: list[str] = [
         "audio/webm",

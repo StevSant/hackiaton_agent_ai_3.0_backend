@@ -15,15 +15,18 @@ import json
 from collections.abc import AsyncIterator
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
+from fastapi.responses import Response, StreamingResponse
 
-from app.api.deps import get_ask_agent, get_current_user, get_speech_transcriber
+from app.api.deps import get_ask_agent, get_current_user, get_llm, get_speech_transcriber
+from app.core.config import settings
 from app.domain.auth.user import User
+from app.infrastructure.llm.ports import LLMProvider
+from app.infrastructure.speech.ports import SpeechTranscriber
 from app.schemas.agent import AgentAskContext
 from app.schemas.agent import AgentAskRequest as AskAgentRequest
 from app.schemas.chat.request import AgentAskRequest as WireAgentAskRequest
-from app.infrastructure.speech.ports import SpeechTranscriber
+from app.schemas.chat.tts import TtsRequest
 from app.schemas.speech import TranscribeResponse
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.transcribe_audio import transcribe_audio
@@ -65,6 +68,30 @@ async def agent_transcribe(
         filename=file.filename or "audio.webm",
         content_type=file.content_type or "application/octet-stream",
     )
+
+
+@router.post("/tts")
+async def agent_tts(
+    body: TtsRequest,
+    llm: Annotated[LLMProvider, Depends(get_llm)],
+    _user: Annotated[User, Depends(get_current_user)],
+) -> Response:
+    """Synthesize text to MP3 speech via TTS.
+
+    Returns raw audio/mpeg bytes. Text is capped at settings.TTS_MAX_CHARS (5 000)
+    characters; longer payloads are rejected with HTTP 422.
+    """
+    if len(body.text) > settings.TTS_MAX_CHARS:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={
+                "code": "text_too_long",
+                "message": f"Text must be at most {settings.TTS_MAX_CHARS} characters.",
+            },
+        )
+    voice = body.voice or settings.TTS_VOICE
+    audio = await llm.synthesize_speech(body.text, voice)
+    return Response(content=audio, media_type="audio/mpeg")
 
 
 @router.post("/ask")

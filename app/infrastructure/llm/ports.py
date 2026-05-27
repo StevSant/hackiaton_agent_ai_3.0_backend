@@ -28,3 +28,7 @@ class LLMProvider(Protocol):
         model: str,
         tools: list[ToolSpec] | None = None,
     ) -> AsyncIterator[LLMEvent]: ...
+
+    async def synthesize_speech(self, text: str, voice: str) -> bytes:
+        """Convert text to spoken MP3 audio. Returns raw bytes."""
+        ...

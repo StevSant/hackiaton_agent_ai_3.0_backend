@@ -164,6 +164,25 @@ class OpenAIAdapter(LLMProvider):
             yield LLMEvent(type="error", data={"code": "provider_error", "message": str(exc)})
 
 
+    async def synthesize_speech(self, text: str, voice: str) -> bytes:
+        """Call OpenAI TTS and return raw MP3 bytes.
+
+        Model is read from settings.TTS_MODEL (default gpt-4o-mini-tts).
+        If that model is unavailable at runtime, change TTS_MODEL to "tts-1"
+        in the environment — no code change needed.
+        """
+        try:
+            response = await self._client.audio.speech.create(
+                model=settings.TTS_MODEL,
+                voice=voice,  # type: ignore[arg-type]  # openai SDK uses a Literal; voice is validated upstream
+                input=text,
+                response_format="mp3",
+            )
+            return response.content
+        except Exception as exc:
+            raise ProviderError(f"OpenAI TTS failed: {exc}") from exc
+
+
 def build_openai_adapter() -> OpenAIAdapter:
     if settings.OPENAI_API_KEY is None:
         raise ProviderError("OPENAI_API_KEY is not set; cannot build OpenAIAdapter")
