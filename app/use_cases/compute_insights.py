@@ -20,6 +20,7 @@ from app.schemas.insights import (
     AiAnomalyOut,
     ClaimTypeSliceOut,
     HotspotOut,
+    IncidentOut,
     InsightsBundleOut,
     QuarterlyOutlookOut,
     RegionalFraudPointOut,
@@ -73,6 +74,27 @@ _FALLBACK_HOTSPOTS: list[HotspotOut] = [
 ]
 
 
+def _synth_incidents(hotspots: list[HotspotOut]) -> list[IncidentOut]:
+    """Synthesize one incident per claim count for fallback mode (no DB)."""
+    out: list[IncidentOut] = []
+    tier_by_score = lambda s: "rojo" if s >= 76 else "amarillo" if s >= 41 else "verde"
+    for h in hotspots:
+        for i in range(h.count):
+            # Distribute scores around avg_score with a small spread per index.
+            offset = (i % 5 - 2) * 6
+            s = max(0, min(100, int(h.avg_score + offset)))
+            out.append(
+                IncidentOut(
+                    id_siniestro=f"SIN-{h.sucursal[:3].upper()}-{i:04d}",
+                    sucursal=h.sucursal,
+                    score=s,
+                    tier=tier_by_score(s),
+                    fecha_ocurrencia=None,
+                )
+            )
+    return out
+
+
 def _format_total(n: int) -> str:
     if n >= 1000:
         return f"{n / 1000:.1f}k".replace(".", ",")
@@ -100,6 +122,7 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
             total_claims_label="12,4k",
             quarterly_outlook=_QUARTERLY_OUTLOOK,
             hotspots=_FALLBACK_HOTSPOTS,
+            incidents=_synth_incidents(_FALLBACK_HOTSPOTS),
         )
 
     total = (await session.execute(select(func.count(Siniestro.id_siniestro)))).scalar() or 0
@@ -169,6 +192,30 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
         for row in hotspot_rows
     ] or _FALLBACK_HOTSPOTS
 
+    incident_rows = (
+        await session.execute(
+            select(
+                Siniestro.id_siniestro,
+                Siniestro.sucursal,
+                Siniestro.fecha_ocurrencia,
+                func.coalesce(ClaimScore.score, 0),
+                func.coalesce(ClaimScore.tier, "verde"),
+            )
+            .outerjoin(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .where(Siniestro.sucursal.isnot(None))
+        )
+    ).all()
+    incidents = [
+        IncidentOut(
+            id_siniestro=row[0],
+            sucursal=row[1],
+            score=int(row[3] or 0),
+            tier=str(row[4] or "verde"),
+            fecha_ocurrencia=row[2].isoformat() if row[2] else None,
+        )
+        for row in incident_rows
+    ] or _synth_incidents(hotspots)
+
     return InsightsBundleOut(
         anomalies=_CURATED_ANOMALIES,
         regional_fraud=regional_fraud,
@@ -176,4 +223,5 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
         total_claims_label=_format_total(int(total)) if total else "12,4k",
         quarterly_outlook=_QUARTERLY_OUTLOOK,
         hotspots=hotspots,
+        incidents=incidents,
     )

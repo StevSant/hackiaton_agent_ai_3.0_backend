@@ -38,6 +38,21 @@ class HotspotOut(BaseModel):
     avg_score: float
 
 
+class IncidentOut(BaseModel):
+    """One claim plotted as a point on the map.
+
+    `sucursal` is the city the claim was filed under. Frontend resolves a stable
+    intra-city offset from `id_siniestro` so each claim gets a reproducible spot
+    near (but not on top of) its city center.
+    """
+
+    id_siniestro: str
+    sucursal: str
+    score: int
+    tier: str  # "verde" | "amarillo" | "rojo"
+    fecha_ocurrencia: str | None = None
+
+
 class InsightsBundleOut(BaseModel):
     anomalies: list[AiAnomalyOut]
     regional_fraud: list[RegionalFraudPointOut]
@@ -45,3 +60,4 @@ class InsightsBundleOut(BaseModel):
     total_claims_label: str
     quarterly_outlook: QuarterlyOutlookOut
     hotspots: list[HotspotOut]
+    incidents: list[IncidentOut]

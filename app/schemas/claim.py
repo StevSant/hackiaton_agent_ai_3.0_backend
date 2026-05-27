@@ -136,6 +136,11 @@ class ClaimDetail(BaseModel):
     similar: list[SimilarClaim] = Field(default_factory=list)
     anomaly_score: float | None = None
     nearest_normal_claim_id: str | None = None
+    # Per-claim geographic coordinates (WGS84) — derived from the sucursal's
+    # city center plus deterministic per-claim jitter. Optional for backward
+    # compatibility with older serialized claims.
+    latitude: float | None = None
+    longitude: float | None = None
 
 
 class ClaimPatch(BaseModel):

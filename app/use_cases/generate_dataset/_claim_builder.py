@@ -10,6 +10,7 @@ import hashlib
 from datetime import date, timedelta
 from typing import Any
 
+from app.core.city_coords import coords_for_claim
 from app.domain.rules.context import RuleContext
 from app.schemas.claim import (
     ClaimAlert,
@@ -184,6 +185,9 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
         if archetype.ramo in _RAMOS_VEHICULO else None
     )
     sucursal = _SUCURSALES.get(archetype.ciudad, archetype.ciudad)
+    coords = coords_for_claim(claim_id, sucursal)
+    lat = coords[0] if coords else None
+    lng = coords[1] if coords else None
     vehiculo = _make_vehicle(archetype, idx)
     documentos = _make_docs(archetype, idx)
 
@@ -273,6 +277,8 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
         timeline=[],
         documentos=documentos,
         review=ClaimReview(status=ReviewStatus.pendiente),
+        latitude=lat,
+        longitude=lng,
     )
 
     for rule in all_rules():
@@ -312,6 +318,8 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
 
 def claim_to_row(claim: ClaimDetail) -> dict[str, Any]:
     """Return a dict representing a ``siniestros`` table row (§2.8 schema)."""
+    coords = coords_for_claim(claim.id, claim.sucursal or claim.ciudad)
+    lat, lng = coords if coords is not None else ("", "")
     return {
         "id_siniestro": claim.id,
         "id_poliza": claim.poliza,
@@ -347,4 +355,6 @@ def claim_to_row(claim: ClaimDetail) -> dict[str, Any]:
         ),
         "historial_siniestros_asegurado": 0,
         "etiqueta_fraude_simulada": 1 if claim.nivel == Tier.rojo else 0,
+        "latitude": lat,
+        "longitude": lng,
     }

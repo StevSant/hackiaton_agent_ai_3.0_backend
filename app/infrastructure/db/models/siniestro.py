@@ -80,6 +80,12 @@ class Siniestro(Base):
     # §2.8 field is "año"; Python identifiers can't contain ñ
     anio: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
+    # Per-claim coordinates (WGS84). Derived from the sucursal's city center
+    # plus deterministic jitter so each claim renders at a stable spot on the
+    # insights map. Nullable so older rows or rows with unknown cities are OK.
+    latitude: Mapped[float | None] = mapped_column(Float, nullable=True)
+    longitude: Mapped[float | None] = mapped_column(Float, nullable=True)
+
     # Relationships (lazy by default — explicit join when needed)
     poliza: Mapped[Poliza] = relationship(
         "Poliza", back_populates="siniestros", lazy="noload"

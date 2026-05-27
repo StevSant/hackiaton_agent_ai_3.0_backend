@@ -83,7 +83,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.13184,
+    "longitude": -79.881
   },
   {
     "id": "SIN-0002",
@@ -163,7 +165,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19238,
+    "longitude": -78.4918
   },
   {
     "id": "SIN-0003",
@@ -243,7 +247,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.92698,
+    "longitude": -79.03963999999999
   },
   {
     "id": "SIN-0004",
@@ -329,7 +335,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.24458,
+    "longitude": -79.99571999999999
   },
   {
     "id": "SIN-0005",
@@ -415,7 +423,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.95247,
+    "longitude": -79.19927
   },
   {
     "id": "SIN-0006",
@@ -495,7 +505,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.24569,
+    "longitude": -78.59944
   },
   {
     "id": "SIN-0007",
@@ -588,7 +600,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1323299999999996,
+    "longitude": -79.88965999999999
   },
   {
     "id": "SIN-0008",
@@ -681,7 +695,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.9985,
+    "longitude": -80.75595
   },
   {
     "id": "SIN-0009",
@@ -768,7 +784,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1346999999999996,
+    "longitude": -79.87772
   },
   {
     "id": "SIN-0010",
@@ -861,7 +879,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.8926600000000002,
+    "longitude": -78.96233
   },
   {
     "id": "SIN-0011",
@@ -954,7 +974,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.20862,
+    "longitude": -79.92161
   },
   {
     "id": "SIN-0012",
@@ -1047,7 +1069,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1334899999999997,
+    "longitude": -79.9637
   },
   {
     "id": "SIN-0013",
@@ -1134,7 +1158,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24005,
+    "longitude": -78.48194
   },
   {
     "id": "SIN-0014",
@@ -1221,7 +1247,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.94481,
+    "longitude": -79.02289
   },
   {
     "id": "SIN-0015",
@@ -1314,7 +1342,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.0801100000000001,
+    "longitude": -80.48854
   },
   {
     "id": "SIN-0016",
@@ -1407,7 +1437,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.14459,
+    "longitude": -79.90254
   },
   {
     "id": "SIN-0017",
@@ -1500,7 +1532,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.18922,
+    "longitude": -78.54454
   },
   {
     "id": "SIN-0018",
@@ -1593,7 +1627,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.86601,
+    "longitude": -78.96694
   },
   {
     "id": "SIN-0019",
@@ -1692,7 +1728,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.26786,
+    "longitude": -78.59345
   },
   {
     "id": "SIN-0020",
@@ -1797,7 +1835,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25574,
+    "longitude": -78.54531999999999
   },
   {
     "id": "SIN-0021",
@@ -1902,7 +1942,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1619699999999997,
+    "longitude": -79.91506
   },
   {
     "id": "SIN-0022",
@@ -2007,7 +2049,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.95784,
+    "longitude": -79.64245000000001
   },
   {
     "id": "SIN-0023",
@@ -2124,7 +2168,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.25737,
+    "longitude": -78.48295
   },
   {
     "id": "SIN-0024",
@@ -2229,7 +2275,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2139699999999998,
+    "longitude": -79.93444
   },
   {
     "id": "SIN-0025",
@@ -2328,7 +2376,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.20778000000000002,
+    "longitude": -78.49783
   },
   {
     "id": "SIN-0026",
@@ -2433,7 +2483,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1725299999999996,
+    "longitude": -79.90498
   },
   {
     "id": "SIN-0027",
@@ -2538,7 +2590,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.88531,
+    "longitude": -79.04514
   },
   {
     "id": "SIN-0028",
@@ -2643,7 +2697,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23388,
+    "longitude": -78.54699
   },
   {
     "id": "SIN-0029",
@@ -2754,7 +2810,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.22056,
+    "longitude": -79.88972
   },
   {
     "id": "SIN-0030",
@@ -2865,7 +2923,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.91596,
+    "longitude": -79.01145
   },
   {
     "id": "SIN-0031",
@@ -2982,7 +3042,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.21609,
+    "longitude": -78.46818999999999
   },
   {
     "id": "SIN-0032",
@@ -3093,7 +3155,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.16493,
+    "longitude": -79.96902999999999
   },
   {
     "id": "SIN-0033",
@@ -3210,7 +3274,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.16804,
+    "longitude": -79.96912999999999
   },
   {
     "id": "SIN-0034",
@@ -3327,7 +3393,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.2257099999999999,
+    "longitude": -78.56988
   },
   {
     "id": "SIN-0035",
@@ -3444,7 +3512,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.22407000000000002,
+    "longitude": -78.47601
   },
   {
     "id": "SIN-0036",
@@ -3561,7 +3631,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.90179,
+    "longitude": -79.01038
   },
   {
     "id": "SIN-0037",
@@ -3684,7 +3756,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.99181,
+    "longitude": -80.68221
   },
   {
     "id": "SIN-0038",
@@ -3812,7 +3886,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1299699999999997,
+    "longitude": -79.96002
   },
   {
     "id": "SIN-0039",
@@ -3941,7 +4017,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.22832,
+    "longitude": -78.48235
   },
   {
     "id": "SIN-0040",
@@ -4070,7 +4148,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1220499999999998,
+    "longitude": -79.88488
   },
   {
     "id": "SIN-0041",
@@ -4199,7 +4279,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 1.0084,
+    "longitude": -79.62422000000001
   },
   {
     "id": "SIN-0042",
@@ -4328,7 +4410,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19409,
+    "longitude": -78.46257
   },
   {
     "id": "SIN-0043",
@@ -4427,7 +4511,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.17264,
+    "longitude": -79.94378999999999
   },
   {
     "id": "SIN-0044",
@@ -4526,7 +4612,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.2144,
+    "longitude": -78.52287
   },
   {
     "id": "SIN-0045",
@@ -4643,7 +4731,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.98526,
+    "longitude": -80.67223
   },
   {
     "id": "SIN-0046",
@@ -4748,7 +4838,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.88986,
+    "longitude": -79.02175
   },
   {
     "id": "SIN-0047",
@@ -4853,7 +4945,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23026000000000002,
+    "longitude": -78.52453
   },
   {
     "id": "SIN-0048",
@@ -4952,7 +5046,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.13196,
+    "longitude": -79.96643
   },
   {
     "id": "SIN-0049",
@@ -5063,7 +5159,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.915,
+    "longitude": -79.01695
   },
   {
     "id": "SIN-0050",
@@ -5162,7 +5260,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.922,
+    "longitude": -79.65803000000001
   },
   {
     "id": "SIN-0051",
@@ -5261,7 +5361,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.2164699999999997,
+    "longitude": -79.95653999999999
   },
   {
     "id": "SIN-0052",
@@ -5354,7 +5456,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.3079500000000004,
+    "longitude": -79.98514
   },
   {
     "id": "SIN-0053",
@@ -5464,7 +5568,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.2139,
+    "longitude": -78.5178
   },
   {
     "id": "SIN-0054",
@@ -5557,7 +5663,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.261,
+    "longitude": -78.53022
   },
   {
     "id": "SIN-0055",
@@ -5650,7 +5758,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.21764,
+    "longitude": -79.91494999999999
   },
   {
     "id": "SIN-0056",
@@ -5755,7 +5865,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.86601,
+    "longitude": -78.96624
   },
   {
     "id": "SIN-0057",
@@ -5889,7 +6001,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.15738,
+    "longitude": -79.8971
   },
   {
     "id": "SIN-0058",
@@ -6006,7 +6120,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.19673000000000002,
+    "longitude": -78.51263
   },
   {
     "id": "SIN-0059",
@@ -6147,7 +6263,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1355899999999997,
+    "longitude": -79.91807
   },
   {
     "id": "SIN-0060",
@@ -6311,7 +6429,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.18587,
+    "longitude": -78.54681
   },
   {
     "id": "SIN-0061",
@@ -6470,7 +6590,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.91427,
+    "longitude": -79.03971
   },
   {
     "id": "SIN-0062",
@@ -6593,7 +6715,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1817499999999996,
+    "longitude": -79.92947
   },
   {
     "id": "SIN-0063",
@@ -6679,7 +6803,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.27053,
+    "longitude": -79.19585
   },
   {
     "id": "SIN-0064",
@@ -6759,7 +6885,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.35441,
+    "longitude": -78.15786
   },
   {
     "id": "SIN-0065",
@@ -6845,7 +6973,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.6368800000000001,
+    "longitude": -78.63385
   },
   {
     "id": "SIN-0066",
@@ -6925,7 +7055,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.96628,
+    "longitude": -78.61925
   },
   {
     "id": "SIN-0067",
@@ -7048,7 +7180,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.69228,
+    "longitude": -78.64395999999999
   },
   {
     "id": "SIN-0068",
@@ -7159,7 +7293,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23834,
+    "longitude": -79.20962999999999
   },
   {
     "id": "SIN-0069",
@@ -7270,7 +7406,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.0423399999999998,
+    "longitude": -79.49391
   },
   {
     "id": "SIN-0070",
@@ -7386,7 +7524,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.38137,
+    "longitude": -78.08837
   },
   {
     "id": "SIN-0071",
@@ -7497,7 +7637,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1404900000000002,
+    "longitude": -79.59268
   },
   {
     "id": "SIN-0072",
@@ -7607,7 +7749,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.79953,
+    "longitude": -79.52566
   },
   {
     "id": "SIN-0073",
@@ -7730,7 +7874,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1338999999999997,
+    "longitude": -79.95434999999999
   },
   {
     "id": "SIN-0074",
@@ -7847,7 +7993,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.22131,
+    "longitude": -78.54992999999999
   },
   {
     "id": "SIN-0075",
@@ -7970,7 +8118,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": 0.34564999999999996,
+    "longitude": -78.09435
   },
   {
     "id": "SIN-0076",
@@ -8134,7 +8284,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.23225999999999997,
+    "longitude": -79.17612
   },
   {
     "id": "SIN-0077",
@@ -8245,6 +8397,8 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.6785100000000002,
+    "longitude": -78.67187999999999
   }
 ]

@@ -14,6 +14,7 @@ import uuid
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
+from app.core.city_coords import coords_for_claim
 from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.documento import Documento
@@ -111,6 +112,16 @@ def claim_detail_to_siniestro(c: ClaimDetail) -> Siniestro:
         pagado = round(c.monto_reclamado * 0.25, 2)
     else:
         pagado = 0.0
+
+    # Prefer coords already on the ClaimDetail; derive deterministically when
+    # the source predates the field (e.g. older claims.json or hand-curated demo).
+    lat = c.latitude
+    lng = c.longitude
+    if lat is None or lng is None:
+        coords = coords_for_claim(c.id, c.sucursal or c.ciudad)
+        if coords is not None:
+            lat, lng = coords
+
     return Siniestro(
         id_siniestro=c.id,
         id_poliza=c.poliza,
@@ -140,6 +151,9 @@ def claim_detail_to_siniestro(c: ClaimDetail) -> Siniestro:
         marca=vehiculo.marca if vehiculo else None,
         modelo=vehiculo.modelo if vehiculo else None,
         anio=vehiculo.anio if vehiculo else None,
+        # geo
+        latitude=lat,
+        longitude=lng,
     )
 
 

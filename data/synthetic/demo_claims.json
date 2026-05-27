@@ -169,7 +169,9 @@
       }
     ],
     "anomaly_score": -0.682,
-    "nearest_normal_claim_id": "SIN-2026-08376"
+    "nearest_normal_claim_id": "SIN-2026-08376",
+    "latitude": -0.22022,
+    "longitude": -78.55457
   },
   {
     "id": "SIN-2026-08398",
@@ -330,7 +332,9 @@
       }
     ],
     "anomaly_score": -0.412,
-    "nearest_normal_claim_id": "SIN-2026-08321"
+    "nearest_normal_claim_id": "SIN-2026-08321",
+    "latitude": -2.1552,
+    "longitude": -79.9069
   },
   {
     "id": "SIN-2026-08376",
@@ -443,7 +447,9 @@
     ],
     "similar": [],
     "anomaly_score": -0.118,
-    "nearest_normal_claim_id": "SIN-2026-08321"
+    "nearest_normal_claim_id": "SIN-2026-08321",
+    "latitude": -0.24512,
+    "longitude": -78.54682
   },
   {
     "id": "SIN-2026-08365",
@@ -565,7 +571,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.28615,
+    "longitude": -78.63268
   },
   {
     "id": "SIN-2026-08354",
@@ -681,7 +689,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.1396599999999997,
+    "longitude": -79.93977
   },
   {
     "id": "SIN-2026-08321",
@@ -785,7 +795,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.92228,
+    "longitude": -79.01204
   },
   {
     "id": "SIN-2026-08299",
@@ -901,7 +913,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.17339000000000002,
+    "longitude": -78.4678
   },
   {
     "id": "SIN-2026-08281",
@@ -1012,7 +1026,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.15916,
+    "longitude": -79.94828
   },
   {
     "id": "SIN-2026-08254",
@@ -1123,7 +1139,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.98444,
+    "longitude": -79.22129
   },
   {
     "id": "SIN-2026-08233",
@@ -1239,7 +1257,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.20131000000000002,
+    "longitude": -78.51071
   },
   {
     "id": "SIN-2026-08218",
@@ -1332,7 +1352,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.9581500000000001,
+    "longitude": -80.7108
   },
   {
     "id": "SIN-2026-08197",
@@ -1426,7 +1448,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24578,
+    "longitude": -78.5616
   },
   {
     "id": "SIN-2026-08181",
@@ -1520,7 +1544,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.15319,
+    "longitude": -79.90642
   },
   {
     "id": "SIN-2026-08164",
@@ -1595,7 +1621,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.85723,
+    "longitude": -79.00242
   },
   {
     "id": "SIN-2026-08143",
@@ -1695,7 +1723,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -3.3068000000000004,
+    "longitude": -79.99614
   },
   {
     "id": "SIN-2026-08122",
@@ -1788,7 +1818,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -0.24968,
+    "longitude": -78.48123
   },
   {
     "id": "SIN-2026-08101",
@@ -1905,7 +1937,9 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -1.65588,
+    "longitude": -78.61676999999999
   },
   {
     "id": "SIN-2026-08087",
@@ -1980,6 +2014,8 @@
     "ml_factors": [],
     "similar": [],
     "anomaly_score": null,
-    "nearest_normal_claim_id": null
+    "nearest_normal_claim_id": null,
+    "latitude": -2.15244,
+    "longitude": -79.87791
   }
 ]
