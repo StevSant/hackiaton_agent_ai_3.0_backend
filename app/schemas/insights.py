@@ -58,6 +58,9 @@ class InsightsBundleOut(BaseModel):
     regional_fraud: list[RegionalFraudPointOut]
     claim_type_slices: list[ClaimTypeSliceOut]
     total_claims_label: str
-    quarterly_outlook: QuarterlyOutlookOut
+    # Optional: we only emit a forecast when a real pipeline produces one.
+    # Until then, surface `null` so the frontend can hide the section instead
+    # of rendering hardcoded copy.
+    quarterly_outlook: QuarterlyOutlookOut | None = None
     hotspots: list[HotspotOut]
     incidents: list[IncidentOut]

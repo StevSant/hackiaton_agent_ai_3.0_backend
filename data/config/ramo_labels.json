@@ -1,0 +1,11 @@
+{
+  "_comment": "Canonical ramo -> display label (Spanish). Single source of truth for the donut/aggregation UI. Edit here, not in service code.",
+  "labels": {
+    "vehiculos": "Automotriz",
+    "salud": "Salud",
+    "vida": "Vida/PYMES",
+    "hogar": "Hogar",
+    "generales": "Generales",
+    "otros": "Otros"
+  }
+}

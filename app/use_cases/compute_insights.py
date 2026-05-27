@@ -1,12 +1,17 @@
-"""Use case: compute the executive-insights bundle.
+"""Use case: compute the executive-insights bundle from real claim data.
 
-Aggregates across `siniestros` + `claim_scores`:
-- regional_fraud: red+yellow claim counts grouped by `sucursal` (top 5).
-- claim_type_slices: percentage distribution by `ramo` (top 3 + rolled-up "Otros").
-- total_claims_label: formatted "12.4k" string.
+Every field is derived from the live database:
+- ``anomalies``: top-2 highest-scoring rojo claims, surfaced as critical/potential.
+- ``regional_fraud``: rojo + amarillo counts grouped by ``sucursal`` (top 5).
+- ``claim_type_slices``: percentage distribution by canonical ramo (see
+  ``app.domain.ramos``); display labels come from ``data/config/ramo_labels.json``.
+- ``total_claims_label``: real claim count, formatted as "12,4k" past 1000.
+- ``hotspots`` / ``incidents``: aggregated + per-claim records for the map.
+- ``quarterly_outlook``: ``None`` until a real forecast pipeline lands —
+  the frontend hides the section rather than render hardcoded copy.
 
-Anomalies and quarterly outlook are curated copy (analyst-authored insights),
-returned as constants until a forecast pipeline lands.
+When the DB has no data, fields return empty arrays / null. We never fabricate.
+A missing DB session is an error (raised by the caller via ``Depends``).
 """
 
 from __future__ import annotations
@@ -14,6 +19,7 @@ from __future__ import annotations
 from sqlalchemy import case, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.domain.ramos import label_for, normalize_ramo
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.siniestro import Siniestro
 from app.schemas.insights import (
@@ -22,77 +28,8 @@ from app.schemas.insights import (
     HotspotOut,
     IncidentOut,
     InsightsBundleOut,
-    QuarterlyOutlookOut,
     RegionalFraudPointOut,
 )
-
-_CURATED_ANOMALIES: list[AiAnomalyOut] = [
-    AiAnomalyOut(
-        id="med-cluster",
-        title="Reclamos médicos agrupados",
-        description="Correlación multi-proveedor detectada en Santo Domingo.",
-        severity="critical",
-        confidence=98.2,
-    ),
-    AiAnomalyOut(
-        id="identity-fabrication",
-        title="Fabricación de identidad",
-        description="Creación secuencial de pólizas con RUC generados sintéticamente.",
-        severity="potential",
-        confidence=74.5,
-    ),
-]
-
-_FALLBACK_REGIONS: list[RegionalFraudPointOut] = [
-    RegionalFraudPointOut(region="Pichincha", value=88),
-    RegionalFraudPointOut(region="Guayas", value=72),
-    RegionalFraudPointOut(region="Manabí", value=64),
-    RegionalFraudPointOut(region="Azuay", value=58),
-    RegionalFraudPointOut(region="El Oro", value=46),
-]
-
-_FALLBACK_SLICES: list[ClaimTypeSliceOut] = [
-    ClaimTypeSliceOut(key="auto", label="Automotriz", pct=60),
-    ClaimTypeSliceOut(key="health", label="Salud", pct=25),
-    ClaimTypeSliceOut(key="life", label="Vida/PYMES", pct=15),
-]
-
-_QUARTERLY_OUTLOOK = QuarterlyOutlookOut(
-    body=(
-        "Se proyecta un incremento del 4,2% en la exposición al riesgo "
-        "estratégico en regiones costeras por patrones estacionales de migración."
-    ),
-    systematic_fraud_delta="-2,1%",
-)
-
-_FALLBACK_HOTSPOTS: list[HotspotOut] = [
-    HotspotOut(sucursal="Quito", count=24, alertas=11, avg_score=72.0),
-    HotspotOut(sucursal="Guayaquil", count=21, alertas=8, avg_score=58.0),
-    HotspotOut(sucursal="Santo Domingo", count=14, alertas=6, avg_score=64.0),
-    HotspotOut(sucursal="Cuenca", count=11, alertas=4, avg_score=52.0),
-    HotspotOut(sucursal="Manta", count=8, alertas=3, avg_score=48.0),
-]
-
-
-def _synth_incidents(hotspots: list[HotspotOut]) -> list[IncidentOut]:
-    """Synthesize one incident per claim count for fallback mode (no DB)."""
-    out: list[IncidentOut] = []
-    tier_by_score = lambda s: "rojo" if s >= 76 else "amarillo" if s >= 41 else "verde"
-    for h in hotspots:
-        for i in range(h.count):
-            # Distribute scores around avg_score with a small spread per index.
-            offset = (i % 5 - 2) * 6
-            s = max(0, min(100, int(h.avg_score + offset)))
-            out.append(
-                IncidentOut(
-                    id_siniestro=f"SIN-{h.sucursal[:3].upper()}-{i:04d}",
-                    sucursal=h.sucursal,
-                    score=s,
-                    tier=tier_by_score(s),
-                    fecha_ocurrencia=None,
-                )
-            )
-    return out
 
 
 def _format_total(n: int) -> str:
@@ -102,30 +39,45 @@ def _format_total(n: int) -> str:
 
 
 def _slice_key(ramo: str) -> tuple[str, str]:
-    """Map a ramo string to (key, label) for the donut slice."""
-    r = ramo.lower()
-    if "vehic" in r or "auto" in r:
-        return ("auto", "Automotriz")
-    if "salud" in r or "medic" in r:
-        return ("health", "Salud")
-    if "vida" in r or "pyme" in r:
-        return ("life", "Vida/PYMES")
-    return ("other", "Otros")
+    """Map a raw ramo string to ``(canonical_key, display_label)`` for the donut."""
+    canonical = normalize_ramo(ramo)
+    return (canonical, label_for(canonical))
 
 
-async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
-    if session is None:
-        return InsightsBundleOut(
-            anomalies=_CURATED_ANOMALIES,
-            regional_fraud=_FALLBACK_REGIONS,
-            claim_type_slices=_FALLBACK_SLICES,
-            total_claims_label="12,4k",
-            quarterly_outlook=_QUARTERLY_OUTLOOK,
-            hotspots=_FALLBACK_HOTSPOTS,
-            incidents=_synth_incidents(_FALLBACK_HOTSPOTS),
+def _derive_anomalies(
+    rojo_rows: list[tuple[str, str | None, int]],
+) -> list[AiAnomalyOut]:
+    """Build Anomalías cards from the top-scoring rojo claims.
+
+    Each row is ``(id_siniestro, sucursal, score)``. We surface at most 2
+    cards so the UI doesn't get crowded, and pick high-score reds because
+    those are the real anomalies the rules engine + ML flagged together.
+    Returns ``[]`` if no rojos exist — the frontend renders an empty state.
+    """
+    cards: list[AiAnomalyOut] = []
+    for i, (claim_id, sucursal, score) in enumerate(rojo_rows[:2]):
+        severity = "critical" if score >= 85 else "potential"
+        suc = sucursal or "sucursal no asignada"
+        cards.append(
+            AiAnomalyOut(
+                id=f"top-rojo-{i + 1}",
+                title=f"Caso de alto riesgo · {claim_id}",
+                description=(
+                    f"Score {score}/100 — concentración de señales en {suc}. "
+                    "Requiere revisión humana."
+                ),
+                severity=severity,
+                confidence=float(score),
+            )
         )
+    return cards
 
-    total = (await session.execute(select(func.count(Siniestro.id_siniestro)))).scalar() or 0
+
+async def compute_insights(session: AsyncSession) -> InsightsBundleOut:
+    """Aggregate live insights from ``siniestros`` + ``claim_scores``."""
+    total = (
+        await session.execute(select(func.count(Siniestro.id_siniestro)))
+    ).scalar() or 0
 
     region_rows = (
         await session.execute(
@@ -140,7 +92,7 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
     regional_fraud = [
         RegionalFraudPointOut(region=row[0] or "Sin asignar", value=int(row[1]))
         for row in region_rows
-    ] or _FALLBACK_REGIONS
+    ]
 
     ramo_rows = (
         await session.execute(
@@ -156,9 +108,30 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
         prev_label, prev_count = bucketed.get(key, (label, 0))
         bucketed[key] = (prev_label, prev_count + int(count))
     slices = [
-        ClaimTypeSliceOut(key=k, label=label, pct=round(count / total_ramos * 100, 1))
+        ClaimTypeSliceOut(
+            key=k,
+            label=label,
+            pct=round(count / total_ramos * 100, 1),
+        )
         for k, (label, count) in sorted(bucketed.items(), key=lambda kv: -kv[1][1])
-    ] or _FALLBACK_SLICES
+    ]
+
+    rojo_rows = (
+        await session.execute(
+            select(
+                Siniestro.id_siniestro,
+                Siniestro.sucursal,
+                ClaimScore.score,
+            )
+            .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .where(ClaimScore.tier == "rojo")
+            .order_by(desc(ClaimScore.score))
+            .limit(5)
+        )
+    ).all()
+    anomalies = _derive_anomalies(
+        [(row[0], row[1], int(row[2])) for row in rojo_rows]
+    )
 
     hotspot_rows = (
         await session.execute(
@@ -190,7 +163,7 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
             avg_score=float(row[3]),
         )
         for row in hotspot_rows
-    ] or _FALLBACK_HOTSPOTS
+    ]
 
     incident_rows = (
         await session.execute(
@@ -214,14 +187,14 @@ async def compute_insights(session: AsyncSession | None) -> InsightsBundleOut:
             fecha_ocurrencia=row[2].isoformat() if row[2] else None,
         )
         for row in incident_rows
-    ] or _synth_incidents(hotspots)
+    ]
 
     return InsightsBundleOut(
-        anomalies=_CURATED_ANOMALIES,
+        anomalies=anomalies,
         regional_fraud=regional_fraud,
         claim_type_slices=slices,
-        total_claims_label=_format_total(int(total)) if total else "12,4k",
-        quarterly_outlook=_QUARTERLY_OUTLOOK,
+        total_claims_label=_format_total(int(total)),
+        quarterly_outlook=None,
         hotspots=hotspots,
         incidents=incidents,
     )
