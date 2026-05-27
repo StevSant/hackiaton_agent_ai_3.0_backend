@@ -2668,7 +2668,7 @@
       "placa": "HVV-7680",
       "chasis": "CAA53B07869029699"
     },
-    "proveedor": "PROV-OBS-010",
+    "proveedor": "Taller Pacífico Sur",
     "descripcion": "Frecuencia alta asegurado+conductor; proveedor observado; docs incompletos.",
     "score": 25,
     "nivel": "verde",
@@ -3007,7 +3007,7 @@
       "placa": "XCM-2517",
       "chasis": "3DB8AFB7F68661F8E"
     },
-    "proveedor": "PROV-OBS-015",
+    "proveedor": "Carrocerías Manabí",
     "descripcion": "Siniestro temprano; proveedor observado; inconsistencia documental.",
     "score": 21,
     "nivel": "verde",
@@ -3118,7 +3118,7 @@
       "placa": "GPL-4546",
       "chasis": "896659FEDC8B3F828"
     },
-    "proveedor": "PROV-OBS-020",
+    "proveedor": "Servicar Andinos",
     "descripcion": "Asegurado frecuente; proveedor observado; dinámica anómala; daño sin rastro.",
     "score": 30,
     "nivel": "verde",
@@ -3352,7 +3352,7 @@
       "placa": "YIL-3575",
       "chasis": "90CBB320A0FCABB87"
     },
-    "proveedor": "PROV-OBS-025",
+    "proveedor": "Reparaciones El Valle",
     "descripcion": "Conductor frecuente; proveedor observado; dinámica incoherente; sin rastro.",
     "score": 30,
     "nivel": "verde",
@@ -3469,7 +3469,7 @@
       "placa": "ZVI-9971",
       "chasis": "FDEAE96B326C4A0BD"
     },
-    "proveedor": "PROV-OBS-030",
+    "proveedor": "Multiservicios Quevedo",
     "descripcion": "RC recurrente; asegurado frecuente; proveedor observado; monto alto.",
     "score": 29,
     "nivel": "verde",
@@ -3586,7 +3586,7 @@
       "placa": "ZZG-7599",
       "chasis": "C2CAE69A9585BFF0A"
     },
-    "proveedor": "PROV-OBS-035",
+    "proveedor": "Tecnomotor Loja",
     "descripcion": "Robo con demora; asegurado frecuente; docs inconsistentes; narrativa similar.",
     "score": 33,
     "nivel": "verde",
@@ -3709,7 +3709,7 @@
       "placa": "NKC-4186",
       "chasis": "DFAA0B2DCCF74CCCC"
     },
-    "proveedor": "PROV-OBS-040",
+    "proveedor": "Taller Costa Brava",
     "descripcion": "Seis señales: póliza, asegurado, conductor, proveedor, docs, reporte.",
     "score": 38,
     "nivel": "verde",
@@ -3966,7 +3966,7 @@
       "placa": "ZAD-6422",
       "chasis": "67BE1BAA1A863AA54"
     },
-    "proveedor": "PROV-OBS-045",
+    "proveedor": "Auto Express La Aurora",
     "descripcion": "Inicio de póliza; asegurado frecuente; proveedor observado; 7 señales.",
     "score": 43,
     "nivel": "amarillo",
@@ -4095,7 +4095,7 @@
       "placa": "PTR-5176",
       "chasis": "81961351891007C73"
     },
-    "proveedor": "PROV-OBS-050",
+    "proveedor": "Mecánica Universal Daule",
     "descripcion": "Robo con demora; conductor+RC frecuentes; proveedor observado; similar.",
     "score": 43,
     "nivel": "amarillo",
@@ -4224,7 +4224,7 @@
       "placa": "OEB-4338",
       "chasis": "33236F0877427F8C6"
     },
-    "proveedor": "PROV-OBS-055",
+    "proveedor": "Talleres Salinas",
     "descripcion": "RC frecuente; vehículo repetido; proveedor observado; docs inconsistentes.",
     "score": 36,
     "nivel": "verde",
@@ -5088,7 +5088,7 @@
       "placa": "ZVT-6188",
       "chasis": "6751852BBB8F14BDA"
     },
-    "proveedor": "PROV-LISTA-007",
+    "proveedor": "Mega Repuestos Cordero",
     "descripcion": "Taller en lista restrictiva con alertas previas.",
     "score": 10,
     "nivel": "rojo",
@@ -5379,7 +5379,7 @@
       "placa": "YLN-5559",
       "chasis": "A6D34343B26C2374C"
     },
-    "proveedor": "PROV-LISTA-003",
+    "proveedor": "Carrocerías Aguilera y Hnos",
     "descripcion": "Proveedor restrictivo + documentación incompleta.",
     "score": 14,
     "nivel": "rojo",
@@ -5780,7 +5780,7 @@
       "placa": "ZXA-1300",
       "chasis": "A814ABE7B3DA61D60"
     },
-    "proveedor": "PROV-LISTA-003",
+    "proveedor": "Carrocerías Aguilera y Hnos",
     "descripcion": "Historial elevado; proveedor restrictivo; docs falsificados; reporte tardío.",
     "score": 37,
     "nivel": "rojo",
@@ -6031,7 +6031,7 @@
       "placa": "KOJ-7922",
       "chasis": "8F370B401C3F44F17"
     },
-    "proveedor": "PROV-OBS-060",
+    "proveedor": "Reparaciones Río Verde",
     "descripcion": "Máxima acumulación: inicio póliza + 4 frecuencias + proveedor + extras.",
     "score": 57,
     "nivel": "amarillo",
@@ -6172,7 +6172,7 @@
       "placa": "MFU-0880",
       "chasis": "C588B10FD8CCB86CF"
     },
-    "proveedor": "PROV-LISTA-010",
+    "proveedor": "Taller Mecánico Vergara",
     "descripcion": "Caso de máximo riesgo: 11 señales acumuladas.",
     "score": 71,
     "nivel": "rojo",
@@ -6336,7 +6336,7 @@
       "placa": "KXK-2784",
       "chasis": "045EC3E1CC4B8598D"
     },
-    "proveedor": "PROV-LISTA-015",
+    "proveedor": "Reparaciones Salvador",
     "descripcion": "Caso RC con 11 señales acumuladas; score 78 pts.",
     "score": 72,
     "nivel": "rojo",
@@ -6495,7 +6495,7 @@
       "placa": "PSW-8601",
       "chasis": "58FA0424A5188DCC9"
     },
-    "proveedor": "PROV-OBS-070",
+    "proveedor": "Carrocerías El Inca",
     "descripcion": "Narrativa muy similar + proveedor + inconsistencias documentales.",
     "score": 37,
     "nivel": "verde",
@@ -7184,7 +7184,7 @@
       "placa": "RLY-4861",
       "chasis": "9052B7EEDA79CB0AD"
     },
-    "proveedor": "PROV-OBS-080",
+    "proveedor": "Taller Av. de los Shyris",
     "descripcion": "Chevrolet D-Max con daños extensos; peritaje indica impacto frontal sin evidencia de tercero en la escena.",
     "score": 24,
     "nivel": "verde",
@@ -7411,7 +7411,7 @@
       "placa": "ZAT-6878",
       "chasis": "3432FF3F61D03EF74"
     },
-    "proveedor": "PROV-OBS-085",
+    "proveedor": "Servicios Automotrices Calderón",
     "descripcion": "Tercer evento RC para el asegurado en 18 meses; proveedor vinculado a reclamaciones observadas en zona de Milagro.",
     "score": 24,
     "nivel": "verde",
@@ -7632,7 +7632,7 @@
       "placa": "AUL-0688",
       "chasis": "44BA3853F0E116FC2"
     },
-    "proveedor": "PROV-LISTA-020",
+    "proveedor": "Carrocerías Toral",
     "descripcion": "Siniestro derivado a taller en lista restrictiva. Conductor con múltiples reclamaciones previas; narrativa muy similar a otro caso reciente.",
     "score": 40,
     "nivel": "rojo",
@@ -7995,7 +7995,7 @@
       "placa": "PTF-3383",
       "chasis": "603BFA5E642BCFF1B"
     },
-    "proveedor": "PROV-LISTA-025",
+    "proveedor": "Multitalleres Espinoza",
     "descripcion": "Caso de máximo riesgo en Santo Domingo: 11 señales simultáneas. Póliza reciente; alta frecuencia vehículo+conductor+asegurado; taller en lista restrictiva; documentos incompletos e inconsistentes.",
     "score": 71,
     "nivel": "rojo",

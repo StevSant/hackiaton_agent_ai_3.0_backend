@@ -377,7 +377,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         monto_ratio=0.45, suma_asegurada=20_000.0,
         historial_siniestros_asegurado=3,  # FS-03: 8 pts
         frecuencia_conductor=3,            # FS-05: 8 pts
-        proveedor="PROV-OBS-010",
+        proveedor="Taller Pacífico Sur",
         proveedor_casos_observados=4,      # FS-07: 5 pts
         documentos_incompletos=True,
         docs_faltantes=["Proforma"],       # FS-08: 4 pts → 25 pts
@@ -419,7 +419,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ciudad="Guayaquil", estado="Reserva",
         monto_ratio=0.55, suma_asegurada=20_000.0,
         dias_desde_inicio_poliza=7,        # FS-01: 8 pts
-        proveedor="PROV-OBS-015",
+        proveedor="Carrocerías Manabí",
         proveedor_casos_observados=4,      # FS-07: 5 pts
         inconsistencia_documental=True,    # FS-11: 5 pts
         reporte_delay_days=5,              # FS-12: 3 pts → 21 pts
@@ -432,7 +432,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ciudad="Guayaquil", estado="Reserva",
         monto_ratio=0.97, suma_asegurada=24_000.0,
         historial_siniestros_asegurado=3,  # FS-03: 8 pts
-        proveedor="PROV-OBS-020",
+        proveedor="Servicar Andinos",
         proveedor_casos_observados=3,      # FS-07: 5 pts
         narrativa_ilógica=True,            # FS-09: 6 pts
         sin_rastro_tercero=True,           # FS-10: 6 pts → 30 pts
@@ -460,7 +460,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ciudad="Quito", estado="Reserva",
         monto_ratio=0.70, suma_asegurada=26_000.0,
         frecuencia_conductor=3,            # FS-05: 8 pts
-        proveedor="PROV-OBS-025",
+        proveedor="Reparaciones El Valle",
         proveedor_casos_observados=4,      # FS-07: 5 pts
         narrativa_ilógica=True,            # FS-09: 6 pts
         sin_rastro_tercero=True,           # FS-10: 6 pts
@@ -476,7 +476,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         monto_ratio=0.97, suma_asegurada=14_000.0,
         historial_siniestros_asegurado=3,  # FS-03: 8 pts
         eventos_rc_previos=3,              # FS-06: 6 pts
-        proveedor="PROV-OBS-030",
+        proveedor="Multiservicios Quevedo",
         proveedor_casos_observados=3,      # FS-07: 5 pts
         reporte_delay_days=8,              # FS-12: 5 pts → 29 pts
         cobertura_rc=True,
@@ -490,7 +490,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         monto_ratio=0.60, suma_asegurada=20_000.0,
         es_robo=True, demora_denuncia_horas=80.0,  # FS-02: 8 pts
         historial_siniestros_asegurado=3,           # FS-03: 8 pts
-        proveedor="PROV-OBS-035",
+        proveedor="Tecnomotor Loja",
         proveedor_casos_observados=4,               # FS-07: 5 pts
         inconsistencia_documental=True,             # FS-11: 5 pts
         narrativa_similar_score=0.75,               # FS-13: 4 pts → 30 pts
@@ -506,7 +506,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         dias_desde_inicio_poliza=7,        # FS-01: 8 pts
         historial_siniestros_asegurado=3,  # FS-03: 8 pts
         frecuencia_conductor=3,            # FS-05: 8 pts
-        proveedor="PROV-OBS-040",
+        proveedor="Taller Costa Brava",
         proveedor_casos_observados=3,      # FS-07: 5 pts
         documentos_incompletos=True,
         docs_faltantes=["Proforma", "Cédula"],  # FS-08: 4 pts
@@ -536,7 +536,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         monto_ratio=0.65, suma_asegurada=25_000.0,
         dias_desde_inicio_poliza=7,        # FS-01: 8 pts
         historial_siniestros_asegurado=4,  # FS-03: 8 pts
-        proveedor="PROV-OBS-045",
+        proveedor="Auto Express La Aurora",
         proveedor_casos_observados=4,      # FS-07: 5 pts
         narrativa_ilógica=True,            # FS-09: 6 pts
         sin_rastro_tercero=True,           # FS-10: 6 pts
@@ -553,7 +553,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         es_robo=True, demora_denuncia_horas=60.0,   # FS-02: 8 pts
         frecuencia_conductor=4,                     # FS-05: 8 pts
         eventos_rc_previos=3,                       # FS-06: 6 pts
-        proveedor="PROV-OBS-050",
+        proveedor="Mecánica Universal Daule",
         proveedor_casos_observados=3,               # FS-07: 5 pts
         narrativa_ilógica=True,                     # FS-09: 6 pts
         sin_rastro_tercero=True,                    # FS-10: 6 pts
@@ -569,7 +569,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         monto_ratio=0.97, suma_asegurada=14_000.0,
         frecuencia_vehiculo=3,             # FS-04: 6 pts
         eventos_rc_previos=4,              # FS-06: 6 pts
-        proveedor="PROV-OBS-055",
+        proveedor="Talleres Salinas",
         proveedor_casos_observados=4,      # FS-07: 5 pts
         documentos_incompletos=True,
         docs_faltantes=["Licencia"],       # FS-08: 4 pts
@@ -667,7 +667,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ramo="Vehículos", cobertura="Daños",
         ciudad="Esmeraldas", estado="Reserva",
         monto_ratio=0.60, suma_asegurada=18_000.0,
-        proveedor="PROV-LISTA-007",
+        proveedor="Mega Repuestos Cordero",
         proveedor_en_lista_restrictiva=True,
         reporte_delay_days=2,
         descripcion="Taller en lista restrictiva con alertas previas.",
@@ -698,7 +698,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ramo="Vehículos", cobertura="Colisión",
         ciudad="Quito", estado="Reserva",
         monto_ratio=0.65, suma_asegurada=20_000.0,
-        proveedor="PROV-LISTA-003",
+        proveedor="Carrocerías Aguilera y Hnos",
         proveedor_en_lista_restrictiva=True,
         documentos_incompletos=True,
         docs_faltantes=["Denuncia", "Licencia"],
@@ -746,7 +746,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ciudad="Guayaquil", estado="Reserva",
         monto_ratio=0.88, suma_asegurada=32_000.0,
         historial_siniestros_asegurado=4,  # FS-03: 8 pts
-        proveedor="PROV-LISTA-003",
+        proveedor="Carrocerías Aguilera y Hnos",
         proveedor_en_lista_restrictiva=True,  # FS-07: 10 pts
         documentos_incompletos=True,
         falsificacion_evidente=True, inconsistencia_documental=True,  # FS-11: 10 pts, RF-02
@@ -779,7 +779,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         historial_siniestros_asegurado=4,  # FS-03: 8 pts
         frecuencia_vehiculo=3,             # FS-04: 6 pts
         frecuencia_conductor=4,            # FS-05: 8 pts
-        proveedor="PROV-OBS-060",
+        proveedor="Reparaciones Río Verde",
         proveedor_casos_observados=4,      # FS-07: 5 pts
         narrativa_ilógica=True,            # FS-09: 6 pts
         sin_rastro_tercero=True,           # FS-10: 6 pts
@@ -800,7 +800,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         historial_siniestros_asegurado=5,  # FS-03: 8 pts
         frecuencia_vehiculo=4,             # FS-04: 6 pts
         frecuencia_conductor=5,            # FS-05: 8 pts
-        proveedor="PROV-LISTA-010",
+        proveedor="Taller Mecánico Vergara",
         proveedor_en_lista_restrictiva=True,  # FS-07: 10 pts
         documentos_incompletos=True,
         docs_faltantes=["Denuncia", "Matrícula"],  # FS-08: 4 pts
@@ -823,7 +823,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         frecuencia_vehiculo=4,             # FS-04: 6 pts
         frecuencia_conductor=5,            # FS-05: 8 pts
         eventos_rc_previos=4,              # FS-06: 6 pts
-        proveedor="PROV-LISTA-015",
+        proveedor="Reparaciones Salvador",
         proveedor_en_lista_restrictiva=True,  # FS-07: 10 pts
         documentos_incompletos=True,
         docs_faltantes=["Proforma"],       # FS-08: 4 pts
@@ -842,7 +842,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ciudad="Guayaquil", estado="Reserva",
         monto_ratio=0.97, suma_asegurada=28_000.0,
         historial_siniestros_asegurado=4,  # FS-03: 8 pts
-        proveedor="PROV-OBS-070",
+        proveedor="Carrocerías El Inca",
         proveedor_casos_observados=4,      # FS-07: 5 pts
         sin_rastro_tercero=True,           # FS-10: 6 pts
         inconsistencia_documental=True,    # FS-11: 5 pts
@@ -927,7 +927,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         ciudad="Quevedo", estado="Reserva",
         monto_ratio=0.97, suma_asegurada=32_000.0,
         frecuencia_conductor=3,        # FS-05: 8 pts
-        proveedor="PROV-OBS-080",
+        proveedor="Taller Av. de los Shyris",
         proveedor_casos_observados=3,  # FS-07: 5 pts
         sin_rastro_tercero=True,       # FS-10: 6 pts → 24 pts
         reporte_delay_days=2,
@@ -961,7 +961,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         monto_ratio=0.40, suma_asegurada=10_000.0,
         historial_siniestros_asegurado=3,  # FS-03: 8 pts
         eventos_rc_previos=3,              # FS-06: 6 pts
-        proveedor="PROV-OBS-085",
+        proveedor="Servicios Automotrices Calderón",
         proveedor_casos_observados=3,      # FS-07: 5 pts
         reporte_delay_days=8,              # FS-12: 5 pts → 24 pts
         cobertura_rc=True,
@@ -998,7 +998,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         monto_ratio=0.75, suma_asegurada=24_000.0,
         historial_siniestros_asegurado=4,  # FS-03: 8 pts
         frecuencia_conductor=3,            # FS-05: 8 pts
-        proveedor="PROV-LISTA-020",
+        proveedor="Carrocerías Toral",
         proveedor_en_lista_restrictiva=True,  # RF-03 + FS-07: 10 pts
         narrativa_ilógica=True,            # FS-09: 6 pts
         narrativa_similar_score=0.87,      # FS-13: 8 pts
@@ -1056,7 +1056,7 @@ ARCHETYPES: list[ClaimArchetype] = [
         historial_siniestros_asegurado=5,  # FS-03: 8 pts
         frecuencia_vehiculo=4,             # FS-04: 6 pts
         frecuencia_conductor=4,            # FS-05: 8 pts
-        proveedor="PROV-LISTA-025",
+        proveedor="Multitalleres Espinoza",
         proveedor_en_lista_restrictiva=True,  # FS-07: 10 pts
         documentos_incompletos=True,
         docs_faltantes=["Denuncia", "Matrícula"],  # FS-08: 4 pts

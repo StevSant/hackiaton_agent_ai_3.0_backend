@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.agents.claims_agent import ClaimsAgentDeps
 from app.agents.claims_agent.tools import (
@@ -290,7 +290,7 @@ def get_reviews_store() -> InMemoryReviewsStore:
     return InMemoryReviewsStore(seed=True)
 
 
-def _get_session_factory():
+def _get_session_factory() -> async_sessionmaker[AsyncSession] | None:
     """Return the lifespan-registered async_sessionmaker.
 
     Raises if the lifespan never ran (test/script paths that bypass it must wire
@@ -304,7 +304,7 @@ def _get_session_factory():
 def get_title_generator(
     llm: Annotated[LLMProvider, Depends(get_llm)],
     prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
-) -> "GenerateConversationTitle":
+) -> GenerateConversationTitle:
     from app.use_cases.conversations.generate_conversation_title import (
         GenerateConversationTitle,
     )
@@ -315,8 +315,8 @@ def get_title_generator(
 
 
 def get_conversation_persister(
-    title_gen: Annotated["GenerateConversationTitle", Depends(get_title_generator)],
-) -> "ConversationPersister | None":
+    title_gen: Annotated[GenerateConversationTitle, Depends(get_title_generator)],
+) -> ConversationPersister | None:
     from app.use_cases.conversations.conversation_persister import (
         ConversationPersister,
     )
@@ -332,7 +332,7 @@ async def get_ask_agent(
     prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     persistence: Annotated[
-        "ConversationPersister | None", Depends(get_conversation_persister)
+        ConversationPersister | None, Depends(get_conversation_persister)
     ] = None,
 ) -> AskAgent:
     deps = ClaimsAgentDeps(
