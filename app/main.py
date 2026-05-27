@@ -14,6 +14,7 @@ from app.api.v1 import (
     conversations_router,
     documents_router,
     health_router,
+    imports_router,
     insights_router,
     network_router,
     rules_router,
@@ -78,6 +79,9 @@ def create_app() -> FastAPI:
     # /claims/historico (a fixed path) must not be shadowed by /claims/{id}.
     app.include_router(claims_reviews_router, prefix=settings.API_V1_PREFIX)
     app.include_router(claims_router, prefix=settings.API_V1_PREFIX)
+    # imports_router mounts POST /claims/import — must come AFTER claims_router
+    # so the fixed path /claims/import is not shadowed by /claims/{id}
+    app.include_router(imports_router, prefix=settings.API_V1_PREFIX)
     app.include_router(antifraude_router, prefix=settings.API_V1_PREFIX)
     app.include_router(rules_router, prefix=settings.API_V1_PREFIX)
     app.include_router(network_router, prefix=settings.API_V1_PREFIX)

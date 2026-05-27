@@ -5,6 +5,7 @@ from app.api.v1.claims import router as claims_router
 from app.api.v1.conversations import router as conversations_router
 from app.api.v1.documents import router as documents_router
 from app.api.v1.health import router as health_router
+from app.api.v1.imports import router as imports_router
 from app.api.v1.insights import router as insights_router
 from app.api.v1.network import router as network_router
 from app.api.v1.reviews import antifraude_router, claims_reviews_router
@@ -21,6 +22,7 @@ __all__ = [
     "conversations_router",
     "documents_router",
     "health_router",
+    "imports_router",
     "insights_router",
     "network_router",
     "rules_router",
