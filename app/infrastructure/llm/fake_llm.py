@@ -181,3 +181,8 @@ class InMemoryFakeLLM(LLMProvider):
         for i in range(0, len(text), chunk_size):
             yield LLMEvent(type="token", data={"delta": text[i : i + chunk_size]})
         yield LLMEvent(type="done", data={"finish_reason": "stop"})
+
+    async def synthesize_speech(self, text: str, voice: str) -> bytes:
+        """Return a minimal stub MP3 (silence) so unit tests don't need the OpenAI API."""
+        del voice  # unused in the fake
+        return b"ID3" + b"\x00" * 128  # minimal fake MP3 bytes

@@ -35,6 +35,7 @@ from app.schemas.agent import AgentAskRequest
 from app.schemas.chat.stream import (
     AgentStepData,
     AgentStepEvent,
+    ChartEvent,
     DoneData,
     DoneEvent,
     ErrorData,
@@ -46,6 +47,7 @@ from app.schemas.chat.stream import (
     ToolResultData,
     ToolResultEvent,
 )
+from app.use_cases._chart_from_tools import maybe_build_chart
 from app.use_cases.conversations.conversation_persister import ConversationPersister
 
 logger = logging.getLogger(__name__)
@@ -88,7 +90,13 @@ class AskAgent:
         *,
         user: User | None = None,
     ) -> AsyncIterator[
-        TokenEvent | ToolCallEvent | ToolResultEvent | AgentStepEvent | ErrorEvent | DoneEvent
+        TokenEvent
+        | ToolCallEvent
+        | ToolResultEvent
+        | AgentStepEvent
+        | ChartEvent
+        | ErrorEvent
+        | DoneEvent
     ]:
         thread_id = req.conversation_id or uuid.uuid4().hex
         config: dict[str, Any] = {"configurable": {"thread_id": thread_id}}
@@ -213,6 +221,11 @@ class AskAgent:
                     )
                 except Exception:
                     logger.exception("Persisting assistant message failed; chat continues.")
+
+            # Emit a chart event when the tool results contain chartable data.
+            chart_event = maybe_build_chart(tool_results, message_id)
+            if chart_event is not None:
+                yield chart_event
 
             yield DoneEvent(data=DoneData(message_id=message_id))
 
