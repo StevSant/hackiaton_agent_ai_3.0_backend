@@ -18,3 +18,11 @@ class AseguradosRepo:
         merged: Asegurado = await self._s.merge(asegurado)
         await self._s.flush()
         return merged
+
+    async def delete(self, id_asegurado: str) -> bool:
+        entity = await self._s.get(Asegurado, id_asegurado)
+        if entity is None:
+            return False
+        await self._s.delete(entity)
+        await self._s.flush()
+        return True

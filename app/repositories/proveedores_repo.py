@@ -18,3 +18,11 @@ class ProveedoresRepo:
         merged: Proveedor = await self._s.merge(proveedor)
         await self._s.flush()
         return merged
+
+    async def delete(self, id_proveedor: str) -> bool:
+        entity = await self._s.get(Proveedor, id_proveedor)
+        if entity is None:
+            return False
+        await self._s.delete(entity)
+        await self._s.flush()
+        return True
