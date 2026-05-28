@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.domain.ramos import normalize_ramo
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import ClaimSummary
 from app.schemas.page import Page
 
 
 async def list_antifraude_historico(
-    store: InMemoryReviewsStore,
+    store: ReviewsStore,
     queries: ClaimQueries,
     *,
     user_id: str,
@@ -18,7 +18,7 @@ async def list_antifraude_historico(
     page_size: int = 25,
 ) -> Page[ClaimSummary]:
     """Paginated dictámenes emitted by *user_id* (antifraude historico)."""
-    pairs = store.list_dictaminado_by(user_id)
+    pairs = await store.list_dictaminado_by(user_id)
     summaries: list[ClaimSummary] = []
     for claim_id, review in pairs:
         detail = await queries.get_detail(claim_id)
@@ -51,7 +51,7 @@ async def list_antifraude_historico(
 
 
 async def list_analista_historico(
-    store: InMemoryReviewsStore,
+    store: ReviewsStore,
     queries: ClaimQueries,
     *,
     user_id: str,
@@ -62,7 +62,7 @@ async def list_analista_historico(
 
     Includes revisado_sin_escalar (her own) + dictaminado (cases she escalated).
     """
-    pairs = store.list_closed_by(user_id)
+    pairs = await store.list_closed_by(user_id)
     summaries: list[ClaimSummary] = []
     for claim_id, review in pairs:
         detail = await queries.get_detail(claim_id)

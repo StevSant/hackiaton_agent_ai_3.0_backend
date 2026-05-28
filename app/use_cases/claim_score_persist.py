@@ -14,8 +14,10 @@ from app.infrastructure.db.models.documento import Documento
 from app.infrastructure.db.models.poliza import Poliza
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
+from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
 from app.schemas.claim import ClaimAlert, ClaimDetail
 from app.use_cases.load_dataset._mapping import rows_to_claim_detail
+from app.use_cases.reviews.auto_escalate_rojo import auto_escalate_rojo
 from app.use_cases.score_claim import score_claim
 
 
@@ -131,5 +133,15 @@ async def rescore_claim_persisted(session: AsyncSession, claim_id: str) -> Claim
         }
     )
     await upsert_claim_score(session, claim_detail_to_score_row(scored))
+
+    # Auto-escalate rojos that are still pendiente. The reviews store reads /
+    # writes in the same session so it shares the flush below.
+    await auto_escalate_rojo(
+        DbReviewsStore(session),
+        claim_id,
+        tier=risk.tier,
+        score=risk.score,
+    )
+
     await session.flush()
     return scored

@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from app.domain.auth.user import User
 from app.domain.reviews.state_machine import GuardError, ReviewTransitionError, apply_close
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import ClaimReview
 
 
-def close_claim(
-    store: InMemoryReviewsStore,
+async def close_claim(
+    store: ReviewsStore,
     claim_id: str,
     *,
     user: User,
@@ -20,9 +20,9 @@ def close_claim(
     Raises ``ReviewTransitionError`` for wrong state.
     Raises ``GuardError`` when bounce_count > 0.
     """
-    review = store.get(claim_id)
+    review = await store.get(claim_id)
     try:
         updated = apply_close(review, by_id=str(user.id), by_name=user.full_name, note=note)
     except (ReviewTransitionError, GuardError):
         raise
-    return store.save(claim_id, updated)
+    return await store.save(claim_id, updated)

@@ -109,6 +109,18 @@ async def _upsert_one(
     await upsert_claim_score(session, score_row)
     await session.flush()
 
+    # Auto-escalate rojos to the antifraude inbox on first scoring.
+    from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
+    from app.use_cases.reviews.auto_escalate_rojo import auto_escalate_rojo
+
+    await auto_escalate_rojo(
+        DbReviewsStore(session),
+        scored.id,
+        tier=scored.nivel,
+        score=scored.score,
+    )
+    await session.flush()
+
 
 def _score_and_annotate(claim: ClaimDetail) -> ClaimDetail:
     """Run score_claim and fold results back into the ClaimDetail."""

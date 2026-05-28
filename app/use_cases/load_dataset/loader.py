@@ -29,6 +29,7 @@ from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.db.models.claim_score import ClaimScore
+from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
 from app.schemas.claim import ClaimDetail
 from app.use_cases.generate_dataset.runner import load_saved
 from app.use_cases.load_dataset._mapping import (
@@ -39,6 +40,7 @@ from app.use_cases.load_dataset._mapping import (
     claim_detail_to_score,
     claim_detail_to_siniestro,
 )
+from app.use_cases.reviews.auto_escalate_rojo import auto_escalate_rojo
 
 _DATASET_PATH = Path("data/synthetic/claims.json")
 _DEMO_PATH = Path("data/synthetic/demo_claims.json")
@@ -127,6 +129,16 @@ async def _upsert_claim(session: AsyncSession, claim: ClaimDetail) -> None:
     if existing_score_id is not None:
         score_row.id = existing_score_id
     await session.merge(score_row)
+    await session.flush()
+
+    # 7. Auto-escalate the claim if it's rojo and not yet escalated.
+    # Pre-scored claims (synthetic dataset) carry nivel + score directly.
+    await auto_escalate_rojo(
+        DbReviewsStore(session),
+        claim.id,
+        tier=claim.nivel,
+        score=claim.score,
+    )
     await session.flush()
 
 

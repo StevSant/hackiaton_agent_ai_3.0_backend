@@ -27,7 +27,7 @@ from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import ClaimAlert, ClaimDetail
 from app.schemas.risk import Tier
 from app.use_cases.enrich_claim_score import enrich_claim_score
@@ -43,7 +43,7 @@ async def get_claim_detail(
     queries: ClaimQueries,
     claim_id: str,
     *,
-    reviews_store: InMemoryReviewsStore | None = None,
+    reviews_store: ReviewsStore | None = None,
     classifier: FraudClassifier | None = None,
     detector: AnomalyDetector | None = None,
 ) -> ClaimDetail | None:
@@ -65,7 +65,7 @@ async def get_claim_detail(
     if claim.alertas:
         # Pre-scored claim: keep rules side as-is; just attach the live review.
         if reviews_store is not None:
-            live_review = reviews_store.get(claim_id)
+            live_review = await reviews_store.get(claim_id)
             claim = claim.model_copy(update={"review": live_review})
     else:
         # Live-scoring path for un-scored DB claims (post-hackathon).
@@ -93,7 +93,7 @@ async def get_claim_detail(
             "similar": risk.similar,
         }
         if reviews_store is not None:
-            updates["review"] = reviews_store.get(claim_id)
+            updates["review"] = await reviews_store.get(claim_id)
         claim = claim.model_copy(update=updates)
 
     # ML + anomaly enrichment — runs in BOTH branches. Pass-through when ports unwired.

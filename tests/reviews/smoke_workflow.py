@@ -43,7 +43,7 @@ os.environ.setdefault(
 # ---- NOW safe to import app components ----
 import httpx  # noqa: E402
 
-from app.api.deps import get_claim_queries, get_reviews_store  # noqa: E402
+from app.api.deps import get_claim_queries_dep, get_reviews_store  # noqa: E402
 from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore  # noqa: E402
 from app.main import create_app  # noqa: E402
 from app.schemas.claim import ClaimReview  # noqa: E402
@@ -74,15 +74,15 @@ def check(label: str, cond: bool, got: object = None) -> None:
 async def run_smoke() -> None:  # noqa: PLR0912, PLR0915
     app = create_app()
 
-    # Fresh store (no seed rows) — test IDs are predictable
-    fresh_store = InMemoryReviewsStore(seed=False)
+    # Fresh store (always starts empty) — test IDs are predictable
+    fresh_store = InMemoryReviewsStore()
     app.dependency_overrides[get_reviews_store] = lambda: fresh_store
 
     # Single rojo fixture
     rojo = claim_rojo()
     claim_id = rojo.id  # "SIN-0003"
     fixture_queries = InMemoryClaimQueries(claims=[rojo])
-    app.dependency_overrides[get_claim_queries] = lambda: fixture_queries
+    app.dependency_overrides[get_claim_queries_dep] = lambda: fixture_queries
 
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=app),  # type: ignore[arg-type]
@@ -183,7 +183,7 @@ async def run_smoke() -> None:  # noqa: PLR0912, PLR0915
         # =====================================================================
         # Bounce path: reset → escalate → dictamen requiere_mas_info
         # =====================================================================
-        fresh_store.save(claim_id, ClaimReview())  # reset to pendiente
+        await fresh_store.save(claim_id, ClaimReview())  # reset to pendiente
 
         r = await client.post(
             f"/api/v1/claims/{claim_id}/escalate", json={}, headers=ana_h
@@ -222,7 +222,7 @@ async def run_smoke() -> None:  # noqa: PLR0912, PLR0915
         # =====================================================================
         # Idempotency: same antifraude /take twice → 200; different → 409
         # =====================================================================
-        fresh_store.save(claim_id, ClaimReview())  # reset
+        await fresh_store.save(claim_id, ClaimReview())  # reset
         await client.post(
             f"/api/v1/claims/{claim_id}/escalate", json={}, headers=ana_h
         )
@@ -260,17 +260,14 @@ async def run_smoke() -> None:  # noqa: PLR0912, PLR0915
         )
 
         # =====================================================================
-        # GET /antifraude/inbox: seeded rows visible
+        # GET /antifraude/inbox: real escalations visible
         # =====================================================================
-        seeded_store = InMemoryReviewsStore(seed=True)
-        app.dependency_overrides[get_reviews_store] = lambda: seeded_store
-
         r = await client.get("/api/v1/antifraude/inbox", headers=lucia_h)
         check("Inbox: GET → 200", r.status_code == 200, r.status_code)
         inbox = r.json()
         check(
-            "Inbox: seed rows ≥ 2 (escalado)",
-            inbox.get("total", 0) >= 2,
+            "Inbox: at least the escalated claim under test is visible",
+            inbox.get("total", 0) >= 1,
             inbox.get("total"),
         )
 

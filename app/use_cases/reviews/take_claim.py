@@ -8,12 +8,12 @@ from app.domain.reviews.state_machine import (
     ReviewTransitionError,
     apply_take,
 )
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import ClaimReview, ReviewStatus
 
 
-def take_claim(
-    store: InMemoryReviewsStore,
+async def take_claim(
+    store: ReviewsStore,
     claim_id: str,
     *,
     user: User,
@@ -27,7 +27,7 @@ def take_claim(
     Raises ``ReviewTransitionError`` for wrong state.
     Raises ``ConflictError`` when a *different* antifraude already took it.
     """
-    review = store.get(claim_id)
+    review = await store.get(claim_id)
 
     # Idempotency: same user + already en_revision
     if review.status == ReviewStatus.en_revision and review.assigned_to == str(user.id):
@@ -41,5 +41,5 @@ def take_claim(
         updated, was_idempotent = apply_take(review, by_id=str(user.id), by_name=user.full_name)
     except (ReviewTransitionError, ConflictError):
         raise
-    saved = store.save(claim_id, updated)
+    saved = await store.save(claim_id, updated)
     return saved, was_idempotent

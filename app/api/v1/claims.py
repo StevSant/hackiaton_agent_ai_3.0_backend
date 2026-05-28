@@ -32,7 +32,7 @@ from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
 from app.infrastructure.audit import InMemoryAuditStore
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.audit import AuditAction
 from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ReviewStatus
 from app.schemas.page import Page
@@ -76,7 +76,7 @@ async def list_claims_route(
 async def get_claim_detail_route(
     claim_id: str,
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
-    reviews_store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
+    reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]

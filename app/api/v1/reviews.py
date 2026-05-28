@@ -30,7 +30,7 @@ from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.reviews.state_machine import ConflictError, GuardError, ReviewTransitionError
 from app.infrastructure.audit import InMemoryAuditStore
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.audit import AuditAction, AuditActor
 from app.schemas.claim import ClaimDetail, ClaimReview, ClaimSummary, ReviewStatus
 from app.schemas.page import Page
@@ -76,13 +76,13 @@ async def escalate_claim_route(
     claim_id: str,
     body: EscalateRequest,
     user: Annotated[User, Depends(get_current_user)],
-    store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
-        review = escalate_claim(store, claim_id, user=user, note=body.note)
+        review = await escalate_claim(store, claim_id, user=user, note=body.note)
     except ReviewTransitionError as exc:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -111,13 +111,13 @@ async def close_claim_route(
     claim_id: str,
     body: CloseRequest,
     user: Annotated[User, Depends(get_current_user)],
-    store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
-        review = close_claim(store, claim_id, user=user, note=body.note)
+        review = await close_claim(store, claim_id, user=user, note=body.note)
     except ReviewTransitionError as exc:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -149,7 +149,7 @@ async def close_claim_route(
 )
 async def claims_historico_route(
     user: Annotated[User, Depends(get_current_user)],
-    store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     page: int = 0,
     page_size: int = 25,
@@ -173,13 +173,13 @@ async def claims_historico_route(
 async def take_claim_route(
     claim_id: str,
     user: Annotated[User, Depends(get_current_user)],
-    store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
-        review, idempotent = take_claim(store, claim_id, user=user)
+        review, idempotent = await take_claim(store, claim_id, user=user)
     except ReviewTransitionError as exc:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -211,13 +211,13 @@ async def dictamen_route(
     claim_id: str,
     body: DictamenRequest,
     user: Annotated[User, Depends(get_current_user)],
-    store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
 ) -> ClaimDetail:
     detail = _claim_or_404(await get_claim_detail(queries, claim_id))
     try:
-        review = emit_dictamen(
+        review = await emit_dictamen(
             store,
             claim_id,
             user=user,
@@ -257,7 +257,7 @@ async def dictamen_route(
     dependencies=[Depends(require_role(Role.antifraude))],
 )
 async def antifraude_inbox_route(
-    store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     status_filter: ReviewStatus | None = None,
     page: int = 0,
@@ -281,7 +281,7 @@ async def antifraude_inbox_route(
 )
 async def antifraude_historico_route(
     user: Annotated[User, Depends(get_current_user)],
-    store: Annotated[InMemoryReviewsStore, Depends(get_reviews_store)],
+    store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     page: int = 0,
     page_size: int = 25,

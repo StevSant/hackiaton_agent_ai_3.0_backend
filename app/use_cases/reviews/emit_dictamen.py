@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from app.domain.auth.user import User
 from app.domain.reviews.state_machine import GuardError, ReviewTransitionError, apply_dictamen
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import ClaimReview, DictamenOutcome
 
 
-def emit_dictamen(
-    store: InMemoryReviewsStore,
+async def emit_dictamen(
+    store: ReviewsStore,
     claim_id: str,
     *,
     user: User,
@@ -21,7 +21,7 @@ def emit_dictamen(
     Raises ``ReviewTransitionError`` for wrong source state.
     Raises ``GuardError`` for guard violations (wrong assignee, short justificacion).
     """
-    review = store.get(claim_id)
+    review = await store.get(claim_id)
     try:
         updated = apply_dictamen(
             review,
@@ -32,4 +32,4 @@ def emit_dictamen(
         )
     except (ReviewTransitionError, GuardError):
         raise
-    return store.save(claim_id, updated)
+    return await store.save(claim_id, updated)

@@ -37,6 +37,7 @@ class ClaimReview(Base):
 
     # Escalation (analista action)
     escalated_by: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    escalated_by_name: Mapped[str | None] = mapped_column(String(128), nullable=True)
     escalated_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
@@ -44,6 +45,7 @@ class ClaimReview(Base):
 
     # Assignment / acceptance (antifraude action)
     assigned_to: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    assigned_to_name: Mapped[str | None] = mapped_column(String(128), nullable=True)
     taken_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
@@ -53,6 +55,7 @@ class ClaimReview(Base):
     dictamen_outcome: Mapped[str | None] = mapped_column(String(40), nullable=True)
     dictamen_justificacion: Mapped[str | None] = mapped_column(Text, nullable=True)
     dictaminado_by: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    dictaminado_by_name: Mapped[str | None] = mapped_column(String(128), nullable=True)
     dictaminado_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
@@ -63,6 +66,7 @@ class ClaimReview(Base):
 
     # Close (final state, either side)
     closed_by: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    closed_by_name: Mapped[str | None] = mapped_column(String(128), nullable=True)
     closed_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True
     )

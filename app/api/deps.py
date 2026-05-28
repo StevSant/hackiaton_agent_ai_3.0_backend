@@ -33,6 +33,7 @@ from app.domain.anomaly import AnomalyDetector
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
+from app.infrastructure.audit import InMemoryAuditStore
 from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
 from app.infrastructure.db.db_claim_queries import DbClaimQueries
 from app.infrastructure.embeddings import (
@@ -46,14 +47,14 @@ from app.infrastructure.llm import (
     PromptLoader,
     build_openai_adapter,
 )
+from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
+from app.infrastructure.reviews.ports import ReviewsStore
+from app.infrastructure.rule_changes import InMemoryRuleChangesStore
 from app.infrastructure.speech import (
     InMemoryFakeTranscriber,
     SpeechTranscriber,
     build_openai_whisper_adapter,
 )
-from app.infrastructure.audit import InMemoryAuditStore
-from app.infrastructure.reviews.in_memory_reviews_store import InMemoryReviewsStore
-from app.infrastructure.rule_changes import InMemoryRuleChangesStore
 from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
 from app.use_cases.ask_agent import AskAgent
@@ -305,16 +306,25 @@ async def get_claim_queries_dep(
 
 
 # ---------------------------------------------------------------------------
-# Reviews store (in-memory process singleton for V2.6 workflow)
+# Reviews store (Postgres-backed, request-scoped)
 # ---------------------------------------------------------------------------
 
-@lru_cache(maxsize=1)
-def get_reviews_store() -> InMemoryReviewsStore:
-    """Return the process-singleton in-memory reviews store.
+async def get_reviews_store(
+    _session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
+) -> ReviewsStore:
+    """Return a request-scoped ``DbReviewsStore`` backed by the active session.
 
-    Seeded with 2 escalado + 1 dictaminado rows at first call.
+    Postgres is the source of truth — there is no in-memory fallback in
+    production. Tests that need an in-memory store override this dependency
+    explicitly with ``app.dependency_overrides[get_reviews_store]``.
     """
-    return InMemoryReviewsStore(seed=True)
+    if _session is None:
+        raise RuntimeError(
+            "Reviews store requires a DB session, but the session factory is "
+            "not initialised. Ensure the lifespan has run before serving "
+            "requests."
+        )
+    return DbReviewsStore(_session)
 
 
 @lru_cache(maxsize=1)
