@@ -41,9 +41,8 @@ class HotspotOut(BaseModel):
 class IncidentOut(BaseModel):
     """One claim plotted as a point on the map.
 
-    `sucursal` is the city the claim was filed under. Frontend resolves a stable
-    intra-city offset from `id_siniestro` so each claim gets a reproducible spot
-    near (but not on top of) its city center.
+    Coordinates come from ``siniestros.latitude/longitude`` when present, else
+    a deterministic city-center offset derived from ``id_siniestro``.
     """
 
     id_siniestro: str
@@ -51,6 +50,8 @@ class IncidentOut(BaseModel):
     score: int
     tier: str  # "verde" | "amarillo" | "rojo"
     fecha_ocurrencia: str | None = None
+    latitude: float | None = None
+    longitude: float | None = None
 
 
 class InsightsBundleOut(BaseModel):

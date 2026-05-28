@@ -16,9 +16,12 @@ A missing DB session is an error (raised by the caller via ``Depends``).
 
 from __future__ import annotations
 
+from collections import defaultdict
+
 from sqlalchemy import case, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.city_coords import coords_for_claim, normalize_to_city
 from app.domain.ramos import label_for, normalize_ramo
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.siniestro import Siniestro
@@ -55,12 +58,12 @@ def _derive_anomalies(
     Returns ``[]`` if no rojos exist — the frontend renders an empty state.
     """
     cards: list[AiAnomalyOut] = []
-    for i, (claim_id, sucursal, score) in enumerate(rojo_rows[:2]):
+    for claim_id, sucursal, score in rojo_rows[:2]:
         severity = "critical" if score >= 85 else "potential"
         suc = sucursal or "sucursal no asignada"
         cards.append(
             AiAnomalyOut(
-                id=f"top-rojo-{i + 1}",
+                id=claim_id,
                 title=f"Caso de alto riesgo · {claim_id}",
                 description=(
                     f"Score {score}/100 — concentración de señales en {suc}. "
@@ -71,6 +74,50 @@ def _derive_anomalies(
             )
         )
     return cards
+
+
+def _city_label(sucursal: str | None) -> str:
+    return normalize_to_city(sucursal or "") or (sucursal or "Sin asignar")
+
+
+def _aggregate_regional_by_city(
+    rows: list[tuple[str | None, int]],
+) -> list[RegionalFraudPointOut]:
+    counts: dict[str, int] = defaultdict(int)
+    for sucursal, count in rows:
+        counts[_city_label(sucursal)] += int(count)
+    top = sorted(counts.items(), key=lambda item: -item[1])[:5]
+    return [RegionalFraudPointOut(region=city, value=count) for city, count in top]
+
+
+def _aggregate_hotspots_by_city(
+    rows: list[tuple[str, int, int, float]],
+) -> list[HotspotOut]:
+    stats: dict[str, dict[str, float | int]] = defaultdict(
+        lambda: {"count": 0, "alertas": 0, "score_sum": 0.0, "score_weight": 0}
+    )
+    for sucursal, count, alertas, avg_score in rows:
+        city = _city_label(sucursal)
+        bucket = stats[city]
+        bucket["count"] = int(bucket["count"]) + int(count)
+        bucket["alertas"] = int(bucket["alertas"]) + int(alertas)
+        bucket["score_sum"] = float(bucket["score_sum"]) + float(avg_score) * int(count)
+        bucket["score_weight"] = int(bucket["score_weight"]) + int(count)
+
+    ordered = sorted(stats.items(), key=lambda item: -int(item[1]["count"]))
+    return [
+        HotspotOut(
+            sucursal=city,
+            count=int(bucket["count"]),
+            alertas=int(bucket["alertas"]),
+            avg_score=(
+                float(bucket["score_sum"]) / int(bucket["score_weight"])
+                if int(bucket["score_weight"])
+                else 0.0
+            ),
+        )
+        for city, bucket in ordered
+    ]
 
 
 async def compute_insights(session: AsyncSession) -> InsightsBundleOut:
@@ -86,13 +133,9 @@ async def compute_insights(session: AsyncSession) -> InsightsBundleOut:
             .where(ClaimScore.tier.in_(["amarillo", "rojo"]))
             .group_by(Siniestro.sucursal)
             .order_by(desc(func.count(Siniestro.id_siniestro)))
-            .limit(5)
         )
     ).all()
-    regional_fraud = [
-        RegionalFraudPointOut(region=row[0] or "Sin asignar", value=int(row[1]))
-        for row in region_rows
-    ]
+    regional_fraud = _aggregate_regional_by_city([(row[0], int(row[1])) for row in region_rows])
 
     ramo_rows = (
         await session.execute(
@@ -155,21 +198,16 @@ async def compute_insights(session: AsyncSession) -> InsightsBundleOut:
             .order_by(desc(func.count(Siniestro.id_siniestro)))
         )
     ).all()
-    hotspots = [
-        HotspotOut(
-            sucursal=row[0],
-            count=int(row[1]),
-            alertas=int(row[2]),
-            avg_score=float(row[3]),
-        )
-        for row in hotspot_rows
-    ]
+    hotspots = _aggregate_hotspots_by_city(
+        [(row[0], int(row[1]), int(row[2]), float(row[3])) for row in hotspot_rows]
+    )
 
     incident_rows = (
         await session.execute(
             select(
                 Siniestro.id_siniestro,
                 Siniestro.sucursal,
+                Siniestro.ramo,
                 Siniestro.fecha_ocurrencia,
                 func.coalesce(ClaimScore.score, 0),
                 func.coalesce(ClaimScore.tier, "verde"),
@@ -178,16 +216,26 @@ async def compute_insights(session: AsyncSession) -> InsightsBundleOut:
             .where(Siniestro.sucursal.isnot(None))
         )
     ).all()
-    incidents = [
-        IncidentOut(
-            id_siniestro=row[0],
-            sucursal=row[1],
-            score=int(row[3] or 0),
-            tier=str(row[4] or "verde"),
-            fecha_ocurrencia=row[2].isoformat() if row[2] else None,
+    incidents: list[IncidentOut] = []
+    for row in incident_rows:
+        claim_id = row[0]
+        sucursal = row[1]
+        ramo = row[2]
+        resolved = coords_for_claim(claim_id, sucursal or "", ramo=ramo)
+        if resolved is None:
+            continue
+        latitude, longitude = resolved
+        incidents.append(
+            IncidentOut(
+                id_siniestro=claim_id,
+                sucursal=sucursal,
+                score=int(row[4] or 0),
+                tier=str(row[5] or "verde"),
+                fecha_ocurrencia=row[3].isoformat() if row[3] else None,
+                latitude=latitude,
+                longitude=longitude,
+            )
         )
-        for row in incident_rows
-    ]
 
     return InsightsBundleOut(
         anomalies=anomalies,

@@ -123,10 +123,9 @@ def claim_detail_to_siniestro(
     # the source predates the field (e.g. older claims.json or hand-curated demo).
     lat = c.latitude
     lng = c.longitude
-    if lat is None or lng is None:
-        coords = coords_for_claim(c.id, c.sucursal or c.ciudad)
-        if coords is not None:
-            lat, lng = coords
+    coords = coords_for_claim(c.id, c.sucursal or c.ciudad, ramo=c.ramo)
+    if coords is not None:
+        lat, lng = coords
 
     return Siniestro(
         id_siniestro=c.id,

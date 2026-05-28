@@ -199,7 +199,7 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
     if proveedor is not None and _looks_like_code(proveedor):
         proveedor = _ecuador_provider_name(idx)
     sucursal = SUCURSALES.get(archetype.ciudad, archetype.ciudad)
-    coords = coords_for_claim(claim_id, sucursal)
+    coords = coords_for_claim(claim_id, sucursal, ramo=archetype.ramo)
     lat = coords[0] if coords else None
     lng = coords[1] if coords else None
     vehiculo = _make_vehicle(archetype, idx)
@@ -332,7 +332,7 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
 
 def claim_to_row(claim: ClaimDetail) -> dict[str, Any]:
     """Return a dict representing a ``siniestros`` table row (§2.8 schema)."""
-    coords = coords_for_claim(claim.id, claim.sucursal or claim.ciudad)
+    coords = coords_for_claim(claim.id, claim.sucursal or claim.ciudad, ramo=claim.ramo)
     lat, lng = coords if coords is not None else ("", "")
     return {
         "id_siniestro": claim.id,
