@@ -18,17 +18,26 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from fastapi.responses import Response, StreamingResponse
 
-from app.api.deps import get_ask_agent, get_current_user, get_llm, get_speech_transcriber
+from app.api.deps import (
+    get_ask_agent,
+    get_audit_store,
+    get_current_user,
+    get_llm,
+    get_speech_transcriber,
+)
 from app.core.config import settings
 from app.domain.auth.user import User
+from app.infrastructure.audit import InMemoryAuditStore
 from app.infrastructure.llm.ports import LLMProvider
 from app.infrastructure.speech.ports import SpeechTranscriber
 from app.schemas.agent import AgentAskContext
 from app.schemas.agent import AgentAskRequest as AskAgentRequest
+from app.schemas.audit import AuditAction, AuditActor
 from app.schemas.chat.request import AgentAskRequest as WireAgentAskRequest
 from app.schemas.chat.tts import TtsRequest
 from app.schemas.speech import TranscribeResponse
 from app.use_cases.ask_agent import AskAgent
+from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.transcribe_audio import transcribe_audio
 
 router = APIRouter(prefix="/agent", tags=["agent"])
@@ -99,8 +108,26 @@ async def agent_ask(
     body: WireAgentAskRequest,
     ask_agent: Annotated[AskAgent, Depends(get_ask_agent)],
     user: Annotated[User, Depends(get_current_user)],
+    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
 ) -> StreamingResponse:
     req = _to_use_case_request(body)
+    preview = body.message.strip().replace("\n", " ")
+    if len(preview) > 160:
+        preview = preview[:157] + "..."
+    title = (
+        f"Preguntó a Centinela IA sobre {body.context_claim_id}"
+        if body.context_claim_id
+        else "Consultó a Centinela IA"
+    )
+    emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.consulta_ia,
+        title=title,
+        detail=preview,
+        target=body.context_claim_id,
+        actor=AuditActor.agente,
+    )
     return StreamingResponse(
         _stream_events(ask_agent, req, user),
         media_type="text/event-stream",

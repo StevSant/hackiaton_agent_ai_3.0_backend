@@ -27,6 +27,7 @@ class LoginUseCase:
             token_type="bearer",  # noqa: S106  # not a secret — standard OAuth2 field
             expires_in=settings.ACCESS_TOKEN_TTL_MINUTES * 60,
             user=CurrentUser(
+                id=str(user.id),
                 email=user.email,
                 role=user.role,
                 full_name=user.full_name,

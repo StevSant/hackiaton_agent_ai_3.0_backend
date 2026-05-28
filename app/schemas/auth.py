@@ -15,6 +15,7 @@ class LoginRequest(BaseModel):
 class CurrentUser(BaseModel):
     """User summary embedded in the login response and usable in UI."""
 
+    id: str
     email: str
     role: Role
     full_name: str

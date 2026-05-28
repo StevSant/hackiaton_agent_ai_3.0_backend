@@ -7,6 +7,7 @@ class LoginRequest(BaseModel):
 
 
 class CurrentUser(BaseModel):
+    id: str
     email: str
     role: str
     full_name: str

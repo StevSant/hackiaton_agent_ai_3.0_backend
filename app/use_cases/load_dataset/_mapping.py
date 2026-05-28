@@ -22,7 +22,13 @@ from app.infrastructure.db.models.documento import Documento
 from app.infrastructure.db.models.poliza import Poliza
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
-from app.schemas.claim import ClaimDetail, ClaimDocument, ClaimReview, ClaimVehicle
+from app.schemas.claim import (
+    ClaimDetail,
+    ClaimDocument,
+    ClaimReview,
+    ClaimTimelineEvent,
+    ClaimVehicle,
+)
 from app.schemas.risk import FactorContribution, SimilarClaim, Tier
 
 _SEGMENTOS = ["Premium", "Corporativo", "Estándar", "Joven", "Senior"]
@@ -370,13 +376,40 @@ def rows_to_claim_detail(
         score=score_val,
         nivel=tier,
         alertas=alertas,
-        timeline=[],
+        timeline=_timeline_from_siniestro(sin, tier),
         documentos=docs,
         review=ClaimReview(),
         ml_factors=ml_factors,
         similar=similar,
         anomaly_score=score_row.anomaly_score if score_row else None,
     )
+
+
+def _timeline_from_siniestro(sin: Siniestro, tier: Tier) -> list[ClaimTimelineEvent]:
+    """Reconstruct the ocurrencia / reporte timeline from the persisted dates.
+
+    Mirrors the synthetic ``_make_timeline`` helper so DB-backed detail pages
+    show the same two-event timeline (ocurrencia + reporte when delayed).
+    """
+    tone = {Tier.verde: "ok", Tier.amarillo: "warn", Tier.rojo: "danger"}[tier]
+    events: list[ClaimTimelineEvent] = [
+        ClaimTimelineEvent(
+            date=str(sin.fecha_ocurrencia),
+            title="Ocurrencia",
+            tone=tone,
+        )
+    ]
+    if sin.fecha_reporte > sin.fecha_ocurrencia:
+        delta_days = (sin.fecha_reporte - sin.fecha_ocurrencia).days
+        events.append(
+            ClaimTimelineEvent(
+                date=str(sin.fecha_reporte),
+                title="Reporte",
+                tone=tone,
+                desc=f"{delta_days} días después",
+            )
+        )
+    return events
 
 
 # ---------------------------------------------------------------------------

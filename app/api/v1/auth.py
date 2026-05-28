@@ -69,6 +69,7 @@ async def login(body: LoginRequest) -> LoginResponse:
         access_token=token,
         expires_in=settings.ACCESS_TOKEN_TTL_MINUTES * 60,
         user=CurrentUser(
+            id=user["id"],
             email=user["email"],
             role=user["role"],
             full_name=user["full_name"],
