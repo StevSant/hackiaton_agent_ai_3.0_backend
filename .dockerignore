@@ -11,11 +11,21 @@ __pycache__/
 *.key
 .git/
 .gitignore
+.gitattributes
 .idea/
 .vscode/
-README.md
-CLAUDE.md
+.github/
+# Repo-level docs only — agent prompts under app/agents/.../prompts/*.md MUST ship.
+/README.md
+/CLAUDE.md
+/CHANGELOG.md
 tests/
 notebooks/
+docs/
+scripts/
+docker-compose.yml
+docker/
 data/raw/
 data/models/
+# Legacy duplicate of the backend (separate gitignored mirror) — never ship in the image.
+backend/
