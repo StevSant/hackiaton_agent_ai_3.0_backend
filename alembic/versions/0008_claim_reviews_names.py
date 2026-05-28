@@ -1,7 +1,7 @@
-"""0007_claim_reviews_names — denormalize display names on claim_reviews.
+"""0008_claim_reviews_names — denormalize display names on claim_reviews.
 
-Revision ID: 0007_claim_reviews_names
-Revises: 0006_asegurado_nombre
+Revision ID: 0008_claim_reviews_names
+Revises: 0007_road_coords
 Create Date: 2026-05-28
 
 Adds four nullable name columns to `claim_reviews` so the analyst histórico /
@@ -16,8 +16,8 @@ import sqlalchemy as sa
 
 from alembic import op
 
-revision: str = "0007_claim_reviews_names"
-down_revision: str | None = "0006_asegurado_nombre"
+revision: str = "0008_claim_reviews_names"
+down_revision: str | None = "0007_road_coords"
 branch_labels: str | tuple[str, ...] | None = None
 depends_on: str | tuple[str, ...] | None = None
 
