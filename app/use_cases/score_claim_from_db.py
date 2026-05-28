@@ -44,9 +44,6 @@ _FALSIFICATION_MARKERS = frozenset(["falsificada", "falsa", "adulterada"])
 # 18 months ≈ 548 days (matches the import-stream insured-frequency window).
 _FREQUENCY_WINDOW_DAYS = 548
 
-# Provider is "restrictive" once its observed-case ratio crosses this share.
-_PROVIDER_RESTRICTIVE_THRESHOLD = 0.5
-
 # Numeric keys that overlay integer context fields when present in signals.
 _INT_SIGNAL_KEYS = (
     "historial_siniestros_asegurado",
@@ -122,9 +119,12 @@ async def _enrich_provider(
     try:
         prov: Proveedor | None = await session.get(Proveedor, provider_id)
         if prov is not None:
-            ctx.proveedor_en_lista_restrictiva = (
-                prov.porcentaje_casos_observados >= _PROVIDER_RESTRICTIVE_THRESHOLD
-            )
+            # Restrictive-list membership (RF-03, hard rojo) is a curated blocklist
+            # FACT, not a function of the observed-case ratio. Deriving it from
+            # porcentaje_casos_observados made RF-03 fire for ~half the portfolio.
+            # It now comes ONLY from the stored `signals` overlay (the genuinely
+            # list-matched claims). The observed-case COUNT still feeds FS-07's
+            # recurrent-provider path below.
             ctx.proveedor_casos_observados = prov.reclamos_asociados
     except Exception as exc:
         logger.debug("score_from_db: provider lookup failed for %s: %s", provider_id, exc)
@@ -141,6 +141,7 @@ async def _enrich_insured_frequency(
             .select_from(Siniestro)
             .where(
                 Siniestro.id_asegurado == claim.asegurado_id,
+                Siniestro.id_siniestro != claim.id,
                 Siniestro.fecha_ocurrencia >= cutoff,
             )
         )
