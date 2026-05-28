@@ -32,6 +32,7 @@ class DbReviewsStore:
     async def save(self, claim_id: str, review: ClaimReview) -> ClaimReview:
         row = _schema_to_row(claim_id, review)
         merged = await self._repo.upsert(row)
+        await self._session.commit()
         return _row_to_schema(merged)
 
     async def list_all(self) -> list[tuple[str, ClaimReview]]:
