@@ -142,6 +142,7 @@ class DbClaimQueries:
             ramo=normalize_ramo(sin.ramo),
             cobertura=sin.cobertura,
             asegurado=display,
+            asegurado_id=sin.id_asegurado,
             ciudad=ciudad or "",
             fecha_ocurrencia=sin.fecha_ocurrencia,
             monto_reclamado=sin.monto_reclamado,

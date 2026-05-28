@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1 import (
     agent_router,
     antifraude_router,
+    asegurados_router,
     audit_router,
     auth_router,
     claims_reviews_router,
@@ -93,6 +94,7 @@ def create_app() -> FastAPI:
     app.include_router(antifraude_router, prefix=settings.API_V1_PREFIX)
     app.include_router(rules_router, prefix=settings.API_V1_PREFIX)
     app.include_router(network_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(asegurados_router, prefix=settings.API_V1_PREFIX)
     app.include_router(audit_router, prefix=settings.API_V1_PREFIX)
     app.include_router(insights_router, prefix=settings.API_V1_PREFIX)
     # documents_router mounts UNDER claims prefix — must come after claims_router

@@ -1,4 +1,5 @@
 from app.api.v1.agent import router as agent_router
+from app.api.v1.asegurados import router as asegurados_router
 from app.api.v1.audit import router as audit_router
 from app.api.v1.auth import auth_router
 from app.api.v1.claims import router as claims_router
@@ -15,6 +16,7 @@ from app.api.v1.status import router as status_router
 __all__ = [
     "agent_router",
     "antifraude_router",
+    "asegurados_router",
     "audit_router",
     "auth_router",
     "claims_reviews_router",

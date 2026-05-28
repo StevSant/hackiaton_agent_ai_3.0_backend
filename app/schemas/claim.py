@@ -93,6 +93,7 @@ class ClaimSummary(BaseModel):
     ramo: str
     cobertura: str
     asegurado: str
+    asegurado_id: str | None = None
     ciudad: str
     fecha_ocurrencia: date
     monto_reclamado: float
