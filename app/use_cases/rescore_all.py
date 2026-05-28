@@ -26,6 +26,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.similarity import NarrativeSimilarity
+from app.domain.vehicle_identity import VehicleDecoder
 from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.documento import Documento
@@ -44,6 +45,7 @@ async def rescore_all(
     session: AsyncSession,
     *,
     similarity: NarrativeSimilarity | None = None,
+    decoder: VehicleDecoder | None = None,
     populate_signals_from_existing: bool = True,
 ) -> dict[str, int]:
     """Recompute and persist a genuine rules-engine score for every claim.
@@ -52,6 +54,8 @@ async def rescore_all(
         session:                          AsyncSession (committed at the end).
         similarity:                       NarrativeSimilarity port; narrative
                                           signals skipped when None.
+        decoder:                          VehicleDecoder port; FS-15
+                                          vehicle-identity check skipped when None.
         populate_signals_from_existing:   When True, back-fill an empty
                                           ``signals`` from the claim's current
                                           activations before re-scoring so the
@@ -78,7 +82,9 @@ async def rescore_all(
                 await session.flush()
 
         detail = await _hydrate(session, sin, previous)
-        _scored, risk = await rescore_one(session, detail, similarity=similarity)
+        _scored, risk = await rescore_one(
+            session, detail, similarity=similarity, decoder=decoder
+        )
 
         processed += 1
         if previous is None or previous.score != risk.score or previous.tier != risk.tier.value:
@@ -129,13 +135,19 @@ async def _hydrate(
 
 
 async def _main() -> None:
-    """Run the rescore from the command line against the configured DATABASE_URL."""
+    """Run the rescore from the command line against the configured DATABASE_URL.
+
+    The CLI uses the offline ``RegistryVehicleDecoder`` so the batch walk decodes
+    synthetic chassis locally (FS-15) without any network call.
+    """
     from app.infrastructure.db.engine import create_engine, create_session_factory
+    from app.infrastructure.vehicle_decoder import RegistryVehicleDecoder
 
     engine = create_engine()
     factory = create_session_factory(engine)
+    decoder = RegistryVehicleDecoder()
     async with factory() as session:
-        counts = await rescore_all(session)
+        counts = await rescore_all(session, decoder=decoder)
     await engine.dispose()
     print(
         f"rescore_all: processed={counts['processed']} changed={counts['changed']}."

@@ -27,6 +27,8 @@ from app.agents.claims_agent.tools import (
     QueryClaimsTool,
     SummarizeCriticalInput,
     SummarizeCriticalTool,
+    VerifyVehicleInput,
+    VerifyVehicleTool,
 )
 from app.agents.claims_agent.tools.tool_spec_view import ToolSpecView
 
@@ -85,6 +87,7 @@ def build_tool_registry(
     summarize_critical: SummarizeCriticalTool,
     get_provider_detail: GetProviderDetailTool | None = None,
     get_asegurado_detail: GetAseguradoDetailTool | None = None,
+    verify_vehicle: VerifyVehicleTool | None = None,
 ) -> dict[str, ToolEntry]:
     """Bundle every tool into a name-indexed registry.
 
@@ -139,6 +142,15 @@ def build_tool_registry(
                 description=get_asegurado_detail.description,
                 input_model=GetAseguradoDetailInput,
                 invoke=get_asegurado_detail.run,  # type: ignore[arg-type]
+            )
+        )
+    if verify_vehicle is not None:
+        entries.append(
+            ToolEntry(
+                name=verify_vehicle.name,
+                description=verify_vehicle.description,
+                input_model=VerifyVehicleInput,
+                invoke=verify_vehicle.run,  # type: ignore[arg-type]
             )
         )
     return {e.name: e for e in entries}

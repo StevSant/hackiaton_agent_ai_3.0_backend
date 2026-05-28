@@ -1,6 +1,6 @@
-"""Rule catalog — imports all 21 rules and provides lookup functions.
+"""Rule catalog — imports all 22 rules and provides lookup functions.
 
-Import order: FS-01..FS-14, then RF-01..RF-07.
+Import order: FS-01..FS-15, then RF-01..RF-07.
 The ``all_rules()`` return order determines evaluation order in score_claim.
 """
 
@@ -30,6 +30,7 @@ from app.domain.rules.signals.FS_11_inconsistent_documents import FS11Inconsiste
 from app.domain.rules.signals.FS_12_late_report import FS12LateReport
 from app.domain.rules.signals.FS_13_similar_narratives import FS13SimilarNarratives
 from app.domain.rules.signals.FS_14_amount_near_sum_insured import FS14AmountNearSumInsured
+from app.domain.rules.signals.FS_15_vehicle_data_mismatch import FS15VehicleDataMismatch
 
 # Ordered list of all rule instances (signals first, then hard rules)
 _ALL_RULES: list[FraudRule] = [
@@ -47,6 +48,7 @@ _ALL_RULES: list[FraudRule] = [
     FS12LateReport(),
     FS13SimilarNarratives(),
     FS14AmountNearSumInsured(),
+    FS15VehicleDataMismatch(),
     RF01TotalLossTheft(),
     RF02DocumentFalsification(),
     RF03RestrictiveListMatch(),
@@ -60,12 +62,12 @@ _META_BY_CODE: dict[str, RuleMeta] = {r.META.code: r.META for r in _ALL_RULES}
 
 
 def all_rules() -> list[FraudRule]:
-    """Return all 21 rule instances in evaluation order."""
+    """Return all 22 rule instances in evaluation order."""
     return list(_ALL_RULES)
 
 
 def all_meta() -> list[RuleMeta]:
-    """Return metadata for all 21 rules (for the catalog endpoint)."""
+    """Return metadata for all 22 rules (for the catalog endpoint)."""
     return [r.META for r in _ALL_RULES]
 
 

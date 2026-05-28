@@ -119,6 +119,13 @@ FS_14:
   points: 5
 
 # ──────────────────────────────────────────────
+# FS-15  Vehicle data mismatch (chasis/VIN vs. declarado)
+# Fires when the decoded chassis spec contradicts the declared vehicle.
+# ──────────────────────────────────────────────
+FS_15:
+  points: 8
+
+# ──────────────────────────────────────────────
 # Hard-rule tiers (RF-*)  — no points; tier_hint drives override
 # RF-01..04 → rojo (any one fires → red regardless of score)
 # RF-05..07 → amarillo (any one fires → floor at yellow)

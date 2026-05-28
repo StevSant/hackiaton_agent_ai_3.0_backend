@@ -27,6 +27,7 @@ from app.agents.claims_agent.tools import (
     MissingDocumentsTool,
     QueryClaimsTool,
     SummarizeCriticalTool,
+    VerifyVehicleTool,
 )
 from app.core.config import Settings, settings
 from app.core.errors import Unauthorized
@@ -36,6 +37,7 @@ from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
 from app.domain.similarity import NarrativeSimilarity
+from app.domain.vehicle_identity import VehicleDecoder
 from app.infrastructure.audit import AuditStore, DbAuditStore, InMemoryAuditStore
 from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
 from app.infrastructure.db.db_claim_queries import DbClaimQueries
@@ -60,6 +62,12 @@ from app.infrastructure.speech import (
 )
 from app.infrastructure.storage import InMemoryStorage, Storage, SupabaseStorage
 from app.infrastructure.vectorstore import VectorStore
+from app.infrastructure.vehicle_decoder import (
+    HybridVehicleDecoder,
+    NhtsaVehicleDecoder,
+    RegistryVehicleDecoder,
+    build_nhtsa_vehicle_decoder,
+)
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.auth.login import LoginUseCase
 from app.use_cases.conversations.conversation_persister import ConversationPersister
@@ -263,6 +271,32 @@ def get_storage() -> Storage:
     return InMemoryStorage()
 
 
+@lru_cache(maxsize=1)
+def get_vehicle_decoder() -> VehicleDecoder:
+    """Return the configured VehicleDecoder (FS-15 chassis/VIN decode).
+
+    Selected by ``settings.VEHICLE_DECODER_PROVIDER``:
+    - ``hybrid``   → real VINs to NHTSA vPIC, synthetic chassis to the registry.
+    - ``registro`` → offline deterministic registry only (no network).
+    - ``nhtsa``    → live NHTSA vPIC only.
+
+    Cached like the other fallback deps — the adapters are stateless.
+    """
+    match settings.VEHICLE_DECODER_PROVIDER:
+        case "registro":
+            return RegistryVehicleDecoder()
+        case "nhtsa":
+            return build_nhtsa_vehicle_decoder()
+        case _:
+            return HybridVehicleDecoder(
+                registry=RegistryVehicleDecoder(),
+                nhtsa=NhtsaVehicleDecoder(
+                    base_url=settings.NHTSA_VPIC_URL,
+                    timeout_s=settings.VEHICLE_DECODER_TIMEOUT_S,
+                ),
+            )
+
+
 def get_prompt_loader(request: Request) -> PromptLoader:
     state = _ai_state(request)
     if state is not None:
@@ -404,6 +438,7 @@ async def get_ask_agent(
     llm: Annotated[LLMProvider, Depends(get_llm)],
     prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
+    decoder: Annotated[VehicleDecoder, Depends(get_vehicle_decoder)],
     persistence: Annotated[
         ConversationPersister | None, Depends(get_conversation_persister)
     ] = None,
@@ -419,6 +454,7 @@ async def get_ask_agent(
         summarize_critical=SummarizeCriticalTool(queries),
         get_provider_detail=GetProviderDetailTool(queries),
         get_asegurado_detail=GetAseguradoDetailTool(queries),
+        verify_vehicle=VerifyVehicleTool(queries, decoder),
         max_react_steps=settings.MAX_REACT_STEPS,
     )
     return AskAgent(deps=deps, persistence=persistence)

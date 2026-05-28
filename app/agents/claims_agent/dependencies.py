@@ -18,6 +18,7 @@ from app.agents.claims_agent.tools import (
     MissingDocumentsTool,
     QueryClaimsTool,
     SummarizeCriticalTool,
+    VerifyVehicleTool,
 )
 from app.agents.claims_agent.tools.registry import ToolEntry, build_tool_registry
 from app.infrastructure.llm import LLMProvider, PromptLoader
@@ -35,6 +36,7 @@ class ClaimsAgentDeps:
     summarize_critical: SummarizeCriticalTool
     get_provider_detail: GetProviderDetailTool | None = None
     get_asegurado_detail: GetAseguradoDetailTool | None = None
+    verify_vehicle: VerifyVehicleTool | None = None
     max_react_steps: int = 3
     # Built in __post_init__ from the tools above. Indexed by tool name —
     # the ReAct loop dispatches by string match against the LLM's decision.
@@ -54,6 +56,7 @@ class ClaimsAgentDeps:
                 summarize_critical=self.summarize_critical,
                 get_provider_detail=self.get_provider_detail,
                 get_asegurado_detail=self.get_asegurado_detail,
+                verify_vehicle=self.verify_vehicle,
             )
         if not self.tool_catalog:
             entries = [entry.spec().model_dump() for entry in self.tool_registry.values()]

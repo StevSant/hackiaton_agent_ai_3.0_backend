@@ -66,6 +66,13 @@ class Settings(BaseSettings):
     RULES_CONFIG_PATH: str = "app/domain/rules/config.yaml"
     SIMILARITY_THRESHOLD_FS13: float = 0.85
 
+    # vehicle identity (FS-15) — decode chassis/VIN to a canonical spec and
+    # compare against the declared vehicle. "hybrid" routes real VINs to NHTSA
+    # vPIC and synthetic chassis to the offline deterministic registry.
+    VEHICLE_DECODER_PROVIDER: Literal["hybrid", "registro", "nhtsa"] = "hybrid"
+    NHTSA_VPIC_URL: str = "https://vpic.nhtsa.dot.gov/api"
+    VEHICLE_DECODER_TIMEOUT_S: float = 8.0
+
     # agent (ReAct loop)
     MAX_REACT_STEPS: int = 3  # safety bound on tool-use iterations per query
     MAX_CONVERSATION_TURNS: int = 8  # how many HumanMessage exchanges to retain

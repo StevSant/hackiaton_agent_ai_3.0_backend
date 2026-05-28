@@ -24,6 +24,7 @@ from app.api.deps import (
     get_fraud_classifier,
     get_narrative_similarity,
     get_reviews_store,
+    get_vehicle_decoder,
     require_role,
 )
 from app.core.config import settings
@@ -34,6 +35,7 @@ from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
 from app.domain.similarity import NarrativeSimilarity
+from app.domain.vehicle_identity import VehicleDecoder
 from app.infrastructure.audit import AuditStore
 from app.infrastructure.db.engine import get_session
 from app.infrastructure.reviews.ports import ReviewsStore
@@ -109,14 +111,15 @@ async def rescore_claim_route(
     ] = None,
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    decoder: Annotated[VehicleDecoder, Depends(get_vehicle_decoder)] = ...,  # type: ignore[assignment]
     audit: Annotated[AuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
     user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
     """Re-analyze one claim with the genuine relationship-driven pipeline.
 
     Rebuilds the RuleContext from DB relationships + stored signal facts, runs
-    the rules engine, persists the fresh score, auto-escalates rojos, and
-    enriches ML / anomaly fields when the adapters are wired.
+    the rules engine (incl. FS-15 chassis/VIN identity check), persists the fresh
+    score, auto-escalates rojos, and enriches ML / anomaly fields when wired.
     """
     detail = await reanalyze_claim(
         session,
@@ -124,6 +127,7 @@ async def rescore_claim_route(
         similarity=similarity,
         classifier=classifier,
         detector=detector,
+        decoder=decoder,
     )
     if detail is None:
         raise HTTPException(

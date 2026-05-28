@@ -29,6 +29,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.domain.rules.context import RuleContext
 from app.domain.rules.loader import rule_cfg
 from app.domain.similarity import NarrativeSimilarity
+from app.domain.vehicle_identity import (
+    VehicleDecoder,
+    VehicleSpec,
+    compare_vehicle,
+)
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
 from app.schemas.claim import ClaimDetail
@@ -70,6 +75,7 @@ async def build_rule_context_from_db(
     claim: ClaimDetail,
     *,
     similarity: NarrativeSimilarity | None = None,
+    decoder: VehicleDecoder | None = None,
 ) -> RuleContext:
     """Build a fully-enriched RuleContext for *claim* from the database.
 
@@ -77,6 +83,8 @@ async def build_rule_context_from_db(
         session:    AsyncSession used for the relationship lookups.
         claim:      Hydrated ClaimDetail (gives the derivable context base).
         similarity: NarrativeSimilarity port; narrative signals skipped when None.
+        decoder:    VehicleDecoder port; FS-15 vehicle-identity check skipped
+                    when None (back-compatible — older callers pass nothing).
 
     Returns:
         A RuleContext ready to feed ``score_claim(claim, ctx=ctx)``.
@@ -90,6 +98,7 @@ async def build_rule_context_from_db(
     await _enrich_rc_events(session, claim, ctx)
     _enrich_document_markers(claim, ctx)
     await _enrich_similarity(claim, ctx, similarity)
+    await _enrich_vehicle_identity(claim, ctx, decoder)
     _overlay_stored_signals(sin, ctx)
 
     return ctx
@@ -228,6 +237,36 @@ async def _enrich_similarity(
         ctx.narrativa_clonada = top_sim >= rule_cfg("RF_07")["threshold_similarity"]
     except Exception as exc:
         logger.warning("score_from_db: similarity.nearest failed for %s: %s", claim.id, exc)
+
+
+async def _enrich_vehicle_identity(
+    claim: ClaimDetail,
+    ctx: RuleContext,
+    decoder: VehicleDecoder | None,
+) -> None:
+    """FS-15: decode the chassis/VIN and flag when it contradicts the declared vehicle.
+
+    Decodes the claim's chassis via the port, projects the declared vehicle into a
+    ``VehicleSpec``, and compares. Any failure is swallowed (logged) so a decode
+    error / registry outage never breaks scoring — the signal just stays off.
+    """
+    vehiculo = claim.vehiculo
+    if decoder is None or vehiculo is None or not vehiculo.chasis:
+        return
+    try:
+        decoded = await decoder.decode(vehiculo.chasis)
+        declarado = VehicleSpec(
+            marca=vehiculo.marca,
+            modelo=vehiculo.modelo,
+            anio=vehiculo.anio,
+        )
+        match = compare_vehicle(declarado, decoded, fuente="decoder")
+        ctx.vehiculo_inconsistente = match.inconsistente
+        ctx.vehiculo_campos_discrepantes = match.campos_discrepantes
+    except Exception as exc:
+        logger.warning(
+            "score_from_db: vehicle-identity decode failed for %s: %s", claim.id, exc
+        )
 
 
 # ---------------------------------------------------------------------------

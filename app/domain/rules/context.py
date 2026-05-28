@@ -67,6 +67,12 @@ class RuleContext:
     # ── internal marker for FS-09 (illogical narrative) ──────────────────────
     narrativa_ilógica: bool = False            # pre-tagged by NLP layer; safe default = False
 
+    # ── vehicle identity (FS-15) — filled by the decode step, not from_claim ──
+    # True when the chassis/VIN decodes to a spec that contradicts the declared
+    # vehicle. Needs the VehicleDecoder, so it is NOT derived in from_claim.
+    vehiculo_inconsistente: bool = False
+    vehiculo_campos_discrepantes: list[str] = field(default_factory=list)
+
     # ── extra meta ───────────────────────────────────────────────────────────
     extra: dict[str, object] = field(default_factory=dict)
 

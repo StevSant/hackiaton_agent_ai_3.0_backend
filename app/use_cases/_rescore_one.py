@@ -18,6 +18,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.rules.catalog import get_meta
 from app.domain.similarity import NarrativeSimilarity
+from app.domain.vehicle_identity import VehicleDecoder
 from app.schemas.claim import ClaimAlert, ClaimDetail
 from app.schemas.risk import ClaimRiskScore
 from app.use_cases.claim_score_persist import (
@@ -35,6 +36,7 @@ async def rescore_one(
     detail: ClaimDetail,
     *,
     similarity: NarrativeSimilarity | None = None,
+    decoder: VehicleDecoder | None = None,
 ) -> tuple[ClaimDetail, ClaimRiskScore]:
     """Re-score one hydrated claim from DB relationships and persist its row.
 
@@ -42,12 +44,16 @@ async def rescore_one(
         session:    AsyncSession (flushed here, NOT committed — caller commits).
         detail:     Hydrated ClaimDetail (source of the derivable context base).
         similarity: NarrativeSimilarity port; narrative signals skipped when None.
+        decoder:    VehicleDecoder port; FS-15 vehicle-identity check skipped
+                    when None.
 
     Returns:
         ``(scored_detail, risk)`` — the ClaimDetail with score/nivel/alertas set,
         and the raw ``ClaimRiskScore`` produced by the engine.
     """
-    ctx = await build_rule_context_from_db(session, detail, similarity=similarity)
+    ctx = await build_rule_context_from_db(
+        session, detail, similarity=similarity, decoder=decoder
+    )
     risk = score_claim(detail, ctx=ctx)
 
     alertas = [

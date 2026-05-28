@@ -43,6 +43,11 @@ from app.agents.claims_agent.tools.types import (
     MissingDocClaim,
     TierFilter,
 )
+from app.agents.claims_agent.tools.verify_vehicle_tool import (
+    VerifyVehicleInput,
+    VerifyVehicleOutput,
+    VerifyVehicleTool,
+)
 
 __all__ = [
     "AggregateByDimensionInput",
@@ -74,4 +79,7 @@ __all__ = [
     "SummarizeCriticalTool",
     "TierFilter",
     "ToolSpecView",
+    "VerifyVehicleInput",
+    "VerifyVehicleOutput",
+    "VerifyVehicleTool",
 ]

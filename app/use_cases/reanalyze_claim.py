@@ -20,6 +20,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
 from app.domain.similarity import NarrativeSimilarity
+from app.domain.vehicle_identity import VehicleDecoder
 from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.documento import Documento
@@ -43,6 +44,7 @@ async def reanalyze_claim(
     similarity: NarrativeSimilarity | None = None,
     classifier: FraudClassifier | None = None,
     detector: AnomalyDetector | None = None,
+    decoder: VehicleDecoder | None = None,
 ) -> ClaimDetail | None:
     """Re-score one claim from current DB state and persist the result.
 
@@ -52,6 +54,8 @@ async def reanalyze_claim(
         similarity: NarrativeSimilarity port; narrative signals skipped when None.
         classifier: Supervised fraud classifier; ML fields left default when None.
         detector:   Anomaly detector; anomaly fields left default when None.
+        decoder:    VehicleDecoder port; FS-15 vehicle-identity check skipped
+                    when None.
 
     Returns:
         The updated ClaimDetail (score / nivel / alertas + any ML enrichment), or
@@ -62,7 +66,9 @@ async def reanalyze_claim(
         return None
 
     detail = await _hydrate(session, sin)
-    scored, risk = await rescore_one(session, detail, similarity=similarity)
+    scored, risk = await rescore_one(
+        session, detail, similarity=similarity, decoder=decoder
+    )
 
     # Auto-escalate rojos still in pendiente; the reviews store shares this session.
     await auto_escalate_rojo(
