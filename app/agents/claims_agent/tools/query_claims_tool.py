@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.agents.claims_agent.tools.types import TierFilter
 from app.schemas.chat.stream.chart_hint import ChartHint
-from app.schemas.claim import ClaimSummary
+from app.schemas.claim import ClaimDetail, ClaimSummary
 
 QueryMode = Literal["top_risk", "near_policy_start", "recommend_review"]
 
@@ -24,6 +24,13 @@ class QueryClaimsInput(BaseModel):
     top_n: int = Field(10, ge=1, le=50)
     tier: TierFilter = "amarillo+rojo"
     window_days: int = Field(10, ge=1, le=365, description="Only used when mode=near_policy_start")
+    filter_claim_id: str | None = Field(
+        default=None,
+        description=(
+            "Set ONLY when the analyst is asking about a specific case and you want to "
+            "scope this query to that case. Usually injected automatically from the UI context."
+        ),
+    )
     chart_hint: ChartHint | None = Field(
         default=None,
         description=(
@@ -63,4 +70,29 @@ class QueryClaimsTool:
                 )
             case "recommend_review":
                 claims = await self._queries.recommend_review(top_n=args.top_n)
+
+        if args.filter_claim_id is not None:
+            scoped = [c for c in claims if c.id == args.filter_claim_id]
+            if scoped:
+                claims = scoped
+            else:
+                detail = await self._queries.get_detail(args.filter_claim_id)
+                claims = [_detail_to_summary(detail)] if detail is not None else []
+
         return QueryClaimsOutput(mode=args.mode, claims=claims)
+
+
+def _detail_to_summary(detail: ClaimDetail) -> ClaimSummary:
+    return ClaimSummary(
+        id=detail.id,
+        ramo=detail.ramo,
+        cobertura=detail.cobertura,
+        asegurado=detail.asegurado,
+        ciudad=detail.ciudad,
+        fecha_ocurrencia=detail.fecha_ocurrencia,
+        monto_reclamado=detail.monto_reclamado,
+        estado=detail.estado,
+        score=detail.score,
+        nivel=detail.nivel,
+        review_status=detail.review.status,
+    )

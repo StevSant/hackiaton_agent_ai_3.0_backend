@@ -43,8 +43,16 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # until the first request checks out a session). Powers DbClaimQueries + repos —
     # the database is the sole source of truth for claims.
     db_engine = create_engine()
-    set_session_factory(create_session_factory(db_engine))
+    session_factory = create_session_factory(db_engine)
+    set_session_factory(session_factory)
     app.state.db_engine = db_engine
+    # Attach pgvector similarity now that embeddings + session_factory both exist —
+    # used by the SSE import endpoint to fire FS-13 (similar narratives).
+    if state.embeddings is not None:
+        from app.infrastructure.vectorstore.pgvector_narrative_similarity import (
+            PgVectorNarrativeSimilarity,
+        )
+        state.similarity = PgVectorNarrativeSimilarity(state.embeddings, session_factory)
     try:
         yield
     finally:

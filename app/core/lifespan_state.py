@@ -16,6 +16,7 @@ import structlog
 from app.core.config import settings
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
+from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.anomaly import IsolationForestDetector, NearestNormalIndex
 from app.infrastructure.embeddings import (
     EmbeddingsProvider,
@@ -50,6 +51,7 @@ class AIState:
     anomaly_detector: AnomalyDetector | None
     anomaly_model_present: bool
     nearest_normal_index_present: bool
+    similarity: NarrativeSimilarity | None = None
 
 
 def _build_llm() -> tuple[LLMProvider, str]:

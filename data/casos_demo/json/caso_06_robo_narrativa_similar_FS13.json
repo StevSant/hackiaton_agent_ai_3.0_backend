@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-006",
+  "ramo": "Vehículos",
+  "cobertura": "Pérdida Total por Robo",
+  "asegurado": "Carlos Vinicio Espinoza Maldonado",
+  "asegurado_id": "ASG-D0006",
+  "poliza": "PV-DEMO-0006",
+  "ciudad": "Quito",
+  "fecha_ocurrencia": "2026-05-12",
+  "fecha_reporte": "2026-05-19",
+  "fecha_inicio_poliza": "2025-11-15",
+  "fecha_fin_poliza": "2026-11-15",
+  "monto_reclamado": 38500.0,
+  "suma_asegurada": 40000.0,
+  "estado": "Reserva",
+  "sucursal": "Quito Norte",
+  "vehiculo": {
+    "marca": "Toyota",
+    "modelo": "Hilux",
+    "anio": 2022,
+    "placa": "GBC-7142",
+    "chasis": "MR0HZ8CD0N0387251"
+  },
+  "proveedor": null,
+  "descripcion": "El asegurado Carlos Vinicio Espinoza Maldonado reporta el robo de su Toyota Hilux 2022, placas GBC-7142, ocurrido el martes 12 de mayo aproximadamente a las 23:00 horas en el sector de La Floresta, calle Galavis, mientras el vehículo se encontraba estacionado frente al restaurante El Español de La Floresta. Refiere que dos sujetos en motocicleta lo interceptaron al acercarse a su vehículo, le apuntaron con un arma de fuego y le exigieron las llaves, alejándose en dirección al parque La Carolina. El asegurado permaneció ileso y procedió a movilizarse a pie hasta la UPC más cercana. La denuncia formal ante la Fiscalía fue presentada el 19 de mayo, siete días después de la ocurrencia, dado que el asegurado se hallaba en comisión de servicios en la ciudad de Manta durante esa semana y no pudo tramitar la denuncia de manera inmediata. Adjunta la denuncia fiscal, el parte policial, la matrícula del vehículo, la declaración juramentada y la cédula de identidad. Solicita activar la cobertura de Pérdida Total por Robo de la póliza vigente desde el 15 de noviembre de 2025.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Denuncia fiscal", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Declaración juramentada", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-003",
+  "ramo": "Vehículos",
+  "cobertura": "Daños",
+  "asegurado": "Rodrigo Sebastián Arias Cifuentes",
+  "asegurado_id": "ASG-D0003",
+  "poliza": "PV-DEMO-0003",
+  "ciudad": "Cuenca",
+  "fecha_ocurrencia": "2026-04-15",
+  "fecha_reporte": "2026-04-25",
+  "fecha_inicio_poliza": "2025-10-01",
+  "fecha_fin_poliza": "2026-10-01",
+  "monto_reclamado": 3200.0,
+  "suma_asegurada": 8000.0,
+  "estado": "Reserva",
+  "sucursal": "Cuenca Centro",
+  "vehiculo": {
+    "marca": "Kia",
+    "modelo": "Picanto",
+    "anio": 2019,
+    "placa": "AZB-0571",
+    "chasis": "KNABE211AK5306841"
+  },
+  "proveedor": "Servicio Automotriz Austro",
+  "descripcion": "El asegurado Rodrigo Sebastián Arias Cifuentes reporta un siniestro de daños materiales ocurrido el 15 de abril de 2026, aproximadamente a las 11:00 horas, en el estacionamiento del Centro Comercial Mall del Río, en la ciudad de Cuenca. El vehículo, un Kia Picanto 2019 con placas AZB-0571, presentó un impacto lateral en la puerta delantera del conductor y el guardabarro izquierdo, aparentemente causado por un vehículo que abandonó el lugar sin dejar sus datos. El asegurado señala que en ese momento se encontraba dentro del establecimiento y, al regresar a su vehículo, encontró los daños sin que hubiera nadie que pudiera identificar al responsable. Reconoce haber demorado la presentación del reclamo en diez días debido a una emergencia familiar que le obligó a viajar a Quito de forma imprevista durante ese período. Manifiesta que aún no ha podido recopilar todos los documentos solicitados porque el certificado médico de los pasajeros y el avalúo independiente del vehículo todavía están en trámite. El resto de la documentación fue entregada al momento del reporte.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial / CTG", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado médico de pasajeros", "estado": "Pendiente", "falta": true},
+    {"tipo": "Avalúo independiente del vehículo", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

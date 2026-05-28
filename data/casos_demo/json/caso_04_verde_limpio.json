@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-004",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Parciales",
+  "asegurado": "Valeria Cristina Moreno Benítez",
+  "asegurado_id": "ASG-D0004",
+  "poliza": "PV-DEMO-0004",
+  "ciudad": "Quito",
+  "fecha_ocurrencia": "2026-04-20",
+  "fecha_reporte": "2026-04-22",
+  "fecha_inicio_poliza": "2025-12-01",
+  "fecha_fin_poliza": "2026-12-01",
+  "monto_reclamado": 1200.0,
+  "suma_asegurada": 28000.0,
+  "estado": "Reserva",
+  "sucursal": "Quito Norte",
+  "vehiculo": {
+    "marca": "Hyundai",
+    "modelo": "Tucson",
+    "anio": 2022,
+    "placa": "PBD-1083",
+    "chasis": "5NMS24AJ6NH412095"
+  },
+  "proveedor": "Taller Hyundai Oficial Pichincha",
+  "descripcion": "La asegurada reporta un raspón superficial en el costado derecho de su Hyundai Tucson 2022, placas PBD-1083, producido en el estacionamiento del centro comercial Quicentro Shopping el 20 de abril de 2026. Un tercero identificado dejó sus datos de contacto y reconoció la responsabilidad del choque. El reclamo cubre únicamente trabajos de chapa y pintura en la puerta trasera derecha y el guardabarro. Documentación completa entregada al momento del reporte.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte informativo de tránsito", "estado": "Entregado", "falta": false},
+    {"tipo": "Cotización de reparación", "estado": "Entregado", "falta": false},
+    {"tipo": "Datos del tercero responsable", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

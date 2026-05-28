@@ -11,6 +11,7 @@ from typing import Any
 
 from pydantic import BaseModel, ValidationError
 
+from app.agents.claims_agent._tool_dispatcher import inject_focus_claim_id
 from app.agents.claims_agent.tools import (
     AggregateByDimensionInput,
     AggregateByDimensionTool,
@@ -46,6 +47,26 @@ class ToolEntry:
         except ValidationError as exc:
             raise ValueError(f"invalid args for tool '{self.name}': {exc}") from exc
         return await self.invoke(parsed)
+
+    async def run_with_context(
+        self,
+        *,
+        llm_args: dict[str, Any],
+        focus_claim_id: str | None,
+        last_user_message: str,
+    ) -> BaseModel:
+        """Dispatch the tool after injecting focus_claim_id when appropriate.
+
+        This is the context-aware entry point used by the ReAct loop.
+        `run_raw` is kept for backwards-compatible callers that don't have context.
+        """
+        enriched = inject_focus_claim_id(
+            tool_name=self.name,
+            llm_args=llm_args,
+            focus_claim_id=focus_claim_id,
+            last_user_message=last_user_message,
+        )
+        return await self.run_raw(enriched)
 
 
 def build_tool_registry(
