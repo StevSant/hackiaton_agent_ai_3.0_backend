@@ -20,17 +20,17 @@ class InMemoryAuditStore:
     def __init__(self) -> None:
         self._events: list[AuditEventOut] = []
 
-    def append(self, event: AuditEventOut) -> None:
+    async def append(self, event: AuditEventOut) -> None:
         """Append one event to the log."""
         self._events.append(event)
 
-    def list_all(self) -> list[AuditEventOut]:
+    async def list_all(self) -> list[AuditEventOut]:
         """Return all events, most-recent first."""
         return sorted(self._events, key=lambda e: e.ts, reverse=True)
 
-    def list_recent(self, limit: int) -> list[AuditEventOut]:
+    async def list_recent(self, limit: int) -> list[AuditEventOut]:
         """Return up to *limit* most-recent events."""
-        return self.list_all()[:limit]
+        return (await self.list_all())[:limit]
 
     def clear(self) -> None:
         """Drop every event — only used by tests."""

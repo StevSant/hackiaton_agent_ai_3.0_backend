@@ -6,6 +6,7 @@ The order here is: no-deps → polizas (→ asegurados) → siniestros → rest.
 """
 
 from app.infrastructure.db.models.asegurado import Asegurado
+from app.infrastructure.db.models.audit_event import AuditEvent
 from app.infrastructure.db.models.claim_narrative import ClaimNarrative
 from app.infrastructure.db.models.claim_review import ClaimReview
 from app.infrastructure.db.models.claim_score import ClaimScore
@@ -18,6 +19,7 @@ from app.infrastructure.db.models.siniestro import Siniestro
 
 __all__ = [
     "Asegurado",
+    "AuditEvent",
     "ClaimNarrative",
     "ClaimReview",
     "ClaimScore",

@@ -13,12 +13,12 @@ import uuid
 from datetime import UTC, datetime
 
 from app.domain.auth.user import User
-from app.infrastructure.audit import InMemoryAuditStore
+from app.infrastructure.audit import AuditStore
 from app.schemas.audit import AuditAction, AuditActor, AuditEventOut
 
 
-def emit_audit_event(
-    store: InMemoryAuditStore,
+async def emit_audit_event(
+    store: AuditStore,
     *,
     user: User,
     action: AuditAction,
@@ -38,5 +38,5 @@ def emit_audit_event(
         detail=detail,
         target=target,
     )
-    store.append(event)
+    await store.append(event)
     return event

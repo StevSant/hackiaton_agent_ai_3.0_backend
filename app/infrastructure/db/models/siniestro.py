@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from uuid import UUID
 
 from sqlalchemy import Boolean, Date, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -69,6 +70,13 @@ class Siniestro(Base):
     historial_siniestros_asegurado: Mapped[int] = mapped_column(
         Integer, nullable=False, default=0
     )
+
+    # Investigator / NLP-provided ground-truth facts that can't be derived from
+    # relationships (impossible dynamics, no third-party trace, falsification,
+    # cloned narrative, etc.). Consumed by build_rule_context_from_db, where they
+    # OVERLAY the values derived from dates / amounts / related rows so the rules
+    # engine produces a genuine score instead of a hand-authored one.
+    signals: Mapped[dict] = mapped_column(JSONB, nullable=False, server_default="{}")
 
     # Training / eval label — 0=legítimo simulado, 1=fraude simulado.
     # NEVER surface this to users or the API response (§2.2).

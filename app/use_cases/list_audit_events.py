@@ -7,15 +7,15 @@ starts empty so the log reflects real activity rather than seeded mocks.
 
 from __future__ import annotations
 
-from app.infrastructure.audit import InMemoryAuditStore
+from app.infrastructure.audit import AuditStore
 from app.schemas.audit import AuditEventOut
 
 
 async def list_audit_events(
-    store: InMemoryAuditStore,
+    store: AuditStore,
     *,
     limit: int | None = None,
 ) -> list[AuditEventOut]:
     if limit is not None:
-        return store.list_recent(limit)
-    return store.list_all()
+        return await store.list_recent(limit)
+    return await store.list_all()

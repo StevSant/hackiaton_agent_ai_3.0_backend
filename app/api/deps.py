@@ -35,7 +35,7 @@ from app.domain.anomaly import AnomalyDetector
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
-from app.infrastructure.audit import InMemoryAuditStore
+from app.infrastructure.audit import AuditStore, DbAuditStore, InMemoryAuditStore
 from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
 from app.infrastructure.db.db_claim_queries import DbClaimQueries
 from app.infrastructure.embeddings import (
@@ -329,13 +329,23 @@ async def get_reviews_store(
     return DbReviewsStore(_session)
 
 
-@lru_cache(maxsize=1)
-def get_audit_store() -> InMemoryAuditStore:
-    """Return the process-singleton in-memory audit log.
+def get_audit_store() -> AuditStore:
+    """Return the DB-backed audit store, or an in-memory fallback when no DB.
 
-    Starts empty — events are appended by the escalate/take/dictamen/close
-    use cases as real actions happen.
+    Audit events must survive restarts / ``--reload``, so they persist to the
+    ``audit_events`` table via ``DbAuditStore`` (its own short transaction per
+    write, decoupled from the request/SSE session). Only when no session factory
+    is registered (no-DB test / script mode) do we fall back to a process-local
+    in-memory log.
     """
+    factory = _get_session_factory()
+    if factory is None:
+        return _fallback_audit_store()
+    return DbAuditStore(factory)
+
+
+@lru_cache(maxsize=1)
+def _fallback_audit_store() -> InMemoryAuditStore:
     return InMemoryAuditStore()
 
 

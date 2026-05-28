@@ -93,6 +93,13 @@ class DbClaimQueries:
         provider (no ORM relationship to selectinload because beneficiario is
         a free-form FK string).
         """
+        # populate_existing=True is REQUIRED: `get_detail` already fetched `sin`
+        # via session.get(), seeding the identity map with the instance whose
+        # relationships are `lazy="noload"` (i.e. resolved to None). Without
+        # populate_existing, this re-select returns that same cached instance and
+        # selectinload silently skips it, leaving poliza/score = None — which made
+        # get_claim_detail fall back to the context-poor live-rescore path and
+        # clobber the baked score (showed 0 / wrong score, suma=0, ciudad="").
         stmt = (
             select(Siniestro)
             .options(
@@ -102,6 +109,7 @@ class DbClaimQueries:
                 selectinload(Siniestro.score),
             )
             .where(Siniestro.id_siniestro == sin.id_siniestro)
+            .execution_options(populate_existing=True)
         )
         loaded = (await self._s.execute(stmt)).scalars().first() or sin
         proveedor: Proveedor | None = (

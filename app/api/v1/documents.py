@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_audit_store, get_current_user, get_storage
 from app.core.config import settings
 from app.domain.auth.user import User
-from app.infrastructure.audit import InMemoryAuditStore
+from app.infrastructure.audit import AuditStore
 from app.infrastructure.storage.ports import Storage
 from app.schemas.audit import AuditAction
 from app.schemas.documents import BulkUploadResult, UploadedDocument
@@ -41,7 +41,7 @@ async def upload_document_route(
     file: UploadFile,
     tipo: Annotated[str, Form()] = "otro",
     storage: Annotated[Storage, Depends(get_storage)] = ...,  # type: ignore[assignment]
-    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    audit: Annotated[AuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
     user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
     session: Annotated[AsyncSession, Depends(_get_optional_session)] = ...,  # type: ignore[assignment]
 ) -> UploadedDocument:
@@ -57,7 +57,7 @@ async def upload_document_route(
         tipo=tipo,
         workspace_id=workspace_id,
     )
-    emit_audit_event(
+    await emit_audit_event(
         audit,
         user=user,
         action=AuditAction.apertura,
@@ -77,7 +77,7 @@ async def upload_documents_bulk_route(
     claim_id: str,
     files: Annotated[list[UploadFile], File(description="PDFs or images for the claim")],
     storage: Annotated[Storage, Depends(get_storage)] = ...,  # type: ignore[assignment]
-    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    audit: Annotated[AuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
     user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
     session: Annotated[AsyncSession, Depends(_get_optional_session)] = ...,  # type: ignore[assignment]
 ) -> BulkUploadResult:
@@ -89,7 +89,7 @@ async def upload_documents_bulk_route(
         files=files,
         workspace_id=workspace_id,
     )
-    emit_audit_event(
+    await emit_audit_event(
         audit,
         user=user,
         action=AuditAction.apertura,
@@ -108,7 +108,7 @@ async def delete_document_route(
         Query(description="Relative bucket path returned by the upload endpoint."),
     ],
     storage: Annotated[Storage, Depends(get_storage)] = ...,  # type: ignore[assignment]
-    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    audit: Annotated[AuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
     user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
     session: Annotated[AsyncSession, Depends(_get_optional_session)] = ...,  # type: ignore[assignment]
 ) -> Response:
@@ -120,7 +120,7 @@ async def delete_document_route(
         path=path,
         workspace_id=workspace_id,
     )
-    emit_audit_event(
+    await emit_audit_event(
         audit,
         user=user,
         action=AuditAction.cierre,

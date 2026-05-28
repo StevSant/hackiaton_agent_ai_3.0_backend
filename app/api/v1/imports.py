@@ -24,7 +24,7 @@ from app.domain.anomaly import AnomalyDetector
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
-from app.infrastructure.audit import InMemoryAuditStore
+from app.infrastructure.audit import AuditStore
 from app.infrastructure.llm import LLMProvider
 from app.schemas.audit import AuditAction
 from app.schemas.claim import ClaimDetail
@@ -84,7 +84,7 @@ async def import_claims_route(
         User,
         Depends(require_any_role(Role.analista, Role.antifraude)),
     ],
-    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
+    audit: Annotated[AuditStore, Depends(get_audit_store)],
     llm: Annotated[LLMProvider, Depends(get_llm)],
     session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
 ) -> ImportResult:
@@ -126,7 +126,7 @@ async def import_claims_route(
         result.imported,
         result.skipped,
     )
-    emit_audit_event(
+    await emit_audit_event(
         audit,
         user=user,
         action=AuditAction.apertura,

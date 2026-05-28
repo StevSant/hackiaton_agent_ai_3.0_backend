@@ -27,7 +27,7 @@ from app.api.deps import (
 )
 from app.core.config import settings
 from app.domain.auth.user import User
-from app.infrastructure.audit import InMemoryAuditStore
+from app.infrastructure.audit import AuditStore
 from app.infrastructure.llm.ports import LLMProvider
 from app.infrastructure.speech.ports import SpeechTranscriber
 from app.schemas.agent import AgentAskContext
@@ -117,7 +117,7 @@ async def agent_ask(
     body: WireAgentAskRequest,
     ask_agent: Annotated[AskAgent, Depends(get_ask_agent)],
     user: Annotated[User, Depends(get_current_user)],
-    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)],
+    audit: Annotated[AuditStore, Depends(get_audit_store)],
 ) -> StreamingResponse:
     req = _to_use_case_request(body)
     preview = body.message.strip().replace("\n", " ")
@@ -135,7 +135,7 @@ async def agent_ask(
     else:
         title = "Consultó a Centinela IA"
         audit_target = None
-    emit_audit_event(
+    await emit_audit_event(
         audit,
         user=user,
         action=AuditAction.consulta_ia,

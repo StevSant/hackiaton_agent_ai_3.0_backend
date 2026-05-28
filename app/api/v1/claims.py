@@ -31,7 +31,7 @@ from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
-from app.infrastructure.audit import InMemoryAuditStore
+from app.infrastructure.audit import AuditStore
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.audit import AuditAction
 from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ReviewStatus
@@ -101,7 +101,7 @@ async def rescore_claim_route(
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
-    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    audit: Annotated[AuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
     user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimRiskScore:
     claim = await queries.get_detail(claim_id)
@@ -112,7 +112,7 @@ async def rescore_claim_route(
     ctx = RuleContext.from_claim(claim)
     risk = score_claim(claim, ctx=ctx)
     enriched = await enrich_claim_score(claim, classifier=classifier, detector=detector)
-    emit_audit_event(
+    await emit_audit_event(
         audit,
         user=user,
         action=AuditAction.apertura,
@@ -137,7 +137,7 @@ async def patch_claim_route(
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
-    audit: Annotated[InMemoryAuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    audit: Annotated[AuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
     user: Annotated[User, Depends(require_role(Role.antifraude))] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
     """Debug fire-test endpoint — gated by DEBUG_ENABLED (§10).
@@ -189,7 +189,7 @@ async def patch_claim_route(
         }
     )
     fields = ", ".join(sorted(updates.keys())) or "(sin cambios)"
-    emit_audit_event(
+    await emit_audit_event(
         audit,
         user=user,
         action=AuditAction.cambio_regla,
