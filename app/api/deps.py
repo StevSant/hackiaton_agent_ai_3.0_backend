@@ -35,6 +35,7 @@ from app.domain.anomaly import AnomalyDetector
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
+from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.audit import AuditStore, DbAuditStore, InMemoryAuditStore
 from app.infrastructure.auth import EnvSeededUserRepo, JwtIssuer
 from app.infrastructure.db.db_claim_queries import DbClaimQueries
@@ -230,6 +231,17 @@ def get_anomaly_detector(request: Request) -> AnomalyDetector | None:
     """Lifespan-pinned IsolationForest detector; None when the artifact is absent."""
     state = _ai_state(request)
     return state.anomaly_detector if state is not None else None
+
+
+def get_narrative_similarity(request: Request) -> NarrativeSimilarity | None:
+    """Lifespan-pinned NarrativeSimilarity port; None when embeddings are absent.
+
+    The lifespan only sets ``state.similarity`` once embeddings load successfully
+    (see ``main._build_similarity``). Callers (re-analysis, FS-13) must accept
+    None gracefully — narrative signals are skipped when unavailable.
+    """
+    state = _ai_state(request)
+    return state.similarity if state is not None else None
 
 
 def get_vector_store() -> VectorStore:

@@ -25,7 +25,6 @@ import logging
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.domain.rules.catalog import get_meta
 from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_score import ClaimScore
@@ -33,16 +32,12 @@ from app.infrastructure.db.models.documento import Documento
 from app.infrastructure.db.models.poliza import Poliza
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
-from app.schemas.claim import ClaimAlert, ClaimDetail
+from app.schemas.claim import ClaimDetail
+from app.use_cases._rescore_one import rescore_one
 from app.use_cases._signal_map import signals_from_activations
-from app.use_cases.claim_score_persist import claim_detail_to_score_row, upsert_claim_score
 from app.use_cases.load_dataset._mapping import rows_to_claim_detail
-from app.use_cases.score_claim import score_claim
-from app.use_cases.score_claim_from_db import build_rule_context_from_db
 
 logger = logging.getLogger(__name__)
-
-_SEVERITY_BY_TIER = {"rojo": "high", "amarillo": "med", "verde": "low"}
 
 
 async def rescore_all(
@@ -83,27 +78,7 @@ async def rescore_all(
                 await session.flush()
 
         detail = await _hydrate(session, sin, previous)
-        ctx = await build_rule_context_from_db(session, detail, similarity=similarity)
-        risk = score_claim(detail, ctx=ctx)
-
-        alertas = [
-            ClaimAlert(
-                code=activation.code,
-                puntos=activation.points,
-                severidad=_SEVERITY_BY_TIER.get(activation.tier_hint.value, "low"),
-                detalle=(
-                    meta.short_description
-                    if (meta := get_meta(activation.code))
-                    else activation.code
-                ),
-            )
-            for activation in risk.activations
-        ]
-        scored = detail.model_copy(
-            update={"score": risk.score, "nivel": risk.tier, "alertas": alertas}
-        )
-        await upsert_claim_score(session, claim_detail_to_score_row(scored))
-        await session.flush()
+        _scored, risk = await rescore_one(session, detail, similarity=similarity)
 
         processed += 1
         if previous is None or previous.score != risk.score or previous.tier != risk.tier.value:
