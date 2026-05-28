@@ -208,6 +208,24 @@ class AskAgent:
                 chart_event.data.model_dump(mode="json") if chart_event is not None else None
             )
 
+            # Build transparency metadata from the accumulated stream events so
+            # that GET /conversations/{id} can replay the explainability UI.
+            # tool_calls list pairs each call with its result via call_id.
+            tool_calls_for_meta: list[dict[str, Any]] = [
+                {
+                    "call_id": tr.get("call_id", ""),
+                    "tool": tr.get("tool", "unknown"),
+                    "args": tr.get("args", {}),
+                    "result": tr.get("result"),
+                }
+                for tr in tool_results
+            ]
+            transparency: dict[str, Any] = {
+                "steps": scratchpad,
+                "tool_calls": tool_calls_for_meta,
+                "citations": [{"claim_id": c} for c in citations if c],
+            }
+
             # --- Persist the assistant message + chart payload + schedule title generation.
             if (
                 self._persistence is not None
@@ -221,6 +239,7 @@ class AskAgent:
                         user=user,
                         answer=full_answer,
                         chart_payload=chart_payload_dict,
+                        transparency_metadata=transparency,
                     )
                     self._persistence.schedule_title(
                         conversation_id=conversation_uuid,

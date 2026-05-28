@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
+from typing import Any, Literal
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -18,6 +18,9 @@ class MessageOut(BaseModel):
     sequence: int
     created_at: datetime
     chart_payload: ChartData | None = None
+    # Transparency payload for assistant messages — steps, tool_calls, citations.
+    # Null for user messages and legacy assistant messages without recorded metadata.
+    transparency_metadata: dict[str, Any] | None = None
 
 
 class ConversationSummary(BaseModel):

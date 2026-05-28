@@ -36,6 +36,12 @@ class Message(Base):
     chart_payload: Mapped[dict[str, Any] | None] = mapped_column(
         JSONB, nullable=True, default=None
     )
+    # Transparency payload — steps, tool_calls, citations captured during the
+    # SSE stream so they survive page reload and power the explainability UI.
+    # Null for user messages and legacy assistant messages (pre-0009 migration).
+    transparency_metadata: Mapped[dict[str, Any] | None] = mapped_column(
+        JSONB, nullable=True, default=None
+    )
 
     conversation: Mapped[Conversation] = relationship(
         "Conversation", back_populates="messages", lazy="noload"
