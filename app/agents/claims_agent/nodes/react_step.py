@@ -206,8 +206,14 @@ def make_react_step(
             # Don't finish — let the LLM retry on the next iteration with the error in scratchpad.
             return {"step_count": step_count, "scratchpad": [entry.model_dump()]}
 
+        # Resolve the last user message for the focused-question heuristic.
+        last_user_msg = state["query"]
         try:
-            tool_output = await tool_entry.run_raw(decision.args or {})
+            tool_output = await tool_entry.run_with_context(
+                llm_args=decision.args or {},
+                focus_claim_id=(state.get("context") or {}).get("focus_claim_id"),
+                last_user_message=last_user_msg,
+            )
             observation_payload: Any = tool_output.model_dump(mode="json")
         except (ValueError, ValidationError) as exc:
             observation_payload = {"error": str(exc)}

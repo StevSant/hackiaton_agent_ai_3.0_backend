@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-005",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Totales",
+  "asegurado": "Jorge Mauricio Landívar Peñafiel",
+  "asegurado_id": "ASG-D0005",
+  "poliza": "PV-DEMO-0005",
+  "ciudad": "Guayaquil",
+  "fecha_ocurrencia": "2026-05-02",
+  "fecha_reporte": "2026-05-12",
+  "fecha_inicio_poliza": "2026-04-25",
+  "fecha_fin_poliza": "2027-04-25",
+  "monto_reclamado": 22000.0,
+  "suma_asegurada": 23000.0,
+  "estado": "Reserva",
+  "sucursal": "Guayaquil Norte",
+  "vehiculo": {
+    "marca": "Mazda",
+    "modelo": "CX-5",
+    "anio": 2021,
+    "placa": "GBT-9917",
+    "chasis": "JM3KFBCM5M0408316"
+  },
+  "proveedor": "Taller Mecánico Auto-Élite",
+  "descripcion": "El asegurado reporta daños severos en el lateral izquierdo de su Mazda CX-5 2021, producidos en la madrugada del 2 de mayo en un sector industrial al norte de Guayaquil, sin testigos presentes.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Avalúo independiente", "estado": "Pendiente", "falta": true},
+    {"tipo": "Fotos del daño", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

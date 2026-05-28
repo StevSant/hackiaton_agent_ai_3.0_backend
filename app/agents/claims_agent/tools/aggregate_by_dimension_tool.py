@@ -13,12 +13,20 @@ from pydantic import BaseModel, Field
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.agents.claims_agent.tools.types import AggregateDimension, AggregateRow, TierFilter
 from app.schemas.chat.stream.chart_hint import ChartHint
+from app.schemas.claim import ClaimDetail
 
 
 class AggregateByDimensionInput(BaseModel):
     dimension: AggregateDimension
     tier: TierFilter = "amarillo+rojo"
     top_n: int = Field(10, ge=1, le=50)
+    filter_claim_id: str | None = Field(
+        default=None,
+        description=(
+            "Set ONLY when the analyst is asking about a specific case in scope "
+            "(e.g. 'este caso', 'este siniestro'). Usually injected automatically from the UI context."
+        ),
+    )
     chart_hint: ChartHint | None = Field(
         default=None,
         description=(
@@ -54,4 +62,41 @@ class AggregateByDimensionTool:
         rows = await self._queries.aggregate(
             dimension=args.dimension, tier=args.tier, top_n=args.top_n
         )
+
+        if args.filter_claim_id is not None:
+            # Scope aggregation to rows that include the focused claim as an example.
+            # For most dimensions a single claim appears in at most one bucket.
+            scoped = [r for r in rows if r.example_claim_id == args.filter_claim_id]
+            if not scoped:
+                # The claim didn't surface as an example — fetch its detail to build a
+                # synthetic one-row result so the agent can still say something useful.
+                detail = await self._queries.get_detail(args.filter_claim_id)
+                if detail is not None:
+                    dim_key = _dimension_key(args.dimension, detail)
+                    if dim_key is not None:
+                        scoped = [
+                            AggregateRow(
+                                key=dim_key,
+                                count=1,
+                                pct=0.0,
+                                example_claim_id=detail.id,
+                            )
+                        ]
+            rows = scoped
+
         return AggregateByDimensionOutput(dimension=args.dimension, tier=args.tier, rows=rows)
+
+
+def _dimension_key(dimension: AggregateDimension, detail: ClaimDetail) -> str | None:
+    """Extract the aggregation key for a given dimension from a ClaimDetail."""
+    match dimension:
+        case "proveedor":
+            return detail.proveedor
+        case "ramo":
+            return detail.ramo
+        case "ciudad":
+            return detail.ciudad
+        case "asegurado":
+            return detail.asegurado
+        case _:
+            return None

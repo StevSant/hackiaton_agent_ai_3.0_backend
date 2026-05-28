@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-002",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Materiales",
+  "asegurado": "Patricia Lorena Vásquez Montoya",
+  "asegurado_id": "ASG-D0002",
+  "poliza": "PV-DEMO-0002",
+  "ciudad": "Guayaquil",
+  "fecha_ocurrencia": "2026-05-11",
+  "fecha_reporte": "2026-05-12",
+  "fecha_inicio_poliza": "2026-05-10",
+  "fecha_fin_poliza": "2027-05-10",
+  "monto_reclamado": 8400.0,
+  "suma_asegurada": 14000.0,
+  "estado": "Reserva",
+  "sucursal": "Guayaquil Centro",
+  "vehiculo": {
+    "marca": "Chevrolet",
+    "modelo": "Aveo",
+    "anio": 2020,
+    "placa": "GBR-2294",
+    "chasis": "8LBTZS5E9LG041872"
+  },
+  "proveedor": "Taller Chapa y Pintura del Pacífico",
+  "descripcion": "La asegurada Patricia Lorena Vásquez Montoya reporta colisión trasera ocurrida el lunes 11 de mayo de 2026, aproximadamente a las 19:15 horas, en la Avenida Francisco de Orellana, intersección con Avenida Luis Orrantia, en la ciudad de Guayaquil. La asegurada indica que se desplazaba en su Chevrolet Aveo 2020, placas GBR-2294, con dirección al norte en tráfico moderado, cuando fue embestida por detrás por un vehículo de color gris no identificado que se dio a la fuga tras el impacto. El choque produjo daños en la parte trasera del vehículo: parachoque posterior, tapa de maletero y luz trasera derecha afectados. La asegurada afirma no haber consumido alcohol y que contó con la presencia de un testigo, el señor Édgar Camacho, quien aportó sus datos de contacto en el lugar del hecho. La denuncia ante la Comisión de Tránsito del Ecuador se realizó al día siguiente. La póliza de daños materiales fue contratada el 10 de mayo de 2026, un día antes del siniestro, lo que llama la atención sobre la inmediatez del reclamo. La asegurada aduce no haber tenido conocimiento previo del evento y adjunta el informe de la CTG y la cotización del taller.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe CTG / parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Cotización de reparación", "estado": "Entregado", "falta": false},
+    {"tipo": "Declaración juramentada", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

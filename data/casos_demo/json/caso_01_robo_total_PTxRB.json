@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-001",
+  "ramo": "Vehículos",
+  "cobertura": "Pérdida Total por Robo",
+  "asegurado": "Andrés Felipe Cordero Naranjo",
+  "asegurado_id": "ASG-D0001",
+  "poliza": "PV-DEMO-0001",
+  "ciudad": "Quito",
+  "fecha_ocurrencia": "2026-05-01",
+  "fecha_reporte": "2026-05-08",
+  "fecha_inicio_poliza": "2026-04-12",
+  "fecha_fin_poliza": "2027-04-12",
+  "monto_reclamado": 41160.0,
+  "suma_asegurada": 42000.0,
+  "estado": "Reserva",
+  "sucursal": "Quito Norte",
+  "vehiculo": {
+    "marca": "Toyota",
+    "modelo": "Hilux",
+    "anio": 2023,
+    "placa": "PCH-4821",
+    "chasis": "MR0HZ8CD400123456"
+  },
+  "proveedor": "Taller Mecánico Pichincha Auto",
+  "descripcion": "El asegurado reporta el robo de su Toyota Hilux 2023, placas PCH-4821, ocurrido el viernes 1 de mayo aproximadamente a las 21:30 en el sector de Cumbayá, calle Francisco de Orellana, mientras se encontraba estacionado afuera del restaurante La Tablita del Tártaro. Indica que tres sujetos en motocicleta lo abordaron al regresar al vehículo, le exigieron las llaves bajo amenaza con arma de fuego y se llevaron el vehículo en dirección norte. El asegurado quedó ileso y se trasladó por sus propios medios hasta la UPC del sector. La denuncia formal en Fiscalía se presentó el 8 de mayo (siete días después del evento) debido a que el titular se encontraba fuera del país por motivos laborales. Adjunta copia del parte policial, denuncia fiscal, declaración juramentada y la matrícula del vehículo. Solicita activar la cobertura de Pérdida Total por Robo de su póliza vigente desde el 12 de abril de 2026.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Denuncia fiscal", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Declaración juramentada", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

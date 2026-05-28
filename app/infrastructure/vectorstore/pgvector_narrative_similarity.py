@@ -41,18 +41,22 @@ class PgVectorNarrativeSimilarity(NarrativeSimilarity):
 
     async def index(self, claim_id: str, descripcion: str) -> None:
         vector = (await self._embeddings.embed([descripcion]))[0]
+        embedding_literal = "[" + ",".join(repr(float(v)) for v in vector) + "]"
         async with self._session() as session:
+            # Delete-then-insert: claim_narratives.claim_id has a regular index,
+            # not a UNIQUE constraint, so ON CONFLICT can't target it.
+            await session.execute(
+                text("delete from claim_narratives where claim_id = :claim_id"),
+                {"claim_id": claim_id},
+            )
             await session.execute(
                 text(
                     """
-                    insert into claim_narratives (claim_id, content, embedding)
-                    values (:claim_id, :content, :embedding)
-                    on conflict (claim_id) do update
-                    set content = excluded.content,
-                        embedding = excluded.embedding
+                    insert into claim_narratives (id, claim_id, content, embedding)
+                    values (gen_random_uuid(), :claim_id, :content, cast(:embedding as vector))
                     """
                 ),
-                {"claim_id": claim_id, "content": descripcion, "embedding": vector},
+                {"claim_id": claim_id, "content": descripcion, "embedding": embedding_literal},
             )
             await session.commit()
 
