@@ -100,6 +100,8 @@ class ClaimSummary(BaseModel):
     score: int = Field(..., ge=0, le=100)
     nivel: Tier
     review_status: ReviewStatus = ReviewStatus.pendiente
+    proveedor: str | None = None
+    proveedor_id: str | None = None
 
 
 class ClaimDetail(BaseModel):

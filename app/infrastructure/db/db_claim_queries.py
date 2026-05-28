@@ -27,12 +27,13 @@ from app.agents.claims_agent.tools.types import (
 )
 from app.domain.ramos import normalize_ramo
 from app.infrastructure.db.models.asegurado import Asegurado
+from app.infrastructure.db.models.claim_review import ClaimReview as ClaimReviewRow
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.documento import Documento
 from app.infrastructure.db.models.poliza import Poliza
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
-from app.schemas.claim import ClaimDetail, ClaimSummary
+from app.schemas.claim import ClaimDetail, ClaimSummary, ReviewStatus
 from app.schemas.risk import Tier
 from app.use_cases.load_dataset._mapping import rows_to_claim_detail
 
@@ -118,16 +119,23 @@ class DbClaimQueries:
         score_row: ClaimScore,
         ciudad: str | None,
         asegurado_nombre: str | None = None,
+        review_status: str | None = None,
+        proveedor_nombre: str | None = None,
     ) -> ClaimSummary:
         """Build a ClaimSummary directly from ORM rows — no docs/proveedor fetch.
 
-        Summary listings don't need documentos or proveedor (neither appears in
-        ClaimSummary), so this avoids the N+1 round-trips that _hydrate causes.
+        Summary listings don't fetch a full Proveedor row, so the join in
+        :meth:`list_top_risk` passes the provider's display name (and id, via
+        ``sin.beneficiario``) directly here. The provider detail page uses these
+        to count the rows it owns.
         """
         display = (
             asegurado_nombre
             if asegurado_nombre
             else f"Asegurado {sin.id_asegurado[-4:]}"
+        )
+        proveedor_display = (
+            proveedor_nombre or sin.beneficiario if sin.beneficiario else None
         )
         return ClaimSummary(
             id=sin.id_siniestro,
@@ -140,6 +148,11 @@ class DbClaimQueries:
             estado=sin.estado,
             score=score_row.score,
             nivel=Tier(score_row.tier),
+            review_status=(
+                ReviewStatus(review_status) if review_status else ReviewStatus.pendiente
+            ),
+            proveedor=proveedor_display,
+            proveedor_id=sin.beneficiario,
         )
 
     def _to_summary(self, detail: ClaimDetail) -> ClaimSummary:
@@ -192,14 +205,26 @@ class DbClaimQueries:
         tier: TierFilter = "amarillo+rojo",
     ) -> list[ClaimSummary]:
         allowed_tiers = [t.value for t in _TIER_FILTERS[tier]]
-        # Single joined query: siniestros ⨝ claim_scores ⨝ polizas ⨝ asegurados.
-        # Builds ClaimSummary directly — no per-row Documento/Proveedor fetch
-        # (those don't appear in ClaimSummary).
+        # Single joined query: siniestros ⨝ claim_scores ⨝ polizas ⨝ asegurados
+        # ⨝ claim_reviews ⨝ proveedores. All non-score joins are LEFT — claims
+        # without a review row are pendiente by default; claims with no
+        # proveedor return null for proveedor_nombre.
         stmt = (
-            select(Siniestro, ClaimScore, Poliza.ciudad, Asegurado.nombre)
+            select(
+                Siniestro,
+                ClaimScore,
+                Poliza.ciudad,
+                Asegurado.nombre,
+                ClaimReviewRow.status,
+                Proveedor.nombre.label("proveedor_nombre"),
+            )
             .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
             .outerjoin(Poliza, Poliza.id_poliza == Siniestro.id_poliza)
             .outerjoin(Asegurado, Asegurado.id_asegurado == Siniestro.id_asegurado)
+            .outerjoin(
+                ClaimReviewRow, ClaimReviewRow.claim_id == Siniestro.id_siniestro
+            )
+            .outerjoin(Proveedor, Proveedor.id_proveedor == Siniestro.beneficiario)
             .where(ClaimScore.tier.in_(allowed_tiers))
             .order_by(ClaimScore.score.desc())
             .limit(top_n)
@@ -207,8 +232,15 @@ class DbClaimQueries:
         stmt = self._apply_workspace(stmt)
         rows = list((await self._s.execute(stmt)).all())
         return [
-            self._build_summary(sin, score_row, ciudad, asegurado_nombre=nombre)
-            for sin, score_row, ciudad, nombre in rows
+            self._build_summary(
+                sin,
+                score_row,
+                ciudad,
+                asegurado_nombre=nombre,
+                review_status=review_status,
+                proveedor_nombre=proveedor_nombre,
+            )
+            for sin, score_row, ciudad, nombre, review_status, proveedor_nombre in rows
         ]
 
     async def aggregate(

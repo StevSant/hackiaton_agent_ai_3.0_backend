@@ -22,13 +22,21 @@ Returns None when the claim is not found (caller maps to 404).
 
 from __future__ import annotations
 
+from datetime import datetime
+
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
 from app.infrastructure.reviews.ports import ReviewsStore
-from app.schemas.claim import ClaimAlert, ClaimDetail
+from app.schemas.claim import (
+    ClaimAlert,
+    ClaimDetail,
+    ClaimReview,
+    ClaimTimelineEvent,
+    DictamenOutcome,
+)
 from app.schemas.risk import Tier
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.score_claim import score_claim
@@ -37,6 +45,83 @@ from app.use_cases.score_claim import score_claim
 def _tier_to_severidad(tier: Tier) -> str:
     """Map a rule tier_hint to the UI severidad literal."""
     return {"rojo": "high", "amarillo": "med", "verde": "low"}[tier.value]
+
+
+def _fmt_dt(value: datetime | None) -> str:
+    """Render a datetime as YYYY-MM-DD HH:MM for the timeline label."""
+    if value is None:
+        return ""
+    return value.strftime("%Y-%m-%d %H:%M")
+
+
+_DICTAMEN_LABEL = {
+    DictamenOutcome.confirmado_sospecha: "Dictamen: sospecha confirmada",
+    DictamenOutcome.descartado: "Dictamen: descartado",
+    DictamenOutcome.requiere_mas_info: "Dictamen: requiere más información",
+}
+
+
+def _workflow_timeline_events(review: ClaimReview) -> list[ClaimTimelineEvent]:
+    """Build timeline entries from the workflow audit trail (escalado / take / dictamen / close)."""
+    events: list[ClaimTimelineEvent] = []
+    if review.escalated_at is not None:
+        actor = review.escalated_by_name or "Analista"
+        events.append(
+            ClaimTimelineEvent(
+                date=_fmt_dt(review.escalated_at),
+                title="Escalado a Unidad Antifraude",
+                tone="danger",
+                desc=(
+                    f"{actor}"
+                    + (f" · «{review.escalation_note}»" if review.escalation_note else "")
+                ),
+            )
+        )
+    if review.taken_at is not None:
+        actor = review.assigned_to_name or "Antifraude"
+        events.append(
+            ClaimTimelineEvent(
+                date=_fmt_dt(review.taken_at),
+                title="Tomado por Unidad Antifraude",
+                tone="warn",
+                desc=actor,
+            )
+        )
+    if review.dictaminado_at is not None and review.dictamen_outcome is not None:
+        actor = review.dictaminado_by_name or "Antifraude"
+        events.append(
+            ClaimTimelineEvent(
+                date=_fmt_dt(review.dictaminado_at),
+                title=_DICTAMEN_LABEL.get(review.dictamen_outcome, "Dictamen emitido"),
+                tone=(
+                    "danger"
+                    if review.dictamen_outcome == DictamenOutcome.confirmado_sospecha
+                    else "ok"
+                ),
+                desc=(
+                    f"{actor}"
+                    + (
+                        f" · «{review.dictamen_justificacion}»"
+                        if review.dictamen_justificacion
+                        else ""
+                    )
+                ),
+            )
+        )
+    if review.closed_at is not None:
+        actor = review.closed_by_name or "Analista"
+        events.append(
+            ClaimTimelineEvent(
+                date=_fmt_dt(review.closed_at),
+                title="Cerrado sin escalar",
+                tone="ok",
+                desc=(
+                    f"{actor}"
+                    + (f" · «{review.closed_note}»" if review.closed_note else "")
+                ),
+            )
+        )
+    return events
 
 
 async def get_claim_detail(
@@ -95,6 +180,16 @@ async def get_claim_detail(
         if reviews_store is not None:
             updates["review"] = await reviews_store.get(claim_id)
         claim = claim.model_copy(update=updates)
+
+    # Append workflow events (escalado / take / dictamen / close) so the
+    # "Línea de tiempo del caso" tells the full story alongside Ocurrencia +
+    # Reporte. The base timeline from _mapping already carries the source-date
+    # events; we just extend it from the live review.
+    workflow_events = _workflow_timeline_events(claim.review)
+    if workflow_events:
+        claim = claim.model_copy(
+            update={"timeline": [*claim.timeline, *workflow_events]}
+        )
 
     # ML + anomaly enrichment — runs in BOTH branches. Pass-through when ports unwired.
     return await enrich_claim_score(claim, classifier=classifier, detector=detector)
