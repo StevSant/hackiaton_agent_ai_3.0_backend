@@ -15,6 +15,7 @@ from uuid import UUID
 
 from sqlalchemy import Select, case, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 if TYPE_CHECKING:
     from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
@@ -85,27 +86,34 @@ class DbClaimQueries:
     # ------------------------------------------------------------------
 
     async def _load_detail(self, sin: Siniestro) -> ClaimDetail:
-        """Hydrate a ClaimDetail from a Siniestro ORM object + related rows."""
-        pol: Poliza | None = await self._s.get(Poliza, sin.id_poliza)
+        """Hydrate a ClaimDetail from a Siniestro ORM object + related rows.
 
-        score_stmt = select(ClaimScore).where(ClaimScore.claim_id == sin.id_siniestro)
-        score_row: ClaimScore | None = (
-            await self._s.execute(score_stmt)
-        ).scalars().first()
-
-        doc_stmt = select(Documento).where(Documento.id_siniestro == sin.id_siniestro)
-        documentos: list[Documento] = list(
-            (await self._s.execute(doc_stmt)).scalars().all()
+        Single round-trip per claim: re-select with `selectinload` populating
+        poliza / asegurado / documentos / score in one batch, then fetch the
+        provider (no ORM relationship to selectinload because beneficiario is
+        a free-form FK string).
+        """
+        stmt = (
+            select(Siniestro)
+            .options(
+                selectinload(Siniestro.poliza),
+                selectinload(Siniestro.asegurado),
+                selectinload(Siniestro.documentos),
+                selectinload(Siniestro.score),
+            )
+            .where(Siniestro.id_siniestro == sin.id_siniestro)
         )
-
+        loaded = (await self._s.execute(stmt)).scalars().first() or sin
         proveedor: Proveedor | None = (
-            await self._s.get(Proveedor, sin.beneficiario) if sin.beneficiario else None
+            await self._s.get(Proveedor, loaded.beneficiario) if loaded.beneficiario else None
         )
-
-        asegurado: Asegurado | None = await self._s.get(Asegurado, sin.id_asegurado)
-
         return rows_to_claim_detail(
-            sin, pol, score_row, documentos, proveedor, asegurado=asegurado
+            loaded,
+            loaded.poliza,
+            loaded.score,
+            list(loaded.documentos),
+            proveedor,
+            asegurado=loaded.asegurado,
         )
 
     async def _hydrate(self, sin: Siniestro, score_row: ClaimScore) -> ClaimDetail:
@@ -181,14 +189,55 @@ class DbClaimQueries:
         )
 
     async def _all_details(self) -> list[ClaimDetail]:
-        """Load every claim with its score in one pass."""
-        stmt = self._apply_workspace(select(Siniestro))
-        sins: list[Siniestro] = list(
-            (await self._s.execute(stmt)).scalars().all()
+        """Load every claim with its score / relations in one pass.
+
+        Eager-loads poliza, asegurado, documentos, and score with
+        ``selectinload`` (≈5 queries total instead of N×5). Providers don't
+        have an ORM relationship on Siniestro (beneficiario is a loose FK
+        string), so we bulk-fetch them by id in one extra query.
+
+        Memoized on the SQLAlchemy session: when the agent's tool dispatcher
+        runs ``aggregate`` + ``missing_documents`` + ``executive_summary`` on
+        the same session, the second and third callers reuse the first call's
+        result instead of refetching.
+        """
+        cache_key = f"_all_details:{self._workspace_id}"
+        cached = self._s.info.get(cache_key)
+        if cached is not None:
+            return cached
+
+        stmt = (
+            select(Siniestro)
+            .options(
+                selectinload(Siniestro.poliza),
+                selectinload(Siniestro.asegurado),
+                selectinload(Siniestro.documentos),
+                selectinload(Siniestro.score),
+            )
         )
-        results: list[ClaimDetail] = []
-        for sin in sins:
-            results.append(await self._load_detail(sin))
+        stmt = self._apply_workspace(stmt)
+        sins: list[Siniestro] = list((await self._s.execute(stmt)).scalars().all())
+
+        # Bulk-fetch providers by id (no relationship to selectinload).
+        provedor_ids = {s.beneficiario for s in sins if s.beneficiario}
+        provs: dict[str, Proveedor] = {}
+        if provedor_ids:
+            prov_stmt = select(Proveedor).where(Proveedor.id_proveedor.in_(provedor_ids))
+            for prov in (await self._s.execute(prov_stmt)).scalars().all():
+                provs[prov.id_proveedor] = prov
+
+        results = [
+            rows_to_claim_detail(
+                sin,
+                sin.poliza,
+                sin.score,
+                list(sin.documentos),
+                provs.get(sin.beneficiario) if sin.beneficiario else None,
+                asegurado=sin.asegurado,
+            )
+            for sin in sins
+        ]
+        self._s.info[cache_key] = results
         return results
 
     def _filter_by_tier(

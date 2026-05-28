@@ -17,6 +17,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.cache_control import cache_for
 from app.api.deps import (
     get_current_user,
     get_optional_db_session,
@@ -49,14 +50,22 @@ def _to_out(meta: object) -> RuleMetaOut:
     )
 
 
-@router.get("/catalog", response_model=list[RuleMetaOut])
+@router.get(
+    "/catalog",
+    response_model=list[RuleMetaOut],
+    dependencies=[Depends(cache_for(300))],
+)
 async def list_catalog(
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> list[RuleMetaOut]:
     return [_to_out(m) for m in all_meta()]
 
 
-@router.get("/config", response_model=list[RuleConfigOut])
+@router.get(
+    "/config",
+    response_model=list[RuleConfigOut],
+    dependencies=[Depends(cache_for(60))],
+)
 async def list_rules_config_route(
     session: Annotated[AsyncSession | None, Depends(get_optional_db_session)] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
@@ -73,7 +82,11 @@ async def list_rule_changes_route(
     return await list_rule_changes(store, limit=limit)
 
 
-@router.get("/{code}", response_model=RuleMetaOut)
+@router.get(
+    "/{code}",
+    response_model=RuleMetaOut,
+    dependencies=[Depends(cache_for(300))],
+)
 async def get_rule(
     code: str,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]

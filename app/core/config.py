@@ -69,6 +69,14 @@ class Settings(BaseSettings):
     # agent (ReAct loop)
     MAX_REACT_STEPS: int = 3  # safety bound on tool-use iterations per query
     MAX_CONVERSATION_TURNS: int = 8  # how many HumanMessage exchanges to retain
+    # Compose-phase model — defaults to LLM_DEFAULT_MODEL. Override per-machine
+    # via env (e.g. COMPOSE_MODEL=gpt-4o) for faster TTFT during the demo
+    # without changing default cost for everyone else. See DECISIONS.md D1.
+    COMPOSE_MODEL: str | None = None
+
+    # perf telemetry — emits one JSON log line per request with total + DB ms.
+    # See app/api/middleware/perf_timing.py. Cheap (<1% overhead).
+    PERF_TIMING_ENABLED: bool = True
 
     # data
     DATA_DIR: str = "data"

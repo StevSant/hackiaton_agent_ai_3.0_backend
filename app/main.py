@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.middleware import PerfTimingMiddleware, register_sqlalchemy_perf_listener
 from app.api.v1 import (
     agent_router,
     antifraude_router,
@@ -47,6 +48,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     session_factory = create_session_factory(db_engine)
     set_session_factory(session_factory)
     app.state.db_engine = db_engine
+    if settings.PERF_TIMING_ENABLED:
+        register_sqlalchemy_perf_listener(db_engine)
     # Attach pgvector similarity now that embeddings + session_factory both exist —
     # used by the SSE import endpoint to fire FS-13 (similar narratives).
     if state.embeddings is not None:
@@ -76,6 +79,9 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    # PerfTimingMiddleware wraps the rest of the stack so it sees the full
+    # request lifetime, including downstream middleware overhead.
+    app.add_middleware(PerfTimingMiddleware)
 
     register_error_handlers(app)
 

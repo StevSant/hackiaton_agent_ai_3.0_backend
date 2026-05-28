@@ -27,12 +27,6 @@ from app.agents.claims_agent.state import ClaimsAgentState
 from app.infrastructure.llm.types import Message, ResponseFormat
 
 
-def _format_tool_catalog(deps: ClaimsAgentDeps) -> str:
-    """Render the tool registry as a JSON-ish catalog for the prompt."""
-    entries = [entry.spec().model_dump() for entry in deps.tool_registry.values()]
-    return json.dumps(entries, ensure_ascii=False, indent=2)
-
-
 def _format_scratchpad(scratchpad: list[dict[str, Any]]) -> str:
     if not scratchpad:
         return "(vacío — primera iteración)"
@@ -116,7 +110,7 @@ async def _decide(
     history: list[BaseMessage],
 ) -> ReActDecision:
     system_prompt = deps.prompts.load("react", "v1")
-    tool_catalog = _format_tool_catalog(deps)
+    tool_catalog = deps.tool_catalog
     context_section = ""
     if context:
         focus_claim = context.get("focus_claim_id")

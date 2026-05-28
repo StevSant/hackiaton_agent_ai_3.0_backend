@@ -7,6 +7,7 @@ prompt loader, tool registry) get bound to them at graph-build time via the
 Wired in `app/api/deps.py::get_ask_agent` once per request.
 """
 
+import json
 from dataclasses import dataclass, field
 
 from app.agents.claims_agent.tools import (
@@ -38,6 +39,10 @@ class ClaimsAgentDeps:
     # Built in __post_init__ from the tools above. Indexed by tool name —
     # the ReAct loop dispatches by string match against the LLM's decision.
     tool_registry: dict[str, ToolEntry] = field(default_factory=dict)
+    # Pre-rendered tool catalog string for the ReAct prompt. Same content on
+    # every iteration / request, so we compute once here instead of paying the
+    # JSON-dump cost ~3x per agent turn inside react_step.
+    tool_catalog: str = ""
 
     def __post_init__(self) -> None:
         if not self.tool_registry:
@@ -50,3 +55,6 @@ class ClaimsAgentDeps:
                 get_provider_detail=self.get_provider_detail,
                 get_asegurado_detail=self.get_asegurado_detail,
             )
+        if not self.tool_catalog:
+            entries = [entry.spec().model_dump() for entry in self.tool_registry.values()]
+            self.tool_catalog = json.dumps(entries, ensure_ascii=False, indent=2)

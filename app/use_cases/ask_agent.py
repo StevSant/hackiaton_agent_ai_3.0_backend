@@ -29,6 +29,7 @@ from uuid import UUID
 from langchain_core.messages import AIMessage, HumanMessage
 
 from app.agents.claims_agent import ClaimsAgentDeps, build_graph
+from app.core.config import settings
 from app.domain.auth.user import User
 from app.infrastructure.llm.types import Message
 from app.schemas.agent import AgentAskRequest
@@ -63,7 +64,31 @@ def _coerce_uuid(value: str | None) -> UUID | None:
 
 
 def _serialize_tool_results(results: list[dict]) -> str:
-    return json.dumps(results, ensure_ascii=False, indent=2, default=str)
+    # Minified JSON: ~10% fewer tokens to the compose LLM, lower TTFT.
+    return json.dumps(results, ensure_ascii=False, separators=(",", ":"), default=str)
+
+
+def _serialize_scratchpad(scratchpad: list[dict]) -> str:
+    return json.dumps(scratchpad, ensure_ascii=False, separators=(",", ":"), default=str)
+
+
+_CHART_HINT_TOOLS = ("aggregate_by_dimension", "query_claims")
+
+
+def _has_chart_hint(tool_results: list[dict[str, Any]]) -> bool:
+    """Cheap pre-check: does any collected tool result carry a chart_hint?
+
+    Lets us emit a `chart_pending` SSE step BEFORE the compose stream so the
+    UI can paint a chart skeleton in parallel with the streamed text instead
+    of waiting for the final chart event.
+    """
+    for tr in tool_results:
+        if tr.get("tool") not in _CHART_HINT_TOOLS:
+            continue
+        args = tr.get("args")
+        if isinstance(args, dict) and isinstance(args.get("chart_hint"), dict):
+            return True
+    return False
 
 
 class AskAgent:
@@ -182,6 +207,12 @@ class AskAgent:
                     new_citations = node_output.get("citations") or []
                     citations.extend(c for c in new_citations if c)
 
+            # Emit a `chart_pending` step BEFORE compose so the UI can paint a
+            # chart skeleton in parallel with the streamed answer text — instead
+            # of waiting for the final `chart` event to learn one is coming.
+            if _has_chart_hint(tool_results):
+                yield AgentStepEvent(data=AgentStepData(node="chart_pending"))
+
             # Compose phase — streamed live from the LLM. Accumulate text so we
             # can persist it as an AIMessage for the next turn.
             yield AgentStepEvent(data=AgentStepData(node="compose"))
@@ -281,7 +312,7 @@ class AskAgent:
         scratchpad_section = ""
         if scratchpad:
             scratchpad_section = (
-                f"## scratchpad\n```json\n{json.dumps(scratchpad, ensure_ascii=False, indent=2, default=str)}\n```\n\n"
+                f"## scratchpad\n```json\n{_serialize_scratchpad(scratchpad)}\n```\n\n"
             )
         user_payload = (
             f"## Pregunta del analista\n{query}\n\n"
@@ -296,7 +327,11 @@ class AskAgent:
             Message(role="user", content=user_payload),
         ]
 
-        async for llm_event in self._deps.llm.stream(messages, model=self._deps.llm_model):
+        # Compose uses settings.COMPOSE_MODEL when set (e.g. gpt-4o for faster
+        # TTFT on the demo machine), otherwise falls back to the deps default
+        # (gpt-4o-mini). Keeping the override in env means cost is opt-in.
+        compose_model = settings.COMPOSE_MODEL or self._deps.llm_model
+        async for llm_event in self._deps.llm.stream(messages, model=compose_model):
             if llm_event.type == "token":
                 delta = str(llm_event.data.get("delta", ""))
                 if delta:
