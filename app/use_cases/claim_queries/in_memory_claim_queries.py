@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Callable
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.agents.claims_agent.tools.types import (
@@ -21,6 +21,14 @@ from app.agents.claims_agent.tools.types import (
 )
 from app.schemas.claim import ClaimDetail, ClaimSummary
 from app.schemas.risk import Tier
+
+if TYPE_CHECKING:
+    from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
+        GetAseguradoDetailOutput,
+    )
+    from app.agents.claims_agent.tools.get_provider_detail_tool import (
+        GetProviderDetailOutput,
+    )
 
 _TIER_FILTERS: dict[TierFilter, set[Tier]] = {
     "rojo": {Tier.rojo},
@@ -173,4 +181,65 @@ class InMemoryClaimQueries(ClaimQueries):
             top_rojo=top_rojo,
             top_proveedores=[p for p, _ in prov_counter.most_common(5)],
             top_ramos=[r for r, _ in ramo_counter.most_common(5)],
+        )
+
+    async def get_provider_detail(
+        self, provider_id: str, *, top_claims: int = 5
+    ) -> "GetProviderDetailOutput | None":
+        """Stub: returns a synthetic ProviderOut + top-N claims by score."""
+        from app.agents.claims_agent.tools.get_provider_detail_tool import (
+            GetProviderDetailOutput,
+        )
+        from app.schemas.network import ProviderOut
+
+        # Find claims associated with this provider id from fixture data.
+        matching = [c for c in self._claims if c.proveedor == provider_id]
+        if not matching:
+            return None
+        top = sorted(matching, key=lambda c: c.score, reverse=True)[:top_claims]
+        provider_out = ProviderOut(
+            id_proveedor=provider_id,
+            nombre=provider_id,
+            tipo="Proveedor",
+            ciudad="Desconocida",
+            casos=len(matching),
+            alertas=sum(1 for c in matching if c.nivel in {Tier.amarillo, Tier.rojo}),
+            monto=sum(c.monto_reclamado for c in matching),
+            lista_restrictiva=False,
+            ramos=sorted({c.ramo for c in matching if c.ramo}),
+        )
+        return GetProviderDetailOutput(
+            found=True,
+            provider=provider_out,
+            top_claims=[self._to_summary(c) for c in top],
+        )
+
+    async def get_asegurado_detail(
+        self, asegurado_id: str, *, top_claims: int = 5
+    ) -> "GetAseguradoDetailOutput | None":
+        """Stub: returns a synthetic AseguradoOut + top-N claims by score."""
+        from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
+            GetAseguradoDetailOutput,
+        )
+        from app.schemas.asegurados import AseguradoOut
+
+        # Find claims associated with this asegurado from fixture data.
+        matching = [c for c in self._claims if c.asegurado == asegurado_id]
+        if not matching:
+            return None
+        top = sorted(matching, key=lambda c: c.score, reverse=True)[:top_claims]
+        asegurado_out = AseguradoOut(
+            id_asegurado=asegurado_id,
+            nombre=asegurado_id,
+            segmento=None,
+            ciudad="Desconocida",
+            casos=len(matching),
+            alertas=sum(1 for c in matching if c.nivel in {Tier.amarillo, Tier.rojo}),
+            monto=sum(c.monto_reclamado for c in matching),
+            ramos=sorted({c.ramo for c in matching if c.ramo}),
+        )
+        return GetAseguradoDetailOutput(
+            found=True,
+            asegurado=asegurado_out,
+            top_claims=[self._to_summary(c) for c in top],
         )

@@ -10,11 +10,19 @@ The score is the one written by load_dataset at ingest time.
 from __future__ import annotations
 
 from collections import Counter
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 from uuid import UUID
 
-from sqlalchemy import Select, or_, select
+from sqlalchemy import Select, case, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
+
+if TYPE_CHECKING:
+    from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
+        GetAseguradoDetailOutput,
+    )
+    from app.agents.claims_agent.tools.get_provider_detail_tool import (
+        GetProviderDetailOutput,
+    )
 
 _T = TypeVar("_T", bound=tuple[object, ...])
 
@@ -379,4 +387,152 @@ class DbClaimQueries:
             top_rojo=top_rojo,
             top_proveedores=[p for p, _ in prov_counter.most_common(5)],
             top_ramos=[r for r, _ in ramo_counter.most_common(5)],
+        )
+
+    async def get_provider_detail(
+        self, provider_id: str, *, top_claims: int = 5
+    ) -> "GetProviderDetailOutput | None":
+        """Ficha completa de un proveedor + sus top-N siniestros por score."""
+        from app.agents.claims_agent.tools.get_provider_detail_tool import (
+            GetProviderDetailOutput,
+        )
+        from app.domain.ramos import normalize_ramo
+        from app.schemas.network import ProviderOut
+
+        proveedor: Proveedor | None = await self._s.get(Proveedor, provider_id)
+        if proveedor is None:
+            return None
+
+        # Aggregate ramos for this provider
+        alerta_case = case(
+            (ClaimScore.tier.in_(["amarillo", "rojo"]), 1),
+            else_=0,
+        )
+        agg_stmt = (
+            select(
+                func.count(Siniestro.id_siniestro).label("casos"),
+                func.coalesce(func.sum(Siniestro.monto_reclamado), 0.0).label("monto"),
+                func.coalesce(func.sum(alerta_case), 0).label("alertas"),
+                func.array_agg(func.distinct(Siniestro.ramo)).label("ramos"),
+            )
+            .select_from(Siniestro)
+            .outerjoin(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .where(Siniestro.beneficiario == provider_id)
+        )
+        agg_row = (await self._s.execute(agg_stmt)).one()
+        casos = int(agg_row.casos or 0)
+        alertas = int(agg_row.alertas or 0)
+        raw_ramos: list[str] = [r for r in (agg_row.ramos or []) if r]
+        ramos = sorted({normalize_ramo(r) for r in raw_ramos})
+
+        _RESTRICTIVE_THRESHOLD = 0.5
+        nombre = proveedor.nombre or f"{proveedor.tipo} {proveedor.id_proveedor}"
+        provider_out = ProviderOut(
+            id_proveedor=proveedor.id_proveedor,
+            nombre=nombre,
+            tipo=proveedor.tipo,
+            ciudad=proveedor.ciudad,
+            casos=casos,
+            alertas=alertas,
+            monto=float(agg_row.monto or 0.0),
+            lista_restrictiva=proveedor.porcentaje_casos_observados >= _RESTRICTIVE_THRESHOLD,
+            ramos=ramos,
+        )
+
+        # Top-N claims by score for this provider
+        top_stmt = (
+            select(Siniestro, ClaimScore, Poliza.ciudad, Asegurado.nombre)
+            .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .outerjoin(Poliza, Poliza.id_poliza == Siniestro.id_poliza)
+            .outerjoin(Asegurado, Asegurado.id_asegurado == Siniestro.id_asegurado)
+            .where(Siniestro.beneficiario == provider_id)
+            .order_by(ClaimScore.score.desc())
+            .limit(top_claims)
+        )
+        top_stmt = self._apply_workspace(top_stmt)
+        top_rows = list((await self._s.execute(top_stmt)).all())
+        top_claim_summaries = [
+            self._build_summary(sin, score_row, ciudad, asegurado_nombre=nombre)
+            for sin, score_row, ciudad, nombre in top_rows
+        ]
+
+        return GetProviderDetailOutput(
+            found=True,
+            provider=provider_out,
+            top_claims=top_claim_summaries,
+        )
+
+    async def get_asegurado_detail(
+        self, asegurado_id: str, *, top_claims: int = 5
+    ) -> "GetAseguradoDetailOutput | None":
+        """Ficha completa de un asegurado + sus top-N siniestros por score."""
+        from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
+            GetAseguradoDetailOutput,
+        )
+        from app.domain.ramos import normalize_ramo
+        from app.schemas.asegurados import AseguradoOut
+
+        asegurado: Asegurado | None = await self._s.get(Asegurado, asegurado_id)
+        if asegurado is None:
+            return None
+
+        alerta_case = case(
+            (ClaimScore.tier.in_(["amarillo", "rojo"]), 1),
+            else_=0,
+        )
+        agg_stmt = (
+            select(
+                func.count(Siniestro.id_siniestro).label("casos"),
+                func.coalesce(func.sum(Siniestro.monto_reclamado), 0.0).label("monto"),
+                func.coalesce(func.sum(alerta_case), 0).label("alertas"),
+                func.array_agg(func.distinct(Siniestro.ramo)).label("ramos"),
+            )
+            .select_from(Siniestro)
+            .outerjoin(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .where(Siniestro.id_asegurado == asegurado_id)
+        )
+        agg_row = (await self._s.execute(agg_stmt)).one()
+        casos = int(agg_row.casos or 0)
+        alertas = int(agg_row.alertas or 0)
+        raw_ramos: list[str] = [r for r in (agg_row.ramos or []) if r]
+        ramos = sorted({normalize_ramo(r) for r in raw_ramos})
+
+        nombre = asegurado.nombre or f"Asegurado {asegurado.id_asegurado[-4:]}"
+        asegurado_out = AseguradoOut(
+            id_asegurado=asegurado.id_asegurado,
+            nombre=nombre,
+            segmento=asegurado.segmento,
+            ciudad=asegurado.ciudad,
+            antiguedad=asegurado.antiguedad,
+            num_polizas=asegurado.num_polizas,
+            reclamos_ultimos_12_meses=asegurado.reclamos_ultimos_12_meses,
+            mora_actual=asegurado.mora_actual,
+            score_cliente_simulado=asegurado.score_cliente_simulado,
+            casos=casos,
+            alertas=alertas,
+            monto=float(agg_row.monto or 0.0),
+            ramos=ramos,
+        )
+
+        # Top-N claims by score for this asegurado
+        top_stmt = (
+            select(Siniestro, ClaimScore, Poliza.ciudad, Asegurado.nombre)
+            .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+            .outerjoin(Poliza, Poliza.id_poliza == Siniestro.id_poliza)
+            .outerjoin(Asegurado, Asegurado.id_asegurado == Siniestro.id_asegurado)
+            .where(Siniestro.id_asegurado == asegurado_id)
+            .order_by(ClaimScore.score.desc())
+            .limit(top_claims)
+        )
+        top_stmt = self._apply_workspace(top_stmt)
+        top_rows = list((await self._s.execute(top_stmt)).all())
+        top_claim_summaries = [
+            self._build_summary(sin, score_row, ciudad, asegurado_nombre=ase_nombre)
+            for sin, score_row, ciudad, ase_nombre in top_rows
+        ]
+
+        return GetAseguradoDetailOutput(
+            found=True,
+            asegurado=asegurado_out,
+            top_claims=top_claim_summaries,
         )

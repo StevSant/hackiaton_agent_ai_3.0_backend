@@ -10,9 +10,11 @@ from pydantic import BaseModel, Field
 
 
 class AgentAskContext(BaseModel):
-    """Optional client-supplied context. Lets the UI pin the agent to a focused claim."""
+    """Optional client-supplied context. Lets the UI pin the agent to a focused entity."""
 
     focus_claim_id: str | None = None
+    focus_provider_id: str | None = None
+    focus_asegurado_id: str | None = None
 
 
 class AgentAskRequest(BaseModel):

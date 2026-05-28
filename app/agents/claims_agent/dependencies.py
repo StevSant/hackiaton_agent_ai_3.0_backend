@@ -11,7 +11,9 @@ from dataclasses import dataclass, field
 
 from app.agents.claims_agent.tools import (
     AggregateByDimensionTool,
+    GetAseguradoDetailTool,
     GetClaimDetailTool,
+    GetProviderDetailTool,
     MissingDocumentsTool,
     QueryClaimsTool,
     SummarizeCriticalTool,
@@ -30,8 +32,10 @@ class ClaimsAgentDeps:
     aggregate_by_dimension: AggregateByDimensionTool
     missing_documents: MissingDocumentsTool
     summarize_critical: SummarizeCriticalTool
+    get_provider_detail: GetProviderDetailTool | None = None
+    get_asegurado_detail: GetAseguradoDetailTool | None = None
     max_react_steps: int = 3
-    # Built in __post_init__ from the five tools above. Indexed by tool name —
+    # Built in __post_init__ from the tools above. Indexed by tool name —
     # the ReAct loop dispatches by string match against the LLM's decision.
     tool_registry: dict[str, ToolEntry] = field(default_factory=dict)
 
@@ -43,4 +47,6 @@ class ClaimsAgentDeps:
                 aggregate_by_dimension=self.aggregate_by_dimension,
                 missing_documents=self.missing_documents,
                 summarize_critical=self.summarize_critical,
+                get_provider_detail=self.get_provider_detail,
+                get_asegurado_detail=self.get_asegurado_detail,
             )

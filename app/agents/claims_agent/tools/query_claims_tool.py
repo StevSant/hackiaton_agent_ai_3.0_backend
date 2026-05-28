@@ -31,6 +31,20 @@ class QueryClaimsInput(BaseModel):
             "scope this query to that case. Usually injected automatically from the UI context."
         ),
     )
+    filter_provider_id: str | None = Field(
+        default=None,
+        description=(
+            "Set ONLY when the analyst asks about 'este proveedor' / 'ese proveedor' "
+            "while a provider context is active. Injected automatically by the dispatcher."
+        ),
+    )
+    filter_asegurado_id: str | None = Field(
+        default=None,
+        description=(
+            "Set ONLY when the analyst asks about 'este asegurado' / 'ese asegurado' "
+            "while an asegurado context is active. Injected automatically by the dispatcher."
+        ),
+    )
     chart_hint: ChartHint | None = Field(
         default=None,
         description=(

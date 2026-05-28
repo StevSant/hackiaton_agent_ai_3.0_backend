@@ -1,14 +1,15 @@
-"""Port the 5 agent tools depend on for claim data.
+"""Port the agent tools depend on for claim data.
 
-Concrete impl lives in `app/use_cases/claim_queries/` (backed by `claims_repo`
-once Miquel's lane lands V1+V2). Tests use `InMemoryClaimQueries` so the agent
-suite never needs a real DB.
+Concrete impl lives in `app/infrastructure/db/db_claim_queries.py`. Tests use
+`InMemoryClaimQueries` so the agent suite never needs a real DB.
 
 Per backend CLAUDE.md §5: graph nodes never reach into DB directly — they call
 ports. Tools are the port-facing seam.
 """
 
-from typing import Protocol, runtime_checkable
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from app.agents.claims_agent.tools.types import (
     AggregateDimension,
@@ -19,10 +20,18 @@ from app.agents.claims_agent.tools.types import (
 )
 from app.schemas.claim import ClaimDetail, ClaimSummary
 
+if TYPE_CHECKING:
+    from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
+        GetAseguradoDetailOutput,
+    )
+    from app.agents.claims_agent.tools.get_provider_detail_tool import (
+        GetProviderDetailOutput,
+    )
+
 
 @runtime_checkable
 class ClaimQueries(Protocol):
-    """Read-side queries the claims agent's 5 tools delegate to."""
+    """Read-side queries the claims agent tools delegate to."""
 
     async def list_top_risk(
         self, *, top_n: int = 10, tier: TierFilter = "amarillo+rojo"
@@ -56,3 +65,13 @@ class ClaimQueries(Protocol):
 
     async def executive_summary(self) -> ExecutiveSummary:
         """Q11: aggregate snapshot of the most critical claims."""
+
+    async def get_provider_detail(
+        self, provider_id: str, *, top_claims: int = 5
+    ) -> "GetProviderDetailOutput | None":
+        """Ficha completa de un proveedor + sus top-N siniestros por score."""
+
+    async def get_asegurado_detail(
+        self, asegurado_id: str, *, top_claims: int = 5
+    ) -> "GetAseguradoDetailOutput | None":
+        """Ficha completa de un asegurado + sus top-N siniestros por score."""

@@ -21,7 +21,9 @@ from app.agents.claims_agent import ClaimsAgentDeps
 from app.agents.claims_agent.tools import (
     AggregateByDimensionTool,
     ClaimQueries,
+    GetAseguradoDetailTool,
     GetClaimDetailTool,
+    GetProviderDetailTool,
     MissingDocumentsTool,
     QueryClaimsTool,
     SummarizeCriticalTool,
@@ -393,6 +395,8 @@ async def get_ask_agent(
         aggregate_by_dimension=AggregateByDimensionTool(queries),
         missing_documents=MissingDocumentsTool(queries),
         summarize_critical=SummarizeCriticalTool(queries),
+        get_provider_detail=GetProviderDetailTool(queries),
+        get_asegurado_detail=GetAseguradoDetailTool(queries),
         max_react_steps=settings.MAX_REACT_STEPS,
     )
     return AskAgent(deps=deps, persistence=persistence)

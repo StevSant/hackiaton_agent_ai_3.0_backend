@@ -44,9 +44,18 @@ router = APIRouter(prefix="/agent", tags=["agent"])
 
 
 def _to_use_case_request(wire: WireAgentAskRequest) -> AskAgentRequest:
+    has_context = (
+        wire.context_claim_id is not None
+        or wire.context_provider_id is not None
+        or wire.context_asegurado_id is not None
+    )
     context = (
-        AgentAskContext(focus_claim_id=wire.context_claim_id)
-        if wire.context_claim_id
+        AgentAskContext(
+            focus_claim_id=wire.context_claim_id,
+            focus_provider_id=wire.context_provider_id,
+            focus_asegurado_id=wire.context_asegurado_id,
+        )
+        if has_context
         else None
     )
     return AskAgentRequest(
@@ -114,18 +123,25 @@ async def agent_ask(
     preview = body.message.strip().replace("\n", " ")
     if len(preview) > 160:
         preview = preview[:157] + "..."
-    title = (
-        f"Preguntó a Centinela IA sobre {body.context_claim_id}"
-        if body.context_claim_id
-        else "Consultó a Centinela IA"
-    )
+    if body.context_claim_id:
+        title = f"Preguntó a Centinela IA sobre {body.context_claim_id}"
+        audit_target = body.context_claim_id
+    elif body.context_provider_id:
+        title = f"Preguntó a Centinela IA sobre el proveedor {body.context_provider_id}"
+        audit_target = body.context_provider_id
+    elif body.context_asegurado_id:
+        title = f"Preguntó a Centinela IA sobre el asegurado {body.context_asegurado_id}"
+        audit_target = body.context_asegurado_id
+    else:
+        title = "Consultó a Centinela IA"
+        audit_target = None
     emit_audit_event(
         audit,
         user=user,
         action=AuditAction.consulta_ia,
         title=title,
         detail=preview,
-        target=body.context_claim_id,
+        target=audit_target,
         actor=AuditActor.agente,
     )
     return StreamingResponse(

@@ -20,6 +20,7 @@ from typing import Any
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from pydantic import ValidationError
 
+from app.agents.claims_agent._tool_dispatcher import FocusContext
 from app.agents.claims_agent.dependencies import ClaimsAgentDeps
 from app.agents.claims_agent.react import ReActDecision, ScratchpadEntry
 from app.agents.claims_agent.state import ClaimsAgentState
@@ -118,11 +119,25 @@ async def _decide(
     tool_catalog = _format_tool_catalog(deps)
     context_section = ""
     if context:
-        focus = context.get("focus_claim_id")
-        if focus:
+        focus_claim = context.get("focus_claim_id")
+        focus_provider = context.get("focus_provider_id")
+        focus_asegurado = context.get("focus_asegurado_id")
+        if focus_claim:
             context_section = (
                 f"\n## Contexto del UI\nEl analista está mirando el caso "
-                f"`{focus}`. Si la pregunta es ambigua, asumí que se refiere a ese siniestro.\n\n"
+                f"`{focus_claim}`. Si la pregunta es ambigua, asumí que se refiere a ese siniestro.\n\n"
+            )
+        elif focus_provider:
+            context_section = (
+                f"\n## Contexto del UI\nEl analista está mirando el proveedor "
+                f"`{focus_provider}`. Llamá a `get_provider_detail` al inicio para conocer "
+                f"su ficha antes de responder preguntas de seguimiento.\n\n"
+            )
+        elif focus_asegurado:
+            context_section = (
+                f"\n## Contexto del UI\nEl analista está mirando el asegurado "
+                f"`{focus_asegurado}`. Llamá a `get_asegurado_detail` al inicio para conocer "
+                f"su perfil antes de responder preguntas de seguimiento.\n\n"
             )
     history_section = (
         f"## Historial de conversación\n{_format_history(history, current_query=query)}\n\n"
@@ -208,10 +223,16 @@ def make_react_step(
 
         # Resolve the last user message for the focused-question heuristic.
         last_user_msg = state["query"]
+        _ctx = state.get("context") or {}
+        _focus = FocusContext(
+            claim_id=_ctx.get("focus_claim_id"),
+            provider_id=_ctx.get("focus_provider_id"),
+            asegurado_id=_ctx.get("focus_asegurado_id"),
+        )
         try:
             tool_output = await tool_entry.run_with_context(
                 llm_args=decision.args or {},
-                focus_claim_id=(state.get("context") or {}).get("focus_claim_id"),
+                focus=_focus,
                 last_user_message=last_user_msg,
             )
             observation_payload: Any = tool_output.model_dump(mode="json")

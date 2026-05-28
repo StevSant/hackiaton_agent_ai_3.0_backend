@@ -57,6 +57,8 @@ class ConversationsRepo:
         conversation_id: UUID,
         user_id: UUID,
         context_claim_id: str | None,
+        context_provider_id: str | None = None,
+        context_asegurado_id: str | None = None,
     ) -> None:
         """Idempotent: if the id+user already exists, just bump updated_at."""
         stmt = (
@@ -65,6 +67,8 @@ class ConversationsRepo:
                 id=conversation_id,
                 user_id=user_id,
                 context_claim_id=context_claim_id,
+                context_provider_id=context_provider_id,
+                context_asegurado_id=context_asegurado_id,
             )
             .on_conflict_do_update(
                 index_elements=[Conversation.id],

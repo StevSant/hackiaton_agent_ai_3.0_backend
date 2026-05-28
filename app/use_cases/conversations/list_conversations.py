@@ -38,6 +38,8 @@ class ListConversations:
                     id=row.id,
                     title=row.title,
                     context_claim_id=row.context_claim_id,
+                    context_provider_id=getattr(row, "context_provider_id", None),
+                    context_asegurado_id=getattr(row, "context_asegurado_id", None),
                     snippet=_latest_user_snippet(msgs),
                     created_at=row.created_at,
                     updated_at=row.updated_at,

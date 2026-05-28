@@ -27,6 +27,8 @@ class ConversationSummary(BaseModel):
     id: UUID
     title: str | None
     context_claim_id: str | None
+    context_provider_id: str | None = None
+    context_asegurado_id: str | None = None
     snippet: str | None
     created_at: datetime
     updated_at: datetime
@@ -36,6 +38,8 @@ class ConversationDetail(BaseModel):
     id: UUID
     title: str | None
     context_claim_id: str | None
+    context_provider_id: str | None = None
+    context_asegurado_id: str | None = None
     created_at: datetime
     updated_at: datetime
     messages: list[MessageOut]

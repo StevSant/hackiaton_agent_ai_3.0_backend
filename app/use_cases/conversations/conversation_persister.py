@@ -48,12 +48,20 @@ class ConversationPersister:
         user: User,
         query: str,
         context_claim_id: str | None,
+        context_provider_id: str | None = None,
+        context_asegurado_id: str | None = None,
     ) -> int:
         """Returns the sequence number that was written for the user message."""
         async with self._sf() as session:
             convs = ConversationsRepo(session)
             msgs = MessagesRepo(session)
-            await convs.upsert(conversation_id, user.id, context_claim_id)
+            await convs.upsert(
+                conversation_id,
+                user.id,
+                context_claim_id,
+                context_provider_id=context_provider_id,
+                context_asegurado_id=context_asegurado_id,
+            )
             written = await msgs.add(conversation_id, "user", query)
             await convs.touch(conversation_id)
             await session.commit()

@@ -3,10 +3,20 @@ from app.agents.claims_agent.tools.aggregate_by_dimension_tool import (
     AggregateByDimensionOutput,
     AggregateByDimensionTool,
 )
+from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
+    GetAseguradoDetailInput,
+    GetAseguradoDetailOutput,
+    GetAseguradoDetailTool,
+)
 from app.agents.claims_agent.tools.get_claim_detail_tool import (
     GetClaimDetailInput,
     GetClaimDetailOutput,
     GetClaimDetailTool,
+)
+from app.agents.claims_agent.tools.get_provider_detail_tool import (
+    GetProviderDetailInput,
+    GetProviderDetailOutput,
+    GetProviderDetailTool,
 )
 from app.agents.claims_agent.tools.missing_documents_tool import (
     MissingDocumentsInput,
@@ -42,9 +52,15 @@ __all__ = [
     "AggregateRow",
     "ClaimQueries",
     "ExecutiveSummary",
+    "GetAseguradoDetailInput",
+    "GetAseguradoDetailOutput",
+    "GetAseguradoDetailTool",
     "GetClaimDetailInput",
     "GetClaimDetailOutput",
     "GetClaimDetailTool",
+    "GetProviderDetailInput",
+    "GetProviderDetailOutput",
+    "GetProviderDetailTool",
     "MissingDocClaim",
     "MissingDocumentsInput",
     "MissingDocumentsOutput",

@@ -15,6 +15,20 @@ class SummarizeCriticalInput(BaseModel):
             "Usually injected automatically from the UI context."
         ),
     )
+    filter_provider_id: str | None = Field(
+        default=None,
+        description=(
+            "Set ONLY when the analyst asks about 'este proveedor' while a provider "
+            "context is active. Injected automatically by the dispatcher."
+        ),
+    )
+    filter_asegurado_id: str | None = Field(
+        default=None,
+        description=(
+            "Set ONLY when the analyst asks about 'este asegurado' while an asegurado "
+            "context is active. Injected automatically by the dispatcher."
+        ),
+    )
 
 
 class SummarizeCriticalOutput(BaseModel):

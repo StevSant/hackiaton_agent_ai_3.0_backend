@@ -11,12 +11,16 @@ from typing import Any
 
 from pydantic import BaseModel, ValidationError
 
-from app.agents.claims_agent._tool_dispatcher import inject_focus_claim_id
+from app.agents.claims_agent._tool_dispatcher import FocusContext, inject_focus_context
 from app.agents.claims_agent.tools import (
     AggregateByDimensionInput,
     AggregateByDimensionTool,
+    GetAseguradoDetailInput,
+    GetAseguradoDetailTool,
     GetClaimDetailInput,
     GetClaimDetailTool,
+    GetProviderDetailInput,
+    GetProviderDetailTool,
     MissingDocumentsInput,
     MissingDocumentsTool,
     QueryClaimsInput,
@@ -52,18 +56,21 @@ class ToolEntry:
         self,
         *,
         llm_args: dict[str, Any],
-        focus_claim_id: str | None,
+        focus_claim_id: str | None = None,
+        focus: FocusContext | None = None,
         last_user_message: str,
     ) -> BaseModel:
-        """Dispatch the tool after injecting focus_claim_id when appropriate.
+        """Dispatch the tool after injecting focus context when appropriate.
 
-        This is the context-aware entry point used by the ReAct loop.
-        `run_raw` is kept for backwards-compatible callers that don't have context.
+        Accepts either a `FocusContext` object (new callers) or a bare
+        `focus_claim_id` string (legacy callers — still supported).
         """
-        enriched = inject_focus_claim_id(
+        if focus is None:
+            focus = FocusContext(claim_id=focus_claim_id)
+        enriched = inject_focus_context(
             tool_name=self.name,
             llm_args=llm_args,
-            focus_claim_id=focus_claim_id,
+            focus=focus,
             last_user_message=last_user_message,
         )
         return await self.run_raw(enriched)
@@ -76,6 +83,8 @@ def build_tool_registry(
     aggregate_by_dimension: AggregateByDimensionTool,
     missing_documents: MissingDocumentsTool,
     summarize_critical: SummarizeCriticalTool,
+    get_provider_detail: GetProviderDetailTool | None = None,
+    get_asegurado_detail: GetAseguradoDetailTool | None = None,
 ) -> dict[str, ToolEntry]:
     """Bundle every tool into a name-indexed registry.
 
@@ -84,10 +93,10 @@ def build_tool_registry(
     """
     entries = [
         ToolEntry(
-            name=query_claims.name,
-            description=query_claims.description,
-            input_model=QueryClaimsInput,
-            invoke=query_claims.run,  # type: ignore[arg-type]
+            name=aggregate_by_dimension.name,
+            description=aggregate_by_dimension.description,
+            input_model=AggregateByDimensionInput,
+            invoke=aggregate_by_dimension.run,  # type: ignore[arg-type]
         ),
         ToolEntry(
             name=get_claim_detail.name,
@@ -96,16 +105,16 @@ def build_tool_registry(
             invoke=get_claim_detail.run,  # type: ignore[arg-type]
         ),
         ToolEntry(
-            name=aggregate_by_dimension.name,
-            description=aggregate_by_dimension.description,
-            input_model=AggregateByDimensionInput,
-            invoke=aggregate_by_dimension.run,  # type: ignore[arg-type]
-        ),
-        ToolEntry(
             name=missing_documents.name,
             description=missing_documents.description,
             input_model=MissingDocumentsInput,
             invoke=missing_documents.run,  # type: ignore[arg-type]
+        ),
+        ToolEntry(
+            name=query_claims.name,
+            description=query_claims.description,
+            input_model=QueryClaimsInput,
+            invoke=query_claims.run,  # type: ignore[arg-type]
         ),
         ToolEntry(
             name=summarize_critical.name,
@@ -114,4 +123,22 @@ def build_tool_registry(
             invoke=summarize_critical.run,  # type: ignore[arg-type]
         ),
     ]
+    if get_provider_detail is not None:
+        entries.append(
+            ToolEntry(
+                name=get_provider_detail.name,
+                description=get_provider_detail.description,
+                input_model=GetProviderDetailInput,
+                invoke=get_provider_detail.run,  # type: ignore[arg-type]
+            )
+        )
+    if get_asegurado_detail is not None:
+        entries.append(
+            ToolEntry(
+                name=get_asegurado_detail.name,
+                description=get_asegurado_detail.description,
+                input_model=GetAseguradoDetailInput,
+                invoke=get_asegurado_detail.run,  # type: ignore[arg-type]
+            )
+        )
     return {e.name: e for e in entries}

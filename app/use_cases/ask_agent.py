@@ -125,6 +125,12 @@ class AskAgent:
                     context_claim_id=(
                         req.context.focus_claim_id if req.context else None
                     ),
+                    context_provider_id=(
+                        req.context.focus_provider_id if req.context else None
+                    ),
+                    context_asegurado_id=(
+                        req.context.focus_asegurado_id if req.context else None
+                    ),
                 )
             except Exception:
                 logger.exception("Persisting user message failed; chat continues.")
@@ -270,7 +276,7 @@ class AskAgent:
         message_id: str,
     ) -> AsyncIterator[TokenEvent]:
         """Stream the compose LLM call token-by-token."""
-        system_prompt = self._deps.prompts.load("claims_system", "v1")
+        system_prompt = self._deps.prompts.load("claims_system", "v2")
         compose_prompt = self._deps.prompts.load("compose", "v1")
         scratchpad_section = ""
         if scratchpad:

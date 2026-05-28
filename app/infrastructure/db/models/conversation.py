@@ -28,6 +28,8 @@ class Conversation(Base):
     user_id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False, index=True)
     title: Mapped[str | None] = mapped_column(String(120), nullable=True)
     context_claim_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    context_provider_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    context_asegurado_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
