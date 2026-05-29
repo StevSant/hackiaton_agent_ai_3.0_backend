@@ -23,6 +23,7 @@ class NetworkNode(BaseModel):
     alertas: int
     monto: float
     lista_restrictiva: bool = False  # only meaningful for proveedor nodes
+    ramos: list[str] = []  # normalized ramo keys touched by this node's claims
 
 
 class NetworkEdge(BaseModel):
