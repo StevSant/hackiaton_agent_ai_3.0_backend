@@ -21,9 +21,9 @@ import re
 from typing import TYPE_CHECKING
 
 from docx import Document
-from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-from docx.shared import Inches, Pt
+from docx.oxml.ns import qn
+from docx.shared import Inches
 
 if TYPE_CHECKING:
     from docx.document import Document as DocxDocument
@@ -41,6 +41,10 @@ _BULLET_RE = re.compile(r"^[-*]\s+(.+)$")
 _TABLE_SEP_RE = re.compile(r"^\|[-| :]+\|$")
 _TABLE_ROW_RE = re.compile(r"^\|(.+)\|$")
 _BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
+# Markdown image: ![alt](url). The agent emits ![Gráfico …](link_del_grafico)
+# as a placeholder for where the chart should sit. We never render the literal
+# syntax — we either embed the real chart there or drop the line entirely.
+_IMAGE_RE = re.compile(r"^!\[[^\]]*\]\([^)]*\)$")
 
 
 def _add_runs_with_bold(para: object, text: str) -> None:
@@ -71,7 +75,7 @@ def _shade_cell(cell: object, fill_hex: str) -> None:
     tcPr.append(shd)
 
 
-def _build_table(doc: "DocxDocument", rows: list[list[str]]) -> None:
+def _build_table(doc: DocxDocument, rows: list[list[str]]) -> None:
     """Add a styled table to *doc* from a list of cell-text rows.
 
     Row 0 is the header (shaded blue, bold white text).
@@ -127,19 +131,20 @@ def _decode_png(chart_image_base64: str) -> bytes | None:
     return png_bytes
 
 
-def _append_chart(doc: "DocxDocument", chart_image_base64: str) -> None:
-    """Append a 'Gráfico' heading + the decoded chart image to *doc*.
+def _embed_png(doc: DocxDocument, png_bytes: bytes, *, heading: str | None = None) -> bool:
+    """Embed a decoded PNG into *doc* (optionally under a heading).
 
-    Skips silently (logs a warning) if the image can't be decoded/embedded.
+    Returns True on success, False if python-docx rejected the image — never
+    raises, so a bad image can't 500 the whole document.
     """
-    png_bytes = _decode_png(chart_image_base64)
-    if png_bytes is None:
-        return
     try:
-        doc.add_heading("Gráfico", level=2)
+        if heading:
+            doc.add_heading(heading, level=2)
         doc.add_picture(io.BytesIO(png_bytes), width=Inches(6))
+        return True
     except Exception:  # never 500 the whole document over an image
         logger.warning("failed to embed chart image into docx — skipping", exc_info=True)
+        return False
 
 
 # ── main entry point ───────────────────────────────────────────────────────────
@@ -150,17 +155,26 @@ def render(
     contenido_markdown: str,
     *,
     chart_image_base64: str | None = None,
+    include_tables: bool = True,
 ) -> bytes:
     """Convert *titulo* + *contenido_markdown* to .docx bytes.
 
-    When *chart_image_base64* is a valid PNG (data URL or bare base64), it is
-    appended as a 'Gráfico' section. Bad markdown or a bad image degrade
-    silently — this function never raises.
+    The chart (when *chart_image_base64* is a valid PNG) is embedded at the
+    first ``![…](…)`` image placeholder the agent wrote — that's where it
+    belongs in the narrative. If the document has no placeholder, the chart is
+    appended under a 'Gráfico' heading instead. When no chart is supplied, image
+    placeholders are dropped (never rendered as literal Markdown).
+
+    When *include_tables* is False, pipe tables are skipped entirely. Bad
+    markdown or a bad image degrade silently — this function never raises.
     """
-    doc: "DocxDocument" = Document()
+    doc: DocxDocument = Document()
 
     # Document title as Heading 1 at the top
     doc.add_heading(titulo, level=1)
+
+    chart_png = _decode_png(chart_image_base64) if chart_image_base64 else None
+    chart_embedded = False
 
     lines = contenido_markdown.splitlines()
     i = 0
@@ -173,7 +187,9 @@ def render(
             pending_table = []
 
     while i < len(lines):
-        line = lines[i]
+        # rstrip so trailing whitespace (common in LLM-generated tables, where
+        # rows end with "| ") doesn't defeat the anchored `…\|$` table regexes.
+        line = lines[i].rstrip()
 
         # ── heading ──────────────────────────────────────────────────────────
         m_h = _HEADING_RE.match(line)
@@ -184,8 +200,20 @@ def render(
             i += 1
             continue
 
+        # ── image placeholder ![alt](url) ─────────────────────────────────────
+        if _IMAGE_RE.match(line):
+            _flush_table()
+            if chart_png is not None and not chart_embedded:
+                chart_embedded = _embed_png(doc, chart_png)
+            # else: drop the placeholder — never render literal Markdown syntax
+            i += 1
+            continue
+
         # ── pipe table row ───────────────────────────────────────────────────
         if _TABLE_ROW_RE.match(line):
+            if not include_tables:
+                i += 1  # caller asked to hide tables — skip every table line
+                continue
             # separator row (|---|) — skip, it's already handled by the header
             if _TABLE_SEP_RE.match(line):
                 i += 1
@@ -217,8 +245,9 @@ def render(
 
     _flush_table()
 
-    if chart_image_base64:
-        _append_chart(doc, chart_image_base64)
+    # Chart supplied but the document had no placeholder to host it → append.
+    if chart_png is not None and not chart_embedded:
+        _embed_png(doc, chart_png, heading="Gráfico")
 
     buf = io.BytesIO()
     doc.save(buf)

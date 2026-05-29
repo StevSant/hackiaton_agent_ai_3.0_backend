@@ -41,7 +41,8 @@ from app.schemas.speech import TranscribeResponse
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.improve_document import ImprovedDocument, improve_document
-from app.use_cases.markdown_to_docx import filename_for, render as render_docx
+from app.use_cases.markdown_to_docx import filename_for
+from app.use_cases.markdown_to_docx import render as render_docx
 from app.use_cases.transcribe_audio import transcribe_audio
 
 router = APIRouter(prefix="/agent", tags=["agent"])
@@ -127,6 +128,8 @@ class DocxRequest(BaseModel):
     # Optional chart captured client-side as a PNG. Accepts a data URL
     # ("data:image/png;base64,...") or bare base64. Large by design.
     chart_image_base64: str | None = Field(default=None, max_length=8_000_000)
+    # When False, pipe tables are omitted from the Word document.
+    include_tables: bool = True
 
 
 class ImproveDocumentRequest(BaseModel):
@@ -173,6 +176,7 @@ async def agent_document_docx(
         body.titulo,
         body.contenido_markdown,
         chart_image_base64=body.chart_image_base64,
+        include_tables=body.include_tables,
     )
     fname = filename_for(body.titulo)
     return Response(
