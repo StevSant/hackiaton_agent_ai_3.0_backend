@@ -56,6 +56,11 @@ class Settings(BaseSettings):
         "audio/mp3",
     ]
 
+    # OCR (A1) — scanned/image documents. "none" disables → pdfplumber-only path.
+    OCR_PROVIDER: Literal["mistral", "none"] = "none"
+    MISTRAL_API_KEY: SecretStr | None = None
+    MISTRAL_OCR_MODEL: str = "mistral-ocr-latest"
+
     # embeddings  (OpenAI text-embedding-3-small w/ dimensions=384 by default;
     # sentence-transformers retained as an offline fallback — see infrastructure/embeddings/)
     EMBEDDINGS_PROVIDER: Literal["openai", "sentence_transformers"] = "openai"
