@@ -26,7 +26,7 @@ from collections.abc import AsyncIterator
 from typing import Any
 from uuid import UUID
 
-from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 
 from app.agents.claims_agent import ClaimsAgentDeps, build_graph
 from app.core.config import settings
@@ -128,8 +128,26 @@ class AskAgent:
     ]:
         thread_id = req.conversation_id or uuid.uuid4().hex
         config: dict[str, Any] = {"configurable": {"thread_id": thread_id}}
-        # Each turn resets the per-turn channels but seeds a NEW HumanMessage
-        # into the chat log (the trim_to_last_n_turns reducer appends + trims).
+        conversation_uuid = _coerce_uuid(thread_id)
+
+        # Seed the chat log with prior turns from the DB so follow-ups ("generá el
+        # Word de eso", "la tabla que me diste") see what was already asked and
+        # answered. The per-request InMemorySaver starts empty, so without this the
+        # agent treats every turn as the first ("sin historial").
+        history_messages: list[BaseMessage] = []
+        if self._persistence is not None and conversation_uuid is not None:
+            try:
+                for role, content in await self._persistence.recent_messages(conversation_uuid):
+                    history_messages.append(
+                        AIMessage(content=content)
+                        if role == "assistant"
+                        else HumanMessage(content=content)
+                    )
+            except Exception:
+                logger.exception("Loading conversation history failed; continuing without it.")
+
+        # Each turn resets the per-turn channels but seeds the prior history + a
+        # NEW HumanMessage into the chat log (the reducer appends + trims).
         initial_state: dict[str, Any] = {
             "query": req.query,
             "context": req.context.model_dump() if req.context else None,
@@ -138,12 +156,11 @@ class AskAgent:
             "step_count": 0,
             "scratchpad": [],
             "finished": False,
-            "messages": [HumanMessage(content=req.query)],
+            "messages": [*history_messages, HumanMessage(content=req.query)],
         }
         message_id = uuid.uuid4().hex
 
         # --- Persist the user message before the stream starts (idempotent upsert).
-        conversation_uuid = _coerce_uuid(thread_id)
         if self._persistence is not None and user is not None and conversation_uuid is not None:
             try:
                 await self._persistence.before_stream(

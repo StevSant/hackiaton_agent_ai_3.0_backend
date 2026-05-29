@@ -67,6 +67,28 @@ class ConversationPersister:
             await session.commit()
             return written.sequence
 
+    async def recent_messages(
+        self, conversation_id: UUID, *, limit: int = 8
+    ) -> list[tuple[str, str]]:
+        """Last `limit` (role, content) pairs for the conversation, chronological.
+
+        Used to seed the agent's chat history so follow-up turns ("generá el Word
+        de eso", "la tabla que me diste") see what was already asked and answered.
+        Selects only role+content — never the heavy chart/transparency JSON."""
+        from sqlalchemy import select
+
+        from app.infrastructure.db.models.message import Message
+
+        async with self._sf() as session:
+            stmt = (
+                select(Message.role, Message.content)
+                .where(Message.conversation_id == conversation_id)
+                .order_by(Message.sequence.desc())
+                .limit(limit)
+            )
+            rows = (await session.execute(stmt)).all()
+        return [(str(r[0]), str(r[1])) for r in reversed(rows) if r[1]]
+
     async def after_stream(
         self,
         *,
