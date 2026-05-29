@@ -21,6 +21,7 @@ from app.agents.claims_agent import ClaimsAgentDeps
 from app.agents.claims_agent.tools import (
     AggregateByDimensionTool,
     ClaimQueries,
+    CrearDocumentoTool,
     GetAseguradoDetailTool,
     GetClaimDetailTool,
     GetProviderDetailTool,
@@ -454,6 +455,7 @@ async def get_ask_agent(
         aggregate_by_dimension=AggregateByDimensionTool(queries),
         missing_documents=MissingDocumentsTool(queries),
         summarize_critical=SummarizeCriticalTool(queries),
+        crear_documento=CrearDocumentoTool(),
         get_provider_detail=GetProviderDetailTool(queries),
         get_asegurado_detail=GetAseguradoDetailTool(queries),
         verify_vehicle=VerifyVehicleTool(queries, decoder),

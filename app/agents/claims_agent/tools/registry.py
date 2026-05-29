@@ -15,6 +15,8 @@ from app.agents.claims_agent._tool_dispatcher import FocusContext, inject_focus_
 from app.agents.claims_agent.tools import (
     AggregateByDimensionInput,
     AggregateByDimensionTool,
+    CrearDocumentoInput,
+    CrearDocumentoTool,
     GetAseguradoDetailInput,
     GetAseguradoDetailTool,
     GetClaimDetailInput,
@@ -85,6 +87,7 @@ def build_tool_registry(
     aggregate_by_dimension: AggregateByDimensionTool,
     missing_documents: MissingDocumentsTool,
     summarize_critical: SummarizeCriticalTool,
+    crear_documento: CrearDocumentoTool | None = None,
     get_provider_detail: GetProviderDetailTool | None = None,
     get_asegurado_detail: GetAseguradoDetailTool | None = None,
     verify_vehicle: VerifyVehicleTool | None = None,
@@ -126,6 +129,15 @@ def build_tool_registry(
             invoke=summarize_critical.run,  # type: ignore[arg-type]
         ),
     ]
+    if crear_documento is not None:
+        entries.append(
+            ToolEntry(
+                name=crear_documento.name,
+                description=crear_documento.description,
+                input_model=CrearDocumentoInput,
+                invoke=crear_documento.run,  # type: ignore[arg-type]
+            )
+        )
     if get_provider_detail is not None:
         entries.append(
             ToolEntry(

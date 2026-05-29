@@ -11,12 +11,14 @@ it delegates to `AskAgent` (ReAct loop + 5 tools wired in `deps.py`), which goes
 through the `LLMProvider` port.
 """
 
+import asyncio
 import json
 from collections.abc import AsyncIterator
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from fastapi.responses import Response, StreamingResponse
+from pydantic import BaseModel
 
 from app.api.deps import (
     get_ask_agent,
@@ -38,6 +40,7 @@ from app.schemas.chat.tts import TtsRequest
 from app.schemas.speech import TranscribeResponse
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.emit_audit_event import emit_audit_event
+from app.use_cases.markdown_to_docx import filename_for, render as render_docx
 from app.use_cases.transcribe_audio import transcribe_audio
 
 router = APIRouter(prefix="/agent", tags=["agent"])
@@ -110,6 +113,33 @@ async def agent_tts(
     voice = body.voice or settings.TTS_VOICE
     audio = await llm.synthesize_speech(body.text, voice)
     return Response(content=audio, media_type="audio/mpeg")
+
+
+_DOCX_MEDIA_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+
+class DocxRequest(BaseModel):
+    titulo: str
+    contenido_markdown: str
+
+
+@router.post("/document/docx")
+async def agent_document_docx(
+    body: DocxRequest,
+    _user: Annotated[User, Depends(get_current_user)],
+) -> Response:
+    """Convert markdown content to a .docx file and return it as a download.
+
+    The frontend calls this after receiving a `document` SSE event from `/ask`
+    to let the analyst download the agent-generated Word document.
+    """
+    docx_bytes = await asyncio.to_thread(render_docx, body.titulo, body.contenido_markdown)
+    fname = filename_for(body.titulo)
+    return Response(
+        content=docx_bytes,
+        media_type=_DOCX_MEDIA_TYPE,
+        headers={"Content-Disposition": f'attachment; filename="{fname}"'},
+    )
 
 
 @router.post("/ask")
