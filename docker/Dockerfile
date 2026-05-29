@@ -60,4 +60,6 @@ COPY --from=builder /app /app
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# --timeout-graceful-shutdown: cap the drain on deploy/restart — without it,
+# long-lived SSE streams (chat, panel, rescore) hold the old container alive.
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--timeout-graceful-shutdown", "10"]

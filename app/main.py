@@ -4,7 +4,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.middleware import PerfTimingMiddleware, register_sqlalchemy_perf_listener
+from app.api.middleware import (
+    DbDisconnectRetryMiddleware,
+    PerfTimingMiddleware,
+    register_sqlalchemy_perf_listener,
+)
 from app.api.v1 import (
     agent_router,
     antifraude_router,
@@ -86,6 +90,9 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
+    # Registered before CORS so it sits *inside* it — its 503 responses must
+    # still pass through CORS's send wrapper to get the CORS headers.
+    app.add_middleware(DbDisconnectRetryMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.CORS_ALLOW_ORIGINS,

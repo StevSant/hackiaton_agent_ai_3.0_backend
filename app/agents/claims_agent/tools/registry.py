@@ -29,6 +29,8 @@ from app.agents.claims_agent.tools import (
     MissingDocumentsTool,
     QueryClaimsInput,
     QueryClaimsTool,
+    SearchNarrativesInput,
+    SearchNarrativesTool,
     SummarizeCriticalInput,
     SummarizeCriticalTool,
     VerifyVehicleInput,
@@ -94,6 +96,7 @@ def build_tool_registry(
     get_asegurado_detail: GetAseguradoDetailTool | None = None,
     verify_vehicle: VerifyVehicleTool | None = None,
     analyze_reviewers: AnalyzeReviewersTool | None = None,
+    search_narratives: SearchNarrativesTool | None = None,
 ) -> dict[str, ToolEntry]:
     """Bundle every tool into a name-indexed registry.
 
@@ -175,6 +178,15 @@ def build_tool_registry(
                 description=analyze_reviewers.description,
                 input_model=AnalyzeReviewersInput,
                 invoke=analyze_reviewers.run,  # type: ignore[arg-type]
+            )
+        )
+    if search_narratives is not None:
+        entries.append(
+            ToolEntry(
+                name=search_narratives.name,
+                description=search_narratives.description,
+                input_model=SearchNarrativesInput,
+                invoke=search_narratives.run,  # type: ignore[arg-type]
             )
         )
     return {e.name: e for e in entries}

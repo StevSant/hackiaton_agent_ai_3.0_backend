@@ -96,6 +96,7 @@ class ConversationPersister:
         user: User,
         answer: str,
         chart_payload: dict[str, Any] | None = None,
+        visual_payload: list[dict[str, Any]] | None = None,
         transparency_metadata: dict[str, Any] | None = None,
     ) -> int:
         async with self._sf() as session:
@@ -106,6 +107,7 @@ class ConversationPersister:
                 "assistant",
                 answer,
                 chart_payload=chart_payload,
+                visual_payload=visual_payload,
                 transparency_metadata=transparency_metadata,
             )
             await convs.touch(conversation_id)

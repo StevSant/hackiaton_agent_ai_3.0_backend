@@ -155,6 +155,7 @@ async def compute_insights(session: AsyncSession) -> InsightsBundleOut:
             key=k,
             label=label,
             pct=round(count / total_ramos * 100, 1),
+            count=count,
         )
         for k, (label, count) in sorted(bucketed.items(), key=lambda kv: -kv[1][1])
     ]

@@ -1,5 +1,6 @@
 import logging
 import sys
+import warnings
 
 import structlog
 
@@ -12,6 +13,16 @@ def configure_logging() -> None:
         format="%(message)s",
         stream=sys.stdout,
         level=settings.LOG_LEVEL,
+    )
+
+    # Spurious sklearn thread-race warning (its config propagation races on the
+    # global warnings.filters under concurrent inference). The anomaly adapter
+    # serializes our sklearn calls; this filter is insurance so residual edge
+    # cases never spam the deployed logs.
+    warnings.filterwarnings(
+        "ignore",
+        message=r".*should be used with.*sklearn\.utils\.parallel\.Parallel.*",
+        category=UserWarning,
     )
 
     # Drop the noisy "Exception terminating connection" records that

@@ -75,9 +75,20 @@ def _walk_strict(node: Any) -> None:
             for prop_schema in props.values():
                 _walk_strict(prop_schema)
 
-    for key in ("items", "$defs", "definitions", "anyOf", "allOf", "oneOf"):
+    for key in ("items", "anyOf", "allOf", "oneOf"):
         if key in node:
             _walk_strict(node[key])
+
+    # `$defs`/`definitions` are NAME→schema maps. Walk their VALUES — treating
+    # the container itself as a schema node skips every nested definition,
+    # leaving `$defs` objects without `additionalProperties` → OpenAI 400
+    # ("In context=(), 'additionalProperties' is required..."). Only surfaces
+    # for strict schemas with nested models (flat schemas have no $defs).
+    for key in ("$defs", "definitions"):
+        defs = node.get(key)
+        if isinstance(defs, dict):
+            for sub_schema in defs.values():
+                _walk_strict(sub_schema)
 
 
 class OpenAIAdapter(LLMProvider):

@@ -1,12 +1,12 @@
-from app.agents.claims_agent.tools.analyze_reviewers_tool import (
-    AnalyzeReviewersInput,
-    AnalyzeReviewersOutput,
-    AnalyzeReviewersTool,
-)
 from app.agents.claims_agent.tools.aggregate_by_dimension_tool import (
     AggregateByDimensionInput,
     AggregateByDimensionOutput,
     AggregateByDimensionTool,
+)
+from app.agents.claims_agent.tools.analyze_reviewers_tool import (
+    AnalyzeReviewersInput,
+    AnalyzeReviewersOutput,
+    AnalyzeReviewersTool,
 )
 from app.agents.claims_agent.tools.crear_documento_tool import (
     CrearDocumentoInput,
@@ -40,6 +40,11 @@ from app.agents.claims_agent.tools.query_claims_tool import (
     QueryClaimsTool,
     QueryMode,
 )
+from app.agents.claims_agent.tools.search_narratives_tool import (
+    SearchNarrativesInput,
+    SearchNarrativesOutput,
+    SearchNarrativesTool,
+)
 from app.agents.claims_agent.tools.summarize_critical_tool import (
     SummarizeCriticalInput,
     SummarizeCriticalOutput,
@@ -60,14 +65,14 @@ from app.agents.claims_agent.tools.verify_vehicle_tool import (
 )
 
 __all__ = [
-    "AnalyzeReviewersInput",
-    "AnalyzeReviewersOutput",
-    "AnalyzeReviewersTool",
     "AggregateByDimensionInput",
     "AggregateByDimensionOutput",
     "AggregateByDimensionTool",
     "AggregateDimension",
     "AggregateRow",
+    "AnalyzeReviewersInput",
+    "AnalyzeReviewersOutput",
+    "AnalyzeReviewersTool",
     "ClaimQueries",
     "CrearDocumentoInput",
     "CrearDocumentoOutput",
@@ -90,6 +95,9 @@ __all__ = [
     "QueryClaimsOutput",
     "QueryClaimsTool",
     "QueryMode",
+    "SearchNarrativesInput",
+    "SearchNarrativesOutput",
+    "SearchNarrativesTool",
     "SummarizeCriticalInput",
     "SummarizeCriticalOutput",
     "SummarizeCriticalTool",

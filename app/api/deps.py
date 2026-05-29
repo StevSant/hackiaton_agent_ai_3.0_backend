@@ -31,6 +31,7 @@ from app.agents.claims_agent.tools import (
     GetProviderDetailTool,
     MissingDocumentsTool,
     QueryClaimsTool,
+    SearchNarrativesTool,
     SummarizeCriticalTool,
     VerifyVehicleTool,
 )
@@ -496,6 +497,7 @@ def get_conversation_persister(
 
 
 async def get_ask_agent(
+    request: Request,
     llm: Annotated[LLMProvider, Depends(get_llm)],
     prompts: Annotated[PromptLoader, Depends(get_prompt_loader)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
@@ -504,6 +506,7 @@ async def get_ask_agent(
         ConversationPersister | None, Depends(get_conversation_persister)
     ] = None,
 ) -> AskAgent:
+    similarity = get_narrative_similarity(request)
     deps = ClaimsAgentDeps(
         llm=llm,
         llm_model=settings.LLM_DEFAULT_MODEL,
@@ -517,6 +520,9 @@ async def get_ask_agent(
         get_provider_detail=GetProviderDetailTool(queries),
         get_asegurado_detail=GetAseguradoDetailTool(queries),
         verify_vehicle=VerifyVehicleTool(queries, decoder),
+        search_narratives=(
+            SearchNarrativesTool(similarity) if similarity is not None else None
+        ),
         max_react_steps=settings.MAX_REACT_STEPS,
     )
     return AskAgent(deps=deps, persistence=persistence)

@@ -2,7 +2,16 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-ChartType = Literal["bar", "horizontal_bar", "line", "pie", "doughnut", "scatter"]
+ChartType = Literal[
+    "bar",
+    "horizontal_bar",
+    "line",
+    "pie",
+    "doughnut",
+    "scatter",
+    "stacked_tier",
+    "dotplot",
+]
 
 
 class ChartSeries(BaseModel):

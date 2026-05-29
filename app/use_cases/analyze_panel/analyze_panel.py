@@ -131,7 +131,7 @@ class AnalyzePanel:
         slice_extras: dict[str, dict[str, Any]] = {}
         provider_stats = await self._provider_stats(claim)
         if provider_stats is not None:
-            slice_extras["documentos_red"] = {"proveedor_stats": provider_stats}
+            slice_extras["documentos_red"] = {"estadisticas_proveedor": provider_stats}
 
         # Reads are done (claim detail + provider stats). Everything below is a
         # connection-free LLM debate, so hand the pooled connection back now
@@ -197,7 +197,7 @@ class AnalyzePanel:
     ) -> _Producer:
         async def produce(queue: asyncio.Queue[Any]) -> None:
             try:
-                system = self._prompts.load(specialist.prompt_id, "v1")
+                system = self._prompts.load(specialist.prompt_id, "v3")
                 # Shared case facts (montos/fechas/proximidad) ground every lens;
                 # the specialist's own slice keeps its focused signal keys.
                 slice_data = {"caso": claim_header(claim), **specialist.slice_fn(claim)}
@@ -268,7 +268,7 @@ class AnalyzePanel:
 
         async def produce(queue: asyncio.Queue[Any]) -> None:
             try:
-                system = self._prompts.load(specialist.prompt_id, "v1")
+                system = self._prompts.load(specialist.prompt_id, "v3")
                 await self._stream_tokens(
                     queue,
                     agent_id=specialist.id,
@@ -327,7 +327,7 @@ class AnalyzePanel:
         rebuttals: dict[str, SpecialistRebuttal],
     ) -> AsyncGenerator[PanelStreamEvent, None]:
         try:
-            system = self._prompts.load(MODERATOR_PROMPT_ID, "v2")
+            system = self._prompts.load(MODERATOR_PROMPT_ID, "v3")
             payload = {
                 # Deterministic engine verdict — the panel's job is to corroborate
                 # or challenge it (divergence = the key decision signal). The hard

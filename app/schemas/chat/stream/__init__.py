@@ -16,10 +16,13 @@ from app.schemas.chat.stream.tool_call_data import ToolCallData
 from app.schemas.chat.stream.tool_call_event import ToolCallEvent
 from app.schemas.chat.stream.tool_result_data import ToolResultData
 from app.schemas.chat.stream.tool_result_event import ToolResultEvent
+from app.schemas.chat.stream.visual import AgentVisual
+from app.schemas.chat.stream.visual_event import VisualEvent
 
 __all__ = [
     "AgentStepData",
     "AgentStepEvent",
+    "AgentVisual",
     "ChartData",
     "ChartEvent",
     "ChartHint",
@@ -38,4 +41,5 @@ __all__ = [
     "ToolCallEvent",
     "ToolResultData",
     "ToolResultEvent",
+    "VisualEvent",
 ]

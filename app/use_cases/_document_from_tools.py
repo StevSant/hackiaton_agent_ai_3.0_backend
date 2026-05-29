@@ -1,7 +1,7 @@
 """Build a `DocumentEvent` from tool results collected during an agent turn.
 
 Called AFTER the compose phase and BEFORE `DoneEvent`, mirroring the same
-pattern as `_chart_from_tools.maybe_build_chart`.
+pattern as `_visuals_from_tools.build_visuals`.
 
 Returns None when no `crear_documento` tool fired during the turn.
 """

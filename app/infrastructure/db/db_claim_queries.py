@@ -437,12 +437,27 @@ class DbClaimQueries:
 
     async def recommend_review(self, *, top_n: int = 5) -> list[ClaimSummary]:
         # Rojo first (score desc), then amarillo (score desc).
-        # Single joined query per tier (incl. Poliza.ciudad + Asegurado.nombre) — no per-row N+1.
+        # Single joined query per tier — mirrors list_top_risk's joins so the
+        # agent sees the TRUE human-review status (ClaimReviewRow.status) and the
+        # proveedor name, not a defaulted `pendiente`. Without the review join the
+        # agent can't tell a pending case from one already escalated/dictaminado,
+        # and conflates the advisory panel flags with a human verdict.
         base = (
-            select(Siniestro, ClaimScore, Poliza.ciudad, Asegurado.nombre)
+            select(
+                Siniestro,
+                ClaimScore,
+                Poliza.ciudad,
+                Asegurado.nombre,
+                ClaimReviewRow.status,
+                Proveedor.nombre.label("proveedor_nombre"),
+            )
             .join(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
             .outerjoin(Poliza, Poliza.id_poliza == Siniestro.id_poliza)
             .outerjoin(Asegurado, Asegurado.id_asegurado == Siniestro.id_asegurado)
+            .outerjoin(
+                ClaimReviewRow, ClaimReviewRow.claim_id == Siniestro.id_siniestro
+            )
+            .outerjoin(Proveedor, Proveedor.id_proveedor == Siniestro.beneficiario)
         )
         rojo_stmt = self._apply_workspace(
             base.where(ClaimScore.tier == Tier.rojo.value).order_by(ClaimScore.score.desc())
@@ -454,8 +469,15 @@ class DbClaimQueries:
         amarillo_rows = list((await self._s.execute(amarillo_stmt)).all())
         ordered = (rojo_rows + amarillo_rows)[:top_n]
         return [
-            self._build_summary(sin, score_row, ciudad, asegurado_nombre=nombre)
-            for sin, score_row, ciudad, nombre in ordered
+            self._build_summary(
+                sin,
+                score_row,
+                ciudad,
+                asegurado_nombre=nombre,
+                review_status=review_status,
+                proveedor_nombre=proveedor_nombre,
+            )
+            for sin, score_row, ciudad, nombre, review_status, proveedor_nombre in ordered
         ]
 
     async def executive_summary(self) -> ExecutiveSummary:

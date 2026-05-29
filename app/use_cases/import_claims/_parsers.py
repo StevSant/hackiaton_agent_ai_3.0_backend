@@ -215,10 +215,11 @@ def _row_to_claim(row: dict[str, str], row_num: int) -> ClaimDetail:
     except ValueError:
         nivel = Tier.verde
 
-    # Build a minimal documentos list — no doc info in the CSV
+    # Build a minimal documentos list — no doc info in the CSV, so mark as
+    # Pendiente (no real documents were uploaded alongside the CSV).
     documentos = [
-        ClaimDocument(tipo="Cédula de identidad", estado="Entregado"),
-        ClaimDocument(tipo="Matrícula vehicular", estado="Entregado"),
+        ClaimDocument(tipo="Cédula de identidad", estado="Pendiente", falta=True),
+        ClaimDocument(tipo="Matrícula vehicular", estado="Pendiente", falta=True),
     ]
 
     return ClaimDetail(

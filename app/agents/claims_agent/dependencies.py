@@ -19,6 +19,7 @@ from app.agents.claims_agent.tools import (
     GetProviderDetailTool,
     MissingDocumentsTool,
     QueryClaimsTool,
+    SearchNarrativesTool,
     SummarizeCriticalTool,
     VerifyVehicleTool,
 )
@@ -41,6 +42,7 @@ class ClaimsAgentDeps:
     get_asegurado_detail: GetAseguradoDetailTool | None = None
     verify_vehicle: VerifyVehicleTool | None = None
     analyze_reviewers: AnalyzeReviewersTool | None = None
+    search_narratives: SearchNarrativesTool | None = None
     max_react_steps: int = 3
     # Built in __post_init__ from the tools above. Indexed by tool name —
     # the ReAct loop dispatches by string match against the LLM's decision.
@@ -63,6 +65,7 @@ class ClaimsAgentDeps:
                 get_asegurado_detail=self.get_asegurado_detail,
                 verify_vehicle=self.verify_vehicle,
                 analyze_reviewers=self.analyze_reviewers,
+                search_narratives=self.search_narratives,
             )
         if not self.tool_catalog:
             entries = [entry.spec().model_dump() for entry in self.tool_registry.values()]

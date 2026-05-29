@@ -71,9 +71,11 @@ from app.use_cases.load_dataset._mapping import (
 
 logger = logging.getLogger(__name__)
 
-# Markers in document observation text that indicate document inconsistency / falsification
-_INCONSISTENCY_MARKERS = frozenset(["adulterada", "alterada", "falsificada", "falsa", "inconsist"])
-_FALSIFICATION_MARKERS = frozenset(["falsificada", "falsa", "adulterada"])
+# Re-use the canonical marker sets from the domain layer
+from app.domain.rules.context import (
+    FALSIFICATION_MARKERS as _FALSIFICATION_MARKERS,
+    INCONSISTENCY_MARKERS as _INCONSISTENCY_MARKERS,
+)
 
 # Hard rules are prefixed with RF-; scored signals with FS-
 _HARD_RULE_PREFIX = "RF-"
@@ -440,10 +442,16 @@ async def _build_enriched_context(claim: ClaimDetail, session: AsyncSession | No
         logger.debug("stream_import: insured frequency lookup failed: %s", exc)
 
     # ── Document inconsistency / falsification flags ──────────────────────────
-    doc_texts = " ".join((d.tipo or "").lower() for d in claim.documentos)
-    if any(m in doc_texts for m in _INCONSISTENCY_MARKERS):
+    # from_claim already scans descripcion; here we also check document
+    # metadata (tipo + estado) so DB-enriched documents can trigger the flags.
+    doc_texts = " ".join(
+        f"{(d.tipo or '')} {(d.estado or '')}".lower() for d in claim.documentos
+    )
+    desc_lower = (claim.descripcion or "").lower()
+    search_text = f"{doc_texts} {desc_lower}"
+    if any(m in search_text for m in _INCONSISTENCY_MARKERS):
         ctx.inconsistencia_documental = True
-    if any(m in doc_texts for m in _FALSIFICATION_MARKERS):
+    if any(m in search_text for m in _FALSIFICATION_MARKERS):
         ctx.falsificacion_evidente = True
 
     return ctx

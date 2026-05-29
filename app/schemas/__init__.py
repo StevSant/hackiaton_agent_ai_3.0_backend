@@ -31,6 +31,7 @@ from app.schemas.risk import (
     Tier,
 )
 from app.schemas.status import AIStatusResponse
+from app.schemas.visual_plan import PlannedVisual, VisualFormat, VisualPlan
 
 __all__ = [
     "AIStatusResponse",
@@ -57,9 +58,12 @@ __all__ = [
     "HealthResponse",
     "MessageOut",
     "NarrativeAnalysis",
+    "PlannedVisual",
     "ReviewStatus",
     "RuleActivation",
     "SimilarClaim",
     "Tier",
     "TimelineTone",
+    "VisualFormat",
+    "VisualPlan",
 ]

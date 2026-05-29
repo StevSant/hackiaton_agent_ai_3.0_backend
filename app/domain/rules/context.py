@@ -11,6 +11,22 @@ from dataclasses import dataclass, field
 
 from app.schemas.claim import ClaimDetail
 
+# ── markers for text-based falsification / inconsistency detection ───────────
+# Used by from_claim (base path) and re-imported by import_claims_stream
+# (enrichment path).  Substring matching against lowercased text.
+INCONSISTENCY_MARKERS = frozenset([
+    "adulterada", "adulterado", "adulteraci",   # adulteración
+    "alterada", "alterado", "alteraci",          # alteración
+    "falsificada", "falsificado", "falsificaci", # falsificación
+    "falsa", "falso",
+    "inconsist",                                 # inconsistencia, inconsistente
+])
+FALSIFICATION_MARKERS = frozenset([
+    "falsificada", "falsificado", "falsificaci", # falsificación
+    "falsa", "falso",
+    "adulterada", "adulterado", "adulteraci",    # adulteración
+])
+
 
 @dataclass
 class RuleContext:
@@ -135,6 +151,11 @@ class RuleContext:
         # RC-only coverage
         cobertura_rc = "responsabilidad civil" in cobertura_lower
 
+        # Document inconsistency / falsification — scan descripcion for markers
+        desc_lower = (claim.descripcion or "").lower()
+        falsificacion_evidente = any(m in desc_lower for m in FALSIFICATION_MARKERS)
+        inconsistencia_documental = any(m in desc_lower for m in INCONSISTENCY_MARKERS)
+
         # Narrative similarity — ClaimDetail already carries the top matches
         # (the "Narrativas similares" panel reads claim.similar), so FS-13 can be
         # reconstructed on the detail read path for its evidence. The clone flag
@@ -151,6 +172,8 @@ class RuleContext:
             es_cobertura_ptxrb=es_cobertura_ptxrb,
             demora_denuncia_horas=demora_denuncia_horas,
             documentos_incompletos=documentos_incompletos,
+            falsificacion_evidente=falsificacion_evidente,
+            inconsistencia_documental=inconsistencia_documental,
             cobertura_rc=cobertura_rc,
             narrativa_similar_score=top_sim,
         )

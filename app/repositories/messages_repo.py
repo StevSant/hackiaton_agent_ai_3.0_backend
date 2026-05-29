@@ -32,6 +32,7 @@ class MessagesRepo:
         role: str,
         content: str,
         chart_payload: dict[str, Any] | None = None,
+        visual_payload: list[dict[str, Any]] | None = None,
         transparency_metadata: dict[str, Any] | None = None,
     ) -> Message:
         seq = await self.next_sequence(conversation_id)
@@ -41,6 +42,7 @@ class MessagesRepo:
             content=content,
             sequence=seq,
             chart_payload=chart_payload,
+            visual_payload=visual_payload,
             transparency_metadata=transparency_metadata,
         )
         self._s.add(msg)
