@@ -244,7 +244,11 @@ class AnalyzePanel:
                 logger.exception("panel R2 specialist %s failed", specialist.id)
                 await queue.put(
                     PanelErrorEvent(
-                        data=PanelErrorData(agent_id=specialist.id, code="specialist_r2_error", message=str(exc))
+                        data=PanelErrorData(
+                            agent_id=specialist.id,
+                            code="specialist_r2_error",
+                            message=str(exc),
+                        )
                     )
                 )
                 await queue.put(

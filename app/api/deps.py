@@ -12,7 +12,7 @@ import uuid
 from collections.abc import AsyncIterator, Callable
 from functools import lru_cache
 from pathlib import Path
-from typing import TYPE_CHECKING, Annotated, Any
+from typing import TYPE_CHECKING, Annotated
 
 if TYPE_CHECKING:
     from app.use_cases.analyze_panel import AnalyzePanel
