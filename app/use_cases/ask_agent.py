@@ -37,6 +37,7 @@ from app.schemas.chat.stream import (
     AgentStepData,
     AgentStepEvent,
     ChartEvent,
+    DocumentEvent,
     DoneData,
     DoneEvent,
     ErrorData,
@@ -49,6 +50,7 @@ from app.schemas.chat.stream import (
     ToolResultEvent,
 )
 from app.use_cases._chart_from_tools import maybe_build_chart
+from app.use_cases._document_from_tools import maybe_build_document
 from app.use_cases.conversations.conversation_persister import ConversationPersister
 
 logger = logging.getLogger(__name__)
@@ -120,6 +122,7 @@ class AskAgent:
         | ToolResultEvent
         | AgentStepEvent
         | ChartEvent
+        | DocumentEvent
         | ErrorEvent
         | DoneEvent
     ]:
@@ -236,13 +239,17 @@ class AskAgent:
                     values={"messages": [AIMessage(content=full_answer)]},
                 )
 
-            # Build the chart BEFORE persistence so we can store its payload
-            # alongside the assistant message. Chart emission is intent-gated:
-            # `maybe_build_chart` returns None unless a tool call carried a
-            # `chart_hint` (set by the LLM only when the user asked for one).
+            # Build chart and document events BEFORE persistence so we can store
+            # their payloads alongside the assistant message.
             chart_event = maybe_build_chart(tool_results, message_id)
             chart_payload_dict = (
                 chart_event.data.model_dump(mode="json") if chart_event is not None else None
+            )
+            document_event = maybe_build_document(tool_results)
+            document_payload_dict = (
+                document_event.data.model_dump(mode="json")
+                if document_event is not None
+                else None
             )
 
             # Build transparency metadata from the accumulated stream events so
@@ -262,6 +269,10 @@ class AskAgent:
                 "tool_calls": tool_calls_for_meta,
                 "citations": [{"claim_id": c} for c in citations if c],
             }
+            # Embed document payload in transparency so it survives reload without
+            # a new migration (reuses the existing JSONB column).
+            if document_payload_dict is not None:
+                transparency["document_payload"] = document_payload_dict
 
             # --- Persist the assistant message + chart payload + schedule title generation.
             if (
@@ -290,6 +301,8 @@ class AskAgent:
 
             if chart_event is not None:
                 yield chart_event
+            if document_event is not None:
+                yield document_event
 
             yield DoneEvent(data=DoneData(message_id=message_id))
 
@@ -307,7 +320,7 @@ class AskAgent:
         message_id: str,
     ) -> AsyncIterator[TokenEvent]:
         """Stream the compose LLM call token-by-token."""
-        system_prompt = self._deps.prompts.load("claims_system", "v2")
+        system_prompt = self._deps.prompts.load("claims_system", "v3")
         compose_prompt = self._deps.prompts.load("compose", "v1")
         scratchpad_section = ""
         if scratchpad:

@@ -32,9 +32,18 @@ async def list_conversations(
     user: Annotated[User, Depends(get_current_user)],
     session: Annotated[AsyncSession, Depends(get_session)],
     q: Annotated[str | None, Query(min_length=1, max_length=120)] = None,
+    context_claim_id: Annotated[str | None, Query()] = None,
+    context_provider_id: Annotated[str | None, Query()] = None,
+    context_asegurado_id: Annotated[str | None, Query()] = None,
 ) -> list[ConversationSummary]:
     uc = ListConversations(ConversationsRepo(session), MessagesRepo(session))
-    return await uc.execute(user.id, query=q)
+    return await uc.execute(
+        user.id,
+        query=q,
+        context_claim_id=context_claim_id,
+        context_provider_id=context_provider_id,
+        context_asegurado_id=context_asegurado_id,
+    )
 
 
 @router.get("/{conversation_id}", response_model=ConversationDetail)

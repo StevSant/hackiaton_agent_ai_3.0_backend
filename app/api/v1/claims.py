@@ -1,10 +1,13 @@
 """Claims API — THIN router: parse → use case → return.
 
 Routes:
-    GET  /claims                → Page[ClaimSummary]   (any authenticated user)
-    GET  /claims/{id}           → ClaimDetail          (any authenticated user)
-    POST /claims/{id}/rescore   → ClaimDetail          (any authenticated user)
-    PATCH /claims/{id}          → ClaimDetail          (DEBUG_ENABLED + antifraude only)
+    GET  /claims                        → Page[ClaimSummary]   (any authenticated user)
+    GET  /claims/{id}                   → ClaimDetail          (any authenticated user)
+    POST /claims/{id}/rescore           → ClaimDetail          (any authenticated user)
+    GET  /claims/{id}/report.docx       → bytes (docx)         (any authenticated user)
+    POST /claims/{id}/resumen/improve   → {resumen: str}       (any authenticated user)
+    PATCH /claims/{id}/resumen          → ClaimDetail          (any authenticated user)
+    PATCH /claims/{id}                  → ClaimDetail          (DEBUG_ENABLED + antifraude only)
 """
 
 from __future__ import annotations
@@ -13,6 +16,8 @@ from datetime import date
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi.responses import Response
+from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
@@ -23,7 +28,9 @@ from app.api.deps import (
     get_claim_queries_dep,
     get_current_user,
     get_fraud_classifier,
+    get_llm,
     get_narrative_similarity,
+    get_prompt_loader,
     get_reviews_store,
     get_vehicle_decoder,
     require_role,
@@ -39,6 +46,7 @@ from app.domain.similarity import NarrativeSimilarity
 from app.domain.vehicle_identity import VehicleDecoder
 from app.infrastructure.audit import AuditStore
 from app.infrastructure.db.engine import get_session
+from app.infrastructure.llm import LLMProvider, PromptLoader
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.audit import AuditAction
 from app.schemas.claim import (
@@ -53,11 +61,22 @@ from app.schemas.page import Page
 from app.schemas.risk import Tier
 from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.enrich_claim_score import enrich_claim_score
+from app.use_cases.generate_claim_report_docx import generate_claim_report_docx
 from app.use_cases.get_claim_detail import _tier_to_severidad, get_claim_detail
+from app.use_cases.improve_claim_resumen import improve_claim_resumen
+from app.use_cases.update_claim_resumen import update_claim_resumen
 from app.use_cases.list_claims import list_claims
 from app.use_cases.reanalyze_claim import reanalyze_claim
 from app.use_cases.score_claim import score_claim
-from app.use_cases.update_claim_resumen import update_claim_resumen
+
+
+class _ImproveResumenRequest(BaseModel):
+    instrucciones: str | None = None
+
+
+class _ImproveResumenResponse(BaseModel):
+    resumen: str
+
 
 router = APIRouter(prefix="/claims", tags=["claims"])
 
@@ -113,6 +132,73 @@ async def get_claim_detail_route(
             status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
         )
     return detail
+
+
+@router.get("/{claim_id}/report.docx")
+async def download_claim_report_docx(
+    claim_id: str,
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
+    reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
+) -> Response:
+    """Generate and download a Word report (.docx) for a single claim."""
+    detail = await get_claim_detail(
+        queries,
+        claim_id,
+        reviews_store=reviews_store,
+        classifier=classifier,
+        detector=detector,
+    )
+    if detail is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
+        )
+    docx_bytes = await generate_claim_report_docx(detail)
+    return Response(
+        content=docx_bytes,
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={
+            "Content-Disposition": f'attachment; filename="reporte-{claim_id}.docx"'
+        },
+    )
+
+
+@router.post("/{claim_id}/resumen/improve", response_model=_ImproveResumenResponse)
+async def improve_claim_resumen_route(
+    claim_id: str,
+    body: _ImproveResumenRequest,
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
+    reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    llm: Annotated[LLMProvider, Depends(get_llm)] = ...,  # type: ignore[assignment]
+    _prompts: Annotated[PromptLoader, Depends(get_prompt_loader)] = ...,  # type: ignore[assignment]
+    _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
+) -> _ImproveResumenResponse:
+    """Use the LLM to improve/regenerate the case summary.
+
+    Does NOT persist — the frontend calls PATCH /resumen to save after review.
+    """
+    detail = await get_claim_detail(
+        queries,
+        claim_id,
+        reviews_store=reviews_store,
+        classifier=classifier,
+        detector=detector,
+    )
+    if detail is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
+        )
+    resumen = await improve_claim_resumen(
+        detail,
+        llm=llm,
+        llm_model=settings.LLM_DEFAULT_MODEL,
+        instrucciones=body.instrucciones,
+    )
+    return _ImproveResumenResponse(resumen=resumen)
 
 
 @router.post("/{claim_id}/rescore", response_model=ClaimDetail)

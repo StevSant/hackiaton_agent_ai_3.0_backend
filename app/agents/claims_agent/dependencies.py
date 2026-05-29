@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 
 from app.agents.claims_agent.tools import (
     AggregateByDimensionTool,
+    CrearDocumentoTool,
     GetAseguradoDetailTool,
     GetClaimDetailTool,
     GetProviderDetailTool,
@@ -34,6 +35,7 @@ class ClaimsAgentDeps:
     aggregate_by_dimension: AggregateByDimensionTool
     missing_documents: MissingDocumentsTool
     summarize_critical: SummarizeCriticalTool
+    crear_documento: CrearDocumentoTool | None = None
     get_provider_detail: GetProviderDetailTool | None = None
     get_asegurado_detail: GetAseguradoDetailTool | None = None
     verify_vehicle: VerifyVehicleTool | None = None
@@ -54,6 +56,7 @@ class ClaimsAgentDeps:
                 aggregate_by_dimension=self.aggregate_by_dimension,
                 missing_documents=self.missing_documents,
                 summarize_critical=self.summarize_critical,
+                crear_documento=self.crear_documento,
                 get_provider_detail=self.get_provider_detail,
                 get_asegurado_detail=self.get_asegurado_detail,
                 verify_vehicle=self.verify_vehicle,

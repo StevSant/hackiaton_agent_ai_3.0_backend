@@ -3,6 +3,11 @@ from app.agents.claims_agent.tools.aggregate_by_dimension_tool import (
     AggregateByDimensionOutput,
     AggregateByDimensionTool,
 )
+from app.agents.claims_agent.tools.crear_documento_tool import (
+    CrearDocumentoInput,
+    CrearDocumentoOutput,
+    CrearDocumentoTool,
+)
 from app.agents.claims_agent.tools.get_asegurado_detail_tool import (
     GetAseguradoDetailInput,
     GetAseguradoDetailOutput,
@@ -56,6 +61,9 @@ __all__ = [
     "AggregateDimension",
     "AggregateRow",
     "ClaimQueries",
+    "CrearDocumentoInput",
+    "CrearDocumentoOutput",
+    "CrearDocumentoTool",
     "ExecutiveSummary",
     "GetAseguradoDetailInput",
     "GetAseguradoDetailOutput",

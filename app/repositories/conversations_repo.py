@@ -23,6 +23,9 @@ class ConversationsRepo:
         user_id: UUID,
         *,
         query: str | None = None,
+        context_claim_id: str | None = None,
+        context_provider_id: str | None = None,
+        context_asegurado_id: str | None = None,
         limit: int = 200,
     ) -> list[Conversation]:
         stmt = select(Conversation).where(Conversation.user_id == user_id)
@@ -38,6 +41,12 @@ class ConversationsRepo:
                     .exists(),
                 )
             )
+        if context_claim_id is not None:
+            stmt = stmt.where(Conversation.context_claim_id == context_claim_id)
+        if context_provider_id is not None:
+            stmt = stmt.where(Conversation.context_provider_id == context_provider_id)
+        if context_asegurado_id is not None:
+            stmt = stmt.where(Conversation.context_asegurado_id == context_asegurado_id)
         stmt = stmt.order_by(Conversation.updated_at.desc()).limit(limit)
         result = await self._s.execute(stmt)
         return list(result.scalars().all())
