@@ -8,7 +8,7 @@ it here keeps the two callers byte-for-byte consistent — neither hand-authors 
 score, both go through ``build_rule_context_from_db`` + ``score_claim``.
 
 The helper FLUSHES but never commits — the caller owns the transaction boundary
-(``rescore_all`` commits once at the end of the walk; ``reanalyze_claim`` commits
+(``rescore_all`` commits periodically as it walks; ``reanalyze_claim`` commits
 after auto-escalation).
 """
 

@@ -51,7 +51,8 @@ async def rescore_all(
     """Recompute and persist a genuine rules-engine score for every claim.
 
     Args:
-        session:                          AsyncSession (committed at the end).
+        session:                          AsyncSession (committed periodically,
+                                          every ``_PROGRESS_INTERVAL`` claims).
         similarity:                       NarrativeSimilarity port; narrative
                                           signals skipped when None.
         decoder:                          VehicleDecoder port; FS-15
@@ -97,13 +98,14 @@ async def rescore_all(
         if previous is None or previous.score != risk.score or previous.tier != risk.tier.value:
             changed += 1
 
-        # Progress heartbeat: this loop does remote (DB + embeddings) round-trips
-        # per claim, so a full run is minutes long. Without this the CLI looks
-        # frozen — log every 25 claims so the operator can see it advancing.
-        if processed % 25 == 0 or processed == total:
+        # Commit + log on a fixed cadence. Periodic commits keep the write-lock
+        # window to a single batch (not all 426 claims in one transaction), so a
+        # killed run can't strand a long-lived lock on claim_scores — and the CLI
+        # shows it advancing instead of looking frozen.
+        if processed % _PROGRESS_INTERVAL == 0 or processed == total:
+            await session.commit()
             logger.info("rescore_all: scored %d/%d (changed=%d)", processed, total, changed)
 
-    await session.commit()
     logger.info("rescore_all: processed=%d changed=%d", processed, changed)
     return {"processed": processed, "changed": changed}
 
@@ -115,6 +117,10 @@ async def rescore_all(
 # Narratives shorter than this are too thin to embed meaningfully — mirrors the
 # import-stream / score_from_db guard so all paths index the same population.
 _MIN_NARRATIVE_LEN = 30
+
+# Claims are committed + logged on this cadence so the write-lock window stays
+# small and the CLI reports progress.
+_PROGRESS_INTERVAL = 25
 
 
 async def _index_narratives(
@@ -154,7 +160,7 @@ async def _index_narratives_sequential(
             logger.warning(
                 "rescore_all: narrative index failed for %s: %s", claim_id, exc
             )
-        if indexed % 25 == 0:
+        if indexed % _PROGRESS_INTERVAL == 0:
             logger.info("rescore_all: indexed %d/%d narratives", indexed, len(items))
     logger.info("rescore_all: indexed %d narratives", indexed)
 
@@ -234,9 +240,14 @@ async def _main() -> None:
     factory = create_session_factory(engine)
     decoder = RegistryVehicleDecoder()
     similarity = _build_similarity(factory)
-    async with factory() as session:
-        counts = await rescore_all(session, similarity=similarity, decoder=decoder)
-    await engine.dispose()
+    # Dispose in a finally so an error mid-run still releases pooled connections
+    # — otherwise an abandoned session lingers idle-in-transaction on the server,
+    # holding row locks until the pooler reaps it.
+    try:
+        async with factory() as session:
+            counts = await rescore_all(session, similarity=similarity, decoder=decoder)
+    finally:
+        await engine.dispose()
     print(
         f"rescore_all: processed={counts['processed']} changed={counts['changed']}."
     )
