@@ -11,16 +11,26 @@ No I/O, no framework imports — pure domain logic.
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel
 
 
 class SavingsEstimate(BaseModel):
     """Value object returned by estimate_savings."""
 
+    # --- computed outputs ---
     exposicion: float
     valor_en_riesgo: float
     prob_fraude_usada: float
     ahorro_potencial_estimado: float
+    # --- echoed inputs for formula breakdown (frontend rendering) ---
+    monto_reclamado: float
+    suma_asegurada: float
+    monto_pagado: float
+    deducible: float
+    tasa_recuperacion: float
+    prob_source: Literal["ml", "score"]
 
 
 def estimate_savings(
@@ -48,6 +58,7 @@ def estimate_savings(
         SavingsEstimate with all monetary outputs rounded to 2 decimals.
     """
     exposicion = max(0.0, min(monto_reclamado, suma_asegurada) - monto_pagado - deducible)
+    prob_source: Literal["ml", "score"] = "ml" if ml_probability is not None else "score"
     prob_fraude = ml_probability if ml_probability is not None else score / 100.0
     ahorro = exposicion * prob_fraude * tasa_recuperacion
 
@@ -56,4 +67,10 @@ def estimate_savings(
         valor_en_riesgo=round(exposicion, 2),
         prob_fraude_usada=round(prob_fraude, 4),
         ahorro_potencial_estimado=round(ahorro, 2),
+        monto_reclamado=round(monto_reclamado, 2),
+        suma_asegurada=round(suma_asegurada, 2),
+        monto_pagado=round(monto_pagado, 2),
+        deducible=round(deducible, 2),
+        tasa_recuperacion=tasa_recuperacion,
+        prob_source=prob_source,
     )

@@ -22,3 +22,4 @@ class SavingsAnalysisOut(BaseModel):
     total_ahorro_potencial: float
     casos: int
     por_nivel: list[SavingsTierBucket]
+    tasa_recuperacion: float

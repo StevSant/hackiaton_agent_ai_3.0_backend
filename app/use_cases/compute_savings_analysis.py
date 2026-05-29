@@ -110,4 +110,5 @@ async def compute_savings_analysis(session: AsyncSession) -> SavingsAnalysisOut:
         total_ahorro_potencial=total_ahorro,
         casos=total_casos,
         por_nivel=por_nivel,
+        tasa_recuperacion=tasa,
     )

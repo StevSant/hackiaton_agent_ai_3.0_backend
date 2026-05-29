@@ -120,3 +120,66 @@ def test_output_is_rounded_to_two_decimals() -> None:
     # ahorro = 10001 * 0.33 * 0.6 = 1980.198
     assert result.ahorro_potencial_estimado == round(10_001.0 * 0.33 * TASA, 2)
     assert result.exposicion == round(10_001.0, 2)
+
+
+# ---------------------------------------------------------------------------
+# New breakdown / explanation fields
+# ---------------------------------------------------------------------------
+
+
+def test_breakdown_inputs_echoed_when_ml_probability_none() -> None:
+    """All input components are echoed back; prob_source must be 'score'."""
+    result = _estimate(
+        monto_reclamado=28_160.0,
+        suma_asegurada=32_000.0,
+        monto_pagado=1_600.0,
+        deducible=0.0,
+        score=17,
+        ml_probability=None,
+        tasa_recuperacion=0.6,
+    )
+    assert result.monto_reclamado == 28_160.0
+    assert result.suma_asegurada == 32_000.0
+    assert result.monto_pagado == 1_600.0
+    assert result.deducible == 0.0
+    assert result.tasa_recuperacion == 0.6
+    assert result.prob_source == "score"
+    assert result.prob_fraude_usada == pytest.approx(0.17, abs=1e-4)
+
+
+def test_breakdown_inputs_echoed_when_ml_probability_present() -> None:
+    """When ml_probability is set, prob_source must be 'ml' and prob_fraude_usada equals ml_probability."""
+    result = _estimate(
+        monto_reclamado=28_160.0,
+        suma_asegurada=32_000.0,
+        monto_pagado=1_600.0,
+        deducible=0.0,
+        score=17,
+        ml_probability=0.095,
+        tasa_recuperacion=0.6,
+    )
+    assert result.prob_source == "ml"
+    assert result.prob_fraude_usada == pytest.approx(0.095, abs=1e-4)
+    # ahorro = 26560 * 0.095 * 0.6 = 1513.92
+    assert result.ahorro_potencial_estimado == pytest.approx(1_513.92, abs=0.02)
+
+
+def test_breakdown_suma_asegurada_and_deducible_echoed() -> None:
+    """suma_asegurada and deducible are present with correct values."""
+    result = _estimate(
+        monto_reclamado=5_000.0,
+        suma_asegurada=12_000.0,
+        monto_pagado=0.0,
+        deducible=500.0,
+        score=60,
+    )
+    assert result.suma_asegurada == 12_000.0
+    assert result.deducible == 500.0
+    assert result.tasa_recuperacion == TASA
+
+
+def test_prob_source_score_when_ml_probability_is_none_and_value_derived_from_score() -> None:
+    """Ensure prob_fraude_usada == round(score/100, 4) when prob_source == 'score'."""
+    result = _estimate(score=73, ml_probability=None)
+    assert result.prob_source == "score"
+    assert result.prob_fraude_usada == round(73 / 100, 4)
