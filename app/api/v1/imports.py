@@ -17,6 +17,7 @@ from app.api.deps import (
     get_audit_store,
     get_fraud_classifier,
     get_llm,
+    get_ocr,
     require_any_role,
 )
 from app.core.config import settings
@@ -26,6 +27,7 @@ from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
 from app.infrastructure.audit import AuditStore
 from app.infrastructure.llm import LLMProvider
+from app.infrastructure.ocr import OcrProvider
 from app.schemas.audit import AuditAction
 from app.schemas.claim import ClaimDetail
 from app.schemas.imports import ImportResult
@@ -126,6 +128,7 @@ async def import_claims_route(
     ],
     audit: Annotated[AuditStore, Depends(get_audit_store)],
     llm: Annotated[LLMProvider, Depends(get_llm)],
+    ocr: Annotated[OcrProvider | None, Depends(get_ocr)],
     session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
 ) -> ImportResult:
     if session is None:
@@ -151,7 +154,7 @@ async def import_claims_route(
     content_type = (file.content_type or "").lower()
 
     try:
-        records = await _detect_and_parse(content, filename, content_type, llm=llm)
+        records = await _detect_and_parse(content, filename, content_type, llm=llm, ocr=ocr)
     except ValueError as exc:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -185,6 +188,7 @@ async def _detect_and_parse(
     content_type: str,
     *,
     llm: LLMProvider | None,
+    ocr: OcrProvider | None = None,
 ) -> list[ClaimDetail]:
     """Detect format from filename/content-type and delegate to the right parser.
 
@@ -201,7 +205,7 @@ async def _detect_and_parse(
     if name.endswith(".pdf") or "pdf" in ct:
         if llm is None:
             raise ValueError("Importar PDF requiere proveedor LLM configurado")
-        return await parse_pdf(content, llm=llm)
+        return await parse_pdf(content, llm=llm, ocr=ocr)
     if name.endswith(".docx") or "wordprocessingml" in ct:
         if llm is None:
             raise ValueError("Importar DOCX requiere proveedor LLM configurado")
@@ -238,6 +242,7 @@ async def import_claims_stream_route(
         Depends(require_any_role(Role.analista, Role.antifraude)),
     ],
     llm: Annotated[LLMProvider, Depends(get_llm)],
+    ocr: Annotated[OcrProvider | None, Depends(get_ocr)],
     session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
     fraud_classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     anomaly_detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
@@ -262,7 +267,7 @@ async def import_claims_stream_route(
         filename = content_disposition.split("filename=")[-1].strip().strip('"').strip("'")
 
     try:
-        records = await _detect_and_parse(body, filename, content_type, llm=llm)
+        records = await _detect_and_parse(body, filename, content_type, llm=llm, ocr=ocr)
     except ValueError as exc:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,

@@ -1,7 +1,8 @@
 """Multi-agent fraud panel SSE endpoint — streams PanelStreamEvent for one claim.
 
 Thin: holds no business logic, delegates to AnalyzePanel (which goes through the
-LLMProvider port). Mirrors the SSE framing of app/api/v1/agent.py.
+LLMProvider port) and to run_and_persist (accumulate + cache). Mirrors the SSE
+framing of app/api/v1/agent.py.
 """
 
 import json
@@ -10,16 +11,20 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import get_analyze_panel, get_current_user
 from app.domain.auth.user import User
-from app.use_cases.analyze_panel import AnalyzePanel
+from app.infrastructure.db.engine import get_session
+from app.use_cases.analyze_panel import AnalyzePanel, run_and_persist
 
 router = APIRouter(prefix="/claims", tags=["panel"])
 
 
-async def _stream(panel: AnalyzePanel, claim_id: str) -> AsyncIterator[str]:
-    async for event in panel.run(claim_id):
+async def _stream(
+    panel: AnalyzePanel, session: AsyncSession, claim_id: str
+) -> AsyncIterator[str]:
+    async for event in run_and_persist(panel, session, claim_id):
         payload = event.model_dump(mode="json")
         yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
 
@@ -28,10 +33,11 @@ async def _stream(panel: AnalyzePanel, claim_id: str) -> AsyncIterator[str]:
 async def claim_panel(
     claim_id: str,
     panel: Annotated[AnalyzePanel, Depends(get_analyze_panel)],
+    session: Annotated[AsyncSession, Depends(get_session)],
     _user: Annotated[User, Depends(get_current_user)],
 ) -> StreamingResponse:
     return StreamingResponse(
-        _stream(panel, claim_id),
+        _stream(panel, session, claim_id),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",

@@ -13,6 +13,7 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field
 
 from app.schemas.narrative_analysis import NarrativeAnalysis
+from app.schemas.panel import PanelAnalysis
 from app.schemas.risk import Confianza, FactorContribution, SimilarClaim, Tier
 
 AlertSeverity = Literal["high", "med", "low"]
@@ -145,6 +146,9 @@ class ClaimDetail(BaseModel):
     # NLP read of `descripcion` (entities + coherence + summary). None until the
     # analyzer has run for this claim; cached in claim_scores afterwards.
     narrative_analysis: NarrativeAnalysis | None = None
+    # Multi-agent panel debate (lanes + consensus). Advisory only — never affects
+    # the score. None until a panel run has completed; cached in claim_scores.
+    panel_analysis: PanelAnalysis | None = None
     # A2 — signal-agreement flags surfaced on the detail page (amber chip + badge).
     posible_falso_positivo: bool = False
     confianza: Confianza = "alta"

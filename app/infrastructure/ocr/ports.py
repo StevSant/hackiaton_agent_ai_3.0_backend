@@ -1,6 +1,6 @@
 """OcrProvider port — OCR for scanned/image documents (A1).
 
-The adapter (Mistral) lives behind this Protocol so the import path stays
+The adapter (OpenAI vision) lives behind this Protocol so the import path stays
 provider-agnostic and tests use a fake. Signature is the day-start contract
 with Dev B's ingest wiring (spec B2).
 """

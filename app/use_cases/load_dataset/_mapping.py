@@ -30,6 +30,7 @@ from app.schemas.claim import (
     ClaimVehicle,
 )
 from app.schemas.narrative_analysis import NarrativeAnalysis
+from app.schemas.panel import PanelAnalysis
 from app.schemas.risk import FactorContribution, SimilarClaim, Tier
 
 _SEGMENTOS = ["Premium", "Corporativo", "Estándar", "Joven", "Senior"]
@@ -345,6 +346,12 @@ def rows_to_claim_detail(
         else None
     )
 
+    panel_analysis = (
+        PanelAnalysis.model_validate(score_row.panel_analysis)
+        if score_row is not None and score_row.panel_analysis is not None
+        else None
+    )
+
     vehiculo: ClaimVehicle | None = None
     if sin.marca and sin.modelo and sin.anio and sin.placa:
         vehiculo = ClaimVehicle(
@@ -398,6 +405,7 @@ def rows_to_claim_detail(
         similar=similar,
         anomaly_score=score_row.anomaly_score if score_row else None,
         narrative_analysis=narrative_analysis,
+        panel_analysis=panel_analysis,
     )
 
 

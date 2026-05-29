@@ -8,11 +8,13 @@ from app.schemas.panel.consensus_data import ConsensusData
 from app.schemas.panel.consensus_event import ConsensusEvent
 from app.schemas.panel.moderator_token_data import ModeratorTokenData
 from app.schemas.panel.moderator_token_event import ModeratorTokenEvent
+from app.schemas.panel.panel_analysis import PanelAnalysis
 from app.schemas.panel.panel_consensus import PanelConsensus
 from app.schemas.panel.panel_done_data import PanelDoneData
 from app.schemas.panel.panel_done_event import PanelDoneEvent
 from app.schemas.panel.panel_error_data import PanelErrorData
 from app.schemas.panel.panel_error_event import PanelErrorEvent
+from app.schemas.panel.panel_lane_snapshot import PanelLaneSnapshot
 from app.schemas.panel.panel_roster_entry import PanelRosterEntry
 from app.schemas.panel.panel_start_data import PanelStartData
 from app.schemas.panel.panel_start_event import PanelStartEvent
@@ -31,11 +33,13 @@ __all__ = [
     "ConsensusEvent",
     "ModeratorTokenData",
     "ModeratorTokenEvent",
+    "PanelAnalysis",
     "PanelConsensus",
     "PanelDoneData",
     "PanelDoneEvent",
     "PanelErrorData",
     "PanelErrorEvent",
+    "PanelLaneSnapshot",
     "PanelRosterEntry",
     "PanelStartData",
     "PanelStartEvent",

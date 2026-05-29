@@ -24,7 +24,23 @@ from app.infrastructure.llm.types import (
     ToolSpec,
 )
 
-_STRIP_KEYS = ("default", "title")
+# Keys OpenAI's strict structured-output mode rejects or ignores. Stripped from
+# every schema node before the request; pydantic still enforces them on parse.
+_STRIP_KEYS = (
+    "default",
+    "title",
+    "minimum",
+    "maximum",
+    "exclusiveMinimum",
+    "exclusiveMaximum",
+    "multipleOf",
+    "minLength",
+    "maxLength",
+    "pattern",
+    "format",
+    "minItems",
+    "maxItems",
+)
 
 
 def _normalize_strict_schema(schema: dict[str, Any]) -> dict[str, Any]:

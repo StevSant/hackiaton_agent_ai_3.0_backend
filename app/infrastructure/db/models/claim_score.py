@@ -51,6 +51,12 @@ class ClaimScore(Base):
     narrative_analysis: Mapped[dict[str, Any] | None] = mapped_column(
         JSONB, nullable=True, default=None
     )
+    # PanelAnalysis serialised as JSONB (lanes + moderator_text + consensus +
+    # generated_at) — cached multi-agent debate. Advisory only; never affects the
+    # score. Null until a panel run has completed for this claim.
+    panel_analysis: Mapped[dict[str, Any] | None] = mapped_column(
+        JSONB, nullable=True, default=None
+    )
     computed_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False
     )

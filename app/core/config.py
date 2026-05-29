@@ -57,9 +57,9 @@ class Settings(BaseSettings):
     ]
 
     # OCR (A1) — scanned/image documents. "none" disables → pdfplumber-only path.
-    OCR_PROVIDER: Literal["mistral", "none"] = "none"
-    MISTRAL_API_KEY: SecretStr | None = None
-    MISTRAL_OCR_MODEL: str = "mistral-ocr-latest"
+    # "openai" routes image-only PDFs/images through an OpenAI vision model.
+    OCR_PROVIDER: Literal["openai", "none"] = "openai"
+    OCR_MODEL: str = "gpt-4o-mini"  # vision-capable; reads images + PDF file inputs
 
     # embeddings  (OpenAI text-embedding-3-small w/ dimensions=384 by default;
     # sentence-transformers retained as an offline fallback — see infrastructure/embeddings/)

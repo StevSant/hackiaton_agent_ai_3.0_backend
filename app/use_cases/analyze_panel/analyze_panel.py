@@ -328,7 +328,7 @@ class AnalyzePanel:
             messages=[Message(role="system", content=system), Message(role="user", content=user)],
             model=self._model,
             response_format=ResponseFormat(
-                schema_name=schema.__name__, json_schema=schema.model_json_schema(), strict=False
+                schema_name=schema.__name__, json_schema=schema.model_json_schema(), strict=True
             ),
         )
         return schema.model_validate_json(result.message.content)

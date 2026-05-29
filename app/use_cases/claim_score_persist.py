@@ -42,6 +42,10 @@ async def upsert_claim_score(session: AsyncSession, score_row: ClaimScore) -> No
     # Preserve a previously-cached analysis when this rescore didn't recompute one.
     if score_row.narrative_analysis is not None:
         existing.narrative_analysis = score_row.narrative_analysis
+    # Likewise preserve the cached panel debate — rescore is score-only, advisory
+    # panel results survive unless a new panel run overwrites them.
+    if score_row.panel_analysis is not None:
+        existing.panel_analysis = score_row.panel_analysis
     existing.computed_at = score_row.computed_at
 
 
@@ -85,6 +89,11 @@ def claim_detail_to_score_row(claim: ClaimDetail) -> ClaimScore:
         narrative_analysis=(
             claim.narrative_analysis.model_dump()
             if claim.narrative_analysis is not None
+            else None
+        ),
+        panel_analysis=(
+            claim.panel_analysis.model_dump(mode="json")
+            if claim.panel_analysis is not None
             else None
         ),
         computed_at=datetime.now(tz=UTC),

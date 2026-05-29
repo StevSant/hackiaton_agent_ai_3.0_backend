@@ -57,6 +57,10 @@ from app.infrastructure.llm import (
     PromptLoader,
     build_openai_adapter,
 )
+from app.infrastructure.ocr import (
+    OcrProvider,
+    build_openai_ocr_adapter,
+)
 from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.infrastructure.rule_changes import InMemoryRuleChangesStore
@@ -218,6 +222,18 @@ def _fallback_speech_transcriber() -> SpeechTranscriber:
     if settings.LLM_PROVIDER == "fake" or settings.OPENAI_API_KEY is None:
         return InMemoryFakeTranscriber()
     return build_openai_whisper_adapter()
+
+
+def get_ocr() -> OcrProvider | None:
+    """OCR provider for image-only documents, or None to disable (pdfplumber-only)."""
+    return _fallback_ocr()
+
+
+@lru_cache(maxsize=1)
+def _fallback_ocr() -> OcrProvider | None:
+    if settings.OCR_PROVIDER == "none" or settings.OPENAI_API_KEY is None:
+        return None
+    return build_openai_ocr_adapter()
 
 
 def get_embeddings(request: Request) -> EmbeddingsProvider:
