@@ -25,6 +25,7 @@ from app.infrastructure.db.models.siniestro import Siniestro
 from app.infrastructure.llm.ports import LLMProvider
 from app.schemas.audit import AuditAction, AuditActor
 from app.schemas.claim import ClaimDetail
+from app.schemas.narrative_analysis import NarrativeAnalysis
 from app.use_cases._rescore_one import rescore_one
 from app.use_cases.analyze_claim_narrative import analyze_claim_narrative
 from app.use_cases.emit_audit_event import emit_audit_event
@@ -36,6 +37,25 @@ logger = logging.getLogger(__name__)
 # Narratives shorter than this carry no analyzable content (matches the
 # similarity layer's floor in score_claim_from_db._enrich_similarity).
 _MIN_DESCRIPCION_LEN = 30
+
+# Resumen text for the fallback analyses. We ALWAYS persist a NarrativeAnalysis so
+# the detail card resolves — leaving it null traps the UI in "análisis en curso".
+_RESUMEN_TOO_SHORT = (
+    "La narrativa registrada es demasiado breve para un análisis NLP detallado."
+)
+_RESUMEN_LLM_FAILED = (
+    "No se pudo completar el análisis automático de la narrativa. "
+    'Pulsá «Re-analizar caso» para reintentar.'
+)
+
+
+def _fallback_analysis(resumen: str) -> NarrativeAnalysis:
+    """A coherent, content-free analysis used when the LLM can't or shouldn't run.
+
+    `narrativa_ilogica=False` keeps FS-09 in its default (no-signal) state — same
+    as having no analysis at all — but the populated object lets the UI render a
+    resolved card with an honest note instead of an eternal spinner."""
+    return NarrativeAnalysis(narrativa_ilogica=False, resumen_narrativa=resumen)
 
 
 async def analyze_claim_narrative_persisted(
@@ -76,14 +96,26 @@ async def analyze_claim_narrative_persisted(
     detail = await hydrate_claim_detail(session, sin)
 
     cached = detail.narrative_analysis is not None
-    analyzable = bool(detail.descripcion) and len(detail.descripcion) >= _MIN_DESCRIPCION_LEN
-    if (cached and not force) or not analyzable:
-        # Nothing to (re)compute — return the claim enriched with ML/anomaly.
+    if cached and not force:
+        # Already analyzed — return the claim enriched with ML/anomaly, no LLM call.
         return await enrich_claim_score(detail, classifier=classifier, detector=detector)
 
-    analysis = await analyze_claim_narrative(
-        detail.descripcion, llm=llm, llm_model=llm_model
-    )
+    # Decide the analysis to persist. We ALWAYS end up with a non-null analysis so
+    # the UI never sticks on "en curso": a real LLM read when the narrative is long
+    # enough, a fallback note otherwise (too short, or the LLM call failed).
+    analyzable = bool(detail.descripcion) and len(detail.descripcion) >= _MIN_DESCRIPCION_LEN
+    ran_llm = False
+    if not analyzable:
+        analysis = _fallback_analysis(_RESUMEN_TOO_SHORT)
+    else:
+        try:
+            analysis = await analyze_claim_narrative(
+                detail.descripcion, llm=llm, llm_model=llm_model
+            )
+            ran_llm = True
+        except Exception:  # LLM down / bad JSON / schema mismatch — never 500 the view.
+            logger.exception("narrative: analysis failed for %s; persisting fallback", claim_id)
+            analysis = _fallback_analysis(_RESUMEN_LLM_FAILED)
 
     # Write the coherence verdict back into signals so FS-09 fires from real NLP.
     # Reassign (not in-place mutate) so SQLAlchemy tracks the JSONB change.
@@ -103,9 +135,9 @@ async def analyze_claim_narrative_persisted(
     # rojos happens at import / explicit rescore, not on read.
     await session.commit()
 
-    # Audit only this fresh run (cache hits return above) — one entry per claim's
-    # first analysis. Best-effort; the analysis is already committed.
-    if audit is not None and user is not None:
+    # Audit only a genuine LLM run (cache hits return above; fallbacks aren't an
+    # "analysis"). Best-effort; the analysis is already committed.
+    if ran_llm and audit is not None and user is not None:
         try:
             await emit_audit_event(
                 audit,
