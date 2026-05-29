@@ -19,6 +19,11 @@ class Tier(str, Enum):
     rojo = "rojo"  # 76-100 → Antifraud Unit, field review
 
 
+# Canonical confidence level for the A2 signal-agreement assessment. Single
+# source of truth — consumed by ClaimRiskScore, ClaimDetail, and use_cases.
+Confianza = Literal["alta", "media", "baja"]
+
+
 class RuleActivation(BaseModel):
     """One fired fraud rule, produced by the rules engine (`domain/rules`).
 
@@ -66,5 +71,5 @@ class ClaimRiskScore(BaseModel):
     similar: list[SimilarClaim] = Field(default_factory=list)
     # A2 — signal-agreement flags. NEVER an accusation: a review prompt.
     posible_falso_positivo: bool = False
-    confianza: Literal["alta", "media", "baja"] = "alta"
+    confianza: Confianza = "alta"
     computed_at: datetime

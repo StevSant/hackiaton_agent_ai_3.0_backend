@@ -8,8 +8,9 @@ harder (challenge spec §2.10: AI is an alert, the human decides).
 
 Decision order (first match wins):
   1. Conflict — the model flags high risk but NO hard rule (RF-*) corroborates
-     it → possible false positive, confianza "baja". Covers both "high ML vs.
-     low rules" and "low rules score as a standalone signal worth a second look".
+     it AND the additive score does not already corroborate it → possible false
+     positive, confianza "baja". When the rules score is itself high the signals
+     agree (both point to risk), so it is NOT a conflict.
   2. Vague band — the additive score straddles the verde/amarillo boundary and
      no hard rule fired → ambiguous, confianza "media".
   3. Otherwise — signals agree (hard rule corroborates, or everything is clearly
@@ -19,14 +20,13 @@ Decision order (first match wins):
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING
 
 from app.core.config import settings
+from app.schemas.risk import Confianza
 
 if TYPE_CHECKING:
     from app.schemas.claim import ClaimDetail
-
-Confianza = Literal["alta", "media", "baja"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -57,11 +57,13 @@ def assess_confidence(
     """
     hard_rule = _has_hard_rule(rule_codes)
 
-    # 1. Conflict — model says high risk, nothing hard corroborates it.
+    # 1. Conflict — ML says high risk, but the additive rules score does NOT
+    #    corroborate it (low-to-vague score) and no hard rule fired.
     if (
         ml_probability is not None
         and ml_probability >= settings.CONFIDENCE_ML_HIGH
         and not hard_rule
+        and score < settings.CONFIDENCE_VAGUE_BAND_HIGH
     ):
         return ConfidenceAssessment(posible_falso_positivo=True, confianza="baja")
 
@@ -76,7 +78,7 @@ def assess_confidence(
     return ConfidenceAssessment(posible_falso_positivo=False, confianza="alta")
 
 
-def apply_confidence(detail: "ClaimDetail") -> "ClaimDetail":
+def apply_confidence(detail: ClaimDetail) -> ClaimDetail:
     """Return *detail* with A2 confidence fields set from its current signals.
 
     Uses the post-enrichment data on the claim: the additive ``score``, the

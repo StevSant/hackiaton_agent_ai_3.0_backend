@@ -12,7 +12,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from app.schemas.risk import FactorContribution, SimilarClaim, Tier
+from app.schemas.risk import Confianza, FactorContribution, SimilarClaim, Tier
 
 AlertSeverity = Literal["high", "med", "low"]
 TimelineTone = Literal["ok", "warn", "danger"]
@@ -142,7 +142,7 @@ class ClaimDetail(BaseModel):
     nearest_normal_claim_id: str | None = None
     # A2 — signal-agreement flags surfaced on the detail page (amber chip + badge).
     posible_falso_positivo: bool = False
-    confianza: Literal["alta", "media", "baja"] = "alta"
+    confianza: Confianza = "alta"
     # Per-claim geographic coordinates (WGS84) — derived from the sucursal's
     # city center plus deterministic per-claim jitter. Optional for backward
     # compatibility with older serialized claims.

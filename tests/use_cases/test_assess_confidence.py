@@ -33,3 +33,27 @@ def test_hard_rule_overrides_vague_band() -> None:
 def test_conflict_takes_precedence_over_vague_band() -> None:
     result = assess_confidence(score=45, rule_codes=["FS-02"], ml_probability=0.80)
     assert result == ConfidenceAssessment(posible_falso_positivo=True, confianza="baja")
+
+
+def test_high_ml_high_rules_score_no_hard_rule_is_not_false_positive() -> None:
+    # ML and the rules score AGREE (both high) → not a conflict → alta.
+    result = assess_confidence(
+        score=72, rule_codes=["FS-01", "FS-03", "FS-09"], ml_probability=0.82
+    )
+    assert result == ConfidenceAssessment(posible_falso_positivo=False, confianza="alta")
+
+
+def test_vague_band_lower_boundary() -> None:
+    assert assess_confidence(score=35, rule_codes=[], ml_probability=None).confianza == "media"
+
+
+def test_vague_band_upper_boundary() -> None:
+    assert assess_confidence(score=50, rule_codes=[], ml_probability=None).confianza == "media"
+
+
+def test_just_below_vague_band_is_alta() -> None:
+    assert assess_confidence(score=34, rule_codes=[], ml_probability=None).confianza == "alta"
+
+
+def test_just_above_vague_band_is_alta() -> None:
+    assert assess_confidence(score=51, rule_codes=[], ml_probability=None).confianza == "alta"

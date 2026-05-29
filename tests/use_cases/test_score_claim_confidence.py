@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from tests.fixtures.claims import claim_amarillo, claim_rojo, claim_verde
 from app.use_cases.score_claim import score_claim
+from tests.fixtures.claims import claim_rojo, claim_verde
 
 
 def test_score_claim_sets_confidence_fields_present() -> None:
