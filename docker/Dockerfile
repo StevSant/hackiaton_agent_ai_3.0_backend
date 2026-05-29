@@ -48,6 +48,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+# LightGBM's wheel dynamically links libgomp (OpenMP runtime), which python:3.12-slim
+# omits. Without it `lgb.Booster(...)` raises "libgomp.so.1: cannot open shared object
+# file", the V4 classifier load fails silently and the UI shows "Modelo no cargado"
+# (sklearn's V5 anomaly model has no such dependency, which is why it loaded fine).
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /app /app
 
 EXPOSE 8000
