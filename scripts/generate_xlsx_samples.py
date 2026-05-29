@@ -1,9 +1,10 @@
 """Generate CSV + XLSX twin samples for each curated demo case.
 
-Reads the 6 JSONs from ``data/casos_demo/json/`` and writes:
+Recurses the ramo-classified JSONs under ``data/casos_demo/json/<ramo>/`` and
+mirrors the ``<ramo>/`` subpath into the output trees:
 
-- ``data/casos_demo/csv/<stem>.csv``   — single-data-row CSV
-- ``data/casos_demo/xlsx/<stem>.xlsx`` — single-data-row XLSX (sheet "claims")
+- ``data/casos_demo/csv/<ramo>/<stem>.csv``   — single-data-row CSV
+- ``data/casos_demo/xlsx/<ramo>/<stem>.xlsx`` — single-data-row XLSX (sheet "claims")
 
 Column order matches ``data/samples/claims.sample.csv``. Fields that exist
 only in the JSON format (vehiculo, documentos, alertas, score, nivel) are

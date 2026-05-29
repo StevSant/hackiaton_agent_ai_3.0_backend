@@ -25,7 +25,7 @@ import asyncio
 import logging
 from pathlib import Path
 
-from sqlalchemy import select, text
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.db.models.claim_score import ClaimScore

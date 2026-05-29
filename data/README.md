@@ -104,10 +104,40 @@ change.
 
 ---
 
+## `casos_demo/` — curated demo cases, classified by ramo
+
+Hand-authored single-claim cases used to demo and test the import + scoring
+flows. Every format directory is **classified by canonical ramo** in subfolders:
+
+```
+casos_demo/
+├── json/<ramo>/caso_NN_*.json     ← source of truth (ClaimDetail shape)
+├── csv/<ramo>/caso_NN_*.csv       ← derived (flat, one row)
+├── xlsx/<ramo>/caso_NN_*.xlsx     ← derived (one row, sheet "claims")
+├── sample_documents/<ramo>/<claim_id>/*.pdf   ← uploadable PDF packages
+├── pdf|docx|ocr/<ramo>/           ← unstructured + OCR fixtures
+└── json/INDEX.md                  ← per-case rule/tier expectations
+```
+
+Ramo buckets follow the app's `normalize_ramo`: `vehiculos/` (caso_01–20),
+`salud/` (Salud + Accidentes Personales, caso_21–25), `vida/` (caso_26–30),
+`hogar/` (Hogar + Incendio, caso_31–36). **JSON is the source of truth** — edit
+a case there, then regenerate the derived formats:
+
+```bash
+uv run python scripts/generate_xlsx_samples.py     # → csv/<ramo>/ + xlsx/<ramo>/
+uv run python scripts/generate_demo_case_docs.py   # → sample_documents/<ramo>/<claim_id>/
+```
+
+Both scripts recurse the ramo subfolders. See `casos_demo/json/INDEX.md` for the
+full per-case table (rules fired, expected tier, enrichment notes).
+
+---
+
 ## `casos_demo/ocr/` — OCR test fixtures (image-only PDFs)
 
 Rasterized copies of the project's own synthetic denuncias. Same claim IDs
-and field values as `casos_demo/json/` and `sample_documents/`, but **no
+and field values as `casos_demo/json/<ramo>/` and `sample_documents/<ramo>/`, but **no
 text layer** so `parse_pdf` routes through Mistral OCR instead of pdfplumber.
 
 Built by:
@@ -120,7 +150,7 @@ uv run --with pymupdf --with img2pdf python scripts/generate_ocr_test_samples.py
 
 | File | Expected `id` after import | Pairs with |
 |------|---------------------------|------------|
-| `denuncia_policial_robo_001_escaneado.pdf` | `SIN-DEMO-001` | `casos_demo/json/caso_01_robo_total_PTxRB.json` |
+| `vehiculos/denuncia_policial_robo_001_escaneado.pdf` | `SIN-DEMO-001` | `casos_demo/json/vehiculos/caso_01_robo_total_PTxRB.json` |
 | `02_denuncia_fiscal_SIN-2026-08412_escaneado.pdf` | `SIN-2026-08412` | `samples/claims.sin-2026-08412.csv` |
 
 Manifest: `casos_demo/ocr/manifest.json`. Use **one** of the two files for a
@@ -139,6 +169,14 @@ a label or pool changes.
 - `ramo_labels.json` — `{canonical_ramo: display_label}` consumed by the
   insights donut + aggregation cards. Loaded once on startup via
   `app.domain.ramos.load_ramo_labels`.
+
+**Demo-case package spec** (consumed by `scripts/generate_demo_case_docs.py`):
+
+- `demo_case_packages.json` — per-case PDF upload packages for `casos_demo/`.
+  `{claim_id: {stem, extra, docs}}` where `docs` references PDF *builders* by
+  string key (the builder functions live in the script's `BUILDERS` registry).
+  Edit this file — not Python — to change which docs a case ships, alert text,
+  diagnoses, beneficiary notes, etc.
 
 **Generator seed pools** (consumed at dataset-build time only by
 `scripts/generate_dataset.py` + `scripts/generate_samples.py`, via the

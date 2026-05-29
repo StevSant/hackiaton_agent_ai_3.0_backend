@@ -2,6 +2,19 @@
 
 Import order matters for FS-13: load caso_01 before caso_06 so the pgvector similarity lookup has a prior embedding to match against.
 
+## Folder layout — classified by ramo
+
+Cases are grouped by **canonical ramo** under every format directory, e.g. `json/<ramo>/`, `csv/<ramo>/`, `xlsx/<ramo>/`, `sample_documents/<ramo>/<claim_id>/`. The four buckets follow the app's `normalize_ramo` taxonomy:
+
+| Folder | Literal `ramo` values it holds |
+|---|---|
+| `vehiculos/` | Vehículos (caso_01–20) |
+| `salud/` | Salud, Accidentes Personales (caso_21–25) |
+| `vida/` | Vida (caso_26–30) |
+| `hogar/` | Hogar, Incendio (caso_31–36) |
+
+`nivel`/`score` in each JSON are the **intended** tier (engine recomputes on import via `RuleContext.from_claim`). Cases whose intended tier needs an enricher (RF-02 / RF-03 / FS-07) show a lower tier on plain import — see the per-table notes and the enrichment section below.
+
 | File | Cobertura | Hard rules expected | Signal rules expected | Expected tier (post-enrichment) | Score estimate (post-enrichment) | Notes |
 |---|---|---|---|---|---|---|
 | `caso_01_robo_total_PTxRB.json` | Pérdida Total por Robo | RF-01, RF-06 | FS-02 (+8), FS-12 (+3), FS-14 (+5) | ROJO | 76+ (RF-01 override) | Baseline reference; import first so FS-13 has a prior to compare against |
@@ -24,6 +37,31 @@ Import order matters for FS-13: load caso_01 before caso_06 so the pgvector simi
 | `caso_18_robo_total_fin_poliza.json` | Pérdida Total por Robo | RF-01, RF-06 | FS-14 (+5, ratio 0.980) | ROJO | 76+ (RF-01 override) | Robo PTxRB (RF-01) + denuncia 5 días (RF-06) + ratio 98.0% (FS-14 +5). Ocurrencia 7 días ANTES del fin de vigencia — patrón de reclamo al cierre. Todos los docs entregados. Upload package disponible en `sample_documents/SIN-DEMO-018/` |
 | `caso_19_verde_limpio_3.json` | Daños Parciales | — | — | VERDE | ~0 | Tercera referencia limpia. Ocurrencia 169 días desde inicio (sin FS-01). Reporte el mismo día (sin FS-12). Ratio 8.1% (sin FS-14). Todos los docs completos. Ciudad: Portoviejo |
 | `caso_20_robo_parcial_amarillo.json` | Robo Parcial | RF-06 | FS-08 (+4, 1 doc pendiente) | AMARILLO | RF-06 fuerza piso | Robo de accesorios con cobertura Robo Parcial — RF-01 NO aplica (no es PTxRB). Denuncia 6 días (RF-06 AMARILLO) + 1 doc pendiente (FS-08 +4). Ratio 50% (sin FS-14). Póliza 105 días (sin FS-01). Upload package disponible en `sample_documents/SIN-DEMO-020/` |
+
+## Non-vehicle cases — salud / vida / hogar (caso_21–36)
+
+Authored to exercise the **ramo-agnostic** rules on non-auto claims. `Tier (auto)` is the engine result on plain import; `Intended` is the target after enrichment. Verified via `score_claim(RuleContext.from_claim(claim))`.
+
+| File | Ramo | Cobertura | Señales auto-disparadas | Tier (auto) | Intended | Notas |
+|---|---|---|---|---|---|---|
+| `salud/caso_21_salud_verde_limpio.json` | Salud | Gastos Médicos Ambulatorios | — | VERDE | VERDE | Referencia limpia: consulta menor, docs completos, póliza antigua |
+| `salud/caso_22_salud_docs_incompletos_late.json` | Salud | Hospitalización | FS-08, FS-12 | VERDE (9) | VERDE | Reporte 11 días tarde (FS-12 +5) + 2 docs faltantes (FS-08 +4) |
+| `salud/caso_23_salud_borde_vigencia.json` | Salud | Hospitalización | FS-01, RF-05 | AMARILLO | AMARILLO | Cirugía 1 día tras el inicio de vigencia → RF-05 piso amarillo |
+| `salud/caso_24_salud_monto_atipico.json` | Salud | Cirugía Mayor | FS-01, FS-14 | VERDE (13) | VERDE | Monto (26 000) supera suma (25 000) → FS-14; 8 días tras inicio → FS-01 |
+| `salud/caso_25_accidentes_personales_falsificacion.json` | Accidentes Personales | Renta Diaria por Incapacidad | FS-08 | VERDE (4) | **ROJO** | Certificado con fecha anterior al accidente → **RF-02** vía enricher documental |
+| `vida/caso_26_vida_verde_limpio.json` | Vida | Muerte Natural | — | VERDE | VERDE | Referencia limpia: muerte natural, póliza ~5 años, beneficiario directo |
+| `vida/caso_27_vida_beneficiario_restrictivo.json` | Vida | Muerte Accidental | FS-14 | VERDE (5) | **ROJO** | Beneficiario corporativo en lista restrictiva → **RF-03** vía consulta de lista |
+| `vida/caso_28_vida_borde_vigencia.json` | Vida | Muerte Accidental | FS-01, FS-14, RF-05 | AMARILLO | AMARILLO | Fallecimiento 1 día tras el inicio → RF-05 piso amarillo |
+| `vida/caso_29_vida_monto_atipico_docs.json` | Vida | Muerte Natural | FS-08, FS-14 | VERDE (9) | VERDE | Reclamo 99% de la suma (FS-14) + falta partida (FS-08) |
+| `vida/caso_30_vida_muerte_accidental_late_report.json` | Vida | Muerte Accidental | FS-12 | VERDE (5) | VERDE | Reporte 12 días tras el deceso (FS-12); duelo familiar |
+| `hogar/caso_31_hogar_verde_limpio.json` | Hogar | Daños por Agua | — | VERDE | VERDE | Referencia limpia: daño menor, póliza antigua, docs completos |
+| `hogar/caso_32_incendio_borde_vigencia.json` | Incendio | Incendio y Líneas Aliadas | FS-01, RF-05 | AMARILLO | AMARILLO | Incendio 1 día tras el inicio de vigencia → RF-05 piso amarillo |
+| `hogar/caso_33_incendio_monto_atipico.json` | Incendio | Incendio y Líneas Aliadas | FS-01, FS-14 | VERDE (13) | VERDE | Pérdida = 100% de la suma (FS-14) + 8 días tras inicio (FS-01) |
+| `hogar/caso_34_hogar_robo_contenidos_denuncia_tardia.json` | Hogar | Robo de Contenidos | FS-02, FS-08, FS-12, RF-06 | AMARILLO | AMARILLO | Denuncia 6 días tarde → RF-06 piso amarillo (cobertura no PTxRB → sin RF-01) |
+| `hogar/caso_35_incendio_falsificacion_docs.json` | Incendio | Incendio y Líneas Aliadas | FS-14 | VERDE (5) | **ROJO** | Factura emitida después del incendio + valores tachados → **RF-02** vía enricher |
+| `hogar/caso_36_hogar_proveedor_recurrente.json` | Hogar | Daños por Agua | FS-14 | VERDE (5) | VERDE/AMARILLO | Reclamo 95.3% de la suma (FS-14); proveedor recurrente → **FS-07** vía consulta de observados |
+
+Upload packages for all 16 live under `sample_documents/<ramo>/<claim_id>/` (alert-bearing PDFs in caso_25, caso_27 and caso_35 carry the visible inconsistency text for the RF-02 / RF-03 demo).
 
 ## Rule-trigger summary per current import path (`RuleContext.from_claim`)
 
@@ -51,11 +89,12 @@ The current `from_claim` auto-derives: `dias_desde_inicio_poliza`, `monto_vs_sum
 | FS-09 | `narrativa_ilógica=True` or `evento_medianoche=True` set by NLP layer | caso_05 (madrugada, sin testigos) |
 | FS-13 | `narrativa_similar_score` set by pgvector similarity pass | caso_06 vs caso_01 |
 
-## Upload document packages (`sample_documents/`)
+## Upload document packages (`sample_documents/<ramo>/`)
 
-Three cases have a realistic PDF package ready for upload via the frontend file-upload flow.
-Each PDF filename contains the keyword required by `sync_claim_document._FILENAME_TIPO_HINTS`
-so the document tipo is inferred automatically on upload.
+Cases ship a realistic PDF package ready for upload via the frontend file-upload flow,
+under `sample_documents/<ramo>/<claim_id>/`. Each PDF filename contains the keyword required
+by `sync_claim_document._FILENAME_TIPO_HINTS` so the document tipo is inferred automatically
+on upload. The vehiculos packages (under `sample_documents/vehiculos/`) are:
 
 | Claim ID | Case | PDFs included | Notable feature |
 |---|---|---|---|

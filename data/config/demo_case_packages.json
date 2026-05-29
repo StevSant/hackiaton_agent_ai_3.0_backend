@@ -1,0 +1,434 @@
+{
+  "_comment": "Per-case uploadable PDF document packages for the casos_demo set. Consumed by scripts/generate_demo_case_docs.py. Each case: 'stem' = json filename (resolved under casos_demo/json/<ramo>/), 'extra' = fields merged into the claim for the PDF templates, 'docs' = [{filename, builder}] where 'builder' is a key in that script's BUILDERS registry. Edit this file (not Python) to change case content.",
+  "cases": {
+    "SIN-DEMO-007": {
+      "stem": "caso_07_falsificacion_docs",
+      "extra": {
+        "cedula": "0102345678",
+        "estado_civil": "Casado",
+        "cedula_expedicion": "15/03/2019",
+        "vehiculo_color": "Blanco nacarado",
+        "tipo_evento_policial": "Colisión contra objeto fijo",
+        "narrativa_policial": "El vehículo Kia Sportage placas AZD-3157 colisionó con poste de alumbrado en Av. Solano, El Ejido, Cuenca, el 20/04/2026 a las 14:30. Se constató daños en lateral derecho. El conductor presentó cédula y manifestó haber esquivado a un animal en la vía.",
+        "nota_caratula": "El siniestro ocurre 95 días después del inicio de vigencia — fuera del borde crítico FS-01.",
+        "fecha_peritaje": "22/04/2026",
+        "valor_peritaje": 18200.0,
+        "conclusion_peritaje": "Daños en lateral derecho compatibles con impacto lateral contra objeto fijo.",
+        "obs_peritaje": "ALERTA: proforma del taller presenta fecha de emisión anterior a la ocurrencia del siniestro. Se recomienda revisión documental antes de autorizar pago."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "matricula_vehiculo.pdf", "builder": "matricula"},
+        {"filename": "acta_policial.pdf", "builder": "acta"},
+        {"filename": "peritaje_tecnico.pdf", "builder": "peritaje"},
+        {"filename": "proforma_taller.pdf", "builder": "proforma_caso07"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_poliza"}
+      ]
+    },
+    "SIN-DEMO-009": {
+      "stem": "caso_09_dinamica_imposible",
+      "extra": {
+        "cedula": "1803456789",
+        "estado_civil": "Soltero",
+        "cedula_expedicion": "22/07/2018",
+        "vehiculo_color": "Negro brillante",
+        "tipo_evento_policial": "Colisión frontal contra muro de contención",
+        "narrativa_policial": "El conductor reporta pérdida de frenos y colisión frontal a alta velocidad contra muro. El perito constata daños exclusivamente en lateral derecho y parte trasera, inconsistentes con la dinámica declarada. Se solicita revisión técnica ampliada.",
+        "deducible": "15% del valor asegurado",
+        "nota_caratula": "Siniestro ocurre 209 días desde el inicio de póliza — sin señal FS-01. RF-04 requiere NLP para detectar dinámica imposible.",
+        "fecha_peritaje": "29/04/2026",
+        "valor_peritaje": 27500.0,
+        "conclusion_peritaje": "Daños estructurales en lateral derecho y zona trasera.",
+        "obs_peritaje": "INCONSISTENCIA CRÍTICA: daños en lateral derecho y zona trasera, incompatibles con colisión frontal declarada. Se activa RF-04 (dinámica físicamente imposible). Registro de cámara contradice ubicación declarada del evento.",
+        "proveedor_ruc": "1801234567001"
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "matricula_vehiculo.pdf", "builder": "matricula"},
+        {"filename": "acta_policial.pdf", "builder": "acta"},
+        {"filename": "peritaje_tecnico.pdf", "builder": "peritaje"},
+        {"filename": "proforma_taller.pdf", "builder": "proforma_generic"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_poliza"},
+        {"filename": "denuncia_fiscal.pdf", "builder": "denuncia"}
+      ]
+    },
+    "SIN-DEMO-012": {
+      "stem": "caso_12_robo_multi_senal",
+      "extra": {
+        "cedula": "1104567890",
+        "estado_civil": "Casado",
+        "cedula_expedicion": "05/09/2017",
+        "vehiculo_color": "Azul oscuro",
+        "tipo_evento_policial": "Robo de vehículo motorizado",
+        "narrativa_policial": "El asegurado denuncia la sustracción de su Ford Ranger placas LOJ-1148, ocurrida el 15/04/2026 a las 23:45 en calle Mercadillo, barrio La Tebaida, Loja. La denuncia es presentada el 25/04/2026, con una demora de 10 días respecto al hecho.",
+        "deducible": "10% del valor asegurado",
+        "nota_caratula": "Póliza contratada 5 días antes del siniestro (inicio 10/04/2026). RF-01 activo por cobertura PTxRB. FS-01 activo por borde crítico.",
+        "obs_denuncia": "La denuncia fue presentada 10 días después de la ocurrencia. El plazo máximo en póliza para robo total es de 4 días (RF-06).",
+        "fecha_peritaje": "26/04/2026",
+        "valor_peritaje": 35000.0,
+        "conclusion_peritaje": "Vehículo no localizado. Valor comercial referencial establecido según peritaje de mercado.",
+        "obs_peritaje": "Caso de robo total con RF-01 activo. Se recomienda revisión del expediente por demora en denuncia (RF-06) y cercanía al inicio de vigencia (FS-01). Monto es 97.7% de la suma asegurada (FS-14).",
+        "proveedor_ruc": null
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "matricula_vehiculo.pdf", "builder": "matricula"},
+        {"filename": "denuncia_fiscal.pdf", "builder": "denuncia"},
+        {"filename": "acta_policial.pdf", "builder": "acta"},
+        {"filename": "peritaje_tecnico.pdf", "builder": "peritaje"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_poliza"}
+      ]
+    },
+    "SIN-DEMO-015": {
+      "stem": "caso_15_robo_total_critico",
+      "extra": {
+        "cedula": "1307654321",
+        "estado_civil": "Soltero",
+        "cedula_expedicion": "10/06/2018",
+        "vehiculo_color": "Gris oscuro",
+        "tipo_evento_policial": "Robo de vehículo motorizado",
+        "narrativa_policial": "El asegurado denuncia la sustracción de su Nissan Frontier placas MNT-7756, ocurrida el 02/05/2026 a las 22:00 en calle 103, sector Puerto de Manta. La denuncia es presentada el 08/05/2026, con una demora de 6 días respecto al hecho (RF-06 activo).",
+        "deducible": "10% del valor asegurado",
+        "nota_caratula": "Póliza contratada 8 días antes del siniestro (inicio 24/04/2026). RF-01 activo por cobertura PTxRB. FS-01 activo (+8 pts, ≤10 días). FS-14 activo (97.1% de suma asegurada).",
+        "obs_denuncia": "La denuncia fue presentada 6 días después de la ocurrencia. El plazo máximo en póliza para robo total es de 4 días (RF-06). Requiere revisión por la unidad antifraude.",
+        "fecha_peritaje": "09/05/2026",
+        "valor_peritaje": 30000.0,
+        "conclusion_peritaje": "Vehículo no localizado al momento de la inspección. Valor comercial referencial según tablas de mercado vigentes.",
+        "obs_peritaje": "Caso ROJO: RF-01 (PTxRB), RF-06 (demora denuncia 6 días), FS-01 (+8, póliza 8 días), FS-14 (ratio 97.1%), FS-08 (+4, 2 docs). Máxima densidad de señales auto-derivadas.",
+        "proveedor_ruc": null
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "matricula_vehiculo.pdf", "builder": "matricula"},
+        {"filename": "denuncia_fiscal.pdf", "builder": "denuncia"},
+        {"filename": "acta_policial.pdf", "builder": "acta"},
+        {"filename": "peritaje_tecnico.pdf", "builder": "peritaje"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_poliza"}
+      ]
+    },
+    "SIN-DEMO-018": {
+      "stem": "caso_18_robo_total_fin_poliza",
+      "extra": {
+        "cedula": "0801234567",
+        "estado_civil": "Casada",
+        "cedula_expedicion": "20/03/2016",
+        "vehiculo_color": "Blanco perla",
+        "tipo_evento_policial": "Robo de vehículo motorizado",
+        "narrativa_policial": "La asegurada denuncia la sustracción de su Mitsubishi L200 placas ESM-3391, ocurrida el 18/05/2026 entre las 21:30 y las 23:00 en calle Los Álamos, sector Las Palmas, Esmeraldas. La denuncia ante Fiscalía fue presentada el 23/05/2026, con 5 días de demora (RF-06).",
+        "deducible": "10% del valor asegurado",
+        "nota_caratula": "Póliza vigente desde 25/05/2025 hasta 25/05/2026. Siniestro ocurre 7 días antes del vencimiento — patrón de reclamo al cierre de vigencia. RF-01 activo por PTxRB. RF-06 activo (5 días). FS-14 activo (98.0% de suma asegurada).",
+        "obs_denuncia": "La denuncia fue presentada 5 días después de la ocurrencia. Plazo máximo en póliza: 4 días (RF-06). Siniestro a 7 días del vencimiento de la póliza — patrón atípico.",
+        "fecha_peritaje": "24/05/2026",
+        "valor_peritaje": 27000.0,
+        "conclusion_peritaje": "Vehículo no localizado. Valor referencial según mercado Manabí-Esmeraldas.",
+        "obs_peritaje": "Caso ROJO: RF-01 (PTxRB), RF-06 (demora 5 días), FS-14 (98.0%). Siniestro a 7 días del fin de vigencia — señal adicional de revisión. Se recomienda auditoría de expediente completo.",
+        "proveedor_ruc": null
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "matricula_vehiculo.pdf", "builder": "matricula"},
+        {"filename": "denuncia_fiscal.pdf", "builder": "denuncia"},
+        {"filename": "acta_policial.pdf", "builder": "acta"},
+        {"filename": "peritaje_tecnico.pdf", "builder": "peritaje"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_poliza"}
+      ]
+    },
+    "SIN-DEMO-020": {
+      "stem": "caso_20_robo_parcial_amarillo",
+      "extra": {
+        "cedula": "0103456789",
+        "estado_civil": "Casada",
+        "cedula_expedicion": "12/08/2019",
+        "vehiculo_color": "Plata metalizado",
+        "tipo_evento_policial": "Robo de accesorios de vehículo",
+        "narrativa_policial": "La asegurada denuncia el robo de accesorios de su Volkswagen Tiguan placas AZU-8814, ocurrido el 05/05/2026 entre las 21:00 y las 23:00 en parqueadero público, calle Sangurima sector El Vergel, Cuenca. Se sustrajo la pantalla multimedia y parlantes. La denuncia fue presentada el 11/05/2026 — 6 días de demora (RF-06 activo).",
+        "deducible": "10% del valor asegurado",
+        "nota_caratula": "Póliza vigente desde 20/01/2026. Cobertura: Robo Parcial. RF-01 NO aplica (cobertura no es PTxRB). RF-06 activo (demora 6 días). FS-08 activo (1 doc pendiente). Nivel AMARILLO por RF-06.",
+        "obs_denuncia": "La denuncia fue presentada 6 días después de la ocurrencia. Plazo máximo en póliza para robo parcial: 4 días. RF-06 activo — piso AMARILLO garantizado.",
+        "fecha_peritaje": "12/05/2026",
+        "valor_peritaje": 9700.0,
+        "conclusion_peritaje": "Daños confirmados en sistema multimedia y carrocería lateral derecha por rotura de vidrio. Accesorios sustraídos no recuperados.",
+        "obs_peritaje": "Robo de accesorios confirmado. RF-06 por demora en denuncia (6 días). RF-01 no aplica — cobertura es Robo Parcial, no PTxRB. FS-08 activo por certificado multimedia pendiente.",
+        "proveedor_ruc": "0102345670001"
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "matricula_vehiculo.pdf", "builder": "matricula"},
+        {"filename": "denuncia_fiscal.pdf", "builder": "denuncia"},
+        {"filename": "acta_policial.pdf", "builder": "acta"},
+        {"filename": "peritaje_tecnico.pdf", "builder": "peritaje"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_poliza"}
+      ]
+    },
+    "SIN-DEMO-021": {
+      "stem": "caso_21_salud_verde_limpio",
+      "extra": {
+        "cedula": "1712345678",
+        "diagnostico": "Gastroenteritis aguda",
+        "detalle_clinico": "Paciente con cuadro de 24 horas de evolución; manejo ambulatorio con hidratación y antibiótico. Evolución favorable."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "historia_clinica.pdf", "builder": "historia_clinica"},
+        {"filename": "factura_medica.pdf", "builder": "factura_medica"},
+        {"filename": "informe_medico.pdf", "builder": "informe_medico"}
+      ]
+    },
+    "SIN-DEMO-022": {
+      "stem": "caso_22_salud_docs_incompletos_late",
+      "extra": {
+        "cedula": "0923456781",
+        "diagnostico": "Neumonía adquirida en la comunidad",
+        "nota_caratula": "Reporte presentado 11 días después del egreso (FS-12). Faltan historia clínica y factura detallada (FS-08)."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "informe_medico.pdf", "builder": "informe_medico"},
+        {"filename": "epicrisis.pdf", "builder": "epicrisis"}
+      ]
+    },
+    "SIN-DEMO-023": {
+      "stem": "caso_23_salud_borde_vigencia",
+      "extra": {
+        "cedula": "0103456782",
+        "diagnostico": "Colecistitis aguda — colecistectomía",
+        "procedimiento": "Colecistectomía laparoscópica de urgencia",
+        "nota_caratula": "Cirugía 1 día después del inicio de vigencia (20/04) → RF-05 piso amarillo + FS-01."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "historia_clinica.pdf", "builder": "historia_clinica"},
+        {"filename": "factura_medica.pdf", "builder": "factura_medica"},
+        {"filename": "epicrisis.pdf", "builder": "epicrisis"}
+      ]
+    },
+    "SIN-DEMO-024": {
+      "stem": "caso_24_salud_monto_atipico",
+      "extra": {
+        "cedula": "1804567893",
+        "diagnostico": "Hernia discal lumbar — artrodesis",
+        "procedimiento": "Artrodesis de columna lumbar",
+        "nota_caratula": "Monto reclamado (26 000) supera la suma asegurada (25 000) → FS-14. Cirugía 8 días tras el inicio → FS-01."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "historia_clinica.pdf", "builder": "historia_clinica"},
+        {"filename": "factura_medica.pdf", "builder": "factura_medica"},
+        {"filename": "informe_medico.pdf", "builder": "informe_medico"},
+        {"filename": "epicrisis.pdf", "builder": "epicrisis"}
+      ]
+    },
+    "SIN-DEMO-025": {
+      "stem": "caso_25_accidentes_personales_falsificacion",
+      "extra": {
+        "cedula": "1305678904",
+        "diagnostico": "Fractura de tibia — incapacidad temporal",
+        "fecha_doc_inconsistente": "2026-04-17",
+        "dias_incapacidad": "45",
+        "tipo_evento": "Accidente laboral",
+        "alerta_doc": "ALERTA — REQUIERE REVISIÓN: la fecha de emisión de este certificado (17/04/2026) es ANTERIOR a la fecha del accidente declarado (20/04/2026). Inconsistencia documental que activa RF-02."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "certificado_incapacidad.pdf", "builder": "certificado_incapacidad"},
+        {"filename": "parte_accidente.pdf", "builder": "parte_accidente"}
+      ]
+    },
+    "SIN-DEMO-026": {
+      "stem": "caso_26_vida_verde_limpio",
+      "extra": {
+        "cedula": "1106789015",
+        "causa_muerte": "Cardiopatía isquémica crónica",
+        "manera_muerte": "Natural",
+        "parentesco": "Hijo"
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "certificado_defuncion.pdf", "builder": "certificado_defuncion"},
+        {"filename": "partida_defuncion.pdf", "builder": "partida_defuncion"},
+        {"filename": "designacion_beneficiario.pdf", "builder": "designacion_beneficiario"}
+      ]
+    },
+    "SIN-DEMO-027": {
+      "stem": "caso_27_vida_beneficiario_restrictivo",
+      "extra": {
+        "cedula": "0917890126",
+        "causa_muerte": "Politraumatismo por accidente",
+        "manera_muerte": "Accidental",
+        "parentesco": "Persona jurídica (no familiar)",
+        "alerta_doc": "ALERTA — REQUIERE REVISIÓN: el beneficiario 'Inversiones Delta Capital S.A.' figura en la lista restrictiva de monitoreo antilavado. Coincidencia que activa RF-03 (lista restrictiva)."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "certificado_defuncion.pdf", "builder": "certificado_defuncion"},
+        {"filename": "partida_defuncion.pdf", "builder": "partida_defuncion"},
+        {"filename": "designacion_beneficiario.pdf", "builder": "designacion_beneficiario"},
+        {"filename": "informe_forense.pdf", "builder": "informe_forense"}
+      ]
+    },
+    "SIN-DEMO-028": {
+      "stem": "caso_28_vida_borde_vigencia",
+      "extra": {
+        "cedula": "0608901237",
+        "causa_muerte": "Traumatismo craneoencefálico (accidente de tránsito)",
+        "manera_muerte": "Accidental",
+        "parentesco": "Cónyuge",
+        "nota_caratula": "Fallecimiento 1 día después del inicio de vigencia (03/05) → RF-05 piso amarillo + FS-01."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "certificado_defuncion.pdf", "builder": "certificado_defuncion"},
+        {"filename": "partida_defuncion.pdf", "builder": "partida_defuncion"},
+        {"filename": "informe_forense.pdf", "builder": "informe_forense"}
+      ]
+    },
+    "SIN-DEMO-029": {
+      "stem": "caso_29_vida_monto_atipico_docs",
+      "extra": {
+        "cedula": "1309012348",
+        "causa_muerte": "Insuficiencia respiratoria",
+        "manera_muerte": "Natural",
+        "parentesco": "Hijo",
+        "nota_caratula": "Reclamo (49 500) = 99% de la suma asegurada → FS-14. Falta partida de defunción → FS-08."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "certificado_defuncion.pdf", "builder": "certificado_defuncion"},
+        {"filename": "designacion_beneficiario.pdf", "builder": "designacion_beneficiario"}
+      ]
+    },
+    "SIN-DEMO-030": {
+      "stem": "caso_30_vida_muerte_accidental_late_report",
+      "extra": {
+        "cedula": "2300123459",
+        "causa_muerte": "Politraumatismo (accidente vial)",
+        "manera_muerte": "Accidental",
+        "parentesco": "Cónyuge",
+        "nota_caratula": "Reporte 12 días tras el deceso → FS-12. Monto (55 000) bajo la suma asegurada (70 000)."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "certificado_defuncion.pdf", "builder": "certificado_defuncion"},
+        {"filename": "partida_defuncion.pdf", "builder": "partida_defuncion"},
+        {"filename": "designacion_beneficiario.pdf", "builder": "designacion_beneficiario"},
+        {"filename": "informe_forense.pdf", "builder": "informe_forense"}
+      ]
+    },
+    "SIN-DEMO-031": {
+      "stem": "caso_31_hogar_verde_limpio",
+      "extra": {
+        "cedula": "1710234560",
+        "tipo_evento": "Daños por agua",
+        "origen_fuego": "—",
+        "bienes": "Cielo raso y piso flotante de dormitorio",
+        "conclusion_peritaje": "Daños por filtración compatibles con rotura de tubería declarada.",
+        "nota_caratula": "Daño menor (900) sobre suma 35 000, póliza antigua, docs completos. Sin señales."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "informe_pericial_danos.pdf", "builder": "informe_pericial_danos"},
+        {"filename": "factura_reparacion.pdf", "builder": "factura_reparacion"},
+        {"filename": "inventario_bienes.pdf", "builder": "inventario_bienes"}
+      ]
+    },
+    "SIN-DEMO-032": {
+      "stem": "caso_32_incendio_borde_vigencia",
+      "extra": {
+        "cedula": "0701345671",
+        "tipo_evento": "Incendio estructural",
+        "origen_fuego": "Cortocircuito en tablero eléctrico",
+        "bienes": "Mobiliario de cocina y estructura",
+        "conclusion_peritaje": "Daños por fuego compatibles con origen eléctrico.",
+        "nota_caratula": "Incendio 1 día tras el inicio de vigencia (01/05) → RF-05 piso amarillo + FS-01."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "informe_bomberos.pdf", "builder": "informe_bomberos"},
+        {"filename": "inventario_bienes.pdf", "builder": "inventario_bienes"},
+        {"filename": "informe_pericial_danos.pdf", "builder": "informe_pericial_danos"}
+      ]
+    },
+    "SIN-DEMO-033": {
+      "stem": "caso_33_incendio_monto_atipico",
+      "extra": {
+        "cedula": "1802456782",
+        "tipo_evento": "Incendio — pérdida total de bodega",
+        "origen_fuego": "En investigación",
+        "bienes": "Bodega anexa y contenido",
+        "conclusion_peritaje": "Pérdida total de la bodega; valoración en el tope asegurado requiere verificación.",
+        "nota_caratula": "Pérdida declarada (48 000) = 100% de la suma asegurada → FS-14. Siniestro 8 días tras inicio → FS-01."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "informe_bomberos.pdf", "builder": "informe_bomberos"},
+        {"filename": "inventario_bienes.pdf", "builder": "inventario_bienes"},
+        {"filename": "informe_pericial_danos.pdf", "builder": "informe_pericial_danos"}
+      ]
+    },
+    "SIN-DEMO-034": {
+      "stem": "caso_34_hogar_robo_contenidos_denuncia_tardia",
+      "extra": {
+        "cedula": "0913567893",
+        "bienes": "Electrodomésticos, equipos electrónicos y joyas",
+        "obs_denuncia": "La denuncia fue presentada 6 días después del hecho. El plazo máximo en póliza para robo es de 4 días (RF-06). Falta comprobante de propiedad de las joyas (FS-08).",
+        "nota_caratula": "Robo de contenidos con denuncia 6 días tarde → RF-06 piso amarillo + FS-02. Cobertura no PTxRB → sin RF-01."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "denuncia_sustraccion.pdf", "builder": "denuncia_sustraccion"},
+        {"filename": "inventario_bienes.pdf", "builder": "inventario_bienes"}
+      ]
+    },
+    "SIN-DEMO-035": {
+      "stem": "caso_35_incendio_falsificacion_docs",
+      "extra": {
+        "cedula": "0104678904",
+        "tipo_evento": "Incendio en local comercial-vivienda",
+        "origen_fuego": "En investigación",
+        "bienes": "Mercadería y mobiliario del local",
+        "concepto_factura": "Mercadería supuestamente destruida en el incendio",
+        "alerta_doc": "ALERTA — REQUIERE REVISIÓN: la fecha de emisión de esta factura (28/04/2026) es POSTERIOR al incendio declarado (25/04/2026) y el informe de daños presenta valores tachados. Inconsistencias que activan RF-02.",
+        "nota_caratula": "Factura emitida después del incendio + valores alterados → RF-02 rojo post-revisión. Reclamo 97.5% de la suma → FS-14."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "informe_bomberos.pdf", "builder": "informe_bomberos"},
+        {"filename": "inventario_bienes.pdf", "builder": "inventario_bienes"},
+        {"filename": "factura_mercaderia.pdf", "builder": "factura_reparacion"},
+        {"filename": "informe_pericial_danos.pdf", "builder": "informe_pericial_danos"}
+      ]
+    },
+    "SIN-DEMO-036": {
+      "stem": "caso_36_hogar_proveedor_recurrente",
+      "extra": {
+        "cedula": "1715789015",
+        "bienes": "Pisos, muebles y electrodomésticos",
+        "conclusion_peritaje": "Daños por filtración compatibles; proveedor de restauración recurrente en siniestros recientes.",
+        "alerta_doc": "OBSERVACIÓN: el proveedor 'Restauraciones Integrales del Oro' aparece en múltiples reclamos recientes (también en SIN-DEMO-032). Activa FS-07 si la consulta confirma >2 casos observados.",
+        "nota_caratula": "Reclamo (14 300) = 95.3% de la suma → FS-14. Proveedor recurrente → FS-07 post-consulta."
+      },
+      "docs": [
+        {"filename": "cedula_identidad.pdf", "builder": "cedula"},
+        {"filename": "caratula_poliza.pdf", "builder": "caratula_generica"},
+        {"filename": "informe_pericial_danos.pdf", "builder": "informe_pericial_danos"},
+        {"filename": "factura_reparacion.pdf", "builder": "factura_reparacion"},
+        {"filename": "inventario_bienes.pdf", "builder": "inventario_bienes"}
+      ]
+    }
+  }
+}
