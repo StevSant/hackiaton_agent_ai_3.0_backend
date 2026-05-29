@@ -290,71 +290,60 @@ def parse_only(xlsx_path: Path) -> None:
 # ---------------------------------------------------------------------------
 
 
+async def _bulk_upsert(
+    session: Any, model: Any, rows: list[dict], pk: str, *, chunk: int = 200
+) -> int:
+    """Bulk INSERT ... ON CONFLICT DO UPDATE — one statement per chunk instead of
+    a per-row SELECT+merge. Avoids ~2000 round-trips against the high-latency
+    Supabase pooler that previously made the import crawl."""
+    from sqlalchemy.dialects.postgresql import insert as pg_insert
+
+    rows = [r for r in rows if r.get(pk)]
+    if not rows:
+        return 0
+    update_cols = [k for k in rows[0] if k != pk]
+    for i in range(0, len(rows), chunk):
+        part = rows[i : i + chunk]
+        stmt = pg_insert(model).values(part)
+        stmt = stmt.on_conflict_do_update(
+            index_elements=[pk],
+            set_={c: stmt.excluded[c] for c in update_cols},
+        )
+        await session.execute(stmt)
+    return len(rows)
+
+
 async def _upsert_proveedores(session: Any, rows: list[dict]) -> int:
     from app.infrastructure.db.models.proveedor import Proveedor
-    count = 0
-    for d in rows:
-        if not d["id_proveedor"]:
-            continue
-        obj = Proveedor(**d)
-        await session.merge(obj)
-        count += 1
-    await session.flush()
-    return count
+
+    return await _bulk_upsert(session, Proveedor, rows, "id_proveedor")
 
 
 async def _upsert_asegurados(session: Any, rows: list[dict]) -> int:
     from app.infrastructure.db.models.asegurado import Asegurado
-    count = 0
-    for d in rows:
-        if not d["id_asegurado"]:
-            continue
-        obj = Asegurado(**d)
-        await session.merge(obj)
-        count += 1
-    await session.flush()
-    return count
+
+    return await _bulk_upsert(session, Asegurado, rows, "id_asegurado")
 
 
 async def _upsert_polizas(session: Any, rows: list[dict], ciudad_by_poliza: dict[str, str]) -> int:
     from app.infrastructure.db.models.poliza import Poliza
-    count = 0
+
     for d in rows:
-        if not d["id_poliza"]:
-            continue
-        # Fill ciudad from the siniestros sheet when available
         d["ciudad"] = ciudad_by_poliza.get(d["id_poliza"], "")
-        obj = Poliza(**d)
-        await session.merge(obj)
-        count += 1
-    await session.flush()
-    return count
+    return await _bulk_upsert(session, Poliza, rows, "id_poliza")
 
 
 async def _upsert_siniestros(session: Any, rows: list[dict]) -> int:
     from app.infrastructure.db.models.siniestro import Siniestro
-    count = 0
-    for d in rows:
-        if not d["id_siniestro"]:
-            continue
-        obj = Siniestro(**d)
-        await session.merge(obj)
-        count += 1
-    await session.flush()
-    return count
+
+    return await _bulk_upsert(session, Siniestro, rows, "id_siniestro")
 
 
 async def _upsert_documentos(session: Any, rows: list[dict]) -> int:
     from app.infrastructure.db.models.documento import Documento
-    count = 0
-    for d in rows:
-        if not d["id_documento"] or not d["id_siniestro"]:
-            continue
-        obj = Documento(**d)
-        await session.merge(obj)
-        count += 1
-    await session.flush()
-    return count
+
+    rows = [r for r in rows if r.get("id_siniestro")]
+    return await _bulk_upsert(session, Documento, rows, "id_documento")
 
 
 # ---------------------------------------------------------------------------
@@ -422,7 +411,7 @@ async def _score_batch(
 # ---------------------------------------------------------------------------
 
 
-async def _run(xlsx_path: Path, *, dry_run: bool = False) -> None:
+async def _run(xlsx_path: Path, *, dry_run: bool = False, score_limit: int = 0) -> None:
     from app.infrastructure.db.engine import create_engine, create_session_factory
 
     # Parse all sheets up-front (no DB required)
@@ -486,8 +475,10 @@ async def _run(xlsx_path: Path, *, dry_run: bool = False) -> None:
             )
 
         # Score in a fresh session so the upserted rows are visible.
-        logger.info("Scoring %d siniestros (rules engine only, no LLM) ...", len(sin_rows))
         sin_ids = [r["id_siniestro"] for r in sin_rows]
+        if score_limit > 0:
+            sin_ids = sin_ids[:score_limit]
+        logger.info("Scoring %d siniestros (rules engine only, no LLM) ...", len(sin_ids))
         async with factory() as session:
             tiers = await _score_batch(session, sin_ids)
 
@@ -538,6 +529,12 @@ def main() -> int:
         action="store_true",
         help="Parse the file and print counts/samples without touching the DB.",
     )
+    parser.add_argument(
+        "--score-limit",
+        type=int,
+        default=0,
+        help="Score only the first N siniestros (0 = all). Upserts always load everything.",
+    )
     args = parser.parse_args()
 
     xlsx_path = Path(args.xlsx_path)
@@ -549,7 +546,7 @@ def main() -> int:
         parse_only(xlsx_path)
         return 0
 
-    asyncio.run(_run(xlsx_path))
+    asyncio.run(_run(xlsx_path, score_limit=args.score_limit))
     return 0
 
 
