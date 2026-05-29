@@ -52,12 +52,14 @@ def _to_use_case_request(wire: WireAgentAskRequest) -> AskAgentRequest:
         wire.context_claim_id is not None
         or wire.context_provider_id is not None
         or wire.context_asegurado_id is not None
+        or wire.document_context is not None
     )
     context = (
         AgentAskContext(
             focus_claim_id=wire.context_claim_id,
             focus_provider_id=wire.context_provider_id,
             focus_asegurado_id=wire.context_asegurado_id,
+            document_context=wire.document_context,
         )
         if has_context
         else None

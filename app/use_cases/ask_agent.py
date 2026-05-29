@@ -320,7 +320,7 @@ class AskAgent:
         message_id: str,
     ) -> AsyncIterator[TokenEvent]:
         """Stream the compose LLM call token-by-token."""
-        system_prompt = self._deps.prompts.load("claims_system", "v3")
+        system_prompt = self._deps.prompts.load("claims_system", "v4")
         compose_prompt = self._deps.prompts.load("compose", "v1")
         scratchpad_section = ""
         if scratchpad:
