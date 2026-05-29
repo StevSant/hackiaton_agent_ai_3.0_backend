@@ -27,7 +27,7 @@ class AgentAskRequest(BaseModel):
     questions binds them to one memory window. Omit to start fresh.
     """
 
-    query: str = Field(..., min_length=1, max_length=2000)
+    query: str = Field(..., min_length=1, max_length=4000)
     context: AgentAskContext | None = None
     conversation_id: str | None = Field(
         default=None,
