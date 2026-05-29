@@ -18,7 +18,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from fastapi.responses import Response, StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.api.deps import (
     get_ask_agent,
@@ -40,6 +40,7 @@ from app.schemas.chat.tts import TtsRequest
 from app.schemas.speech import TranscribeResponse
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.emit_audit_event import emit_audit_event
+from app.use_cases.improve_document import ImprovedDocument, improve_document
 from app.use_cases.markdown_to_docx import filename_for, render as render_docx
 from app.use_cases.transcribe_audio import transcribe_audio
 
@@ -121,6 +122,35 @@ _DOCX_MEDIA_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessing
 class DocxRequest(BaseModel):
     titulo: str
     contenido_markdown: str
+
+
+class ImproveDocumentRequest(BaseModel):
+    titulo: str = Field(..., min_length=1, max_length=500)
+    contenido_markdown: str = Field(..., min_length=1, max_length=40000)
+    instrucciones: str | None = Field(default=None, max_length=2000)
+
+
+@router.post("/document/improve", response_model=ImprovedDocument)
+async def agent_document_improve(
+    body: ImproveDocumentRequest,
+    llm: Annotated[LLMProvider, Depends(get_llm)],
+    _user: Annotated[User, Depends(get_current_user)],
+) -> ImprovedDocument:
+    """Improve an existing agent-generated document via LLM.
+
+    Accepts the current titulo + contenido_markdown and optional analyst instrucciones.
+    Returns the improved {titulo, contenido_markdown} without going through the chat
+    agent loop — avoids hitting the /ask query length cap.
+    """
+    from app.core.config import settings
+
+    return await improve_document(
+        body.titulo,
+        body.contenido_markdown,
+        llm=llm,
+        llm_model=settings.LLM_DEFAULT_MODEL,
+        instrucciones=body.instrucciones,
+    )
 
 
 @router.post("/document/docx")

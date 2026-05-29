@@ -1,8 +1,10 @@
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, Field, model_validator
+
+_MAX_QUERY_LENGTH = 4000
 
 
 class AgentAskRequest(BaseModel):
-    message: str
+    message: str = Field(..., min_length=1, max_length=_MAX_QUERY_LENGTH)
     conversation_id: str | None = None
     context_claim_id: str | None = None
     context_provider_id: str | None = None
