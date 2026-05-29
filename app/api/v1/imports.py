@@ -8,8 +8,8 @@ from collections.abc import AsyncIterator
 from pathlib import Path
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile, status
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile, status
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import (
@@ -52,14 +52,18 @@ _TEMPLATE_PATH = (
 
 @router.get(
     "/import/template",
-    summary="Download the CSV template for bulk claim import",
+    summary="Download the import template (CSV or JSON skeleton)",
+    response_model=None,
 )
 async def download_import_template_route(
     _user: Annotated[
         User,
         Depends(require_any_role(Role.analista, Role.antifraude)),
     ],
-) -> FileResponse:
+    format: Annotated[str, Query(description="Response format: 'csv' (default) or 'json'")] = "csv",
+) -> FileResponse | JSONResponse:
+    if format == "json":
+        return JSONResponse(content=_JSON_SKELETON, status_code=status.HTTP_200_OK)
     if not _TEMPLATE_PATH.is_file():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -70,6 +74,42 @@ async def download_import_template_route(
         media_type="text/csv",
         filename="claims.sample.csv",
     )
+
+
+_JSON_SKELETON = [
+    {
+        "id": "SIN-0001",
+        "ramo": "Vehículos",
+        "cobertura": "Responsabilidad Civil",
+        "asegurado": "Juan Pérez",
+        "asegurado_id": "ASE-0001",
+        "poliza": "POL-0001",
+        "ciudad": "Guayaquil",
+        "fecha_ocurrencia": "2026-01-15",
+        "fecha_reporte": "2026-01-17",
+        "fecha_inicio_poliza": "2025-06-01",
+        "fecha_fin_poliza": "2026-06-01",
+        "monto_reclamado": 5000.0,
+        "suma_asegurada": 25000.0,
+        "estado": "Reserva",
+        "sucursal": "Guayaquil Centro",
+        "proveedor": "Taller Central S.A.",
+        "descripcion": "Descripción del evento del siniestro.",
+        "score": 0,
+        "nivel": "verde",
+        "vehiculo": {
+            "marca": "Toyota",
+            "modelo": "Corolla",
+            "anio": 2020,
+            "placa": "ABC-1234",
+            "chasis": None,
+        },
+        "documentos": [
+            {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": False},
+            {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": False},
+        ],
+    }
+]
 
 
 @router.post(

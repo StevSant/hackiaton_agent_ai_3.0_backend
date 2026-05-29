@@ -373,6 +373,7 @@ def rows_to_claim_detail(
         vehiculo=vehiculo,
         proveedor=_proveedor_display(proveedor),
         descripcion=sin.descripcion,
+        resumen_editado=sin.resumen_editado,
         score=score_val,
         nivel=tier,
         alertas=alertas,

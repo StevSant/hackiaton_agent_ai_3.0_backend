@@ -55,6 +55,7 @@ class Siniestro(Base):
     estado: Mapped[str] = mapped_column(String(60), nullable=False)
     sucursal: Mapped[str] = mapped_column(String(120), nullable=False)
     descripcion: Mapped[str] = mapped_column(Text, nullable=False)
+    resumen_editado: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     documentos_completos: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=False

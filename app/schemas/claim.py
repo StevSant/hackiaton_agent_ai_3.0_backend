@@ -127,6 +127,7 @@ class ClaimDetail(BaseModel):
     vehiculo: ClaimVehicle | None = None
     proveedor: str | None = None
     descripcion: str
+    resumen_editado: str | None = None
     score: int = Field(..., ge=0, le=100)
     nivel: Tier
     alertas: list[ClaimAlert] = Field(default_factory=list)
@@ -153,3 +154,9 @@ class ClaimPatch(BaseModel):
     fecha_reporte: date | None = None
     monto_reclamado: float | None = None
     documentos_completos: bool | None = None
+
+
+class ResumenPatch(BaseModel):
+    """Analyst-edited case summary."""
+
+    resumen_editado: str = Field(..., min_length=1, max_length=8000)
