@@ -12,7 +12,10 @@ import uuid
 from collections.abc import AsyncIterator, Callable
 from functools import lru_cache
 from pathlib import Path
-from typing import Annotated, Any
+from typing import TYPE_CHECKING, Annotated, Any
+
+if TYPE_CHECKING:
+    from app.use_cases.analyze_panel import AnalyzePanel
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
@@ -474,7 +477,7 @@ async def get_analyze_panel(
     reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)],
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
-) -> Any:
+) -> AnalyzePanel:
     from app.infrastructure.llm import PromptLoader as _PromptLoader
     from app.use_cases.analyze_panel import AnalyzePanel
 

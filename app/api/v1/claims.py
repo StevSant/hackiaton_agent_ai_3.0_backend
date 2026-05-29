@@ -59,15 +59,18 @@ from app.schemas.claim import (
 )
 from app.schemas.page import Page
 from app.schemas.risk import Tier
+from app.use_cases.analyze_claim_narrative_persisted import (
+    analyze_claim_narrative_persisted,
+)
 from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.generate_claim_report_docx import generate_claim_report_docx
 from app.use_cases.get_claim_detail import _tier_to_severidad, get_claim_detail
 from app.use_cases.improve_claim_resumen import improve_claim_resumen
-from app.use_cases.update_claim_resumen import update_claim_resumen
 from app.use_cases.list_claims import list_claims
 from app.use_cases.reanalyze_claim import reanalyze_claim
 from app.use_cases.score_claim import score_claim
+from app.use_cases.update_claim_resumen import update_claim_resumen
 
 
 class _ImproveResumenRequest(BaseModel):
@@ -240,6 +243,65 @@ async def rescore_claim_route(
         detail=f"Nuevo score {detail.score}/100 · nivel {detail.nivel.value}",
         target=claim_id,
     )
+    return detail
+
+
+@router.post("/{claim_id}/narrative-analysis", response_model=ClaimDetail)
+async def analyze_claim_narrative_route(
+    claim_id: str,
+    force: Annotated[bool, Query()] = False,
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
+    reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
+    session: Annotated[AsyncSession, Depends(get_session)] = ...,  # type: ignore[assignment]
+    llm: Annotated[LLMProvider, Depends(get_llm)] = ...,  # type: ignore[assignment]
+    similarity: Annotated[
+        NarrativeSimilarity | None, Depends(get_narrative_similarity)
+    ] = None,
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    decoder: Annotated[VehicleDecoder, Depends(get_vehicle_decoder)] = ...,  # type: ignore[assignment]
+    _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
+) -> ClaimDetail:
+    """Run (or return cached) NLP analysis of the claim narrative.
+
+    Extracts entities, judges narrative coherence (the genuine source for FS-09),
+    and writes a short summary. Cached in ``claim_scores`` — a second call returns
+    the cached result without hitting the LLM. When the feature is disabled the
+    claim is returned unchanged.
+    """
+    if not settings.NARRATIVE_ANALYSIS_ENABLED:
+        detail = await get_claim_detail(
+            queries,
+            claim_id,
+            reviews_store=reviews_store,
+            classifier=classifier,
+            detector=detector,
+            similarity=similarity,
+        )
+        if detail is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
+            )
+        return detail
+
+    detail = await analyze_claim_narrative_persisted(
+        session,
+        claim_id,
+        llm=llm,
+        llm_model=settings.LLM_DEFAULT_MODEL,
+        force=force,
+        similarity=similarity,
+        classifier=classifier,
+        detector=detector,
+        decoder=decoder,
+    )
+    if detail is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
+        )
+    # Attach live workflow state so the returned detail matches GET /claims/{id}.
+    if reviews_store is not None:
+        detail = detail.model_copy(update={"review": await reviews_store.get(claim_id)})
     return detail
 
 

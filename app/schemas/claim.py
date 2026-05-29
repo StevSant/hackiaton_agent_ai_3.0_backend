@@ -12,6 +12,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from app.schemas.narrative_analysis import NarrativeAnalysis
 from app.schemas.risk import Confianza, FactorContribution, SimilarClaim, Tier
 
 AlertSeverity = Literal["high", "med", "low"]
@@ -140,6 +141,9 @@ class ClaimDetail(BaseModel):
     similar: list[SimilarClaim] = Field(default_factory=list)
     anomaly_score: float | None = None
     nearest_normal_claim_id: str | None = None
+    # NLP read of `descripcion` (entities + coherence + summary). None until the
+    # analyzer has run for this claim; cached in claim_scores afterwards.
+    narrative_analysis: NarrativeAnalysis | None = None
     # A2 — signal-agreement flags surfaced on the detail page (amber chip + badge).
     posible_falso_positivo: bool = False
     confianza: Confianza = "alta"

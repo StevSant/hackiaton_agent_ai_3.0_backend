@@ -14,24 +14,18 @@ from __future__ import annotations
 
 import logging
 
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
 from app.domain.similarity import NarrativeSimilarity
 from app.domain.vehicle_identity import VehicleDecoder
-from app.infrastructure.db.models.asegurado import Asegurado
-from app.infrastructure.db.models.claim_score import ClaimScore
-from app.infrastructure.db.models.documento import Documento
-from app.infrastructure.db.models.poliza import Poliza
-from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
 from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
 from app.schemas.claim import ClaimDetail
 from app.use_cases._rescore_one import rescore_one
 from app.use_cases.enrich_claim_score import enrich_claim_score
-from app.use_cases.load_dataset._mapping import rows_to_claim_detail
+from app.use_cases.hydrate_claim_detail import hydrate_claim_detail
 from app.use_cases.reviews.auto_escalate_rojo import auto_escalate_rojo
 
 logger = logging.getLogger(__name__)
@@ -65,7 +59,7 @@ async def reanalyze_claim(
     if sin is None:
         return None
 
-    detail = await _hydrate(session, sin)
+    detail = await hydrate_claim_detail(session, sin)
     scored, risk = await rescore_one(
         session, detail, similarity=similarity, decoder=decoder
     )
@@ -81,25 +75,3 @@ async def reanalyze_claim(
 
     # ML / anomaly enrichment is pass-through when both ports are None.
     return await enrich_claim_score(scored, classifier=classifier, detector=detector)
-
-
-async def _hydrate(session: AsyncSession, sin: Siniestro) -> ClaimDetail:
-    """Assemble a ClaimDetail from a Siniestro + its related rows."""
-    pol: Poliza | None = await session.get(Poliza, sin.id_poliza)
-    score_row: ClaimScore | None = (
-        await session.execute(
-            select(ClaimScore).where(ClaimScore.claim_id == sin.id_siniestro)
-        )
-    ).scalars().first()
-    docs = list(
-        (
-            await session.execute(
-                select(Documento).where(Documento.id_siniestro == sin.id_siniestro)
-            )
-        ).scalars().all()
-    )
-    proveedor: Proveedor | None = (
-        await session.get(Proveedor, sin.beneficiario) if sin.beneficiario else None
-    )
-    asegurado: Asegurado | None = await session.get(Asegurado, sin.id_asegurado)
-    return rows_to_claim_detail(sin, pol, score_row, docs, proveedor, asegurado=asegurado)

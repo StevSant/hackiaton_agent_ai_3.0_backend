@@ -1,12 +1,5 @@
 from app.schemas.agent import AgentAskContext, AgentAskRequest
 from app.schemas.chat import ChatStreamEvent
-from app.schemas.conversation import (
-    ConversationDeleted,
-    ConversationDetail,
-    ConversationRename,
-    ConversationSummary,
-    MessageOut,
-)
 from app.schemas.claim import (
     AlertSeverity,
     ClaimAlert,
@@ -21,7 +14,15 @@ from app.schemas.claim import (
     ReviewStatus,
     TimelineTone,
 )
+from app.schemas.conversation import (
+    ConversationDeleted,
+    ConversationDetail,
+    ConversationRename,
+    ConversationSummary,
+    MessageOut,
+)
 from app.schemas.health import HealthResponse
+from app.schemas.narrative_analysis import ExtractedEntities, NarrativeAnalysis
 from app.schemas.risk import (
     ClaimRiskScore,
     FactorContribution,
@@ -51,9 +52,11 @@ __all__ = [
     "ConversationRename",
     "ConversationSummary",
     "DictamenOutcome",
+    "ExtractedEntities",
     "FactorContribution",
     "HealthResponse",
     "MessageOut",
+    "NarrativeAnalysis",
     "ReviewStatus",
     "RuleActivation",
     "SimilarClaim",

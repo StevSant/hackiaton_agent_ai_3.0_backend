@@ -86,6 +86,11 @@ class Settings(BaseSettings):
     # Below this, a match is noise — not worth showing the analyst.
     SIMILARITY_DISPLAY_MIN: float = 0.50
 
+    # NLP narrative analysis (entity extraction + coherence → FS-09 + summary).
+    # When True, POST /claims/{id}/narrative-analysis runs the LLM analyzer once
+    # per claim and caches it; FS-09's narrativa_ilogica becomes a real NLP output.
+    NARRATIVE_ANALYSIS_ENABLED: bool = True
+
     # confidence / false-positive signalling (A2) — referential, tune via .env.
     # The model flagging high risk with NO hard rule corroborating it, or an
     # additive score straddling the verde/amarillo boundary, lowers confidence

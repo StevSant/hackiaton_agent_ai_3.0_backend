@@ -240,8 +240,13 @@ class AnalyzePanel:
                         data=AgentRebuttalData(agent_id=specialist.id, rebuttal=rebuttal)
                     )
                 )
-            except Exception:
+            except Exception as exc:
                 logger.exception("panel R2 specialist %s failed", specialist.id)
+                await queue.put(
+                    PanelErrorEvent(
+                        data=PanelErrorData(agent_id=specialist.id, code="specialist_r2_error", message=str(exc))
+                    )
+                )
                 await queue.put(
                     AgentRebuttalEvent(
                         data=AgentRebuttalData(

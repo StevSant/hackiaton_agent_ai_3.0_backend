@@ -39,6 +39,9 @@ async def upsert_claim_score(session: AsyncSession, score_row: ClaimScore) -> No
     existing.ml_factors = score_row.ml_factors
     existing.anomaly_score = score_row.anomaly_score
     existing.similar = score_row.similar
+    # Preserve a previously-cached analysis when this rescore didn't recompute one.
+    if score_row.narrative_analysis is not None:
+        existing.narrative_analysis = score_row.narrative_analysis
     existing.computed_at = score_row.computed_at
 
 
@@ -78,6 +81,11 @@ def claim_detail_to_score_row(claim: ClaimDetail) -> ClaimScore:
         ml_factors=ml_factors_json,
         anomaly_score=claim.anomaly_score,
         similar=similar_json,
+        narrative_analysis=(
+            claim.narrative_analysis.model_dump()
+            if claim.narrative_analysis is not None
+            else None
+        ),
         computed_at=datetime.now(tz=UTC),
     )
 

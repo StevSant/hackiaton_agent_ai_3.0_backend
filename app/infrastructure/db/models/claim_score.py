@@ -46,6 +46,11 @@ class ClaimScore(Base):
     anomaly_score: Mapped[float | None] = mapped_column(Float, nullable=True)
     # list[SimilarClaim] serialised as JSONB — shape: list[{claim_id, similarity, excerpt}]
     similar: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, nullable=False, default=list)
+    # NarrativeAnalysis serialised as JSONB (entidades + narrativa_ilogica +
+    # incoherencias + resumen_narrativa). Null until the NLP analyzer has run.
+    narrative_analysis: Mapped[dict[str, Any] | None] = mapped_column(
+        JSONB, nullable=True, default=None
+    )
     computed_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False
     )

@@ -29,6 +29,7 @@ from app.schemas.claim import (
     ClaimTimelineEvent,
     ClaimVehicle,
 )
+from app.schemas.narrative_analysis import NarrativeAnalysis
 from app.schemas.risk import FactorContribution, SimilarClaim, Tier
 
 _SEGMENTOS = ["Premium", "Corporativo", "Estándar", "Joven", "Senior"]
@@ -279,6 +280,11 @@ def claim_detail_to_score(c: ClaimDetail) -> ClaimScore:
         ml_factors=ml_factors_json,
         anomaly_score=c.anomaly_score,
         similar=similar_json,
+        narrative_analysis=(
+            c.narrative_analysis.model_dump()
+            if c.narrative_analysis is not None
+            else None
+        ),
         computed_at=datetime.now(tz=UTC),
     )
 
@@ -330,6 +336,12 @@ def rows_to_claim_detail(
         )
         for s in (score_row.similar if score_row else [])
     ]
+
+    narrative_analysis = (
+        NarrativeAnalysis.model_validate(score_row.narrative_analysis)
+        if score_row is not None and score_row.narrative_analysis is not None
+        else None
+    )
 
     vehiculo: ClaimVehicle | None = None
     if sin.marca and sin.modelo and sin.anio and sin.placa:
@@ -383,6 +395,7 @@ def rows_to_claim_detail(
         ml_factors=ml_factors,
         similar=similar,
         anomaly_score=score_row.anomaly_score if score_row else None,
+        narrative_analysis=narrative_analysis,
     )
 
 
