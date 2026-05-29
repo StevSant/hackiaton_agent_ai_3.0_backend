@@ -320,11 +320,13 @@ async def _get_optional_session() -> AsyncIterator[AsyncSession | None]:
     absent.
     """
     from app.infrastructure.db.engine import _session_factory as _sf
+    from app.infrastructure.db.engine import ensure_session_connected
 
     if _sf is None:
         yield None
         return
     async with _sf() as session:
+        await ensure_session_connected(session)
         yield session
 
 

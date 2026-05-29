@@ -28,6 +28,14 @@ class Settings(BaseSettings):
         # raw asyncpg form for bulk COPY in load_dataset (strip the +asyncpg suffix)
         return self.DATABASE_URL.replace("+asyncpg", "")
 
+    # connection resilience — the remote Supabase pooler occasionally blips
+    # (transient DNS / TCP failures) during parallel request bursts. We retry a
+    # fast-failing connect a few times before surfacing a clean 503. A connect
+    # *timeout* is treated as "down" and not retried (it already burned the
+    # connect_args timeout — retrying would just multiply the wait).
+    DB_CONNECT_MAX_RETRIES: int = 3
+    DB_CONNECT_RETRY_BACKOFF_S: float = 0.25
+
     # llm  (OpenAI-only for the hackathon — locked 2026-05-26)
     LLM_PROVIDER: Literal["openai", "fake"] = "openai"
     LLM_DEFAULT_MODEL: str = "gpt-4o-mini"
