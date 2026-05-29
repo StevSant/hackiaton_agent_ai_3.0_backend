@@ -38,6 +38,7 @@ from app.schemas.claim import (
     DictamenOutcome,
 )
 from app.schemas.risk import Tier
+from app.use_cases.assess_confidence import apply_confidence
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.score_claim import score_claim
 
@@ -148,10 +149,23 @@ async def get_claim_detail(
         return None
 
     if claim.alertas:
-        # Pre-scored claim: keep rules side as-is; just attach the live review.
+        # Pre-scored claim: keep stored score/tier (double-scoring guard) but
+        # enrich each alert with live per-rule evidence. Older persisted rows
+        # predate the evidence field; recomputing the (pure, cheap) rules lets
+        # the detail dialog explain "why here" without a shared-DB rescore.
+        pre_updates: dict[str, object] = {}
+        if any(not a.evidence for a in claim.alertas):
+            ctx = RuleContext.from_claim(claim)
+            risk = score_claim(claim, ctx=ctx)
+            evidence_by_code = {act.code: act.evidence for act in risk.activations}
+            pre_updates["alertas"] = [
+                a.model_copy(update={"evidence": evidence_by_code.get(a.code, a.evidence)})
+                for a in claim.alertas
+            ]
         if reviews_store is not None:
-            live_review = await reviews_store.get(claim_id)
-            claim = claim.model_copy(update={"review": live_review})
+            pre_updates["review"] = await reviews_store.get(claim_id)
+        if pre_updates:
+            claim = claim.model_copy(update=pre_updates)
     else:
         # Live-scoring path for un-scored DB claims (post-hackathon).
         ctx = RuleContext.from_claim(claim)
@@ -168,6 +182,7 @@ async def get_claim_detail(
                     puntos=activation.points,
                     severidad=severidad,
                     detalle=detalle,
+                    evidence=activation.evidence,
                 )
             )
 
@@ -192,4 +207,6 @@ async def get_claim_detail(
         )
 
     # ML + anomaly enrichment — runs in BOTH branches. Pass-through when ports unwired.
-    return await enrich_claim_score(claim, classifier=classifier, detector=detector)
+    enriched = await enrich_claim_score(claim, classifier=classifier, detector=detector)
+    # A2 — re-assess confidence now that the model probability is known.
+    return apply_confidence(enriched)
