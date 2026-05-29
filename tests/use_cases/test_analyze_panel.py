@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import pytest
 
 from app.agents.fraud_panel import PANEL_ROSTER
@@ -18,12 +20,12 @@ def _prompts() -> PromptLoader:
     return PromptLoader(base_dir=base.resolve())
 
 
-def _script() -> dict:
+def _script() -> dict[str, Any]:
     # Keyed by the phase tags AnalyzePanel injects into each user payload:
     #   "[especialista:{id}] [fase:veredicto]" -> SpecialistVerdict dict
     #   "[especialista:{id}] [fase:replica]"   -> SpecialistRebuttal dict
     #   "[fase:consenso]"                       -> PanelConsensus dict
-    script: dict = {}
+    script: dict[str, Any] = {}
     for s in PANEL_ROSTER:
         script[f"[especialista:{s.id}] [fase:veredicto]"] = {
             "nivel": "rojo" if s.id == "reglas" else "amarillo",
@@ -64,6 +66,10 @@ async def test_panel_emits_full_sequence() -> None:
     assert types.count("consensus") == 1
     assert "agent_token" in types  # streamed narration happened
     assert "error" not in types
+
+    last_verdict_idx = max(i for i, t in enumerate(types) if t == "agent_verdict")
+    first_rebuttal_idx = min(i for i, t in enumerate(types) if t == "agent_rebuttal")
+    assert last_verdict_idx < first_rebuttal_idx
 
 
 @pytest.mark.asyncio

@@ -208,7 +208,7 @@ class AnalyzePanel:
                 await self._stream_tokens(
                     queue,
                     agent_id=specialist.id,
-                    round=2,
+                    round_num=2,
                     system=system,
                     user=(
                         f"[especialista:{specialist.id}] [fase:narracion]\n"
@@ -228,7 +228,7 @@ class AnalyzePanel:
                 await queue.put(
                     AgentRebuttalEvent(data=AgentRebuttalData(agent_id=specialist.id, rebuttal=rebuttal))
                 )
-            except Exception as exc:
+            except Exception:
                 logger.exception("panel R2 specialist %s failed", specialist.id)
                 await queue.put(
                     AgentRebuttalEvent(
@@ -248,33 +248,37 @@ class AnalyzePanel:
         claim: ClaimDetail,
         verdicts: dict[str, SpecialistVerdict],
         rebuttals: dict[str, SpecialistRebuttal],
-    ) -> AsyncIterator[PanelStreamEvent]:
-        system = self._prompts.load(MODERATOR_PROMPT_ID, "v1")
-        payload = {
-            "veredictos": {k: v.model_dump(mode="json") for k, v in verdicts.items()},
-            "replicas": {k: r.model_dump(mode="json") for k, r in rebuttals.items()},
-        }
-        payload_json = json.dumps(payload, ensure_ascii=False, default=str)
-        user_narr = (
-            f"[fase:narracion-moderador]\nSintetiza el debate del panel en 2-3 frases.\n\n{payload_json}"
-        )
-        messages = [Message(role="system", content=system), Message(role="user", content=user_narr)]
-        async for llm_event in self._llm.stream(messages, model=self._model):
-            if llm_event.type == "token":
-                delta = str(llm_event.data.get("delta", ""))
-                if delta:
-                    yield ModeratorTokenEvent(data=ModeratorTokenData(delta=delta))
-        consensus = await self._structured(
-            system=system,
-            user=f"[fase:consenso]\nEmite el CONSENSO estructurado del panel.\n\n{payload_json}",
-            schema=PanelConsensus,
-        )
-        yield ConsensusEvent(data=ConsensusData(consensus=consensus))
+    ) -> AsyncGenerator[PanelStreamEvent, None]:
+        try:
+            system = self._prompts.load(MODERATOR_PROMPT_ID, "v1")
+            payload = {
+                "veredictos": {k: v.model_dump(mode="json") for k, v in verdicts.items()},
+                "replicas": {k: r.model_dump(mode="json") for k, r in rebuttals.items()},
+            }
+            payload_json = json.dumps(payload, ensure_ascii=False, default=str)
+            user_narr = (
+                f"[fase:narracion-moderador]\nSintetiza el debate del panel en 2-3 frases.\n\n{payload_json}"
+            )
+            messages = [Message(role="system", content=system), Message(role="user", content=user_narr)]
+            async for llm_event in self._llm.stream(messages, model=self._model):
+                if llm_event.type == "token":
+                    delta = str(llm_event.data.get("delta", ""))
+                    if delta:
+                        yield ModeratorTokenEvent(data=ModeratorTokenData(delta=delta))
+            consensus = await self._structured(
+                system=system,
+                user=f"[fase:consenso]\nEmite el CONSENSO estructurado del panel.\n\n{payload_json}",
+                schema=PanelConsensus,
+            )
+            yield ConsensusEvent(data=ConsensusData(consensus=consensus))
+        except Exception as exc:
+            logger.exception("panel moderator failed")
+            yield PanelErrorEvent(data=PanelErrorData(code="moderator_error", message=str(exc)))
 
     # ----- llm helpers ---------------------------------------------------
 
     async def _stream_tokens(
-        self, queue: asyncio.Queue[Any], *, agent_id: str, round: int, system: str, user: str
+        self, queue: asyncio.Queue[Any], *, agent_id: str, round_num: int, system: str, user: str
     ) -> None:
         messages = [Message(role="system", content=system), Message(role="user", content=user)]
         async for llm_event in self._llm.stream(messages, model=self._model):
@@ -282,10 +286,10 @@ class AnalyzePanel:
                 delta = str(llm_event.data.get("delta", ""))
                 if delta:
                     await queue.put(
-                        AgentTokenEvent(data=AgentTokenData(agent_id=agent_id, round=round, delta=delta))
+                        AgentTokenEvent(data=AgentTokenData(agent_id=agent_id, round=round_num, delta=delta))
                     )
 
-    async def _structured(self, *, system: str, user: str, schema: type) -> Any:
+    async def _structured(self, *, system: str, user: str, schema: type[_M]) -> _M:
         result = await self._llm.complete(
             messages=[Message(role="system", content=system), Message(role="user", content=user)],
             model=self._model,
@@ -295,7 +299,7 @@ class AnalyzePanel:
         )
         return schema.model_validate_json(result.message.content)
 
-    async def _drain(self, producers: list[_Producer]) -> AsyncIterator[PanelStreamEvent]:
+    async def _drain(self, producers: list[_Producer]) -> AsyncGenerator[PanelStreamEvent, None]:
         """Run producers concurrently, yielding their queued events as they arrive."""
         queue: asyncio.Queue[Any] = asyncio.Queue()
 
@@ -307,10 +311,14 @@ class AnalyzePanel:
 
         tasks = [asyncio.create_task(run_one(p)) for p in producers]
         remaining = len(tasks)
-        while remaining:
-            item = await queue.get()
-            if item is _SENTINEL:
-                remaining -= 1
-                continue
-            yield item
-        await asyncio.gather(*tasks)
+        try:
+            while remaining:
+                item = await queue.get()
+                if item is _SENTINEL:
+                    remaining -= 1
+                    continue
+                yield item
+        finally:
+            for t in tasks:
+                t.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
