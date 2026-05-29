@@ -7,7 +7,43 @@ grouped here because the codebase keeps an entity's wire DTOs in one module.
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, Field
+
+
+class NetworkNode(BaseModel):
+    """A node in the relationship graph — a provider or an insured."""
+
+    id: str
+    label: str
+    kind: Literal["proveedor", "asegurado"]
+    ciudad: str
+    casos: int
+    alertas: int
+    monto: float
+    lista_restrictiva: bool = False  # only meaningful for proveedor nodes
+
+
+class NetworkEdge(BaseModel):
+    """A provider↔insured link built from the claims they share.
+
+    A repeated pair (high `casos_compartidos`) is the core collusion signal —
+    the same provider servicing the same insured across many claims.
+    """
+
+    proveedor_id: str
+    asegurado_id: str
+    casos_compartidos: int
+    alertas: int
+    monto: float
+
+
+class NetworkRelations(BaseModel):
+    """Bipartite relationship graph: provider + insured nodes joined by claims."""
+
+    nodes: list[NetworkNode] = []
+    edges: list[NetworkEdge] = []
 
 
 class ProviderOut(BaseModel):

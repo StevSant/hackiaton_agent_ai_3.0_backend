@@ -24,10 +24,16 @@ from app.api.deps import get_current_user, require_any_role
 from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.infrastructure.db.engine import get_session
-from app.schemas.network import ProviderCreate, ProviderOut, ProviderUpdate
+from app.schemas.network import (
+    NetworkRelations,
+    ProviderCreate,
+    ProviderOut,
+    ProviderUpdate,
+)
 from app.use_cases.create_provider import create_provider
 from app.use_cases.delete_provider import delete_provider
 from app.use_cases.list_providers import list_providers
+from app.use_cases.network_relations import network_relations
 from app.use_cases.update_provider import update_provider
 
 router = APIRouter(prefix="/network", tags=["network"])
@@ -45,6 +51,18 @@ async def list_providers_route(
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> list[ProviderOut]:
     return await list_providers(session)
+
+
+@router.get(
+    "/relations",
+    response_model=NetworkRelations,
+    dependencies=[Depends(cache_for(30))],
+)
+async def network_relations_route(
+    session: Annotated[AsyncSession, Depends(get_session)],
+    _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
+) -> NetworkRelations:
+    return await network_relations(session)
 
 
 @router.post(
