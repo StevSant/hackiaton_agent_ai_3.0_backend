@@ -27,7 +27,7 @@ from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.claims_agent.tools import ClaimQueries
-from app.agents.fraud_panel import MODERATOR_PROMPT_ID, PANEL_ROSTER, Specialist
+from app.agents.fraud_panel import MODERATOR_PROMPT_ID, PANEL_ROSTER, Specialist, claim_header
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
 from app.infrastructure.llm import LLMProvider, Message, PromptLoader, ResponseFormat
@@ -56,6 +56,7 @@ from app.schemas.panel import (
     SpecialistRebuttal,
     SpecialistVerdict,
 )
+from app.use_cases.analyze_panel.reconcile_consensus import reconcile_consensus
 from app.use_cases.get_claim_detail import get_claim_detail
 
 logger = logging.getLogger(__name__)
@@ -197,7 +198,9 @@ class AnalyzePanel:
         async def produce(queue: asyncio.Queue[Any]) -> None:
             try:
                 system = self._prompts.load(specialist.prompt_id, "v1")
-                slice_data = specialist.slice_fn(claim)
+                # Shared case facts (montos/fechas/proximidad) ground every lens;
+                # the specialist's own slice keeps its focused signal keys.
+                slice_data = {"caso": claim_header(claim), **specialist.slice_fn(claim)}
                 if extra:
                     slice_data = {**slice_data, **extra}
                 slice_json = json.dumps(slice_data, ensure_ascii=False, default=str)
@@ -324,11 +327,21 @@ class AnalyzePanel:
         rebuttals: dict[str, SpecialistRebuttal],
     ) -> AsyncGenerator[PanelStreamEvent, None]:
         try:
-            system = self._prompts.load(MODERATOR_PROMPT_ID, "v1")
+            system = self._prompts.load(MODERATOR_PROMPT_ID, "v2")
             payload = {
                 # Deterministic engine verdict — the panel's job is to corroborate
-                # or challenge it (divergence = the key decision signal).
-                "motor": {"score": claim.score, "nivel": claim.nivel.value},
+                # or challenge it (divergence = the key decision signal). The hard
+                # rules + engine confidence anchor the moderator so it can't flag a
+                # confirmed hard-rule ROJO as a possible false positive.
+                "motor": {
+                    "score": claim.score,
+                    "nivel": claim.nivel.value,
+                    "reglas_duras": [
+                        a.code for a in claim.alertas if a.code.startswith("RF-")
+                    ],
+                    "confianza": claim.confianza,
+                    "posible_falso_positivo_motor": claim.posible_falso_positivo,
+                },
                 "veredictos": {k: v.model_dump(mode="json") for k, v in verdicts.items()},
                 "replicas": {k: r.model_dump(mode="json") for k, r in rebuttals.items()},
             }
@@ -354,6 +367,9 @@ class AnalyzePanel:
                 ),
                 schema=PanelConsensus,
             )
+            # Force agreement % + the false-positive flag to agree with the
+            # deterministic motor (votes / hard rules) before it reaches the UI.
+            consensus = reconcile_consensus(consensus, claim, verdicts, rebuttals)
             yield ConsensusEvent(data=ConsensusData(consensus=consensus))
         except Exception as exc:
             logger.exception("panel moderator failed")

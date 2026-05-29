@@ -12,6 +12,37 @@ from app.agents.fraud_panel.specialist import Specialist
 from app.schemas.claim import ClaimDetail
 
 
+def claim_header(c: ClaimDetail) -> dict[str, Any]:
+    """Shared case facts every specialist sees on top of its focused slice.
+
+    Each lens otherwise reasons blind to montos, fechas and policy proximity —
+    this grounds all four in the same core context without leaking the other
+    lenses' signals.
+    """
+    header: dict[str, Any] = {
+        "id": c.id,
+        "ramo": c.ramo,
+        "cobertura": c.cobertura,
+        "estado": c.estado,
+        "monto_reclamado": c.monto_reclamado,
+        "monto_estimado": c.monto_estimado,
+        "suma_asegurada": c.suma_asegurada,
+        "fecha_ocurrencia": c.fecha_ocurrencia,
+        "fecha_reporte": c.fecha_reporte,
+        "fecha_inicio_poliza": c.fecha_inicio_poliza,
+        "fecha_fin_poliza": c.fecha_fin_poliza,
+    }
+    if c.fecha_inicio_poliza is not None:
+        header["dias_desde_inicio_poliza"] = (c.fecha_ocurrencia - c.fecha_inicio_poliza).days
+    if c.vehiculo is not None:
+        header["vehiculo"] = {
+            "marca": c.vehiculo.marca,
+            "modelo": c.vehiculo.modelo,
+            "anio": c.vehiculo.anio,
+        }
+    return header
+
+
 def _slice_reglas(c: ClaimDetail) -> dict[str, Any]:
     return {
         "score": c.score,
@@ -55,7 +86,13 @@ def _slice_documentos_red(c: ClaimDetail) -> dict[str, Any]:
 PANEL_ROSTER: list[Specialist] = [
     Specialist("reglas", "Analista de Reglas", "reglas", "especialista_reglas", _slice_reglas),
     Specialist("ml", "Analista de ML/Anomalía", "ml", "especialista_ml", _slice_ml),
-    Specialist("narrativa", "Analista de Narrativa", "narrativa", "especialista_narrativa", _slice_narrativa),
+    Specialist(
+        "narrativa",
+        "Analista de Narrativa",
+        "narrativa",
+        "especialista_narrativa",
+        _slice_narrativa,
+    ),
     Specialist(
         "documentos_red",
         "Analista de Documentos/Red",

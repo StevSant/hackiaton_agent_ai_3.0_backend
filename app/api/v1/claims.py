@@ -144,6 +144,9 @@ async def download_claim_report_docx(
     reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    similarity: Annotated[
+        NarrativeSimilarity | None, Depends(get_narrative_similarity)
+    ] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> Response:
     """Generate and download a Word report (.docx) for a single claim."""
@@ -153,6 +156,7 @@ async def download_claim_report_docx(
         reviews_store=reviews_store,
         classifier=classifier,
         detector=detector,
+        similarity=similarity,
     )
     if detail is None:
         raise HTTPException(

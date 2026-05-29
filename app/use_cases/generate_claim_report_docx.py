@@ -6,6 +6,8 @@ Sections
 2. Datos del caso — asegurado, póliza, cobertura, ciudad, montos, fechas
 3. Score + nivel — traffic-light wording, never "fraude" without "posible"
 4. Reglas activadas — table: código / puntos / detalle
+4b. Análisis explicativo — ML factors / anomalía / narrativas similares / NLP /
+    panel multi-agente (delegated to `append_analysis_sections`)
 5. Resumen — resumen_editado when present, else data-driven fallback
 6. Recomendación de revisión
 
@@ -26,6 +28,7 @@ from docx.shared import Pt, RGBColor  # type: ignore[import-untyped]
 
 from app.schemas.claim import ClaimDetail
 from app.schemas.risk import Tier
+from app.use_cases._claim_report_analysis import append_analysis_sections
 
 # Traffic-light wording — never "fraude" without "posible" (CLAUDE.md §2 / §17)
 _NIVEL_LABELS: dict[Tier, str] = {
@@ -155,6 +158,11 @@ def _build_docx(claim: ClaimDetail) -> bytes:
             row_cells[2].text = alerta.detalle
 
     doc.add_paragraph("")
+
+    # -----------------------------------------------------------------------
+    # 4b. Análisis explicativo — ML / anomalía / NLP / panel multi-agente
+    # -----------------------------------------------------------------------
+    append_analysis_sections(doc, claim)
 
     # -----------------------------------------------------------------------
     # 5. Resumen

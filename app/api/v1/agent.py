@@ -40,6 +40,7 @@ from app.schemas.chat.tts import TtsRequest
 from app.schemas.speech import TranscribeResponse
 from app.use_cases.ask_agent import AskAgent
 from app.use_cases.emit_audit_event import emit_audit_event
+from app.use_cases.explain_chart import ChartExplanation, explain_chart
 from app.use_cases.improve_document import ImprovedDocument, improve_document
 from app.use_cases.markdown_to_docx import filename_for
 from app.use_cases.markdown_to_docx import render as render_docx
@@ -158,6 +159,46 @@ async def agent_document_improve(
         llm=llm,
         llm_model=settings.LLM_DEFAULT_MODEL,
         instrucciones=body.instrucciones,
+    )
+
+
+class ExplainChartRequest(BaseModel):
+    ciudad: str = Field(..., min_length=1, max_length=120)
+    chart_id: str = Field(..., min_length=1, max_length=80)
+    chart_kind: str = Field(..., min_length=1, max_length=80)
+    chart_title: str = Field(..., min_length=1, max_length=200)
+    resumen: str = Field(..., min_length=1, max_length=6000)
+
+
+@router.post("/insights/explain", response_model=ChartExplanation)
+async def agent_explain_chart(
+    body: ExplainChartRequest,
+    llm: Annotated[LLMProvider, Depends(get_llm)],
+    user: Annotated[User, Depends(get_current_user)],
+    audit: Annotated[AuditStore, Depends(get_audit_store)],
+) -> ChartExplanation:
+    """Explain one insights chart via a one-shot structured LLM call.
+
+    The frontend sends a plain-text `resumen` built from the chart's real numbers,
+    so the LLM grounds its reading on actual figures (no fabricated data). Bypasses
+    the ReAct claims agent — same pattern as /document/improve.
+    """
+    await emit_audit_event(
+        audit,
+        user=user,
+        action=AuditAction.consulta_ia,
+        title=f"Explicó con IA el gráfico «{body.chart_title}» de {body.ciudad}",
+        detail=body.chart_id,
+        target=None,
+        actor=AuditActor.agente,
+    )
+    return await explain_chart(
+        ciudad=body.ciudad,
+        chart_kind=body.chart_kind,
+        chart_title=body.chart_title,
+        resumen=body.resumen,
+        llm=llm,
+        llm_model=settings.LLM_DEFAULT_MODEL,
     )
 
 
