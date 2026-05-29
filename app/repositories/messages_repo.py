@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Any
 from uuid import UUID
 
@@ -9,6 +10,9 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.db.models.message import Message
+
+# Conversation-list snippet length (last user message preview).
+_SNIPPET_LEN = 140
 
 
 class MessagesRepo:
@@ -53,3 +57,37 @@ class MessagesRepo:
         )
         result = await self._s.execute(stmt)
         return list(result.scalars().all())
+
+    async def latest_user_snippets(
+        self, conversation_ids: Sequence[UUID]
+    ) -> dict[UUID, str]:
+        """Last user-message preview for each conversation, in ONE query.
+
+        Replaces the N+1 "load every message of every conversation" pattern the
+        conversation list used. A window function ranks user messages per
+        conversation by sequence and keeps the latest, selecting only `content`
+        (never the big chart_payload / transparency_metadata columns).
+        """
+        if not conversation_ids:
+            return {}
+        ranked = (
+            select(
+                Message.conversation_id.label("cid"),
+                Message.content.label("content"),
+                func.row_number()
+                .over(
+                    partition_by=Message.conversation_id,
+                    order_by=Message.sequence.desc(),
+                )
+                .label("rn"),
+            )
+            .where(
+                Message.conversation_id.in_(conversation_ids),
+                Message.role == "user",
+                Message.content != "",
+            )
+            .subquery()
+        )
+        stmt = select(ranked.c.cid, ranked.c.content).where(ranked.c.rn == 1)
+        result = await self._s.execute(stmt)
+        return {row.cid: (row.content or "")[:_SNIPPET_LEN] for row in result.all()}

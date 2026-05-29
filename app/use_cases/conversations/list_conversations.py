@@ -4,17 +4,9 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from app.infrastructure.db.models.message import Message
 from app.repositories.conversations_repo import ConversationsRepo
 from app.repositories.messages_repo import MessagesRepo
 from app.schemas.conversation import ConversationSummary
-
-
-def _latest_user_snippet(messages: list[Message]) -> str | None:
-    for msg in reversed(messages):
-        if msg.role == "user" and msg.content:
-            return msg.content[:140]
-    return None
 
 
 class ListConversations:
@@ -41,19 +33,18 @@ class ListConversations:
             context_provider_id=context_provider_id,
             context_asegurado_id=context_asegurado_id,
         )
-        summaries: list[ConversationSummary] = []
-        for row in rows:
-            msgs = await self._messages.list_for_conversation(row.id)
-            summaries.append(
-                ConversationSummary(
-                    id=row.id,
-                    title=row.title,
-                    context_claim_id=row.context_claim_id,
-                    context_provider_id=getattr(row, "context_provider_id", None),
-                    context_asegurado_id=getattr(row, "context_asegurado_id", None),
-                    snippet=_latest_user_snippet(msgs),
-                    created_at=row.created_at,
-                    updated_at=row.updated_at,
-                )
+        # One query for ALL snippets instead of one query per conversation (N+1).
+        snippets = await self._messages.latest_user_snippets([row.id for row in rows])
+        return [
+            ConversationSummary(
+                id=row.id,
+                title=row.title,
+                context_claim_id=row.context_claim_id,
+                context_provider_id=getattr(row, "context_provider_id", None),
+                context_asegurado_id=getattr(row, "context_asegurado_id", None),
+                snippet=snippets.get(row.id),
+                created_at=row.created_at,
+                updated_at=row.updated_at,
             )
-        return summaries
+            for row in rows
+        ]
