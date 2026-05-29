@@ -17,6 +17,7 @@ from app.domain.rules.catalog import all_rules
 from app.domain.rules.context import RuleContext
 from app.schemas.claim import ClaimDetail
 from app.schemas.risk import ClaimRiskScore, RuleActivation
+from app.use_cases.assess_confidence import assess_confidence
 
 
 def score_claim(
@@ -45,9 +46,19 @@ def score_claim(
 
     score, tier = aggregate(activations)
 
+    # A2 — rules-only confidence (ml_probability unknown at this pure stage;
+    # get_claim_detail re-assesses with the model probability post-enrichment).
+    assessment = assess_confidence(
+        score=score,
+        rule_codes=[a.code for a in activations],
+        ml_probability=None,
+    )
+
     return ClaimRiskScore(
         score=score,
         tier=tier,
         activations=activations,
+        posible_falso_positivo=assessment.posible_falso_positivo,
+        confianza=assessment.confianza,
         computed_at=datetime.now(tz=UTC),
     )
