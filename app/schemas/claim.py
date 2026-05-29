@@ -8,7 +8,7 @@ in the FE mock yet. The deterministic scoring contract lives in `schemas/risk.py
 
 from datetime import date, datetime
 from enum import Enum
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -19,18 +19,12 @@ TimelineTone = Literal["ok", "warn", "danger"]
 
 
 class ClaimAlert(BaseModel):
-    """UI projection of a `RuleActivation`, rendered as a chip in the breakdown.
-
-    `detalle` is the rule's generic description; `evidence` carries the
-    per-claim variables that made *this* rule fire (e.g. {"demora_denuncia_horas": 56}).
-    The detail dialog renders `evidence` as the "en este caso" explanation.
-    """
+    """UI projection of a `RuleActivation`, rendered as a chip in the breakdown."""
 
     code: str
     puntos: int
     severidad: AlertSeverity
     detalle: str
-    evidence: dict[str, Any] = Field(default_factory=dict)
 
 
 class ClaimDocument(BaseModel):
