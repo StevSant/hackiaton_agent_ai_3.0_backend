@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-020",
+  "ramo": "Vehículos",
+  "cobertura": "Robo Parcial",
+  "asegurado": "Ximena Lorena Cabrera Ulloa",
+  "asegurado_id": "ASG-D0020",
+  "poliza": "PV-DEMO-0020",
+  "ciudad": "Cuenca",
+  "fecha_ocurrencia": "2026-05-05",
+  "fecha_reporte": "2026-05-11",
+  "fecha_inicio_poliza": "2026-01-20",
+  "fecha_fin_poliza": "2027-01-20",
+  "monto_reclamado": 4850.0,
+  "suma_asegurada": 9700.0,
+  "estado": "Reserva",
+  "sucursal": "Cuenca Centro",
+  "vehiculo": {
+    "marca": "Volkswagen",
+    "modelo": "Tiguan",
+    "anio": 2020,
+    "placa": "AZU-8814",
+    "chasis": "WVGZZZ5NZLW051382"
+  },
+  "proveedor": "Taller Volkswagen Autorizado Cuenca",
+  "descripcion": "La asegurada Ximena Lorena Cabrera Ulloa reporta el robo de accesorios de su Volkswagen Tiguan 2020, placas AZU-8814, ocurrido el martes 5 de mayo de 2026 en horario nocturno (se estima entre las 21:00 y las 23:00) en el parqueadero público del sector El Vergel, calle Sangurima, Cuenca. Al regresar al vehículo la asegurada constató la rotura del vidrio de la puerta trasera derecha y la sustracción de la pantalla multimedia del tablero, los dos parlantes de la carrocería trasera y un maletín con documentos personales. La denuncia ante Fiscalía fue presentada el 11 de mayo, con seis días de demora desde la fecha del hecho, lo que activa la señal RF-06 (demora en denuncia de robo >4 días, piso AMARILLO). La cobertura contratada es Robo Parcial, no Pérdida Total por Robo, por lo que RF-01 NO aplica pese a que el evento es un robo. El monto reclamado de USD 4 850 representa el 50,0% de la suma asegurada, por debajo del umbral FS-14. La póliza fue contratada 105 días antes del siniestro, sin señal FS-01. Un documento del expediente permanece pendiente de entrega (el certificado de auditoría de fábrica del sistema multimedia). La señal FS-08 activa +4 puntos adicionales.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Denuncia fiscal", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado de auditoría multimedia", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}

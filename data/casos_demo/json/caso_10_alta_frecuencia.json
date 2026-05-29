@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-010",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Materiales",
+  "asegurado": "Marcelo Gustavo Intriago Ponce",
+  "asegurado_id": "ASG-D0010",
+  "poliza": "PV-DEMO-0010",
+  "ciudad": "Manta",
+  "fecha_ocurrencia": "2026-05-10",
+  "fecha_reporte": "2026-05-13",
+  "fecha_inicio_poliza": "2025-06-01",
+  "fecha_fin_poliza": "2026-06-01",
+  "monto_reclamado": 6400.0,
+  "suma_asegurada": 22000.0,
+  "estado": "Reserva",
+  "sucursal": "Manta",
+  "vehiculo": {
+    "marca": "Toyota",
+    "modelo": "Corolla",
+    "anio": 2019,
+    "placa": "MNB-6612",
+    "chasis": "JTDBU4EE9AJ015732"
+  },
+  "proveedor": "Taller Automotriz Costa Norte",
+  "descripcion": "El asegurado Marcelo Gustavo Intriago Ponce reporta daños en el parachoque delantero y capó de su Toyota Corolla 2019, placas MNB-6612, a causa de una colisión leve producida el 10 de mayo de 2026 a las 17:40 en el redondel de la Avenida 4 de Noviembre, Manta, al ser impactado por detrás por un vehículo particular que no respetó la distancia mínima de seguridad. El conductor del otro vehículo se identificó como Juan Carlos Suárez y aceptó responsabilidad en el sitio; sin embargo, no se elaboró parte policial por acuerdo entre partes. Se trata del tercer reclamo presentado por este asegurado en los últimos 14 meses: el primer siniestro fue registrado en marzo de 2025 por colisión trasera en Portoviejo (PV-DEMO-SIN-2025-031), el segundo en noviembre de 2025 por robo de accesorios en Manta (PV-DEMO-SIN-2025-118). La alta frecuencia de siniestros en un período corto activa la revisión por FS-03 y FS-05. Adjunta cédula, matrícula y proforma del taller. El parte policial no fue gestionado.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Proforma de taller", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Pendiente", "falta": true},
+    {"tipo": "Declaración juramentada", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}

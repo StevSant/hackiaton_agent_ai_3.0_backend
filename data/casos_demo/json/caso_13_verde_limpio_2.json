@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-013",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Parciales",
+  "asegurado": "Sofía Alejandra Pinto Carrasco",
+  "asegurado_id": "ASG-D0013",
+  "poliza": "PV-DEMO-0013",
+  "ciudad": "Ambato",
+  "fecha_ocurrencia": "2026-05-10",
+  "fecha_reporte": "2026-05-11",
+  "fecha_inicio_poliza": "2026-01-10",
+  "fecha_fin_poliza": "2027-01-10",
+  "monto_reclamado": 1150.0,
+  "suma_asegurada": 22000.0,
+  "estado": "Reserva",
+  "sucursal": "Ambato",
+  "vehiculo": {
+    "marca": "Mazda",
+    "modelo": "CX-30",
+    "anio": 2023,
+    "placa": "TUA-6843",
+    "chasis": "JM0BKBB7XP0405182"
+  },
+  "proveedor": "Taller Autorizado Mazda Tungurahua",
+  "descripcion": "La asegurada Sofía Alejandra Pinto Carrasco reporta daños parciales en su Mazda CX-30 2023, placas TUA-6843, ocurridos el domingo 10 de mayo de 2026 a las 15:40 horas en el estacionamiento del Mercado Mayorista de Ambato. Un vehículo de mayor dimensión que maniobraba en reversa impactó el guardabarro trasero izquierdo y el parachoque trasero del vehículo asegurado. El responsable, señor Armando Pilataxi, dejó sus datos de contacto y firmó una declaración en el lugar. La asegurada presentó el reclamo al día siguiente, con documentación completa. La póliza de daños parciales se encuentra vigente desde el 10 de enero de 2026, lo que arroja 120 días al momento del siniestro, bien por fuera del umbral FS-01. El monto reclamado de USD 1 150 representa apenas el 5,2 % de la suma asegurada. Sin señales de alerta evidentes. Documentación entregada íntegramente.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte informativo de tránsito", "estado": "Entregado", "falta": false},
+    {"tipo": "Datos del tercero responsable", "estado": "Entregado", "falta": false},
+    {"tipo": "Cotización de reparación", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

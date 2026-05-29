@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-014",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Materiales",
+  "asegurado": "Mauricio Esteban Quiñones Salazar",
+  "asegurado_id": "ASG-D0014",
+  "poliza": "PV-DEMO-0014",
+  "ciudad": "Santo Domingo",
+  "fecha_ocurrencia": "2026-04-22",
+  "fecha_reporte": "2026-04-23",
+  "fecha_inicio_poliza": "2026-04-21",
+  "fecha_fin_poliza": "2027-04-21",
+  "monto_reclamado": 5600.0,
+  "suma_asegurada": 19500.0,
+  "estado": "Reserva",
+  "sucursal": "Santo Domingo",
+  "vehiculo": {
+    "marca": "Suzuki",
+    "modelo": "Vitara",
+    "anio": 2021,
+    "placa": "SDC-4417",
+    "chasis": "JSAJTD54V00319842"
+  },
+  "proveedor": "Taller Chapa y Pintura Pichincha Sur",
+  "descripcion": "El asegurado Mauricio Esteban Quiñones Salazar reporta un siniestro de daños materiales en su Suzuki Vitara 2021, placas SDC-4417, ocurrido el 22 de abril de 2026 aproximadamente a las 08:10 horas en la Avenida Quito, sector La Concordia, Santo Domingo de los Tsáchilas. El asegurado se disponía a ingresar a las instalaciones de su empresa cuando un vehículo tipo furgoneta, al intentar sobrepasar por el carril derecho, le rozó la puerta trasera izquierda y el guardabarro lateral, produciendo daños considerables en la carrocería. El conductor de la furgoneta se detuvo y aportó sus datos. La póliza de Daños Materiales fue contratada apenas un día antes del siniestro, el 21 de abril de 2026, lo cual activa la señal RF-05 por ocurrencia en las primeras 24 horas de vigencia (borde crítico <48 h). No se trata de robo, por lo que no aplican RF-01 ni RF-06. Todos los documentos fueron entregados en el momento del reporte. El monto reclamado de USD 5 600 representa el 28,7% de la suma asegurada, fuera del umbral FS-14.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte informativo de tránsito (CTE)", "estado": "Entregado", "falta": false},
+    {"tipo": "Cotización de reparación", "estado": "Entregado", "falta": false},
+    {"tipo": "Datos del tercero involucrado", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}

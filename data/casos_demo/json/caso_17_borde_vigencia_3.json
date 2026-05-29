@@ -1,0 +1,36 @@
+{
+  "id": "SIN-DEMO-017",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Totales",
+  "asegurado": "Ramiro Gonzalo Alvarado Chiriboga",
+  "asegurado_id": "ASG-D0017",
+  "poliza": "PV-DEMO-0017",
+  "ciudad": "Riobamba",
+  "fecha_ocurrencia": "2026-05-08",
+  "fecha_reporte": "2026-05-09",
+  "fecha_inicio_poliza": "2026-05-07",
+  "fecha_fin_poliza": "2027-05-07",
+  "monto_reclamado": 14800.0,
+  "suma_asegurada": 24700.0,
+  "estado": "Reserva",
+  "sucursal": "Riobamba",
+  "vehiculo": {
+    "marca": "Toyota",
+    "modelo": "RAV4",
+    "anio": 2021,
+    "placa": "RIO-5512",
+    "chasis": "2T3BWRFV3MW103044"
+  },
+  "proveedor": "Taller Oficial Toyota Chimborazo",
+  "descripcion": "El asegurado Ramiro Gonzalo Alvarado Chiriboga reporta pérdida total de su Toyota RAV4 2021, placas RIO-5512, como consecuencia de un accidente de tránsito ocurrido el viernes 8 de mayo de 2026 a las 06:45 horas en la vía Riobamba–Guaranda, sector Paso Lateral del Chimborazo, a la altura del kilómetro 12. El vehículo perdió el control al esquivar un deslizamiento parcial de tierra en la calzada y cayó a un talud lateral, sufriendo daños estructurales que el perito calificó como pérdida total. El asegurado resultó con heridas leves y fue trasladado al Hospital General Riobamba. El reclamo fue presentado al día siguiente por un familiar del asegurado. La póliza de Daños Totales fue contratada apenas un día antes del siniestro, el 7 de mayo de 2026, con menos de 24 horas de vigencia al momento del accidente, activando la señal RF-05 (ocurrencia <48 h desde inicio de póliza, piso AMARILLO). El monto reclamado de USD 14 800 representa el 59,9% de la suma asegurada, por debajo del umbral FS-14. Todos los documentos fueron entregados sin pendientes.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte de accidente CTE", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe médico de atención", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe de peritaje técnico", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "SIN-DEMO-018",
+  "ramo": "Vehículos",
+  "cobertura": "Pérdida Total por Robo",
+  "asegurado": "Verónica Patricia Aguirre Toapanta",
+  "asegurado_id": "ASG-D0018",
+  "poliza": "PV-DEMO-0018",
+  "ciudad": "Esmeraldas",
+  "fecha_ocurrencia": "2026-05-18",
+  "fecha_reporte": "2026-05-23",
+  "fecha_inicio_poliza": "2025-05-25",
+  "fecha_fin_poliza": "2026-05-25",
+  "monto_reclamado": 26460.0,
+  "suma_asegurada": 27000.0,
+  "estado": "Reserva",
+  "sucursal": "Esmeraldas",
+  "vehiculo": {
+    "marca": "Mitsubishi",
+    "modelo": "L200",
+    "anio": 2021,
+    "placa": "ESM-3391",
+    "chasis": "MMBJNKB40HH008572"
+  },
+  "proveedor": null,
+  "descripcion": "La asegurada Verónica Patricia Aguirre Toapanta reporta el robo de su Mitsubishi L200 2021, placas ESM-3391, ocurrido el lunes 18 de mayo de 2026 alrededor de las 21:30 horas en el sector de Las Palmas, Esmeraldas, mientras el vehículo permanecía estacionado en la calle Los Álamos frente al domicilio familiar. La asegurada señala que al salir el martes por la mañana constató la desaparición del vehículo. La denuncia ante Fiscalía fue presentada el 23 de mayo, con cinco días de demora desde la fecha del hecho, superando el umbral de cuatro días establecido en la póliza (RF-06). La póliza de Pérdida Total por Robo venció el 25 de mayo de 2026, es decir, el siniestro ocurrió apenas siete días antes del fin de vigencia, lo que denota el patrón de reclamo al cierre de póliza. La cobertura de Pérdida Total por Robo activa la señal crítica RF-01. El monto reclamado de USD 26 460 representa el 98,0% de la suma asegurada, activando FS-14. Sin documentos pendientes al momento del reporte.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Denuncia fiscal", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Declaración juramentada", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "rojo"
+}
