@@ -13,17 +13,26 @@ this function never raises on odd input.
 
 from __future__ import annotations
 
+import base64
+import binascii
 import io
+import logging
 import re
 from typing import TYPE_CHECKING
 
 from docx import Document
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-from docx.shared import Pt
+from docx.shared import Inches, Pt
 
 if TYPE_CHECKING:
     from docx.document import Document as DocxDocument
+
+logger = logging.getLogger(__name__)
+
+# PNG files start with this 8-byte signature.
+_PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+_DATA_URL_PREFIX_RE = re.compile(r"^data:image/[^;]+;base64,", re.IGNORECASE)
 
 # ── regex helpers ──────────────────────────────────────────────────────────────
 
@@ -101,13 +110,52 @@ def _slug(titulo: str) -> str:
     return slug[:60] or "documento"
 
 
+def _decode_png(chart_image_base64: str) -> bytes | None:
+    """Decode a base64 PNG (data URL or bare) to bytes, or None if invalid.
+
+    Returns None — never raises — when the input is malformed or not a PNG.
+    """
+    raw = _DATA_URL_PREFIX_RE.sub("", chart_image_base64.strip(), count=1)
+    try:
+        png_bytes = base64.b64decode(raw, validate=True)
+    except (binascii.Error, ValueError):
+        logger.warning("chart_image_base64 is not valid base64 — skipping image")
+        return None
+    if not png_bytes.startswith(_PNG_SIGNATURE):
+        logger.warning("chart_image_base64 did not decode to a PNG — skipping image")
+        return None
+    return png_bytes
+
+
+def _append_chart(doc: "DocxDocument", chart_image_base64: str) -> None:
+    """Append a 'Gráfico' heading + the decoded chart image to *doc*.
+
+    Skips silently (logs a warning) if the image can't be decoded/embedded.
+    """
+    png_bytes = _decode_png(chart_image_base64)
+    if png_bytes is None:
+        return
+    try:
+        doc.add_heading("Gráfico", level=2)
+        doc.add_picture(io.BytesIO(png_bytes), width=Inches(6))
+    except Exception:  # never 500 the whole document over an image
+        logger.warning("failed to embed chart image into docx — skipping", exc_info=True)
+
+
 # ── main entry point ───────────────────────────────────────────────────────────
 
 
-def render(titulo: str, contenido_markdown: str) -> bytes:
+def render(
+    titulo: str,
+    contenido_markdown: str,
+    *,
+    chart_image_base64: str | None = None,
+) -> bytes:
     """Convert *titulo* + *contenido_markdown* to .docx bytes.
 
-    Never raises — bad markdown degrades to plain paragraphs.
+    When *chart_image_base64* is a valid PNG (data URL or bare base64), it is
+    appended as a 'Gráfico' section. Bad markdown or a bad image degrade
+    silently — this function never raises.
     """
     doc: "DocxDocument" = Document()
 
@@ -168,6 +216,9 @@ def render(titulo: str, contenido_markdown: str) -> bytes:
         i += 1
 
     _flush_table()
+
+    if chart_image_base64:
+        _append_chart(doc, chart_image_base64)
 
     buf = io.BytesIO()
     doc.save(buf)
