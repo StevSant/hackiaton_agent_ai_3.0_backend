@@ -22,9 +22,9 @@ El sistema **nunca** afirma que hubo fraude. Toda salida se enuncia como *"alert
 
 ## 4. Volumen efectivo de entrenamiento
 
-- 62 archetypes × 30 perturbaciones ≈ **1.860 filas**.
-- 62 patrones distintos es muy poco. Las perturbaciones son near-duplicates: el modelo verá variaciones pequeñas alrededor de pocos puntos en el espacio de features.
-- AUC alta en holdout NO garantiza generalización a un mes de claims reales. Reportamos AUC-ROC mean ± std en CV 5-fold para reflejar esta varianza.
+- 99 archetypes × 30 perturbaciones = **2.970 filas**, con tasa de positivos de sólo **7.9%** (la jitter empuja muchas variantes por debajo del umbral 🔴 → fuerte desbalance).
+- 99 patrones distintos sigue siendo poco. Las perturbaciones son near-duplicates: el modelo verá variaciones pequeñas alrededor de pocos puntos en el espacio de features.
+- La AUC-ROC medida es alta (**0.982 ± 0.017** en CV 5-fold, 0.980 holdout) precisamente *por* esa estructura near-duplicate: NO garantiza generalización a un mes de claims reales. Reportamos AUC-PR (0.971) y la matriz de confusión además de la AUC para no sobre-vender el número. Por el desbalance, el modelo se usa como **ranker** (opinión complementaria), no como clasificador binario — con el umbral 0.5 por defecto predeciría todo negativo (ver [`uso_ia.md`](./uso_ia.md) §"Calibración").
 
 ## 5. Riesgo de falsos positivos
 

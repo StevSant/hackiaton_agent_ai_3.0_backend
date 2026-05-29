@@ -1,9 +1,9 @@
 """Train the supervised LightGBM classifier and save the Booster artifact.
 
-The training set is the perturbed expansion of the 62 archetypes (see
+The training set is the perturbed expansion of the 99 archetypes (see
 ``dataset_builder.build_dataset``). We hold out 20% for the final AUC report
 and ALSO do stratified 5-fold CV on the remaining 80% — the small parent-set
-size (62 archetypes) means a single holdout AUC has high variance, so we
+size (99 archetypes) means a single holdout AUC has high variance, so we
 report mean ± std as the headline number.
 
 The Booster is saved in LightGBM's native text format

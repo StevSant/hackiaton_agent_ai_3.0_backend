@@ -247,7 +247,7 @@ Los `Protocol` correspondientes (`LLMProvider`, `EmbeddingsProvider`, `Narrative
 
 ```bash
 # 1. Levantar Postgres+pgvector
-docker compose up -d postgres
+docker compose up -d db
 
 # 2. Aplicar migraciones
 uv run alembic upgrade head

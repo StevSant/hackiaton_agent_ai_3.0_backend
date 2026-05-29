@@ -33,7 +33,19 @@ La capa de IA viaja en campos separados de `ClaimRiskScore` / `ClaimDetail`:
 - `ml_probability ∈ [0, 1]`
 - `top_factors`: 3 features con mayor `|shap_value|` + dirección (`up` empuja riesgo arriba).
 
-**Métricas (objetivo):** AUC-ROC ≥ 0.85 en holdout 20% + reporte de CV 5-fold (`mean ± std`) por la varianza alta del dataset.
+**Métricas (medidas — reproducibles con `uv run python -m notebooks._training.train_all`):**
+
+Dataset de entrenamiento: 99 archetypes × 30 perturbaciones = **2.970 filas**, 23 features, tasa de positivos perturbada **0.079** (la jitter empuja muchas variantes por debajo del umbral 🔴, así que la etiqueta queda fuertemente desbalanceada — ver [`limitaciones.md`](./limitaciones.md) §4).
+
+| Métrica | Valor | Nota |
+|---|---|---|
+| AUC-ROC (holdout 20%) | **0.980** | Capacidad de ranking |
+| AUC-ROC (CV 5-fold) | **0.982 ± 0.017** | Headline — la varianza refleja el dataset pequeño |
+| AUC-PR (holdout) | **0.971** | Robusta al desbalance |
+| Precisión / Recall / F1 @ umbral 0.232 | **1.00 / 0.936 / 0.967** | Umbral óptimo de F1 |
+| Matriz de confusión @ 0.232 | TN 547 · FP 0 · FN 3 · TP 44 | Holdout de 594 filas |
+
+**Calibración — caveat importante:** las probabilidades del modelo están comprimidas hacia abajo (min/mediana ≈ 0.068, máx ≈ 0.23) por el desbalance 8% positivo. Con el umbral por defecto de 0.5 el modelo predeciría **todo negativo** (recall 0). Por eso el sistema **no** usa el modelo como clasificador duro: la `ml_probability` se expone como una **opinión complementaria rankeada** junto al score de reglas, no como una decisión binaria. El umbral 0.232 (óptimo de F1) se reporta sólo para caracterizar la separabilidad — en producción el ranking (AUC) es lo que importa, no el corte.
 
 **Persistencia:** formato nativo de LightGBM (`Booster.save_model("data/models/fraud_lgbm.txt")`) — texto inspeccionable, sin serializadores genéricos opacos.
 
@@ -64,8 +76,8 @@ uv run jupyter notebook notebooks/03_evaluacion_modelo.ipynb
 
 **Cómo se construye el dataset:**
 
-1. Se carga el JSON canónico de 62 archetypes desde `data/synthetic/claims.json`.
-2. Cada archetype se perturba 30 veces (jitter ±20% en monto, ±3 días en `fecha_reporte`) → ~1.860 filas.
+1. Se carga el JSON canónico de 99 archetypes desde `data/synthetic/claims.json`.
+2. Cada archetype se perturba 30 veces (jitter ±20% en monto, ±3 días en `fecha_reporte`) → 2.970 filas.
 3. Cada variante perturbada es **re-scoreada** por el motor de reglas para que la etiqueta refleje el tier resultante (no la del archetype original). Así una perturbación que cruza un umbral mueve la etiqueta naturalmente.
 4. Se materializa `X` en el orden de `FEATURE_NAMES` + `y` binaria + `claim_ids` paralelos.
 

@@ -10,20 +10,21 @@ via `scripts/generate_dataset.py` (or `app.use_cases.generate_dataset.generate_a
 
 | File | Rows | Description |
 |------|------|-------------|
-| `claims.json` | 62 | Pre-scored `ClaimDetail` objects served by `SyntheticClaimQueries` |
-| `siniestros.csv` | 62 | §2.8 main table |
-| `polizas.csv` | 62 | One policy per claim (approximation) |
-| `asegurados.csv` | 62 | One insured per claim |
-| `beneficiarios_proveedores.csv` | ~40 | Unique providers across claims |
-| `documentos.csv` | ~190 | 2-3 documents per claim |
+| `claims.json` | 99 | Pre-scored `ClaimDetail` objects served by `SyntheticClaimQueries` |
+| `demo_claims.json` | 99 | Demo snapshot rebuilt via `rescore_all` (genuine engine scores — see note below) |
+| `siniestros.csv` | 99 | §2.8 main table |
+| `polizas.csv` | 99 | One policy per claim (approximation) |
+| `asegurados.csv` | 99 | One insured per claim |
+| `beneficiarios_proveedores.csv` | 54 | Unique providers across claims |
+| `documentos.csv` | 306 | 2-3 documents per claim |
 
 ## Tier Distribution
 
 | Tier | Count | % |
 |------|-------|---|
-| verde (0–40) | 32 | 52 % |
-| amarillo (41–75) | 12 | 19 % |
-| rojo (76–100 or hard rule) | 18 | 29 % |
+| verde (0–40) | 50 | 50.5 % |
+| amarillo (41–75) | 17 | 17.2 % |
+| rojo (76–100 or hard rule) | 32 | 32.3 % |
 
 ## Signal Coverage
 
