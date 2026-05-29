@@ -122,6 +122,9 @@ _DOCX_MEDIA_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessing
 class DocxRequest(BaseModel):
     titulo: str
     contenido_markdown: str
+    # Optional chart captured client-side as a PNG. Accepts a data URL
+    # ("data:image/png;base64,...") or bare base64. Large by design.
+    chart_image_base64: str | None = Field(default=None, max_length=8_000_000)
 
 
 class ImproveDocumentRequest(BaseModel):
@@ -163,7 +166,12 @@ async def agent_document_docx(
     The frontend calls this after receiving a `document` SSE event from `/ask`
     to let the analyst download the agent-generated Word document.
     """
-    docx_bytes = await asyncio.to_thread(render_docx, body.titulo, body.contenido_markdown)
+    docx_bytes = await asyncio.to_thread(
+        render_docx,
+        body.titulo,
+        body.contenido_markdown,
+        chart_image_base64=body.chart_image_base64,
+    )
     fname = filename_for(body.titulo)
     return Response(
         content=docx_bytes,
