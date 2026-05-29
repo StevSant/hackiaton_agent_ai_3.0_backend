@@ -41,16 +41,23 @@ from app.infrastructure.audit import AuditStore
 from app.infrastructure.db.engine import get_session
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.audit import AuditAction
-from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ResumenPatch, ReviewStatus
+from app.schemas.claim import (
+    ClaimAlert,
+    ClaimDetail,
+    ClaimPatch,
+    ClaimSummary,
+    ResumenPatch,
+    ReviewStatus,
+)
 from app.schemas.page import Page
 from app.schemas.risk import Tier
 from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.get_claim_detail import _tier_to_severidad, get_claim_detail
-from app.use_cases.update_claim_resumen import update_claim_resumen
 from app.use_cases.list_claims import list_claims
 from app.use_cases.reanalyze_claim import reanalyze_claim
 from app.use_cases.score_claim import score_claim
+from app.use_cases.update_claim_resumen import update_claim_resumen
 
 router = APIRouter(prefix="/claims", tags=["claims"])
 
@@ -88,6 +95,9 @@ async def get_claim_detail_route(
     reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    similarity: Annotated[
+        NarrativeSimilarity | None, Depends(get_narrative_similarity)
+    ] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
     detail = await get_claim_detail(
@@ -96,6 +106,7 @@ async def get_claim_detail_route(
         reviews_store=reviews_store,
         classifier=classifier,
         detector=detector,
+        similarity=similarity,
     )
     if detail is None:
         raise HTTPException(
@@ -155,6 +166,9 @@ async def patch_claim_resumen_route(
     session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    similarity: Annotated[
+        NarrativeSimilarity | None, Depends(get_narrative_similarity)
+    ] = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
     """Persist an analyst-edited case summary override on a claim."""
@@ -174,6 +188,7 @@ async def patch_claim_resumen_route(
         reviews_store=reviews_store,
         classifier=classifier,
         detector=detector,
+        similarity=similarity,
     )
     if detail is None:
         raise HTTPException(

@@ -20,16 +20,16 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-from collections.abc import AsyncIterator, Awaitable, Callable
-from typing import Any
+from collections.abc import AsyncGenerator, Awaitable, Callable
+from typing import Any, TypeVar
 
-from app.agents.claims_agent.tools.ports import ClaimQueries
+from pydantic import BaseModel
+
+from app.agents.claims_agent.tools import ClaimQueries
 from app.agents.fraud_panel import MODERATOR_PROMPT_ID, PANEL_ROSTER, Specialist
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
-from app.infrastructure.llm.ports import LLMProvider
-from app.infrastructure.llm.types import Message, ResponseFormat
-from app.infrastructure.llm.prompt_loader import PromptLoader
+from app.infrastructure.llm import LLMProvider, Message, PromptLoader, ResponseFormat
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import ClaimDetail
 from app.schemas.panel import (
@@ -61,6 +61,7 @@ logger = logging.getLogger(__name__)
 
 _Producer = Callable[["asyncio.Queue[Any]"], Awaitable[None]]
 _SENTINEL = object()
+_M = TypeVar("_M", bound=BaseModel)
 
 
 class AnalyzePanel:
@@ -85,14 +86,20 @@ class AnalyzePanel:
         self._classifier = classifier
         self._detector = detector
 
-    async def run(self, claim_id: str) -> AsyncIterator[PanelStreamEvent]:
-        claim = await get_claim_detail(
-            self._queries,
-            claim_id,
-            reviews_store=self._reviews_store,
-            classifier=self._classifier,
-            detector=self._detector,
-        )
+    async def run(self, claim_id: str) -> AsyncGenerator[PanelStreamEvent, None]:
+        try:
+            claim = await get_claim_detail(
+                self._queries,
+                claim_id,
+                reviews_store=self._reviews_store,
+                classifier=self._classifier,
+                detector=self._detector,
+            )
+        except Exception as exc:
+            logger.exception("panel: get_claim_detail failed for %s", claim_id)
+            yield PanelErrorEvent(data=PanelErrorData(code="claim_fetch_error", message=str(exc)))
+            yield PanelDoneEvent(data=PanelDoneData(claim_id=claim_id))
+            return
         if claim is None:
             yield PanelErrorEvent(
                 data=PanelErrorData(code="not_found", message=f"Siniestro {claim_id} no encontrado.")
@@ -145,7 +152,7 @@ class AnalyzePanel:
                 await self._stream_tokens(
                     queue,
                     agent_id=specialist.id,
-                    round=1,
+                    round_num=1,
                     system=system,
                     user=(
                         f"[especialista:{specialist.id}] [fase:narracion]\n"

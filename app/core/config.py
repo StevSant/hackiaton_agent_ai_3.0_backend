@@ -73,6 +73,10 @@ class Settings(BaseSettings):
     # rules
     RULES_CONFIG_PATH: str = "app/domain/rules/config.yaml"
     SIMILARITY_THRESHOLD_FS13: float = 0.85
+    # Minimum cosine similarity for a neighbour to surface in the
+    # "Narrativas similares" panel (and the live import SimilarityFound event).
+    # Below this, a match is noise — not worth showing the analyst.
+    SIMILARITY_DISPLAY_MIN: float = 0.50
 
     # confidence / false-positive signalling (A2) — referential, tune via .env.
     # The model flagging high risk with NO hard rule corroborating it, or an

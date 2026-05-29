@@ -98,6 +98,7 @@ async def test_patch_resumen_persists_and_returns_detail() -> None:
         reviews_store: Any = None,
         classifier: Any = None,
         detector: Any = None,
+        similarity: Any = None,
     ) -> ClaimDetail | None:
         if claim_id != _KNOWN_CLAIM_ID:
             return None

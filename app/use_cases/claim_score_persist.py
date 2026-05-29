@@ -129,7 +129,10 @@ async def rescore_claim_persisted(session: AsyncSession, claim_id: str) -> Claim
             "score": risk.score,
             "nivel": risk.tier,
             "alertas": alertas,
-            "similar": risk.similar,
+            # This path has no similarity port (score_claim leaves risk.similar
+            # empty), so preserve the neighbours already persisted rather than
+            # wiping the "Narrativas similares" panel on a document re-score.
+            "similar": detail.similar,
         }
     )
     await upsert_claim_score(session, claim_detail_to_score_row(scored))

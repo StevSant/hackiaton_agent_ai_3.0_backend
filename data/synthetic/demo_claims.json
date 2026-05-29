@@ -156,18 +156,7 @@
         "direction": "up"
       }
     ],
-    "similar": [
-      {
-        "claim_id": "SIN-2025-07344",
-        "similarity": 0.91,
-        "snippet": "Vehículo reportado robado en sector residencial. Denuncia presentada después de varios días sin testigos."
-      },
-      {
-        "claim_id": "SIN-2025-06911",
-        "similarity": 0.83,
-        "snippet": "Robo nocturno del vehículo estacionado, sin cámaras de seguridad y denuncia tardía."
-      }
-    ],
+    "similar": [],
     "anomaly_score": -0.682,
     "nearest_normal_claim_id": "SIN-2026-08376",
     "latitude": -0.22022,
@@ -319,18 +308,7 @@
         "direction": "up"
       }
     ],
-    "similar": [
-      {
-        "claim_id": "SIN-2025-07112",
-        "similarity": 0.92,
-        "snippet": "Colisión frontal contra muro en vía perimetral, pérdida de control sin tercero ni testigos."
-      },
-      {
-        "claim_id": "SIN-2025-07955",
-        "similarity": 0.78,
-        "snippet": "Daño material sin tercero involucrado, narrativa de neblina densa en vía rápida."
-      }
-    ],
+    "similar": [],
     "anomaly_score": -0.412,
     "nearest_normal_claim_id": "SIN-2026-08321",
     "latitude": -2.1552,

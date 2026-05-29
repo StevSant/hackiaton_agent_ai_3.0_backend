@@ -25,10 +25,12 @@ from __future__ import annotations
 from datetime import datetime
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
+from app.core.config import settings
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
+from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import (
     ClaimAlert,
@@ -37,7 +39,7 @@ from app.schemas.claim import (
     ClaimTimelineEvent,
     DictamenOutcome,
 )
-from app.schemas.risk import Tier
+from app.schemas.risk import SimilarClaim, Tier
 from app.use_cases.assess_confidence import apply_confidence
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.score_claim import score_claim
@@ -125,6 +127,40 @@ def _workflow_timeline_events(review: ClaimReview) -> list[ClaimTimelineEvent]:
     return events
 
 
+async def _attach_similar_fallback(
+    claim: ClaimDetail,
+    similarity: NarrativeSimilarity | None,
+) -> ClaimDetail:
+    """Backfill ``claim.similar`` from the live engine when it's empty.
+
+    The "Narrativas similares" panel reads ``claim_scores.similar``. Claims
+    imported/scored before that column was persisted (or via a path without a
+    similarity port) carry an empty list — yet their narrative IS indexed in
+    ``claim_narratives`` at import time, so ``nearest()`` still works. This
+    fallback queries it on read so the panel reflects reality even before a
+    re-score. It does NOT persist — the import / rescore paths own durability.
+    """
+    if (
+        similarity is None
+        or claim.similar
+        or not claim.descripcion
+        or len(claim.descripcion) < 30
+    ):
+        return claim
+    try:
+        nearest = await similarity.nearest(claim.id, top_k=3)
+    except Exception:
+        return claim
+    matches = [
+        SimilarClaim(claim_id=s.claim_id, similarity=s.similarity, snippet=s.snippet)
+        for s in nearest
+        if s.similarity >= settings.SIMILARITY_DISPLAY_MIN
+    ]
+    if not matches:
+        return claim
+    return claim.model_copy(update={"similar": matches})
+
+
 async def get_claim_detail(
     queries: ClaimQueries,
     claim_id: str,
@@ -132,6 +168,7 @@ async def get_claim_detail(
     reviews_store: ReviewsStore | None = None,
     classifier: FraudClassifier | None = None,
     detector: AnomalyDetector | None = None,
+    similarity: NarrativeSimilarity | None = None,
 ) -> ClaimDetail | None:
     """Return a ClaimDetail with score/nivel/alertas + ML enrichment, or None if not found.
 
@@ -191,6 +228,10 @@ async def get_claim_detail(
         claim = claim.model_copy(
             update={"timeline": [*claim.timeline, *workflow_events]}
         )
+
+    # Backfill the "Narrativas similares" list from the live engine when the
+    # persisted column is empty (e.g. claims scored before similarity was wired).
+    claim = await _attach_similar_fallback(claim, similarity)
 
     # ML + anomaly enrichment — runs in BOTH branches. Pass-through when ports unwired.
     enriched = await enrich_claim_score(claim, classifier=classifier, detector=detector)

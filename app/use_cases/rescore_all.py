@@ -69,6 +69,12 @@ async def rescore_all(
         (await session.execute(select(Siniestro))).scalars().all()
     )
 
+    # Index every narrative FIRST so the similarity corpus exists before any
+    # nearest() lookup runs. Without this pre-pass, the very first claims scored
+    # would compare against a half-built (or empty) index and FS-13 / the
+    # "Narrativas similares" panel would be unreliable for the whole batch.
+    await _index_narratives(sins, similarity)
+
     processed = 0
     changed = 0
     for sin in sins:
@@ -98,6 +104,31 @@ async def rescore_all(
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
+# Narratives shorter than this are too thin to embed meaningfully — mirrors the
+# import-stream / score_from_db guard so all paths index the same population.
+_MIN_NARRATIVE_LEN = 30
+
+
+async def _index_narratives(
+    sins: list[Siniestro], similarity: NarrativeSimilarity | None
+) -> None:
+    """Embed + store every claim's narrative so the corpus exists before scoring."""
+    if similarity is None:
+        return
+    indexed = 0
+    for sin in sins:
+        descripcion = sin.descripcion or ""
+        if len(descripcion) < _MIN_NARRATIVE_LEN:
+            continue
+        try:
+            await similarity.index(sin.id_siniestro, descripcion)
+            indexed += 1
+        except Exception as exc:
+            logger.warning(
+                "rescore_all: narrative index failed for %s: %s", sin.id_siniestro, exc
+            )
+    logger.info("rescore_all: indexed %d narratives", indexed)
 
 
 async def _existing_score(session: AsyncSession, claim_id: str) -> ClaimScore | None:
@@ -134,11 +165,39 @@ async def _hydrate(
 # ---------------------------------------------------------------------------
 
 
+def _build_similarity(session_factory: object) -> NarrativeSimilarity:
+    """Construct the pgvector similarity port for the CLI rebuild.
+
+    Mirrors ``main.lifespan`` / ``deps._fallback_embeddings``: OpenAI embeddings
+    when configured, else the local sentence-transformers model. Building it here
+    (rather than importing from ``api.deps``) keeps the use-case layer free of an
+    upward dependency on the API layer.
+    """
+    from app.core.config import settings
+    from app.infrastructure.embeddings import (
+        EmbeddingsProvider,
+        SentenceTransformersAdapter,
+        build_openai_embeddings_adapter,
+    )
+    from app.infrastructure.vectorstore.pgvector_narrative_similarity import (
+        PgVectorNarrativeSimilarity,
+    )
+
+    embeddings: EmbeddingsProvider
+    if settings.EMBEDDINGS_PROVIDER == "openai" and settings.OPENAI_API_KEY is not None:
+        embeddings = build_openai_embeddings_adapter()
+    else:
+        embeddings = SentenceTransformersAdapter(model_name=settings.EMBEDDINGS_MODEL)
+    return PgVectorNarrativeSimilarity(embeddings, session_factory)
+
+
 async def _main() -> None:
     """Run the rescore from the command line against the configured DATABASE_URL.
 
     The CLI uses the offline ``RegistryVehicleDecoder`` so the batch walk decodes
-    synthetic chassis locally (FS-15) without any network call.
+    synthetic chassis locally (FS-15) without any network call, and builds the
+    pgvector similarity port so the narrative corpus is indexed and FS-13 / the
+    "Narrativas similares" panel get genuine matches.
     """
     from app.infrastructure.db.engine import create_engine, create_session_factory
     from app.infrastructure.vehicle_decoder import RegistryVehicleDecoder
@@ -146,8 +205,9 @@ async def _main() -> None:
     engine = create_engine()
     factory = create_session_factory(engine)
     decoder = RegistryVehicleDecoder()
+    similarity = _build_similarity(factory)
     async with factory() as session:
-        counts = await rescore_all(session, decoder=decoder)
+        counts = await rescore_all(session, similarity=similarity, decoder=decoder)
     await engine.dispose()
     print(
         f"rescore_all: processed={counts['processed']} changed={counts['changed']}."

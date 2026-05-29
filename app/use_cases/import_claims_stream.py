@@ -22,6 +22,7 @@ from uuid import UUID
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier, extract_features
 from app.domain.rules.catalog import all_rules, get_meta
@@ -56,6 +57,7 @@ from app.schemas.imports.stream import (
     SimilarityFoundData,
     SimilarityFoundEvent,
 )
+from app.schemas.risk import SimilarClaim
 from app.use_cases.claim_score_persist import claim_detail_to_score_row, upsert_claim_score
 from app.use_cases.load_dataset._aggregates import compute_aggregates
 from app.use_cases.load_dataset._mapping import (
@@ -71,9 +73,6 @@ logger = logging.getLogger(__name__)
 # Markers in document observation text that indicate document inconsistency / falsification
 _INCONSISTENCY_MARKERS = frozenset(["adulterada", "alterada", "falsificada", "falsa", "inconsist"])
 _FALSIFICATION_MARKERS = frozenset(["falsificada", "falsa", "adulterada"])
-
-# Similarity threshold: only emit SimilarityFoundEvent when at least one match >= this
-_SIM_EMIT_THRESHOLD = 0.50
 
 # Hard rules are prefixed with RF-; scored signals with FS-
 _HARD_RULE_PREFIX = "RF-"
@@ -267,22 +266,26 @@ async def _generate(
                     logger.warning("stream_import: anomaly score failed for %s: %s", claim.id, exc)
 
             # ── 10. Similarity found event ────────────────────────────────────
-            if similar_claims:
-                above_threshold = [s for s in similar_claims if s.similarity >= _SIM_EMIT_THRESHOLD]
-                if above_threshold:
-                    yield SimilarityFoundEvent(
-                        data=SimilarityFoundData(
-                            claim_id=claim.id,
-                            matches=[
-                                SimilarClaimRef(
-                                    claim_id=s.claim_id,
-                                    similarity=s.similarity,
-                                    snippet=s.snippet,
-                                )
-                                for s in above_threshold[:3]
-                            ],
-                        )
+            # The neighbours that clear the display floor are both streamed live
+            # AND persisted (step 11) so the "Narrativas similares" panel renders
+            # the real engine output instead of an empty list.
+            display_similar = [
+                s for s in similar_claims if s.similarity >= settings.SIMILARITY_DISPLAY_MIN
+            ][:3]
+            if display_similar:
+                yield SimilarityFoundEvent(
+                    data=SimilarityFoundData(
+                        claim_id=claim.id,
+                        matches=[
+                            SimilarClaimRef(
+                                claim_id=s.claim_id,
+                                similarity=s.similarity,
+                                snippet=s.snippet,
+                            )
+                            for s in display_similar
+                        ],
                     )
+                )
 
             # ── 11. Persist ───────────────────────────────────────────────────
             persisted = False
@@ -301,7 +304,19 @@ async def _generate(
                         for a in activations
                     ]
                     scored_claim = claim.model_copy(
-                        update={"score": score, "nivel": tier, "alertas": alertas}
+                        update={
+                            "score": score,
+                            "nivel": tier,
+                            "alertas": alertas,
+                            "similar": [
+                                SimilarClaim(
+                                    claim_id=s.claim_id,
+                                    similarity=s.similarity,
+                                    snippet=s.snippet,
+                                )
+                                for s in display_similar
+                            ],
+                        }
                     )
                     async with session.begin_nested():
                         await _upsert_one(session, scored_claim, workspace_id=workspace_id)

@@ -20,7 +20,7 @@ from app.domain.rules.catalog import get_meta
 from app.domain.similarity import NarrativeSimilarity
 from app.domain.vehicle_identity import VehicleDecoder
 from app.schemas.claim import ClaimAlert, ClaimDetail
-from app.schemas.risk import ClaimRiskScore
+from app.schemas.risk import ClaimRiskScore, SimilarClaim
 from app.use_cases.claim_score_persist import (
     claim_detail_to_score_row,
     upsert_claim_score,
@@ -69,8 +69,22 @@ async def rescore_one(
         )
         for activation in risk.activations
     ]
+    # build_rule_context_from_db stashes the display-worthy neighbours here so
+    # the genuine engine output lands in claim_scores.similar (the column that
+    # feeds the "Narrativas similares" panel). Empty when no similarity port.
+    stashed = ctx.extra.get("similar_claims", [])
+    similar = (
+        [s for s in stashed if isinstance(s, SimilarClaim)]
+        if isinstance(stashed, list)
+        else []
+    )
     scored = detail.model_copy(
-        update={"score": risk.score, "nivel": risk.tier, "alertas": alertas}
+        update={
+            "score": risk.score,
+            "nivel": risk.tier,
+            "alertas": alertas,
+            "similar": similar,
+        }
     )
     await upsert_claim_score(session, claim_detail_to_score_row(scored))
     await session.flush()

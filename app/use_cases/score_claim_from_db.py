@@ -26,6 +26,7 @@ from datetime import UTC, datetime, timedelta
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.domain.rules.context import RuleContext
 from app.domain.rules.loader import rule_cfg
 from app.domain.similarity import NarrativeSimilarity
@@ -226,7 +227,14 @@ async def _enrich_similarity(
     ctx: RuleContext,
     similarity: NarrativeSimilarity | None,
 ) -> None:
-    """Narrative similarity via the port: top-1 score + RF-07 cloned flag."""
+    """Narrative similarity via the port: top-1 score + RF-07 cloned flag.
+
+    Also stashes the display-worthy neighbours (>= SIMILARITY_DISPLAY_MIN) in
+    ``ctx.extra["similar_claims"]`` so ``rescore_one`` can persist them into
+    ``claim_scores.similar`` — that JSONB column is what feeds the
+    "Narrativas similares" panel. Without this the computed matches would be
+    discarded and the panel would always read empty.
+    """
     if similarity is None or not claim.descripcion or len(claim.descripcion) < 30:
         return
     try:
@@ -235,6 +243,9 @@ async def _enrich_similarity(
         ctx.narrativa_similar_score = top_sim
         # narrativa_clonada drives RF-07 (≥ threshold), NOT FS-13 (≥ 0.85).
         ctx.narrativa_clonada = top_sim >= rule_cfg("RF_07")["threshold_similarity"]
+        ctx.extra["similar_claims"] = [
+            s for s in nearest if s.similarity >= settings.SIMILARITY_DISPLAY_MIN
+        ]
     except Exception as exc:
         logger.warning("score_from_db: similarity.nearest failed for %s: %s", claim.id, exc)
 
