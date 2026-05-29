@@ -459,21 +459,26 @@ async def _run(xlsx_path: Path, *, dry_run: bool = False) -> None:
 
     try:
         async with factory() as session:
+            # Commit after EACH phase so a slow/dropped Supabase connection during
+            # a later phase can't roll back everything already written.
             logger.info("Upserting proveedores ...")
             n_prov = await _upsert_proveedores(session, prov_rows)
+            await session.commit()
 
             logger.info("Upserting asegurados ...")
             n_aseg = await _upsert_asegurados(session, aseg_rows)
+            await session.commit()
 
             logger.info("Upserting pólizas ...")
             n_pol = await _upsert_polizas(session, pol_rows, ciudad_by_poliza)
+            await session.commit()
 
             logger.info("Upserting siniestros ...")
             n_sin = await _upsert_siniestros(session, sin_rows)
+            await session.commit()
 
             logger.info("Upserting documentos ...")
             n_doc = await _upsert_documentos(session, doc_rows)
-
             await session.commit()
             logger.info(
                 "Upsert complete — prov=%d aseg=%d pol=%d sin=%d doc=%d",
