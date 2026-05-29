@@ -73,6 +73,16 @@ class RuleContext:
     vehiculo_inconsistente: bool = False
     vehiculo_campos_discrepantes: list[str] = field(default_factory=list)
 
+    # ── FS-16: police report for theft (populated by score_claim_from_db) ────
+    tiene_parte_policial: bool = True   # default True = safe, won't fire FS-16
+
+    # ── FS-18: provider concentration / collusion ────────────────────────────
+    proveedor_total_siniestros: int = 0     # provider's total associated claims
+    pareja_proveedor_asegurado: int = 0     # claims sharing this provider+insured pair
+
+    # ── FS-19: insured risk profile (populated by score_claim_from_db) ───────
+    perfil_riesgo: str | None = None        # e.g. "Alto", "Medio", "Bajo"
+
     # ── extra meta ───────────────────────────────────────────────────────────
     extra: dict[str, object] = field(default_factory=dict)
 

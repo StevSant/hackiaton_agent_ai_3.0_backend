@@ -404,8 +404,14 @@ async def _build_enriched_context(claim: ClaimDetail, session: AsyncSession | No
         try:
             prov: Proveedor | None = await session.get(Proveedor, claim.proveedor)
             if prov is not None:
-                ctx.proveedor_en_lista_restrictiva = prov.porcentaje_casos_observados >= 0.5
                 ctx.proveedor_casos_observados = prov.reclamos_asociados
+                # Prefer the dataset ground-truth; fall back to the heuristic so
+                # existing demo rows (without en_lista_restrictiva) are unchanged.
+                ctx.proveedor_en_lista_restrictiva = (
+                    prov.en_lista_restrictiva
+                    if prov.en_lista_restrictiva is not None
+                    else (prov.porcentaje_casos_observados >= 0.5)
+                )
         except Exception as exc:
             logger.debug("stream_import: provider lookup failed for %s: %s", claim.proveedor, exc)
 

@@ -96,10 +96,20 @@ async def build_rule_context_from_db(
     await _enrich_provider(session, sin, claim, ctx)
     await _enrich_insured_frequency(session, claim, ctx)
     await _enrich_vehicle_frequency(session, claim, ctx)
-    await _enrich_rc_events(session, claim, ctx)
+    # Pass sin so the RC enricher can use asegurado.reclamos_rc_sin_tercero when present.
+    await _enrich_rc_events(session, claim, ctx, sin=sin)
     _enrich_document_markers(claim, ctx)
-    await _enrich_similarity(claim, ctx, similarity)
+    # Pass sin so similarity can use siniestro.similitud_narrativa_max when present.
+    await _enrich_similarity(claim, ctx, similarity, sin=sin)
     await _enrich_vehicle_identity(claim, ctx, decoder)
+    # FS-16: police report presence (only meaningful for theft claims)
+    _enrich_police_report(sin, ctx)
+    # FS-18: provider concentration (pair count) — needs session
+    await _enrich_provider_concentration(session, sin, claim, ctx)
+    # FS-19: insured risk profile
+    await _enrich_insured_profile(session, sin, ctx)
+    # FS-14 repair branch: over-estimation ratio vs monto_estimado
+    _enrich_repair_ratio(sin, claim, ctx)
     _overlay_stored_signals(sin, ctx)
 
     return ctx
@@ -129,13 +139,14 @@ async def _enrich_provider(
     try:
         prov: Proveedor | None = await session.get(Proveedor, provider_id)
         if prov is not None:
-            # Restrictive-list membership (RF-03, hard rojo) is a curated blocklist
-            # FACT, not a function of the observed-case ratio. Deriving it from
-            # porcentaje_casos_observados made RF-03 fire for ~half the portfolio.
-            # It now comes ONLY from the stored `signals` overlay (the genuinely
-            # list-matched claims). The observed-case COUNT still feeds FS-07's
-            # recurrent-provider path below.
             ctx.proveedor_casos_observados = prov.reclamos_asociados
+            # Prefer the dataset ground-truth; fall back to the heuristic so
+            # existing demo rows (without en_lista_restrictiva) are unchanged.
+            ctx.proveedor_en_lista_restrictiva = (
+                prov.en_lista_restrictiva
+                if prov.en_lista_restrictiva is not None
+                else (prov.porcentaje_casos_observados >= 0.5)
+            )
     except Exception as exc:
         logger.debug("score_from_db: provider lookup failed for %s: %s", provider_id, exc)
 
@@ -193,9 +204,26 @@ async def _enrich_vehicle_frequency(
 
 
 async def _enrich_rc_events(
-    session: AsyncSession, claim: ClaimDetail, ctx: RuleContext
+    session: AsyncSession, claim: ClaimDetail, ctx: RuleContext, sin: Siniestro | None = None
 ) -> None:
-    """COUNT of prior RC-only claims for the insured (cobertura ~ 'Responsabilidad Civil')."""
+    """RC-only event count for the insured.
+
+    Prefers ``asegurado.reclamos_rc_sin_tercero`` from the dataset when not None
+    (ground truth), then falls back to a COUNT of prior RC cobertura rows so
+    existing demo data without the new field is unchanged.
+    """
+    # Ground-truth fast path: avoid the DB count when we have the precomputed value.
+    if sin is not None:
+        from app.infrastructure.db.models.asegurado import Asegurado as AseguradoModel
+        try:
+            aseg = await session.get(AseguradoModel, sin.id_asegurado)
+            if aseg is not None and aseg.reclamos_rc_sin_tercero is not None:
+                ctx.eventos_rc_previos = aseg.reclamos_rc_sin_tercero
+                return
+        except Exception as exc:
+            logger.debug("score_from_db: asegurado RC lookup failed: %s", exc)
+
+    # Fallback: count from the siniestros table (existing behaviour).
     try:
         stmt = (
             select(func.count())
@@ -226,15 +254,26 @@ async def _enrich_similarity(
     claim: ClaimDetail,
     ctx: RuleContext,
     similarity: NarrativeSimilarity | None,
+    sin: Siniestro | None = None,
 ) -> None:
-    """Narrative similarity via the port: top-1 score + RF-07 cloned flag.
+    """Narrative similarity: top-1 score + RF-07 cloned flag.
 
-    Also stashes the display-worthy neighbours (>= SIMILARITY_DISPLAY_MIN) in
-    ``ctx.extra["similar_claims"]`` so ``rescore_one`` can persist them into
-    ``claim_scores.similar`` — that JSONB column is what feeds the
-    "Narrativas similares" panel. Without this the computed matches would be
-    discarded and the panel would always read empty.
+    Prefers ``siniestros.similitud_narrativa_max`` (precomputed ground truth from
+    the dataset) when not None; falls back to a live pgvector lookup so existing
+    rows without the new field and the full "Narrativas similares" panel data are
+    unaffected. The pgvector path is the only source of the neighbour list used
+    by the panel — the precomputed field is a scalar only.
     """
+    # Ground-truth fast path — skip pgvector when the dataset value is present.
+    if sin is not None and sin.similitud_narrativa_max is not None:
+        top_sim = sin.similitud_narrativa_max
+        ctx.narrativa_similar_score = top_sim
+        ctx.narrativa_clonada = top_sim >= rule_cfg("RF_07")["threshold_similarity"]
+        # No neighbour list available from the precomputed scalar; panel stays empty
+        # unless the pgvector corpus has been built (first-time run after ingest).
+        return
+
+    # Fallback: live pgvector nearest-neighbour lookup (existing behaviour).
     if similarity is None or not claim.descripcion or len(claim.descripcion) < 30:
         return
     try:
@@ -283,6 +322,81 @@ async def _enrich_vehicle_identity(
 # ---------------------------------------------------------------------------
 # Stored-signals overlay (ground truth wins)
 # ---------------------------------------------------------------------------
+
+
+def _enrich_police_report(sin: Siniestro | None, ctx: RuleContext) -> None:
+    """FS-16: set tiene_parte_policial from the persisted numero_parte_policial column."""
+    if sin is None:
+        return
+    # truthy non-empty string → has a police report number → safe default True
+    ctx.tiene_parte_policial = bool(sin.numero_parte_policial and sin.numero_parte_policial.strip())
+
+
+async def _enrich_provider_concentration(
+    session: AsyncSession,
+    sin: Siniestro | None,
+    claim: ClaimDetail,
+    ctx: RuleContext,
+) -> None:
+    """FS-18: provider total volume + provider+insured pair count.
+
+    proveedor_total_siniestros: lifted from prov.reclamos_asociados (already fetched).
+    pareja_proveedor_asegurado: COUNT of siniestros sharing the same beneficiario (provider)
+    AND id_asegurado, excluding the current claim.
+    """
+    provider_id = sin.beneficiario if sin is not None else None
+    if not provider_id:
+        return
+    try:
+        prov: Proveedor | None = await session.get(Proveedor, provider_id)
+        if prov is not None:
+            ctx.proveedor_total_siniestros = prov.reclamos_asociados
+
+        # Count the pareja (same provider + same insured, excluding self)
+        stmt = (
+            select(func.count())
+            .select_from(Siniestro)
+            .where(
+                Siniestro.beneficiario == provider_id,
+                Siniestro.id_asegurado == claim.asegurado_id,
+                Siniestro.id_siniestro != claim.id,
+            )
+        )
+        result = await session.execute(stmt)
+        ctx.pareja_proveedor_asegurado = int(result.scalar() or 0)
+    except Exception as exc:
+        logger.debug("score_from_db: provider concentration lookup failed: %s", exc)
+
+
+async def _enrich_insured_profile(
+    session: AsyncSession,
+    sin: Siniestro | None,
+    ctx: RuleContext,
+) -> None:
+    """FS-19: populate perfil_riesgo from the asegurado row."""
+    if sin is None:
+        return
+    try:
+        from app.infrastructure.db.models.asegurado import Asegurado as AseguradoModel
+
+        aseg = await session.get(AseguradoModel, sin.id_asegurado)
+        if aseg is not None and aseg.perfil_riesgo:
+            ctx.perfil_riesgo = aseg.perfil_riesgo
+    except Exception as exc:
+        logger.debug("score_from_db: insured profile lookup failed: %s", exc)
+
+
+def _enrich_repair_ratio(
+    sin: Siniestro | None, claim: ClaimDetail, ctx: RuleContext
+) -> None:
+    """FS-14 repair branch: monto_reclamado / monto_estimado when monto_estimado > 0.
+
+    monto_estimado is the adjuster's estimate of actual repair cost (not the insured
+    sum). A ratio > 1.5 means the claimant is requesting >150% of what repairs cost.
+    """
+    monto_estimado = sin.monto_estimado if sin is not None else None
+    if monto_estimado and monto_estimado > 0:
+        ctx.monto_vs_reparacion_avg_pct = claim.monto_reclamado / monto_estimado
 
 
 def _overlay_stored_signals(sin: Siniestro | None, ctx: RuleContext) -> None:

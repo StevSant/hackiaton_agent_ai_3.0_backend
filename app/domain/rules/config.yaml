@@ -68,9 +68,24 @@ FS_07:
 
 # ──────────────────────────────────────────────
 # FS-08  Incomplete legal documents
+# Required-doc sets per ramo (accent/case-insensitive substring match).
+# When the claim ramo is not listed, the rule falls back to ctx.documentos_incompletos.
 # ──────────────────────────────────────────────
 FS_08:
   points: 4
+  ramo_required_docs:
+    Vehículos:
+      - Cédula
+      - Matrícula
+      - Parte policial
+    Salud:
+      - Cédula
+      - Historia clínica
+      - Orden médica
+    Hogar:
+      - Cédula
+      - Avalúo
+      - Denuncia
 
 # ──────────────────────────────────────────────
 # FS-09  Suspicious dynamics
@@ -124,6 +139,40 @@ FS_14:
 # ──────────────────────────────────────────────
 FS_15:
   points: 8
+
+# ──────────────────────────────────────────────
+# FS-16  Robo sin parte policial
+# Fires when the claim is a theft and has no police report number.
+# ──────────────────────────────────────────────
+FS_16:
+  points: 6
+
+# ──────────────────────────────────────────────
+# FS-17  Siniestro cerca del fin de la póliza
+# Mirror of FS-01 banding, applied to dias_desde_fin_poliza.
+# ──────────────────────────────────────────────
+FS_17:
+  threshold_days_high: 10    # ≤ 10 days to policy end → max points
+  points_high: 8
+  threshold_days_mid: 30     # 11–30 days to policy end → mid points
+  points_mid: 4
+  # > 30 days → 0 (does not fire)
+
+# ──────────────────────────────────────────────
+# FS-18  Concentración o colusión de proveedor
+# ──────────────────────────────────────────────
+FS_18:
+  threshold_pair: 1        # pareja_proveedor_asegurado > 1 → collusion signal
+  points_pair: 8           # strong signal — same provider+insured seen repeatedly
+  threshold_provider: 15   # proveedor_total_siniestros > 15 → over-concentration
+  points_provider: 4       # softer signal — provider has too many claims overall
+
+# ──────────────────────────────────────────────
+# FS-19  Perfil de riesgo alto del asegurado
+# Soft signal — combined with others it tips the score.
+# ──────────────────────────────────────────────
+FS_19:
+  points: 3
 
 # ──────────────────────────────────────────────
 # Hard-rule tiers (RF-*)  — no points; tier_hint drives override

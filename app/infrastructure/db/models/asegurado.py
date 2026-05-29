@@ -34,6 +34,12 @@ class Asegurado(Base):
     mora_actual: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     score_cliente_simulado: Mapped[float | None] = mapped_column(Float, nullable=True)
 
+    # Ground-truth from the evento dataset (0021_evento_fields migration).
+    # `reclamos_rc_sin_tercero` feeds FS-06 directly when not None.
+    reclamos_historico_total: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    reclamos_rc_sin_tercero: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    perfil_riesgo: Mapped[str | None] = mapped_column(String(80), nullable=True)
+
     polizas: Mapped[list[Poliza]] = relationship(
         "Poliza", back_populates="asegurado", lazy="noload"
     )
