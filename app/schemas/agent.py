@@ -9,12 +9,26 @@ shape — is the cross-stack contract rule from root CLAUDE.md §5.
 from pydantic import BaseModel, Field
 
 
+class DocumentContext(BaseModel):
+    """A document the analyst is editing in the canvas, attached to a chat turn.
+
+    Rides in its own field (NOT in `query`/`message`) so the full markdown can be
+    large without hitting the 4000-char chat cap. When present, the agent improves
+    THIS document via `crear_documento` instead of inventing one from scratch.
+    """
+
+    titulo: str = Field(..., min_length=1, max_length=500)
+    # Large by design — the document content is not subject to the chat cap.
+    contenido_markdown: str = Field(..., min_length=1, max_length=40000)
+
+
 class AgentAskContext(BaseModel):
     """Optional client-supplied context. Lets the UI pin the agent to a focused entity."""
 
     focus_claim_id: str | None = None
     focus_provider_id: str | None = None
     focus_asegurado_id: str | None = None
+    document_context: DocumentContext | None = None
 
 
 class AgentAskRequest(BaseModel):

@@ -112,7 +112,22 @@ async def _decide(
     system_prompt = deps.prompts.load("react", "v1")
     tool_catalog = deps.tool_catalog
     context_section = ""
+    document_section = ""
     if context:
+        document = context.get("document_context")
+        if isinstance(document, dict) and document.get("contenido_markdown"):
+            titulo = document.get("titulo") or "(sin título)"
+            contenido = document.get("contenido_markdown") or ""
+            document_section = (
+                "\n## Documento actual del analista\n"
+                "El analista está editando este documento y pide mejorarlo/editarlo. "
+                "Para aplicar el cambio, llamá a `crear_documento` con la versión MEJORADA "
+                "de ESTE documento (aplicá la instrucción del analista; si no dio una, "
+                "mejorá claridad y estructura). No inventes datos de siniestros que no estén "
+                "en el documento.\n"
+                f"### Título: {titulo}\n"
+                f"### Contenido (Markdown):\n```markdown\n{contenido}\n```\n\n"
+            )
         focus_claim = context.get("focus_claim_id")
         focus_provider = context.get("focus_provider_id")
         focus_asegurado = context.get("focus_asegurado_id")
@@ -138,6 +153,7 @@ async def _decide(
     )
     user_payload = (
         f"## Pregunta del analista\n{query}\n\n"
+        f"{document_section}"
         f"{context_section}"
         f"{history_section}"
         f"## Herramientas disponibles\n```json\n{tool_catalog}\n```\n\n"

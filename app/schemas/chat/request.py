@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, model_validator
 
+from app.schemas.agent import DocumentContext
+
 _MAX_QUERY_LENGTH = 4000
 
 
@@ -9,6 +11,10 @@ class AgentAskRequest(BaseModel):
     context_claim_id: str | None = None
     context_provider_id: str | None = None
     context_asegurado_id: str | None = None
+    # Optional document the analyst is editing. Carries its own large content
+    # field so "Mejorá el documento: ..." can ride the main chat without the
+    # markdown blowing the 4000-char `message` cap.
+    document_context: DocumentContext | None = None
     history: list[dict] = []
 
     @model_validator(mode="after")
