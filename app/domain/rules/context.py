@@ -125,6 +125,13 @@ class RuleContext:
         # RC-only coverage
         cobertura_rc = "responsabilidad civil" in cobertura_lower
 
+        # Narrative similarity — ClaimDetail already carries the top matches
+        # (the "Narrativas similares" panel reads claim.similar), so FS-13 can be
+        # reconstructed on the detail read path for its evidence. The clone flag
+        # (RF-07) stays at the rule's own threshold via rule_cfg — the domain
+        # does not read settings.
+        top_sim = max((s.similarity for s in claim.similar), default=0.0)
+
         return cls(
             dias_entre_ocurrencia_reporte=dias,
             dias_desde_inicio_poliza=dias_desde_inicio,
@@ -135,4 +142,5 @@ class RuleContext:
             demora_denuncia_horas=demora_denuncia_horas,
             documentos_incompletos=documentos_incompletos,
             cobertura_rc=cobertura_rc,
+            narrativa_similar_score=top_sim,
         )
