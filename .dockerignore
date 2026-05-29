@@ -26,6 +26,5 @@ scripts/
 docker-compose.yml
 docker/
 data/raw/
-data/models/
 # Legacy duplicate of the backend (separate gitignored mirror) — never ship in the image.
 backend/
