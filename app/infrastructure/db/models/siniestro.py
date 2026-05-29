@@ -85,6 +85,12 @@ class Siniestro(Base):
         Integer, nullable=False, default=0
     )
 
+    # Ground-truth from the evento dataset (0021_evento_fields migration).
+    # `similitud_narrativa_max` feeds FS-13 directly when not None, bypassing the
+    # pgvector similarity lookup (which still serves as fallback).
+    numero_parte_policial: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    similitud_narrativa_max: Mapped[float | None] = mapped_column(Float, nullable=True)
+
     # Optional vehicle attributes (applicable when ramo="Vehículos")
     placa: Mapped[str | None] = mapped_column(String(20), nullable=True)
     chasis: Mapped[str | None] = mapped_column(String(40), nullable=True)

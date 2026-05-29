@@ -130,6 +130,7 @@ class ClaimDetail(BaseModel):
     fecha_inicio_poliza: date | None = None
     fecha_fin_poliza: date | None = None
     monto_reclamado: float
+    monto_estimado: float | None = None   # adjuster's repair cost estimate — feeds FS-14
     suma_asegurada: float
     estado: str
     sucursal: str
