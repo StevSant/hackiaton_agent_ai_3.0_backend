@@ -1,0 +1,35 @@
+{
+  "id": "SIN-DEMO-016",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Materiales",
+  "asegurado": "Catalina Isabel Robles Andrade",
+  "asegurado_id": "ASG-D0016",
+  "poliza": "PV-DEMO-0016",
+  "ciudad": "Ibarra",
+  "fecha_ocurrencia": "2026-04-18",
+  "fecha_reporte": "2026-04-27",
+  "fecha_inicio_poliza": "2025-11-15",
+  "fecha_fin_poliza": "2026-11-15",
+  "monto_reclamado": 7800.0,
+  "suma_asegurada": 19500.0,
+  "estado": "Reserva",
+  "sucursal": "Ibarra",
+  "vehiculo": {
+    "marca": "Renault",
+    "modelo": "Duster",
+    "anio": 2020,
+    "placa": "IBR-2039",
+    "chasis": "VF1HJDDB9H0810337"
+  },
+  "proveedor": "Taller Automotriz Imbabura",
+  "descripcion": "La asegurada Catalina Isabel Robles Andrade reporta daños materiales en su Renault Duster 2020, placas IBR-2039, ocurridos el sábado 18 de abril de 2026 a las 17:20 en la calle García Moreno, sector La Victoria, en la ciudad de Ibarra. Un vehículo que retrocedía desde un garaje impactó el lateral delantero izquierdo y la llanta delantera del vehículo asegurado. El conductor responsable dio sus datos de contacto en el lugar. La asegurada demoró nueve días en formalizar el reclamo porque se encontraba en tratamiento médico por una intervención programada y no contó con asistencia para realizar los trámites durante ese período, lo que activa la señal FS-12 de reporte tardío (+5 puntos, demora >7 días). El reporte de peritos de la Comisión de Tránsito aún no ha sido entregado formalmente, activando FS-08 (+4 puntos, 1 documento pendiente). El monto reclamado de USD 7 800 representa el 40% de la suma asegurada, por debajo del umbral FS-14. La póliza fue contratada 154 días antes del siniestro, sin señal FS-01. Sin reglas duras activas. Puntuación estimada: 9 puntos (VERDE).",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Datos del tercero responsable", "estado": "Entregado", "falta": false},
+    {"tipo": "Cotización de reparación", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe pericial CTE", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

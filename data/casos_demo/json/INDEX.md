@@ -16,19 +16,27 @@ Import order matters for FS-13: load caso_01 before caso_06 so the pgvector simi
 | `caso_10_alta_frecuencia.json` | Daños Materiales | — | FS-08 (+4, 2 docs missing), FS-03/05 (needs enrichment, +8 if historial≥3 en 18m) | AMARILLO | ~4 auto; ~12 after enrichment | Tercer reclamo en 14 meses — narrativa lo menciona explícitamente. FS-03 y FS-05 requieren `historial_siniestros_asegurado` y `historial_conductor` del enricher. Sin enriquecimiento solo dispara FS-08 |
 | `caso_11_monto_atipico.json` | Daños Totales | — | FS-14 (+5, ratio 1.05 > 1.0), FS-01 (+8, 15 días desde inicio) | AMARILLO | ~13 auto (FS-14 + FS-01 directo) | monto_reclamado (31 500) SUPERA suma_asegurada (30 000) → ratio 1.05 → FS-14 auto-fires. Póliza iniciada 15 días antes → FS-01 (+8). Todos los docs completos — sin FS-08. Caso limpio de múltiples señales auto-derivadas |
 | `caso_12_robo_multi_senal.json` | Pérdida Total por Robo | RF-01, RF-06 | FS-01 (+8, 5 días desde inicio), FS-14 (+5, ratio 0.977), FS-08 (+4, 2 docs faltantes) | ROJO | 76+ (RF-01 override) | Robo PTxRB (RF-01) + demora denuncia 10 días (RF-06, >4 días) + póliza 5 días antes (FS-01 +8) + ratio 0.977 (FS-14 +5) + 2 docs pendientes (FS-08 +4). Máxima densidad de señales auto-derivadas. Upload package disponible en `sample_documents/SIN-DEMO-012/` |
+| `caso_13_verde_limpio_2.json` | Daños Parciales | — | — | VERDE | ~0 | Segunda referencia limpia. Ocurrencia 120 días desde inicio (sin FS-01). Reporte al día siguiente (sin FS-12). Ratio 5.2% (sin FS-14). Todos los docs completos. Ciudad: Ambato |
+| `caso_14_borde_vigencia_2.json` | Daños Materiales | RF-05 | — | AMARILLO | RF-05 fuerza piso | Ocurrencia 1 día después del inicio de póliza (<48 h → RF-05 AMARILLO). No es robo — sin RF-01/RF-06/FS-02. Todos los docs completos. Ratio 28.7% (sin FS-14). Ciudad: Santo Domingo |
+| `caso_15_robo_total_critico.json` | Pérdida Total por Robo | RF-01, RF-06 | FS-01 (+8, 8 días desde inicio), FS-14 (+5, ratio 0.971), FS-08 (+4, 2 docs faltantes) | ROJO | 76+ (RF-01 override) | Robo PTxRB (RF-01) + denuncia 6 días (RF-06) + póliza 8 días (FS-01 +8) + ratio 97.1% (FS-14 +5) + 2 docs pendientes (FS-08 +4). Alta densidad de señales auto-derivadas. Upload package disponible en `sample_documents/SIN-DEMO-015/` |
+| `caso_16_late_report_verde.json` | Daños Materiales | — | FS-12 (+5, reporte 9 días), FS-08 (+4, 1 doc pendiente) | VERDE | ~9 | Sin reglas duras. Reporte tardío 9 días (FS-12 +5) + 1 doc pendiente (FS-08 +4). Ratio 40% (sin FS-14). Póliza 154 días (sin FS-01). Score ~9, bien bajo 41. Ciudad: Ibarra |
+| `caso_17_borde_vigencia_3.json` | Daños Totales | RF-05 | — | AMARILLO | RF-05 fuerza piso | Ocurrencia 1 día después del inicio de póliza (<24 h → RF-05 AMARILLO). No es robo. Ratio 59.9% (sin FS-14). Todos los docs completos (sin FS-08/FS-12). Ciudad: Riobamba |
+| `caso_18_robo_total_fin_poliza.json` | Pérdida Total por Robo | RF-01, RF-06 | FS-14 (+5, ratio 0.980) | ROJO | 76+ (RF-01 override) | Robo PTxRB (RF-01) + denuncia 5 días (RF-06) + ratio 98.0% (FS-14 +5). Ocurrencia 7 días ANTES del fin de vigencia — patrón de reclamo al cierre. Todos los docs entregados. Upload package disponible en `sample_documents/SIN-DEMO-018/` |
+| `caso_19_verde_limpio_3.json` | Daños Parciales | — | — | VERDE | ~0 | Tercera referencia limpia. Ocurrencia 169 días desde inicio (sin FS-01). Reporte el mismo día (sin FS-12). Ratio 8.1% (sin FS-14). Todos los docs completos. Ciudad: Portoviejo |
+| `caso_20_robo_parcial_amarillo.json` | Robo Parcial | RF-06 | FS-08 (+4, 1 doc pendiente) | AMARILLO | RF-06 fuerza piso | Robo de accesorios con cobertura Robo Parcial — RF-01 NO aplica (no es PTxRB). Denuncia 6 días (RF-06 AMARILLO) + 1 doc pendiente (FS-08 +4). Ratio 50% (sin FS-14). Póliza 105 días (sin FS-01). Upload package disponible en `sample_documents/SIN-DEMO-020/` |
 
 ## Rule-trigger summary per current import path (`RuleContext.from_claim`)
 
 The current `from_claim` auto-derives: `dias_desde_inicio_poliza`, `monto_vs_suma_pct`, `es_cobertura_ptxrb`, `es_robo`, `demora_denuncia_horas`, `documentos_incompletos`. Rules that fire today without enrichment:
 
-- RF-01 — caso_01, caso_06, caso_12
-- RF-05 — caso_02
-- RF-06 — caso_01, caso_06, caso_12
-- FS-01 — caso_02, caso_05, caso_11, caso_12
+- RF-01 — caso_01, caso_06, caso_12, caso_15, caso_18
+- RF-05 — caso_02, caso_14, caso_17
+- RF-06 — caso_01, caso_06, caso_12, caso_15, caso_18, caso_20
+- FS-01 — caso_02, caso_05, caso_11, caso_12, caso_15
 - FS-02 — caso_01, caso_06
-- FS-08 — caso_03, caso_05, caso_07, caso_09, caso_10, caso_12
-- FS-12 — caso_01, caso_03, caso_06
-- FS-14 — caso_01, caso_05, caso_06, caso_08, caso_11, caso_12
+- FS-08 — caso_03, caso_05, caso_07, caso_09, caso_10, caso_12, caso_15, caso_16, caso_20
+- FS-12 — caso_01, caso_03, caso_06, caso_16
+- FS-14 — caso_01, caso_05, caso_06, caso_08, caso_11, caso_12, caso_15, caso_18
 
 ## Rules that require Slice 2 enrichment
 
@@ -54,5 +62,8 @@ so the document tipo is inferred automatically on upload.
 | SIN-DEMO-007 | caso_07_falsificacion_docs | cedula, matricula, acta, peritaje, proforma, caratula (6 PDFs) | `proforma_taller.pdf` has emission date 18/04 — 2 days before siniestro 20/04 (RF-02 demo) |
 | SIN-DEMO-009 | caso_09_dinamica_imposible | cedula, matricula, acta, peritaje, proforma, caratula, denuncia (7 PDFs) | `peritaje_tecnico.pdf` flags lateral/rear damage vs. frontal collision (RF-04 demo) |
 | SIN-DEMO-012 | caso_12_robo_multi_senal | cedula, matricula, denuncia, acta, peritaje, caratula (6 PDFs) | `denuncia_fiscal.pdf` shows 10-day delay; `caratula_poliza.pdf` shows 5-day-old policy (RF-01+RF-06 demo) |
+| SIN-DEMO-015 | caso_15_robo_total_critico | cedula, matricula, denuncia, acta, peritaje, caratula (6 PDFs) | `denuncia_fiscal.pdf` shows 6-day delay; `caratula_poliza.pdf` shows 8-day-old policy; RF-01+RF-06+FS-01+FS-14+FS-08 demo |
+| SIN-DEMO-018 | caso_18_robo_total_fin_poliza | cedula, matricula, denuncia, acta, peritaje, caratula (6 PDFs) | `denuncia_fiscal.pdf` shows 5-day delay; `caratula_poliza.pdf` shows policy expiring 7 days after event; RF-01+RF-06+FS-14 demo |
+| SIN-DEMO-020 | caso_20_robo_parcial_amarillo | cedula, matricula, denuncia, acta, peritaje, caratula (6 PDFs) | Robo Parcial (NOT PTxRB — RF-01 absent); `denuncia_fiscal.pdf` shows 6-day delay; RF-06+FS-08 AMARILLO demo |
 
 Generate packages: `uv run python scripts/generate_demo_case_docs.py`

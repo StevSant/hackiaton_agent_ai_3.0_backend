@@ -522,6 +522,145 @@ CASES: dict[str, dict] = {
             ("caratula_poliza.pdf", _build_caratula_poliza),
         ],
     },
+    "SIN-DEMO-015": {
+        "extra": {
+            "cedula": "1307654321",
+            "estado_civil": "Soltero",
+            "cedula_expedicion": "10/06/2018",
+            "vehiculo_color": "Gris oscuro",
+            "tipo_evento_policial": "Robo de vehículo motorizado",
+            "narrativa_policial": (
+                "El asegurado denuncia la sustracción de su Nissan Frontier placas "
+                "MNT-7756, ocurrida el 02/05/2026 a las 22:00 en calle 103, sector "
+                "Puerto de Manta. La denuncia es presentada el 08/05/2026, con una "
+                "demora de 6 días respecto al hecho (RF-06 activo)."
+            ),
+            "deducible": "10% del valor asegurado",
+            "nota_caratula": (
+                "Póliza contratada 8 días antes del siniestro (inicio 24/04/2026). "
+                "RF-01 activo por cobertura PTxRB. FS-01 activo (+8 pts, ≤10 días). "
+                "FS-14 activo (97.1% de suma asegurada)."
+            ),
+            "obs_denuncia": (
+                "La denuncia fue presentada 6 días después de la ocurrencia. "
+                "El plazo máximo en póliza para robo total es de 4 días (RF-06). "
+                "Requiere revisión por la unidad antifraude."
+            ),
+            "fecha_peritaje": "09/05/2026",
+            "valor_peritaje": 30000.00,
+            "conclusion_peritaje": (
+                "Vehículo no localizado al momento de la inspección. "
+                "Valor comercial referencial según tablas de mercado vigentes."
+            ),
+            "obs_peritaje": (
+                "Caso ROJO: RF-01 (PTxRB), RF-06 (demora denuncia 6 días), "
+                "FS-01 (+8, póliza 8 días), FS-14 (ratio 97.1%), FS-08 (+4, 2 docs). "
+                "Máxima densidad de señales auto-derivadas."
+            ),
+            "proveedor_ruc": None,
+        },
+        "docs": [
+            ("cedula_identidad.pdf", _build_cedula),
+            ("matricula_vehiculo.pdf", _build_matricula),
+            ("denuncia_fiscal.pdf", _build_denuncia),
+            ("acta_policial.pdf", _build_acta),
+            ("peritaje_tecnico.pdf", _build_peritaje),
+            ("caratula_poliza.pdf", _build_caratula_poliza),
+        ],
+    },
+    "SIN-DEMO-018": {
+        "extra": {
+            "cedula": "0801234567",
+            "estado_civil": "Casada",
+            "cedula_expedicion": "20/03/2016",
+            "vehiculo_color": "Blanco perla",
+            "tipo_evento_policial": "Robo de vehículo motorizado",
+            "narrativa_policial": (
+                "La asegurada denuncia la sustracción de su Mitsubishi L200 placas "
+                "ESM-3391, ocurrida el 18/05/2026 entre las 21:30 y las 23:00 en "
+                "calle Los Álamos, sector Las Palmas, Esmeraldas. La denuncia ante "
+                "Fiscalía fue presentada el 23/05/2026, con 5 días de demora (RF-06)."
+            ),
+            "deducible": "10% del valor asegurado",
+            "nota_caratula": (
+                "Póliza vigente desde 25/05/2025 hasta 25/05/2026. "
+                "Siniestro ocurre 7 días antes del vencimiento — patrón de reclamo "
+                "al cierre de vigencia. RF-01 activo por PTxRB. RF-06 activo (5 días). "
+                "FS-14 activo (98.0% de suma asegurada)."
+            ),
+            "obs_denuncia": (
+                "La denuncia fue presentada 5 días después de la ocurrencia. "
+                "Plazo máximo en póliza: 4 días (RF-06). "
+                "Siniestro a 7 días del vencimiento de la póliza — patrón atípico."
+            ),
+            "fecha_peritaje": "24/05/2026",
+            "valor_peritaje": 27000.00,
+            "conclusion_peritaje": (
+                "Vehículo no localizado. Valor referencial según mercado Manabí-Esmeraldas."
+            ),
+            "obs_peritaje": (
+                "Caso ROJO: RF-01 (PTxRB), RF-06 (demora 5 días), FS-14 (98.0%). "
+                "Siniestro a 7 días del fin de vigencia — señal adicional de revisión. "
+                "Se recomienda auditoría de expediente completo."
+            ),
+            "proveedor_ruc": None,
+        },
+        "docs": [
+            ("cedula_identidad.pdf", _build_cedula),
+            ("matricula_vehiculo.pdf", _build_matricula),
+            ("denuncia_fiscal.pdf", _build_denuncia),
+            ("acta_policial.pdf", _build_acta),
+            ("peritaje_tecnico.pdf", _build_peritaje),
+            ("caratula_poliza.pdf", _build_caratula_poliza),
+        ],
+    },
+    "SIN-DEMO-020": {
+        "extra": {
+            "cedula": "0103456789",
+            "estado_civil": "Casada",
+            "cedula_expedicion": "12/08/2019",
+            "vehiculo_color": "Plata metalizado",
+            "tipo_evento_policial": "Robo de accesorios de vehículo",
+            "narrativa_policial": (
+                "La asegurada denuncia el robo de accesorios de su Volkswagen Tiguan "
+                "placas AZU-8814, ocurrido el 05/05/2026 entre las 21:00 y las 23:00 "
+                "en parqueadero público, calle Sangurima sector El Vergel, Cuenca. "
+                "Se sustrajo la pantalla multimedia y parlantes. La denuncia fue "
+                "presentada el 11/05/2026 — 6 días de demora (RF-06 activo)."
+            ),
+            "deducible": "10% del valor asegurado",
+            "nota_caratula": (
+                "Póliza vigente desde 20/01/2026. Cobertura: Robo Parcial. "
+                "RF-01 NO aplica (cobertura no es PTxRB). RF-06 activo (demora 6 días). "
+                "FS-08 activo (1 doc pendiente). Nivel AMARILLO por RF-06."
+            ),
+            "obs_denuncia": (
+                "La denuncia fue presentada 6 días después de la ocurrencia. "
+                "Plazo máximo en póliza para robo parcial: 4 días. "
+                "RF-06 activo — piso AMARILLO garantizado."
+            ),
+            "fecha_peritaje": "12/05/2026",
+            "valor_peritaje": 9700.00,
+            "conclusion_peritaje": (
+                "Daños confirmados en sistema multimedia y carrocería lateral derecha "
+                "por rotura de vidrio. Accesorios sustraídos no recuperados."
+            ),
+            "obs_peritaje": (
+                "Robo de accesorios confirmado. RF-06 por demora en denuncia (6 días). "
+                "RF-01 no aplica — cobertura es Robo Parcial, no PTxRB. "
+                "FS-08 activo por certificado multimedia pendiente."
+            ),
+            "proveedor_ruc": "0102345670001",
+        },
+        "docs": [
+            ("cedula_identidad.pdf", _build_cedula),
+            ("matricula_vehiculo.pdf", _build_matricula),
+            ("denuncia_fiscal.pdf", _build_denuncia),
+            ("acta_policial.pdf", _build_acta),
+            ("peritaje_tecnico.pdf", _build_peritaje),
+            ("caratula_poliza.pdf", _build_caratula_poliza),
+        ],
+    },
 }
 
 
@@ -532,6 +671,9 @@ def _load_claim(claim_id: str) -> dict:
         "SIN-DEMO-007": "caso_07_falsificacion_docs",
         "SIN-DEMO-009": "caso_09_dinamica_imposible",
         "SIN-DEMO-012": "caso_12_robo_multi_senal",
+        "SIN-DEMO-015": "caso_15_robo_total_critico",
+        "SIN-DEMO-018": "caso_18_robo_total_fin_poliza",
+        "SIN-DEMO-020": "caso_20_robo_parcial_amarillo",
     }
     stem = stem_map[claim_id]
     path = JSON_DIR / f"{stem}.json"

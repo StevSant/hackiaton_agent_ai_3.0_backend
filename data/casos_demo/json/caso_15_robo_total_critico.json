@@ -1,0 +1,36 @@
+{
+  "id": "SIN-DEMO-015",
+  "ramo": "Vehículos",
+  "cobertura": "Pérdida Total por Robo",
+  "asegurado": "Diego Fernando Naranjo Espinoza",
+  "asegurado_id": "ASG-D0015",
+  "poliza": "PV-DEMO-0015",
+  "ciudad": "Manta",
+  "fecha_ocurrencia": "2026-05-02",
+  "fecha_reporte": "2026-05-08",
+  "fecha_inicio_poliza": "2026-04-24",
+  "fecha_fin_poliza": "2027-04-24",
+  "monto_reclamado": 29120.0,
+  "suma_asegurada": 30000.0,
+  "estado": "Reserva",
+  "sucursal": "Manta",
+  "vehiculo": {
+    "marca": "Nissan",
+    "modelo": "Frontier",
+    "anio": 2022,
+    "placa": "MNT-7756",
+    "chasis": "3N6AD33A0NK851204"
+  },
+  "proveedor": null,
+  "descripcion": "El asegurado Diego Fernando Naranjo Espinoza reporta el robo de su Nissan Frontier 2022, placas MNT-7756, sucedido el sábado 2 de mayo de 2026 alrededor de las 22:00 horas en el sector del Puerto de Manta, calle 103, mientras el vehículo se encontraba estacionado en la vía pública frente a un local comercial donde el asegurado asistía a una reunión de trabajo. Al regresar al lugar a las 23:30 constató la desaparición del vehículo. La denuncia ante Fiscalía fue presentada el 8 de mayo, es decir, seis días después del hecho, superando el plazo de cuatro días establecido en la póliza para cobertura de robo total (RF-06). La póliza fue contratada el 24 de abril de 2026, apenas ocho días antes del siniestro, activando la señal de borde de vigencia FS-01 en nivel crítico (+8 puntos, ocurrencia ≤10 días). El monto reclamado de USD 29 120 representa el 97,1% de la suma asegurada, disparando la señal FS-14. Además, dos documentos del expediente aún no han sido entregados: el certificado de baja vehicular solicitado a la ANT y el informe de rastreo GPS del proveedor de servicios contratado por el asegurado. La cobertura de Pérdida Total por Robo activa automáticamente la señal crítica RF-01 con clasificación ROJO.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Denuncia fiscal", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado de baja ANT", "estado": "Pendiente", "falta": true},
+    {"tipo": "Informe de rastreo GPS", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "rojo"
+}
