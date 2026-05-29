@@ -1,0 +1,25 @@
+{
+  "purpose": "Fixtures OCR — copias rasterizadas de documentos sintéticos Centinela",
+  "generated_at": "2026-05-29",
+  "dpi": 200,
+  "documents": [
+    {
+      "filename": "denuncia_policial_robo_001_escaneado.pdf",
+      "source_pdf": "data/casos_demo/pdf/denuncia_policial_robo_001.pdf",
+      "expected_claim_id": "SIN-DEMO-001",
+      "pairs_with": "data/casos_demo/json/caso_01_robo_total_PTxRB.json",
+      "import_note": "Robo PTxRB — dispara RF-01/RF-06; importar antes que caso_06 para FS-13.",
+      "mime_type": "application/pdf",
+      "ocr_trigger": "pdfplumber extrae <100 caracteres; usar con OCR_PROVIDER=mistral"
+    },
+    {
+      "filename": "02_denuncia_fiscal_SIN-2026-08412_escaneado.pdf",
+      "source_pdf": "data/sample_documents/SIN-2026-08412/02_denuncia_fiscal.pdf",
+      "expected_claim_id": "SIN-2026-08412",
+      "pairs_with": "data/samples/claims.sin-2026-08412.csv",
+      "import_note": "Caso rojo del pitch — María Salazar, Toyota Fortuner, denuncia tardía.",
+      "mime_type": "application/pdf",
+      "ocr_trigger": "pdfplumber extrae <100 caracteres; usar con OCR_PROVIDER=mistral"
+    }
+  ]
+}

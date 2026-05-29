@@ -70,6 +70,30 @@ change.
 
 ---
 
+## `casos_demo/ocr/` — OCR test fixtures (image-only PDFs)
+
+Rasterized copies of the project's own synthetic denuncias. Same claim IDs
+and field values as `casos_demo/json/` and `sample_documents/`, but **no
+text layer** so `parse_pdf` routes through Mistral OCR instead of pdfplumber.
+
+Built by:
+
+```bash
+uv run python scripts/generate_unstructured_samples.py
+uv run python scripts/generate_sample_claim_pdfs.py
+uv run --with pymupdf --with img2pdf python scripts/generate_ocr_test_samples.py
+```
+
+| File | Expected `id` after import | Pairs with |
+|------|---------------------------|------------|
+| `denuncia_policial_robo_001_escaneado.pdf` | `SIN-DEMO-001` | `casos_demo/json/caso_01_robo_total_PTxRB.json` |
+| `02_denuncia_fiscal_SIN-2026-08412_escaneado.pdf` | `SIN-2026-08412` | `samples/claims.sin-2026-08412.csv` |
+
+Manifest: `casos_demo/ocr/manifest.json`. Use **one** of the two files for a
+quick OCR smoke test; use both to cover import + reglas RF del pitch.
+
+---
+
 ## `config/` — reference / lookup data, hand-edited
 
 JSON reference data the runtime *or* the synthetic generator needs but

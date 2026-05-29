@@ -2,7 +2,7 @@
 
 Every field is derived from the live database:
 - ``anomalies``: top-2 highest-scoring rojo claims, surfaced as critical/potential.
-- ``regional_fraud``: rojo + amarillo counts grouped by ``sucursal`` (top 5).
+- ``regional_fraud``: rojo + amarillo counts grouped by city (all cities, sorted).
 - ``claim_type_slices``: percentage distribution by canonical ramo (see
   ``app.domain.ramos``); display labels come from ``data/config/ramo_labels.json``.
 - ``total_claims_label``: real claim count, formatted as "12,4k" past 1000.
@@ -86,7 +86,7 @@ def _aggregate_regional_by_city(
     counts: dict[str, int] = defaultdict(int)
     for sucursal, count in rows:
         counts[_city_label(sucursal)] += int(count)
-    top = sorted(counts.items(), key=lambda item: -item[1])[:5]
+    top = sorted(counts.items(), key=lambda item: -item[1])
     return [RegionalFraudPointOut(region=city, value=count) for city, count in top]
 
 
