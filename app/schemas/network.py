@@ -40,11 +40,34 @@ class NetworkEdge(BaseModel):
     monto: float
 
 
+class NetworkClaim(BaseModel):
+    """A claim (siniestro) that links a provider to an insured.
+
+    Surfaced so the frontend can render case-centric relationship views
+    (provider↔caso, asegurado↔caso, and the tripartite provider—caso—insured
+    chain) without a second round-trip. Only claims belonging to a surfaced
+    suspicious provider↔insured pair are included, capped for readability.
+    """
+
+    id: str
+    label: str
+    proveedor_id: str | None = None
+    asegurado_id: str
+    ramo: str  # normalized ramo key
+    ciudad: str
+    monto: float
+    score: int
+    tier: str  # "verde" | "amarillo" | "rojo"
+    alerta: bool  # tier in {amarillo, rojo}
+
+
 class NetworkRelations(BaseModel):
-    """Bipartite relationship graph: provider + insured nodes joined by claims."""
+    """Relationship graph: provider + insured nodes joined by claims, plus the
+    claims themselves so the UI can pivot between provider, insured and case views."""
 
     nodes: list[NetworkNode] = []
     edges: list[NetworkEdge] = []
+    casos: list[NetworkClaim] = []
 
 
 class ProviderOut(BaseModel):

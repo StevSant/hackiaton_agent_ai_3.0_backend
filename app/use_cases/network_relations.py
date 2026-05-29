@@ -12,7 +12,7 @@ one per node.
 
 from __future__ import annotations
 
-from sqlalchemy import case, func, select
+from sqlalchemy import case, func, select, tuple_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.ramos import normalize_ramo
@@ -20,13 +20,22 @@ from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
-from app.schemas.network import NetworkEdge, NetworkNode, NetworkRelations
+from app.schemas.network import (
+    NetworkClaim,
+    NetworkEdge,
+    NetworkNode,
+    NetworkRelations,
+)
 
 _RESTRICTIVE_THRESHOLD = 0.5
 
 # Cap on edges so the graph stays readable. Edges are pre-sorted by alert
 # weight, so the cap keeps the most suspicious links.
 _DEFAULT_EDGE_LIMIT = 60
+
+# Cap on claim (caso) nodes surfaced for the case-centric views. Ordered by tier
+# then amount so the most suspicious claims survive the cut.
+_DEFAULT_CASO_LIMIT = 200
 
 
 def _edge_weight(casos: int, alertas: int) -> tuple[int, int]:
@@ -86,7 +95,67 @@ async def network_relations(
     if aseg_ids:
         nodes.extend(await _insured_nodes(session, aseg_ids, edges))
 
-    return NetworkRelations(nodes=nodes, edges=edges)
+    pairs = [(r.prov_id, r.aseg_id) for r in selected if r.prov_id is not None]
+    casos = await _claim_nodes(session, pairs)
+
+    return NetworkRelations(nodes=nodes, edges=edges, casos=casos)
+
+
+async def _claim_nodes(
+    session: AsyncSession,
+    pairs: list[tuple[str, str]],
+    *,
+    limit: int = _DEFAULT_CASO_LIMIT,
+) -> list[NetworkClaim]:
+    """The individual claims behind the surfaced provider↔insured pairs.
+
+    Each claim links exactly one provider (`beneficiario`) to one insured
+    (`id_asegurado`), so it becomes a bridge node in the case-centric views.
+    """
+    if not pairs:
+        return []
+
+    tier_rank = case(
+        (ClaimScore.tier == "rojo", 2),
+        (ClaimScore.tier == "amarillo", 1),
+        else_=0,
+    )
+    stmt = (
+        select(
+            Siniestro.id_siniestro.label("id"),
+            Siniestro.beneficiario.label("prov_id"),
+            Siniestro.id_asegurado.label("aseg_id"),
+            Siniestro.ramo.label("ramo"),
+            Siniestro.sucursal.label("ciudad"),
+            Siniestro.monto_reclamado.label("monto"),
+            ClaimScore.score.label("score"),
+            ClaimScore.tier.label("tier"),
+        )
+        .select_from(Siniestro)
+        .outerjoin(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
+        .where(tuple_(Siniestro.beneficiario, Siniestro.id_asegurado).in_(pairs))
+        .order_by(tier_rank.desc(), Siniestro.monto_reclamado.desc())
+        .limit(limit)
+    )
+    rows = (await session.execute(stmt)).all()
+    casos: list[NetworkClaim] = []
+    for r in rows:
+        tier = r.tier or "verde"
+        casos.append(
+            NetworkClaim(
+                id=r.id,
+                label=r.id,
+                proveedor_id=r.prov_id,
+                asegurado_id=r.aseg_id,
+                ramo=normalize_ramo(r.ramo),
+                ciudad=r.ciudad,
+                monto=float(r.monto or 0.0),
+                score=int(r.score or 0),
+                tier=tier,
+                alerta=tier in ("amarillo", "rojo"),
+            )
+        )
+    return casos
 
 
 async def _provider_nodes(
