@@ -1,0 +1,28 @@
+{
+  "id": "SIN-DEMO-031",
+  "ramo": "Hogar",
+  "cobertura": "Daños por Agua",
+  "asegurado": "Andrea Paulina Espinoza Cobo",
+  "asegurado_id": "ASG-D0031",
+  "poliza": "PH-DEMO-0031",
+  "ciudad": "Quito",
+  "fecha_ocurrencia": "2026-03-05",
+  "fecha_reporte": "2026-03-06",
+  "fecha_inicio_poliza": "2024-07-01",
+  "fecha_fin_poliza": "2026-07-01",
+  "monto_reclamado": 900.0,
+  "suma_asegurada": 35000.0,
+  "estado": "Liquidado",
+  "sucursal": "Quito Norte",
+  "proveedor": "Constructora Reparahogar Cía. Ltda.",
+  "descripcion": "La asegurada Andrea Paulina Espinoza Cobo reporta daños por agua en su vivienda de Quito a causa de la rotura de una tubería del baño el 5 de marzo de 2026, que afectó el cielo raso y el piso flotante de un dormitorio. El reclamo por USD 900 es mínimo frente a la suma asegurada de USD 35 000. La póliza tiene más de año y medio de vigencia, el reporte se presentó al día siguiente y se adjuntaron las facturas de reparación y el informe de daños completo. Caso de referencia limpio sin señales de alerta.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe pericial de daños", "estado": "Entregado", "falta": false},
+    {"tipo": "Factura de reparación", "estado": "Entregado", "falta": false},
+    {"tipo": "Inventario de bienes afectados", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

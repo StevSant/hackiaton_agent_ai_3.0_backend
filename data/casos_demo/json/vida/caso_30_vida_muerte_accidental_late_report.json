@@ -1,0 +1,30 @@
+{
+  "id": "SIN-DEMO-030",
+  "ramo": "Vida",
+  "cobertura": "Muerte Accidental",
+  "asegurado": "Fausto Ramiro Naranjo Vega",
+  "asegurado_id": "ASG-D0030",
+  "poliza": "PV-DEMO-0030",
+  "ciudad": "Santo Domingo",
+  "fecha_ocurrencia": "2026-03-30",
+  "fecha_reporte": "2026-04-11",
+  "fecha_inicio_poliza": "2022-02-01",
+  "fecha_fin_poliza": "2032-02-01",
+  "monto_reclamado": 55000.0,
+  "suma_asegurada": 70000.0,
+  "estado": "Reserva",
+  "sucursal": "Santo Domingo",
+  "proveedor": "Funeraria Jardines del Edén",
+  "beneficiario": "Carmen Rocío Naranjo Vega",
+  "descripcion": "Se reporta la muerte accidental del asegurado Fausto Ramiro Naranjo Vega, ocurrida el 30 de marzo de 2026 en un accidente en la vía Santo Domingo–Quevedo. El reclamo se presentó 12 días después del fallecimiento, lo que activa FS-12 por reporte tardío (más de 7 días). El monto reclamado de USD 55 000 está cómodamente por debajo de la suma asegurada de USD 70 000, sin FS-14. La póliza es antigua (vigente desde febrero de 2022) y el beneficiario es la cónyuge. Toda la documentación fue entregada. Caso de reporte tardío atribuible al duelo familiar: la demora es la única señal y el caso permanece en verde.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado de defunción", "estado": "Entregado", "falta": false},
+    {"tipo": "Partida de defunción", "estado": "Entregado", "falta": false},
+    {"tipo": "Designación de beneficiario", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe forense", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

@@ -19,7 +19,7 @@ Sistema de **detección de posibles fraudes en siniestros** (reto Aseguradora de
             │                              │                        │
 ┌───────────┴──────────────────────────────┴────────────────────────┴────────┐
 │                           API FastAPI (api/v1/*)                            │
-│  auth · claims · agent · imports · documents · insights · audit · reviews  │
+│  auth · claims · agent · panel · imports · documents · reviews · insights  │
 └────────────────────────────────────────────────────────────────────────────┘
             │
             ▼
@@ -52,6 +52,12 @@ Sistema de **detección de posibles fraudes en siniestros** (reto Aseguradora de
                        │  externa de runtime) │
                        └──────────────────────┘
 ```
+
+**Routers expuestos en `app/api/v1/`** (la caja muestra sólo los principales):
+`auth` · `claims` · `agent` (ask SSE + transcribe + tts) · `panel` (panel multiagente SSE) ·
+`imports` · `documents` · `reviews` (workflow antifraude) · `insights` · `audit` ·
+`conversations` (historial del agente) · `asegurados` · `network` (proveedores) ·
+`rules` (catálogo + config + cambios) · `reports` · `status` (`/status/ai`) · `health`.
 
 ---
 
@@ -144,6 +150,33 @@ POST /api/v1/agent/ask  ──▶ ask_agent use case
 - El agente nunca consulta la BD directamente — todas las herramientas internamente llaman use cases del backend.
 - Cada respuesta del agente cita IDs de siniestros y códigos de reglas activadas → cumple §22 del reto (trazabilidad como criterio de evaluación).
 
+### 3.3-bis Panel multiagente de análisis (capa de IA adicional)
+
+```
+POST /api/v1/claims/{id}/panel  ──▶ analyze_panel use case
+                                       │
+                                       ▼
+                          agents/fraud_panel — 4 especialistas
+                            ├─ Analista de Reglas     (reglas + tier)
+                            ├─ Analista de ML/Anomalía (ml_probability + SHAP + anomaly)
+                            ├─ Analista de Narrativa   (descripción + similitud)
+                            └─ Analista de Docs/Red    (documentos + proveedor)
+                                       │
+                          R1: cada especialista emite veredicto estructurado
+                          R2: cada uno reacciona a los veredictos de los demás
+                          Moderador: sintetiza → consenso
+                                       ▼
+                       text/event-stream (PanelStreamEvent):
+                         token · verdict · rebuttal · consensus · error · done
+                                       ▼
+                       persistido en claim_scores.panel_analysis (JSONB)
+```
+
+- Es una **capa de IA complementaria y advisory**: nunca modifica el `score` de reglas — sólo enriquece la explicación (cubre el 40% "Uso de IA" del reto: ML + NLP + agentes que debaten en lenguaje natural).
+- Cada especialista analiza una **rebanada de datos enfocada** (`slice_fn` en `agents/fraud_panel/roster.py`), evita que un solo prompt vea todo el caso y reduce alucinación.
+- El resultado se cachea en `claim_scores.panel_analysis` (migración 0016) para auditoría y para no re-ejecutar el panel en cada apertura.
+- Visualizado en el frontend en `/fraud-panel` (debate en vivo) y embebido en el detalle del siniestro.
+
 ### 3.4 Workflow de revisión (CU-03 / CU-04)
 
 ```
@@ -153,14 +186,21 @@ analista visualiza /claims (triage)
 abre /claims/{id} (CU-04 — explicación)
    │
    ▼
-opciones según rol:
-   ├─ analista → POST /claims/{id}/escalate     (pending → escalated)
-   └─ antifraude → POST /claims/{id}/resolve    (escalated → resolved)
-                 → PATCH /claims/{id} (debug, gated DEBUG_ENABLED)
+máquina de 5 estados (`ReviewStatus`):
+   pendiente → escalado → en_revision → dictaminado
+                              (alternativa: revisado_sin_escalar)
+
+   ├─ analista   → POST /claims/{id}/escalate   (pendiente → escalado)
+   │             → POST /claims/{id}/close       (revisado sin escalar)
+   ├─ antifraude → POST /claims/{id}/take         (escalado → en_revision)
+   │             → POST /claims/{id}/dictamen     (en_revision → dictaminado)
+   │                outcome ∈ {confirmado_sospecha, descartado, requiere_mas_info}
+   └─ debug      → PATCH /claims/{id}             (gated DEBUG_ENABLED)
 ```
 
 - RBAC con dos roles (`analista`, `antifraude`) gateado por `require_role()` en el router. Detalle en backend CLAUDE.md §6b.
-- Cada transición de estado se persiste en `claim_reviews` (tabla aparte) — la UI puede mostrar el historial.
+- Los siniestros 🔴 se auto-escalan en la ingesta (`auto_escalate_rojo`); **abrir** un siniestro no tiene efectos secundarios (no escala solo).
+- Cada transición se persiste en `claim_reviews` con actor + timestamp + nota — la UI muestra la línea de tiempo. Cola del antifraude en `GET /antifraude/inbox`, histórico en `GET /antifraude/historico`.
 
 ### 3.5 Reporte ejecutivo (CU-06)
 
@@ -182,7 +222,8 @@ Se renderiza en la página `/insights` (executive dashboard) + exportable a CSV.
 | HTTP | FastAPI | Async, OpenAPI auto, validación pydantic |
 | Orquestación de agentes | LangGraph | Grafos explícitos, streaming nativo |
 | LLM | OpenAI `gpt-4o-mini` (via port) | Costo bajo, latencia aceptable para 12 NL questions |
-| Embeddings | sentence-transformers (`paraphrase-multilingual-MiniLM-L12-v2`, 384-dim) | Soporta español |
+| Embeddings | OpenAI `text-embedding-3-small` (384-dim) por defecto; `sentence-transformers` (`paraphrase-multilingual-MiniLM-L12-v2`) como alternativa local vía port | Calidad multilingüe sin GPU local |
+| Voz | OpenAI Whisper (`whisper-1`) entrada · TTS (`gpt-4o-mini-tts`) salida | Chat por voz bidireccional con el agente |
 | BD relacional + vectorial | PostgreSQL + pgvector (HNSW) | Un solo datastore — joins relacional+vectorial en un SQL |
 | ORM + migraciones | SQLAlchemy 2.0 async + asyncpg + Alembic | Async end-to-end |
 | ML supervisado | LightGBM + SHAP | Rápido, explicable (top-3 factores) |
@@ -233,13 +274,15 @@ Cada FS / RF es **producto**, no implementación: el reto las califica una por u
 Componentes deliberadamente fuera de scope para esta entrega:
 
 - Supabase Auth (usamos JWT local).
-- File-upload + RAG ingestion pipeline.
+- Pipeline de ingesta RAG (la **subida de archivos / documentos sí está implementada** — `infrastructure/storage/`, `use_cases/import_claims/`, `upload_claim_document*`; lo deferred es el RAG sobre esos documentos).
 - Long-term memory del agente.
 - Router agent multi-task.
 - Detección de drift en runtime.
 - Pipeline de reentrenamiento automatizado.
 
-Los `Protocol` correspondientes (`LLMProvider`, `EmbeddingsProvider`, `NarrativeSimilarity`, `FraudClassifier`, `AnomalyDetector`, `AuthVerifier`) están definidos para permitir extensión post-hackathon sin reescritura.
+> **Aterrizó durante el hackathon y ahora es first-class** (originalmente deferred): subida de documentos + import de siniestros, transcripción de voz Whisper + TTS, historial de conversaciones, gráficas ECharts generadas por el agente, y el **panel multiagente de análisis** (§3.3-bis).
+
+Los `Protocol` correspondientes (`LLMProvider`, `EmbeddingsProvider`, `NarrativeSimilarity`, `FraudClassifier`, `AnomalyDetector`, `AuthVerifier`, `SpeechTranscriber`) están definidos para permitir extensión post-hackathon sin reescritura.
 
 ---
 

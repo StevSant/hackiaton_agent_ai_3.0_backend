@@ -1,0 +1,30 @@
+{
+  "id": "SIN-DEMO-027",
+  "ramo": "Vida",
+  "cobertura": "Muerte Accidental",
+  "asegurado": "Hernán Patricio Aguirre Solís",
+  "asegurado_id": "ASG-D0027",
+  "poliza": "PV-DEMO-0027",
+  "ciudad": "Guayaquil",
+  "fecha_ocurrencia": "2026-04-05",
+  "fecha_reporte": "2026-04-08",
+  "fecha_inicio_poliza": "2025-12-01",
+  "fecha_fin_poliza": "2035-12-01",
+  "monto_reclamado": 80000.0,
+  "suma_asegurada": 80000.0,
+  "estado": "Reserva",
+  "sucursal": "Guayaquil Centro",
+  "proveedor": "Funeraria Monte Olivo",
+  "beneficiario": "Inversiones Delta Capital S.A.",
+  "descripcion": "Se reporta la muerte accidental del asegurado Hernán Patricio Aguirre Solís, ocurrida el 5 de abril de 2026 en Guayaquil. El beneficiario designado no es un familiar directo sino una persona jurídica, 'Inversiones Delta Capital S.A.', que figura en la lista restrictiva interna de monitoreo antilavado. Esta coincidencia, al ser confirmada por la consulta a lista restrictiva, activa la regla dura RF-03 (coincidencia con lista restrictiva) y eleva el caso a rojo. La póliza fue contratada hace apenas cinco meses con una suma asegurada elevada de USD 80 000 y beneficiario corporativo. Caso demo de beneficiario en lista de alerta — requiere revisión de la unidad antifraude por riesgo de lavado de activos.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado de defunción", "estado": "Entregado", "falta": false},
+    {"tipo": "Partida de defunción", "estado": "Entregado", "falta": false},
+    {"tipo": "Designación de beneficiario", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe forense", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "rojo"
+}

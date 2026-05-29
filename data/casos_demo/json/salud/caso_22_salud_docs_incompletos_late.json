@@ -1,0 +1,28 @@
+{
+  "id": "SIN-DEMO-022",
+  "ramo": "Salud",
+  "cobertura": "Hospitalización",
+  "asegurado": "Marco Antonio Pérez Loor",
+  "asegurado_id": "ASG-D0022",
+  "poliza": "PS-DEMO-0022",
+  "ciudad": "Guayaquil",
+  "fecha_ocurrencia": "2026-04-01",
+  "fecha_reporte": "2026-04-12",
+  "fecha_inicio_poliza": "2025-10-01",
+  "fecha_fin_poliza": "2026-10-01",
+  "monto_reclamado": 3000.0,
+  "suma_asegurada": 50000.0,
+  "estado": "Reserva",
+  "sucursal": "Guayaquil Centro",
+  "proveedor": "Hospital Clínica Kennedy",
+  "descripcion": "El asegurado Marco Antonio Pérez Loor solicita reembolso por una hospitalización de dos días en el Hospital Clínica Kennedy de Guayaquil, a raíz de una neumonía atendida el 1 de abril de 2026. El reclamo, por USD 3 000 frente a una suma asegurada de USD 50 000, se presentó 11 días después del egreso hospitalario, lo que activa la señal FS-12 por reporte tardío. Además, al expediente le faltan la historia clínica completa y la factura detallada del hospital, lo que activa FS-08 por documentación incompleta. La póliza tiene más de seis meses de vigencia, por lo que no hay señal de borde. El caso permanece en verde pero requiere completar documentación antes de liquidar.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Historia clínica", "estado": "Pendiente", "falta": true},
+    {"tipo": "Factura médica", "estado": "Pendiente", "falta": true},
+    {"tipo": "Informe médico", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

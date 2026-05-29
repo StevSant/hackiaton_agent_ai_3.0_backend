@@ -19,7 +19,7 @@ This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the 
 - **uvicorn** — ASGI server.
 - **LightGBM** + **shap** — supervised fraud probability model + per-feature explanation.
 - **scikit-learn** — Isolation Forest for anomaly detection + utility transforms.
-- **sentence-transformers** — narrative embeddings (default model: `paraphrase-multilingual-MiniLM-L12-v2`, Spanish-aware).
+- **Embeddings** — narrative embeddings via the `EmbeddingsProvider` port. **Default: OpenAI `text-embedding-3-small` (384-dim).** Local alternative: **sentence-transformers** `paraphrase-multilingual-MiniLM-L12-v2` (also 384-dim, no API calls), selectable via `EMBEDDINGS_PROVIDER=sentence_transformers`.
 - **pandas** — dataset ingestion + feature engineering inside `use_cases/load_dataset.py`.
 - **PyJWT (`pyjwt[crypto]`) + bcrypt** — local JWT issuance + verification + password hashing for V0 auth. **No** Supabase Auth, **no** OAuth.
 - **openai** — sole LLM provider for the hackathon (model: `gpt-4o-mini`). **Only** imported under `infrastructure/llm/`. The `LLMProvider` port is preserved so a post-hackathon swap to Anthropic or another provider is one adapter file. **No `anthropic` SDK in pyproject.** *(Decision locked 2026-05-26 — was originally "Anthropic primary".)*
@@ -255,7 +255,7 @@ Same shape for `EmbeddingsProvider`, `NarrativeSimilarity` (uses a `VectorStore`
 
 ## 5. LangGraph conventions
 
-- **One graph per use case.** Today: `claims_agent` only. Never a single mega-graph.
+- **One graph per use case.** Today: `claims_agent` (the 12 NL questions) and `fraud_panel` (the 4-specialist analysis panel, `app/agents/fraud_panel/`). Never a single mega-graph.
 - **State is a `TypedDict`** with explicit reducers (`Annotated[..., add_messages]` for message lists). Never a free-form dict.
 - **Nodes are pure-ish functions** `async def node(state: ClaimsAgentState) -> dict`. They return a partial state to merge. **No direct DB / network access** — they call use cases or ports passed in via the graph's compile-time config.
 - **Tools have schemas.** Every tool defines a pydantic input schema and a pydantic output schema. Use LangChain's `@tool` decorator if convenient, or a thin in-house `Tool` interface.
@@ -283,7 +283,7 @@ async def explain_case(
 ## 6. Provider abstraction
 
 - **`LLMProvider`** — `complete()` + `stream()` (§4). **Default: `openai` (gpt-4o-mini).** No Anthropic SDK in the hackathon build. For tests: `InMemoryFakeLLM` (canned fixture-driven). The port is preserved so post-hackathon swap is one file. *(Decision locked 2026-05-26.)*
-- **`EmbeddingsProvider`** — `embed(texts: list[str]) -> list[list[float]]`. Default: sentence-transformers (Spanish-capable model).
+- **`EmbeddingsProvider`** — `embed(texts: list[str]) -> list[list[float]]`. Default: OpenAI `text-embedding-3-small` (384-dim). Local alternative: sentence-transformers (`paraphrase-multilingual-MiniLM-L12-v2`).
 - **`NarrativeSimilarity`** — `nearest(claim_id) -> list[SimilarClaim]`. Default: `PgVectorNarrativeSimilarity`. Fallback: `InMemoryNarrativeSimilarity` (numpy cosine).
 - **`FraudClassifier`** — `predict(features) -> (probability, factors)`. Default: `LightGBMClassifier` (loads a Booster artifact).
 - **`AnomalyDetector`** — `score(features) -> AnomalyScore`. Default: `IsolationForestDetector`.
@@ -533,11 +533,18 @@ class Settings(BaseSettings):
     # llm  (OpenAI-only for the hackathon — locked 2026-05-26)
     LLM_PROVIDER: Literal["openai","fake"] = "openai"
     LLM_DEFAULT_MODEL: str = "gpt-4o-mini"
+    COMPOSE_MODEL: str | None = None        # per-machine override for the compose phase (faster TTFT)
+    MAX_REACT_STEPS: int = 3                 # tool-use iteration cap
+    MAX_CONVERSATION_TURNS: int = 8
     OPENAI_API_KEY: SecretStr | None = None
 
-    # embeddings
-    EMBEDDINGS_PROVIDER: Literal["sentence_transformers"] = "sentence_transformers"
-    EMBEDDINGS_MODEL: str = "paraphrase-multilingual-MiniLM-L12-v2"
+    # voice (OpenAI)
+    WHISPER_MODEL: str = "whisper-1"         # speech-to-text (chat voice input)
+    TTS_MODEL: str = "gpt-4o-mini-tts"       # text-to-speech (agent voice output)
+
+    # embeddings  (OpenAI default; sentence-transformers as local alternative)
+    EMBEDDINGS_PROVIDER: Literal["openai","sentence_transformers"] = "openai"
+    EMBEDDINGS_MODEL: str = "text-embedding-3-small"
     EMBEDDINGS_DIM: int = 384
 
     # vector store

@@ -1,0 +1,28 @@
+{
+  "id": "SIN-DEMO-032",
+  "ramo": "Incendio",
+  "cobertura": "Incendio y Líneas Aliadas",
+  "asegurado": "Galo Sebastián Ordóñez Peña",
+  "asegurado_id": "ASG-D0032",
+  "poliza": "PI-DEMO-0032",
+  "ciudad": "Machala",
+  "fecha_ocurrencia": "2026-05-02",
+  "fecha_reporte": "2026-05-03",
+  "fecha_inicio_poliza": "2026-05-01",
+  "fecha_fin_poliza": "2027-05-01",
+  "monto_reclamado": 18000.0,
+  "suma_asegurada": 80000.0,
+  "estado": "Reserva",
+  "sucursal": "Machala",
+  "proveedor": "Restauraciones Integrales del Oro",
+  "descripcion": "El asegurado Galo Sebastián Ordóñez Peña reporta un incendio en la cocina de su vivienda en Machala el 2 de mayo de 2026, originado por un cortocircuito en el tablero eléctrico, con daños a mobiliario y estructura por USD 18 000 sobre una suma asegurada de USD 80 000. El siniestro ocurre apenas un día después del inicio de vigencia de la póliza de incendio (1 de mayo de 2026), lo que activa la regla dura RF-05 (siniestro dentro de las primeras 48 horas) y la fuerza a un piso amarillo, además de FS-01 por borde de vigencia. Se adjuntó el informe del Cuerpo de Bomberos. Caso de contratación reciente con siniestro inmediato: requiere verificación del origen del fuego.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe del Cuerpo de Bomberos", "estado": "Entregado", "falta": false},
+    {"tipo": "Inventario de bienes afectados", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe pericial de daños", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}

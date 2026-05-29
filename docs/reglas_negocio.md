@@ -121,7 +121,7 @@ Todas las señales producen una `RuleActivation` con `code`, `points`, `tier_hin
 
 ### FS-13 — Narrativas similares · máx **8 pts**
 
-- **Mecanismo:** la capa de similitud narrativa (`infrastructure/vectorstore/pgvector_adapter.py`) busca la narrativa más cercana al `siniestros.descripcion` actual usando embeddings `paraphrase-multilingual-MiniLM-L12-v2` (384 dim) + índice HNSW cosine.
+- **Mecanismo:** la capa de similitud narrativa (`infrastructure/vectorstore/pgvector_adapter.py`) busca la narrativa más cercana al `siniestros.descripcion` actual usando embeddings (por defecto OpenAI `text-embedding-3-small`, 384 dim; alternativa local `paraphrase-multilingual-MiniLM-L12-v2`) + índice HNSW cosine.
 - **Bandas (`config.yaml::FS_13`):**
   - `similitud > 0.85` → **8 pts** (clon)
   - `0.70 – 0.84` → **4 pts** (parecido)

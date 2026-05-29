@@ -21,9 +21,13 @@ from __future__ import annotations
 
 import csv
 import json
+import sys
 from pathlib import Path
 
 import openpyxl
+
+# Progress lines print ✓ — force UTF-8 so it doesn't crash on Windows cp1252.
+sys.stdout.reconfigure(encoding="utf-8")
 
 # ---------------------------------------------------------------------------
 # Column order — matches claims.sample.csv and the _parsers.py docstring.
@@ -89,23 +93,25 @@ def main() -> None:
     csv_dir = repo_root / "data" / "casos_demo" / "csv"
     xlsx_dir = repo_root / "data" / "casos_demo" / "xlsx"
 
-    json_files = sorted(json_dir.glob("caso_*.json"))
+    # Cases are classified by ramo: json/<ramo>/caso_*.json. Recurse and mirror
+    # the <ramo>/ subpath into the csv/ and xlsx/ output trees.
+    json_files = sorted(json_dir.rglob("caso_*.json"))
     if not json_files:
-        print(f"No JSON files found in {json_dir}")
+        print(f"No JSON files found under {json_dir}")
         return
 
     for json_path in json_files:
         data: dict = json.loads(json_path.read_text(encoding="utf-8"))
         row = _json_to_row(data)
-        stem = json_path.stem
+        rel = json_path.relative_to(json_dir).with_suffix("")  # <ramo>/<stem>
 
-        csv_dest = csv_dir / f"{stem}.csv"
-        xlsx_dest = xlsx_dir / f"{stem}.xlsx"
+        csv_dest = csv_dir / f"{rel}.csv"
+        xlsx_dest = xlsx_dir / f"{rel}.xlsx"
 
         _write_csv(csv_dest, row)
         _write_xlsx(xlsx_dest, row)
 
-        print(f"  {stem}: csv ✓  xlsx ✓")
+        print(f"  {rel.as_posix()}: csv ✓  xlsx ✓")
 
     print(f"\nDone. {len(json_files)} cases → {csv_dir}")
     print(f"      {len(json_files)} cases → {xlsx_dir}")

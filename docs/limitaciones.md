@@ -9,7 +9,7 @@ El sistema **nunca** afirma que hubo fraude. Toda salida se enuncia como *"alert
 
 ## 2. Datos: 100% sintéticos
 
-- El dataset que entrena los modelos y alimenta la demo está generado por `app/use_cases/generate_dataset/` a partir de 62 *archetypes* hand-crafted.
+- El dataset que entrena los modelos y alimenta la demo está generado por `app/use_cases/generate_dataset/` a partir de 99 *archetypes* hand-crafted.
 - No hay PII real. No hay datos confidenciales de Aseguradora del Sur.
 - Las distribuciones de monto, fechas, ciudades, etc. son razonables pero **no calibradas con datos de producción**. Las métricas del modelo (AUC, calibración) reflejan ese sesgo: son válidas para validar la mecánica, no para predecir el comportamiento en producción.
 
@@ -52,7 +52,7 @@ Recomendaciones operativas:
 Por enfoque y plazo (deadline 2026-05-29):
 
 - Supabase Auth (usamos JWT local).
-- File-upload + RAG ingestion.
+- Pipeline de ingesta RAG sobre los documentos subidos (la **subida de archivos sí está implementada**; lo deferred es el RAG/retrieval encima de ellos).
 - Long-term memory del agente.
 - Router agent multi-task.
 - Detección de drift en runtime.
@@ -69,7 +69,8 @@ Para que los puntos anteriores no se lean como derrotismo:
 - **SHAP top-3** — cuando el modelo opina, expone *por qué*.
 - **`nearest_normal_claim_id`** — contraste con un caso conocido como normal.
 - **Frase "posible fraude" enforced** — `ruff` flag manual + revisión de PR (§2 backend CLAUDE.md).
-- **Human-in-the-loop por diseño** — el workflow §6 V2.6 obliga a un dictamen humano antes del cierre.
+- **Human-in-the-loop por diseño** — el workflow de 5 estados obliga a un dictamen humano (`confirmado_sospecha` / `descartado` / `requiere_mas_info`) antes del cierre.
+- **Panel multiagente advisory** — 4 especialistas LLM debaten el caso (reglas, ML, narrativa, docs/red) + un moderador; el debate se persiste pero **nunca** altera el `score` ni decide por el analista (ver [`uso_ia.md`](./uso_ia.md) §"Panel multiagente").
 
 ## Historial de conversaciones (agregado 2026-05-27)
 

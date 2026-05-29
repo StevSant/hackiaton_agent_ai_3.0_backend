@@ -1,0 +1,28 @@
+{
+  "id": "SIN-DEMO-036",
+  "ramo": "Hogar",
+  "cobertura": "Daños por Agua",
+  "asegurado": "Mónica Liliana Salazar Ríos",
+  "asegurado_id": "ASG-D0036",
+  "poliza": "PH-DEMO-0036",
+  "ciudad": "Quito",
+  "fecha_ocurrencia": "2026-04-09",
+  "fecha_reporte": "2026-04-10",
+  "fecha_inicio_poliza": "2024-11-05",
+  "fecha_fin_poliza": "2026-11-05",
+  "monto_reclamado": 14300.0,
+  "suma_asegurada": 15000.0,
+  "estado": "Reserva",
+  "sucursal": "Quito Sur",
+  "proveedor": "Restauraciones Integrales del Oro",
+  "descripcion": "La asegurada Mónica Liliana Salazar Ríos reporta daños por filtración de agua en su departamento de Quito el 9 de abril de 2026, con afectación a pisos, muebles y electrodomésticos por USD 14 300 sobre una suma asegurada de USD 15 000 (ratio 0.953, FS-14). El proveedor de reparación designado, 'Restauraciones Integrales del Oro', es el mismo que aparece en el caso de incendio SIN-DEMO-032 y concentra varios reclamos recientes, lo que activa FS-07 por proveedor recurrente cuando la consulta a lista de proveedores observados confirma más de dos casos asociados. La documentación está completa. Caso demo de proveedor que se repite en múltiples siniestros con montos cercanos al tope: requiere revisar el patrón de concentración del proveedor.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe pericial de daños", "estado": "Entregado", "falta": false},
+    {"tipo": "Factura de reparación", "estado": "Entregado", "falta": false},
+    {"tipo": "Inventario de bienes afectados", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

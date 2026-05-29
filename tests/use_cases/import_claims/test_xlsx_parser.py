@@ -94,15 +94,16 @@ def _minimal_data_row() -> list[object]:
 
 
 def test_smoke_generated_xlsx_files() -> None:
-    """All 6 generated demo XLSX files must parse into exactly 1 ClaimDetail each."""
+    """Every generated demo XLSX must parse into exactly 1 ClaimDetail."""
     from pathlib import Path
 
     xlsx_dir = (
         Path(__file__).parent.parent.parent.parent  # repo root
         / "data" / "casos_demo" / "xlsx"
     )
-    xlsx_files = sorted(xlsx_dir.glob("caso_*.xlsx"))
-    assert len(xlsx_files) == 6, f"Expected 6 xlsx files, found {len(xlsx_files)}"
+    # Cases are classified by ramo (xlsx/<ramo>/caso_*.xlsx) — recurse.
+    xlsx_files = sorted(xlsx_dir.rglob("caso_*.xlsx"))
+    assert xlsx_files, f"No demo xlsx files found under {xlsx_dir}"
 
     for xlsx_path in xlsx_files:
         content = xlsx_path.read_bytes()

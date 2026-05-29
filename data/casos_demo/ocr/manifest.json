@@ -4,10 +4,10 @@
   "dpi": 200,
   "documents": [
     {
-      "filename": "denuncia_policial_robo_001_escaneado.pdf",
-      "source_pdf": "data/casos_demo/pdf/denuncia_policial_robo_001.pdf",
+      "filename": "vehiculos/denuncia_policial_robo_001_escaneado.pdf",
+      "source_pdf": "data/casos_demo/pdf/vehiculos/denuncia_policial_robo_001.pdf",
       "expected_claim_id": "SIN-DEMO-001",
-      "pairs_with": "data/casos_demo/json/caso_01_robo_total_PTxRB.json",
+      "pairs_with": "data/casos_demo/json/vehiculos/caso_01_robo_total_PTxRB.json",
       "import_note": "Robo PTxRB — dispara RF-01/RF-06; importar antes que caso_06 para FS-13.",
       "mime_type": "application/pdf",
       "ocr_trigger": "pdfplumber extrae <100 caracteres; usar con OCR_PROVIDER=mistral"

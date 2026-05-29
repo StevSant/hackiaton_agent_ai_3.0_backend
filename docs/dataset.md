@@ -1,47 +1,55 @@
-# Synthetic Dataset — Centinela IA
+# Dataset sintético — Centinela IA
 
-## Origin
+> Deliverable §14.3 — **dataset (sintético o público) con origen y estructura explicados**.
+> Léase junto a [`modelo_datos.md`](./modelo_datos.md) y [`uso_ia.md`](./uso_ia.md).
 
-Fully synthetic; no real PII (challenge §2.10).
-Generated deterministically from `app/use_cases/generate_dataset/_archetypes.py`
-via `scripts/generate_dataset.py` (or `app.use_cases.generate_dataset.generate_and_save`).
+## Origen
 
-## Files (`data/synthetic/`)
+100% sintético; sin PII real (§2.10 del reto).
+Generado de forma **determinística** a partir de `app/use_cases/generate_dataset/_archetypes.py`
+(99 *archetypes* hand-crafted) vía `scripts/generate_dataset.py`
+(o `app.use_cases.generate_dataset.generate_and_save`).
 
-| File | Rows | Description |
+Al ser determinístico, regenerar produce exactamente el mismo dataset — clave para
+reproducir métricas del modelo y comportamiento del demo.
+
+## Archivos (`data/synthetic/`)
+
+| Archivo | Filas | Descripción |
 |------|------|-------------|
-| `claims.json` | 99 | Pre-scored `ClaimDetail` objects served by `SyntheticClaimQueries` |
-| `demo_claims.json` | 99 | Demo snapshot rebuilt via `rescore_all` (genuine engine scores — see note below) |
-| `siniestros.csv` | 99 | §2.8 main table |
-| `polizas.csv` | 99 | One policy per claim (approximation) |
-| `asegurados.csv` | 99 | One insured per claim |
-| `beneficiarios_proveedores.csv` | 54 | Unique providers across claims |
-| `documentos.csv` | 306 | 2-3 documents per claim |
+| `siniestros.csv` | 99 | Tabla principal (§2.8) |
+| `polizas.csv` | 99 | Una póliza por siniestro (aproximación) |
+| `asegurados.csv` | 99 | Un asegurado por siniestro |
+| `beneficiarios_proveedores.csv` | 54 | Proveedores únicos entre los siniestros |
+| `documentos.csv` | 306 | 2-3 documentos por siniestro |
+| `claims.json` | 99 | Objetos `ClaimDetail` pre-scoreados servidos por `SyntheticClaimQueries` |
+| `demo_claims.json` | 99 | Snapshot del demo reconstruido vía `rescore_all` (scores genuinos del motor — ver nota abajo) |
 
-## Tier Distribution
+## Distribución por tier
 
-| Tier | Count | % |
+| Tier | Conteo | % |
 |------|-------|---|
 | verde (0–40) | 50 | 50.5 % |
 | amarillo (41–75) | 17 | 17.2 % |
-| rojo (76–100 or hard rule) | 32 | 32.3 % |
+| rojo (76–100 o regla dura) | 32 | 32.3 % |
 
-## Signal Coverage
+## Cobertura de señales
 
-All 21 fraud signals (FS-01..FS-14, RF-01..RF-07) fire in ≥ 3 exemplars each.
-Re-run `scripts/generate_dataset.py` to see the per-signal counts.
+Las 21 señales de fraude (FS-01..FS-14, RF-01..RF-07) disparan en ≥ 3 ejemplares cada una.
+Re-ejecuta `scripts/generate_dataset.py` para ver los conteos por señal.
 
-## Pre-scoring strategy
+## Estrategia de scoring
 
-Each claim is scored at generation time with a fully-populated `RuleContext`
-(all signal flags set explicitly per archetype).  The resulting `score`/`nivel`/
-`alertas` are baked into `claims.json`.  `get_claim_detail` skips re-scoring
-when `alertas` is non-empty (double-scoring guard) to preserve these rich scores.
-The live-scoring path remains active for future un-scored DB claims.
+Los scores del dataset son **salida genuina del motor de reglas** (`score_claim`), nunca
+fabricados. Cada siniestro se scorea con un `RuleContext` completamente poblado (todos los
+flags de señal seteados explícitamente por archetype). El `score` / `tier` / `activations`
+resultantes se hornean en `claims.json`; `demo_claims.json` se reconstruye con `rescore_all`
+para garantizar que coincide con la lógica actual del motor. La ruta de scoring en vivo
+permanece activa para siniestros nuevos sin scorear (p.ej. importados desde la UI).
 
-## Identifiers
+## Identificadores
 
-All identifiers are deterministic hashes (SHA-1 prefix, uppercased).
-No real names, plates, chassis numbers, or policy identifiers.
-`etiqueta_fraude_simulada` in `siniestros.csv` is 1 for rojo claims, 0 otherwise
-(for ML training — training/eval only, never shown in the UI).
+Todos los identificadores son hashes determinísticos (prefijo SHA-1, en mayúsculas).
+Sin nombres, placas, chasis ni identificadores de póliza reales.
+`etiqueta_fraude_simulada` en `siniestros.csv` es 1 para siniestros rojo, 0 en el resto
+(para entrenamiento ML — sólo entrenamiento/evaluación, nunca se muestra en la UI).

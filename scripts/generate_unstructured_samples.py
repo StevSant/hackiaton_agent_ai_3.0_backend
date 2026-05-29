@@ -18,14 +18,19 @@ Outputs:
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
+
+# Progress output uses non-ASCII — force UTF-8 so it doesn't crash on Windows cp1252.
+sys.stdout.reconfigure(encoding="utf-8")
 
 # ---------------------------------------------------------------------------
 # Report file constants
 # ---------------------------------------------------------------------------
 BASE = Path(__file__).parent.parent / "data" / "casos_demo"
-PDF_DIR = BASE / "pdf"
-DOCX_DIR = BASE / "docx"
+# These unstructured fixtures are all vehiculos cases (classified by ramo).
+PDF_DIR = BASE / "pdf" / "vehiculos"
+DOCX_DIR = BASE / "docx" / "vehiculos"
 PDF_DIR.mkdir(parents=True, exist_ok=True)
 DOCX_DIR.mkdir(parents=True, exist_ok=True)
 

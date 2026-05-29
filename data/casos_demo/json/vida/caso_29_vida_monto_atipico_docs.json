@@ -1,0 +1,29 @@
+{
+  "id": "SIN-DEMO-029",
+  "ramo": "Vida",
+  "cobertura": "Muerte Natural",
+  "asegurado": "Beatriz Carolina Zambrano Mero",
+  "asegurado_id": "ASG-D0029",
+  "poliza": "PV-DEMO-0029",
+  "ciudad": "Portoviejo",
+  "fecha_ocurrencia": "2026-03-22",
+  "fecha_reporte": "2026-03-25",
+  "fecha_inicio_poliza": "2023-08-10",
+  "fecha_fin_poliza": "2033-08-10",
+  "monto_reclamado": 49500.0,
+  "suma_asegurada": 50000.0,
+  "estado": "Reserva",
+  "sucursal": "Portoviejo",
+  "proveedor": "Funeraria Manabí",
+  "beneficiario": "Luis Alberto Zambrano Mero",
+  "descripcion": "Se reporta el fallecimiento por causas naturales de la asegurada Beatriz Carolina Zambrano Mero, ocurrido el 22 de marzo de 2026 en Portoviejo. El reclamo por USD 49 500 representa el 99% de la suma asegurada de USD 50 000, lo que activa FS-14 por monto cercano al límite. Al expediente le falta la partida de defunción emitida por el Registro Civil (FS-08 por documentación incompleta). La póliza es antigua (vigente desde agosto de 2023) y el beneficiario es un familiar directo. Caso de monto cercano al tope con documentación pendiente: completar la partida antes de liquidar.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado de defunción", "estado": "Entregado", "falta": false},
+    {"tipo": "Partida de defunción", "estado": "Pendiente", "falta": true},
+    {"tipo": "Designación de beneficiario", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

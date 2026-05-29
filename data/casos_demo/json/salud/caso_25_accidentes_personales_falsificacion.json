@@ -1,0 +1,28 @@
+{
+  "id": "SIN-DEMO-025",
+  "ramo": "Accidentes Personales",
+  "cobertura": "Renta Diaria por Incapacidad",
+  "asegurado": "Diego Armando Cedeño Bravo",
+  "asegurado_id": "ASG-D0025",
+  "poliza": "PA-DEMO-0025",
+  "ciudad": "Manta",
+  "fecha_ocurrencia": "2026-04-20",
+  "fecha_reporte": "2026-04-23",
+  "fecha_inicio_poliza": "2025-11-15",
+  "fecha_fin_poliza": "2026-11-15",
+  "monto_reclamado": 6000.0,
+  "suma_asegurada": 30000.0,
+  "estado": "Reserva",
+  "sucursal": "Manta",
+  "proveedor": "Centro de Rehabilitación Física Manta",
+  "descripcion": "El asegurado Diego Armando Cedeño Bravo reclama una renta diaria por incapacidad temporal derivada de un accidente laboral ocurrido el 20 de abril de 2026 en Manta. El expediente incluye un certificado de incapacidad cuya fecha de emisión (17 de abril de 2026) es ANTERIOR a la fecha del accidente declarado (20 de abril de 2026), una inconsistencia documental visible que sugiere posible alteración. Esta evidencia, al ser confirmada por la unidad de revisión documental, activa la regla dura RF-02 (falsificación evidente de documentos) y eleva el caso a rojo. Falta además la historia clínica del centro de rehabilitación (FS-08). Caso demo para el flujo 'requiere revisión' por inconsistencia de fechas.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado de incapacidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte de accidente laboral", "estado": "Entregado", "falta": false},
+    {"tipo": "Historia clínica", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "rojo"
+}

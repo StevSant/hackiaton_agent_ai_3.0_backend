@@ -87,6 +87,8 @@ ORM: [`app/infrastructure/db/models/siniestro.py`](../app/infrastructure/db/mode
 | `anio` | `int` | SI | ″ (el spec usa `año`; los identificadores Python no admiten `ñ`). |
 | `latitude` | `float` | SI | Coordenada WGS84 derivada de la ciudad de la sucursal + jitter determinista (mapa de insights). |
 | `longitude` | `float` | SI | ″ |
+| `resumen_editado` | `text` | SI | Resumen del siniestro editado manualmente por el analista (migración 0014). |
+| `signals` | `jsonb` | NO (default `{}`) | Hechos de señales pre-computados que alimentan el `RuleContext` (migración 0013). |
 | `workspace_id` | `uuid` | SI | Multi-tenant (no usado en demo). |
 
 **Índices:** `(id_poliza)`, `(id_asegurado)`, `(workspace_id)`.
@@ -175,9 +177,11 @@ ORM: [`documento.py`](../app/infrastructure/db/models/documento.py).
 | `fecha_emision` | `date` | SI | Fecha del documento (cruzada contra `fecha_ocurrencia` para FS-11). |
 | `inconsistencia_detectada` | `bool` | NO | Marcado por revisión / OCR. Alimenta FS-11 y RF-02. |
 | `observacion` | `text` | SI | Notas adicionales. |
-| `storage_path` | `varchar(512)` | SI | Ruta en almacenamiento (post-hackathon — file-upload deferred). |
-| `filename` | `varchar(255)` | SI | ″ |
-| `content_type` | `varchar(120)` | SI | ″ |
+| `storage_path` | `varchar(512)` | SI | Ruta en almacenamiento del archivo subido (`infrastructure/storage/`). |
+| `filename` | `varchar(255)` | SI | Nombre original del archivo subido. |
+| `content_type` | `varchar(120)` | SI | MIME type del archivo subido. |
+
+> La subida de documentos **sí está implementada** (`POST /claims/{id}/documentos` + bulk + OCR vía visión). El RAG sobre esos documentos es lo que queda deferred.
 
 **Índice:** `(id_siniestro)`.
 
@@ -200,6 +204,8 @@ ORM: [`claim_score.py`](../app/infrastructure/db/models/claim_score.py). 1:1 con
 | `ml_factors` | `jsonb` | `list[{feature, shap_value, direction}]` |
 | `anomaly_score` | `float` SI | rango aprox `[-1, 1]`, más bajo = más anómalo |
 | `similar` | `jsonb` | `list[{claim_id, similarity, snippet}]` |
+| `narrative_analysis` | `jsonb` SI | Cache del análisis NLP de la narrativa (migración 0015) |
+| `panel_analysis` | `jsonb` SI | Resultado del panel multiagente: veredictos + refutaciones + consenso (migración 0016, advisory) |
 | `computed_at` | `timestamptz` | Marca de tiempo del cómputo |
 
 ### 3.2 `claim_narratives` — embeddings de narrativas (pgvector)
@@ -211,14 +217,14 @@ ORM: [`claim_narrative.py`](../app/infrastructure/db/models/claim_narrative.py).
 | `id` | `varchar(36)` (PK, uuid4) | — |
 | `claim_id` | `varchar(64)` FK | → `siniestros.id_siniestro` (CASCADE) |
 | `content` | `text` | Copia de `siniestros.descripcion` |
-| `embedding` | `vector(384)` | Modelo `paraphrase-multilingual-MiniLM-L12-v2` |
+| `embedding` | `vector(384)` | Por defecto OpenAI `text-embedding-3-small`; alternativa `paraphrase-multilingual-MiniLM-L12-v2` (ambos 384 dim) |
 | `created_at` | `timestamptz` | — |
 
 **Índices:** `HNSW (embedding vector_cosine_ops)` + B-tree en `(claim_id)`.
 
 ### 3.3 `claim_reviews` — transiciones de workflow
 
-Workflow `pending → escalated → resolved` aplicado por `analista` / `antifraude`. Persiste actor, timestamp, comentarios. Detalle de la máquina de estados en backend CLAUDE.md §6b y design spec §6.
+Máquina de **5 estados** (`ReviewStatus`): `pendiente → escalado → en_revision → dictaminado`, con la rama alterna `revisado_sin_escalar`. Transiciones: `escalate` (analista), `take` + `dictamen` (antifraude), `close` (analista), `auto_escalate_rojo` (ingesta). El dictamen lleva `outcome ∈ {confirmado_sospecha, descartado, requiere_mas_info}`. Persiste actor, timestamp y notas por transición. Detalle en backend CLAUDE.md §6b y design spec §6.
 
 ### 3.4 `conversations` / `messages` — historial del agente
 
@@ -236,7 +242,7 @@ Cada tabla del reto se cumple verbatim:
 | Pólizas | `polizas` | ✓ Verbatim. |
 | Asegurados sintéticos | `asegurados` | ✓ Verbatim. |
 | Beneficiarios / Proveedores | `beneficiarios_proveedores` | ✓ Verbatim. |
-| Documentos | `documentos` | ✓ Verbatim + columnas opcionales para futura subida de archivos. |
+| Documentos | `documentos` | ✓ Verbatim + columnas de subida de archivos (`storage_path`, `filename`, `content_type`) ya implementadas. |
 
 ---
 

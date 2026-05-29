@@ -1,0 +1,29 @@
+{
+  "id": "SIN-DEMO-024",
+  "ramo": "Salud",
+  "cobertura": "Cirugía Mayor",
+  "asegurado": "Jorge Esteban Salgado Rivera",
+  "asegurado_id": "ASG-D0024",
+  "poliza": "PS-DEMO-0024",
+  "ciudad": "Ambato",
+  "fecha_ocurrencia": "2026-04-13",
+  "fecha_reporte": "2026-04-14",
+  "fecha_inicio_poliza": "2026-04-05",
+  "fecha_fin_poliza": "2027-04-05",
+  "monto_reclamado": 26000.0,
+  "suma_asegurada": 25000.0,
+  "estado": "Reserva",
+  "sucursal": "Ambato",
+  "proveedor": "Hospital Millennium Ambato",
+  "descripcion": "El asegurado Jorge Esteban Salgado Rivera reclama por una cirugía mayor de columna realizada el 13 de abril de 2026 en el Hospital Millennium de Ambato. El monto reclamado de USD 26 000 supera la suma asegurada de USD 25 000 (ratio 1.04), lo que activa FS-14 por monto atípico cercano o superior al límite de cobertura. Adicionalmente, el siniestro ocurre apenas 8 días después del inicio de la póliza (5 de abril de 2026), activando FS-01 por borde de vigencia. Toda la documentación clínica fue entregada. Caso de monto atípico con uso temprano de cobertura: requiere peritaje médico para justificar el exceso sobre el límite asegurado.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Historia clínica", "estado": "Entregado", "falta": false},
+    {"tipo": "Factura médica", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe médico", "estado": "Entregado", "falta": false},
+    {"tipo": "Epicrisis", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

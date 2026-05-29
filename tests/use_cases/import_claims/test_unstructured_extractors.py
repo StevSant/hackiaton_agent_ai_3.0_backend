@@ -16,8 +16,10 @@ from app.infrastructure.llm.fake_llm import InMemoryFakeLLM
 from app.use_cases.import_claims._pdf_extractor import parse_pdf
 from app.use_cases.import_claims._docx_extractor import parse_docx
 
-_SAMPLES_PDF = Path(__file__).parent.parent.parent.parent / "data" / "casos_demo" / "pdf"
-_SAMPLES_DOCX = Path(__file__).parent.parent.parent.parent / "data" / "casos_demo" / "docx"
+_CASOS = Path(__file__).parent.parent.parent.parent / "data" / "casos_demo"
+# Demo cases are classified by ramo; the unstructured fixtures are all vehiculos.
+_SAMPLES_PDF = _CASOS / "pdf" / "vehiculos"
+_SAMPLES_DOCX = _CASOS / "docx" / "vehiculos"
 
 
 # ---------------------------------------------------------------------------

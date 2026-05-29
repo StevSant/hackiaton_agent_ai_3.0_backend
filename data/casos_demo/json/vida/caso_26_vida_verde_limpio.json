@@ -1,0 +1,29 @@
+{
+  "id": "SIN-DEMO-026",
+  "ramo": "Vida",
+  "cobertura": "Muerte Natural",
+  "asegurado": "Rosa Elena Tapia Guerrero",
+  "asegurado_id": "ASG-D0026",
+  "poliza": "PV-DEMO-0026",
+  "ciudad": "Loja",
+  "fecha_ocurrencia": "2026-02-15",
+  "fecha_reporte": "2026-02-18",
+  "fecha_inicio_poliza": "2021-06-01",
+  "fecha_fin_poliza": "2031-06-01",
+  "monto_reclamado": 40000.0,
+  "suma_asegurada": 50000.0,
+  "estado": "Reserva",
+  "sucursal": "Loja",
+  "proveedor": "Funeraria San Juan de Loja",
+  "beneficiario": "Pedro Luis Tapia Guerrero",
+  "descripcion": "Se reporta el fallecimiento por causas naturales de la asegurada Rosa Elena Tapia Guerrero, ocurrido el 15 de febrero de 2026 en Loja, a los 78 años de edad, con antecedentes médicos documentados de enfermedad cardiovascular crónica. La póliza de vida está vigente desde el 1 de junio de 2021 —casi cinco años de antigüedad— y el beneficiario designado es su hijo, Pedro Luis Tapia Guerrero. El reclamo por USD 40 000, dentro de la suma asegurada de USD 50 000, se presentó tres días después del deceso, con certificado y partida de defunción completos. Caso de referencia limpio: muerte natural, póliza antigua, beneficiario directo y documentación completa, sin señales de alerta.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Certificado de defunción", "estado": "Entregado", "falta": false},
+    {"tipo": "Partida de defunción", "estado": "Entregado", "falta": false},
+    {"tipo": "Designación de beneficiario", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

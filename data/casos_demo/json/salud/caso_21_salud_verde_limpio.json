@@ -1,0 +1,28 @@
+{
+  "id": "SIN-DEMO-021",
+  "ramo": "Salud",
+  "cobertura": "Gastos Médicos Ambulatorios",
+  "asegurado": "Carla Beatriz Vélez Andrade",
+  "asegurado_id": "ASG-D0021",
+  "poliza": "PS-DEMO-0021",
+  "ciudad": "Quito",
+  "fecha_ocurrencia": "2026-03-10",
+  "fecha_reporte": "2026-03-11",
+  "fecha_inicio_poliza": "2025-09-01",
+  "fecha_fin_poliza": "2026-09-01",
+  "monto_reclamado": 1200.0,
+  "suma_asegurada": 50000.0,
+  "estado": "Liquidado",
+  "sucursal": "Quito Norte",
+  "proveedor": "Clínica Internacional Pichincha",
+  "descripcion": "La asegurada Carla Beatriz Vélez Andrade reporta una consulta médica ambulatoria por un cuadro de gastroenteritis aguda atendido el 10 de marzo de 2026 en la Clínica Internacional Pichincha de Quito. El reclamo cubre la consulta especializada, exámenes de laboratorio y medicación prescrita, por un total de USD 1 200, muy por debajo de la suma asegurada de USD 50 000. La póliza está vigente desde hace más de seis meses (inicio el 1 de septiembre de 2025), el reporte se presentó al día siguiente de la atención y toda la documentación clínica fue entregada de forma completa y legible. Caso de referencia limpio sin señales de alerta.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Historia clínica", "estado": "Entregado", "falta": false},
+    {"tipo": "Factura médica", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe médico", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}

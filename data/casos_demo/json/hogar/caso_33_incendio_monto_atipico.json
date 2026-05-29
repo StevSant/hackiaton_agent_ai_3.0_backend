@@ -1,0 +1,28 @@
+{
+  "id": "SIN-DEMO-033",
+  "ramo": "Incendio",
+  "cobertura": "Incendio y Líneas Aliadas",
+  "asegurado": "Verónica Alexandra Lara Pino",
+  "asegurado_id": "ASG-D0033",
+  "poliza": "PI-DEMO-0033",
+  "ciudad": "Ambato",
+  "fecha_ocurrencia": "2026-04-16",
+  "fecha_reporte": "2026-04-17",
+  "fecha_inicio_poliza": "2026-04-08",
+  "fecha_fin_poliza": "2027-04-08",
+  "monto_reclamado": 48000.0,
+  "suma_asegurada": 48000.0,
+  "estado": "Reserva",
+  "sucursal": "Ambato",
+  "proveedor": "Restauraciones Tungurahua",
+  "descripcion": "La asegurada Verónica Alexandra Lara Pino reporta un incendio que destruyó por completo una bodega anexa a su vivienda en Ambato el 16 de abril de 2026, declarando pérdida total. El monto reclamado de USD 48 000 iguala exactamente la suma asegurada de USD 48 000 (ratio 1.00), lo que activa FS-14 por monto en el límite de cobertura. Adicionalmente, el siniestro ocurre 8 días después del inicio de la póliza (8 de abril de 2026), activando FS-01 por borde de vigencia. Se entregó el informe del Cuerpo de Bomberos y el inventario de bienes. Caso de pérdida total temprana con reclamo en el tope asegurado: requiere peritaje para validar la valoración de pérdidas.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe del Cuerpo de Bomberos", "estado": "Entregado", "falta": false},
+    {"tipo": "Inventario de bienes afectados", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe pericial de daños", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "verde"
+}
