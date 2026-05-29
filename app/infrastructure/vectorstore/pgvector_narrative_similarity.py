@@ -84,7 +84,7 @@ class PgVectorNarrativeSimilarity(NarrativeSimilarity):
                 "content": descripcion,
                 "embedding": _vector_literal(vector),
             }
-            for (claim_id, descripcion), vector in zip(items, vectors)
+            for (claim_id, descripcion), vector in zip(items, vectors, strict=True)
         ]
         claim_ids = [claim_id for claim_id, _ in items]
         async with self._session() as session:

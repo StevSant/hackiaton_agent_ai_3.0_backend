@@ -38,7 +38,7 @@ class InMemoryNarrativeSimilarity(NarrativeSimilarity):
         async with self._lock:
             # Single batched embed call, then upsert each row.
             vectors = await self._embeddings.embed([d for _, d in items])
-            for (claim_id, descripcion), vector in zip(items, vectors):
+            for (claim_id, descripcion), vector in zip(items, vectors, strict=True):
                 self._upsert(claim_id, descripcion, np.asarray(vector, dtype=np.float32))
 
     def _upsert(self, claim_id: str, descripcion: str, arr: np.ndarray) -> None:
