@@ -59,6 +59,18 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             PgVectorNarrativeSimilarity,
         )
         state.similarity = PgVectorNarrativeSimilarity(state.embeddings, session_factory)
+    # Hydrate the rules engine with persisted overrides (pauses + threshold tweaks)
+    # so a rule edited from the dashboard stays in effect across restarts. Best
+    # effort — an unmigrated/empty DB just leaves the shipped defaults in place.
+    try:
+        import logging
+
+        from app.infrastructure.rule_overrides import DbRuleOverridesStore
+        from app.use_cases.hydrate_rule_overrides import hydrate_rule_overrides
+
+        await hydrate_rule_overrides(DbRuleOverridesStore(session_factory))
+    except Exception as exc:
+        logging.getLogger(__name__).warning("rule-override hydration skipped: %s", exc)
     try:
         yield
     finally:

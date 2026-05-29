@@ -1,4 +1,4 @@
-"""0017_rule_overrides — persist editable rule config + the change log.
+"""0022_rule_overrides — persist editable rule config + the change log.
 
 Two tables back the dashboard rule editor:
 - ``rule_overrides`` — current runtime state per rule (paused flag + threshold
@@ -6,8 +6,8 @@ Two tables back the dashboard rule editor:
 - ``rule_changes`` — append-only audit history of every edit, powering the
   "Historial de cambios" modal across restarts.
 
-Revision ID: 0017_rule_overrides
-Revises: 0016_claim_score_panel_analysis
+Revision ID: 0022_rule_overrides
+Revises: 0021_evento_fields
 Create Date: 2026-05-29
 """
 
@@ -18,8 +18,8 @@ from sqlalchemy.dialects import postgresql
 
 from alembic import op
 
-revision: str = "0017_rule_overrides"
-down_revision: str | None = "0016_claim_score_panel_analysis"
+revision: str = "0022_rule_overrides"
+down_revision: str | None = "0021_evento_fields"
 branch_labels: str | tuple[str, ...] | None = None
 depends_on: str | tuple[str, ...] | None = None
 

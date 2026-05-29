@@ -57,6 +57,24 @@ def tier_bands() -> dict[str, int]:
     return bands
 
 
+def numeric_thresholds(key: str) -> dict[str, float]:
+    """Return a rule's *effective* numeric thresholds (defaults ⊕ overrides).
+
+    Only scalar int/float entries are returned (bool and list entries — e.g.
+    RF-01's coverage list — are excluded), so this is the editable surface the
+    dashboard threshold editor renders. Returns ``{}`` for rules with no config
+    block (e.g. RF-02..04, which are pure hard rules).
+    """
+    cfg = _cfg()
+    if key not in cfg:
+        return {}
+    return {
+        k: float(v)
+        for k, v in rule_cfg(key).items()
+        if isinstance(v, (int, float)) and not isinstance(v, bool)
+    }
+
+
 def apply_overrides(
     disabled: set[str], threshold_overrides: dict[str, dict[str, Any]]
 ) -> None:

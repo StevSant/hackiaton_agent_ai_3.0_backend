@@ -432,6 +432,7 @@ The 14 FS signals and 7 RF hard rules are the **product spec**, not implementati
 - **Per-rule point thresholds live in `domain/rules/config.py`** (or YAML alongside it). Never inline numeric thresholds in the rule's `evaluate()` — read them from the config so the team can tune without touching logic.
 - **Every rule has a unit test** (`tests/domain/rules/test_FS_07_recurrent_provider.py`) using hand-crafted claim fixtures. Aggregator has its own test for hard-rule precedence.
 - **`evidence` payload is what the UI renders** under "Reglas activadas". Be specific — `{"proveedor_id": "P-0042", "casos_observados": 7}` is useful; `{"reason": "recurrent provider"}` is not.
+- **Rules are runtime-editable** (antifraude, via `PATCH /rules/{code}`). `domain/rules/loader.py` keeps an override overlay on top of `config.yaml`: `rule_cfg` merges persisted threshold overrides, `rule_enabled` reports the paused set. `score_claim` + `import_claims_stream` skip paused rules, so a pause genuinely changes the score. Overrides persist in `rule_overrides`/`rule_changes` (migration 0022) and are hydrated into the loader at lifespan startup + after each edit (`use_cases/hydrate_rule_overrides.py`). Default pauses live in `domain/rules/defaults.py` (`DEFAULT_DISABLED_CODES`, currently `{"FS-14"}`). A new rule's *numeric* `config.yaml` keys auto-appear in the dashboard editor — keep tunables numeric there. Creating brand-new rule *logic* from the UI is still out of scope (would need a rule DSL).
 
 ---
 

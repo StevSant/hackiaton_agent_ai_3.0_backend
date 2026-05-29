@@ -36,6 +36,16 @@ class Settings(BaseSettings):
     DB_CONNECT_MAX_RETRIES: int = 3
     DB_CONNECT_RETRY_BACKOFF_S: float = 0.25
 
+    # connection pool sizing. The Supabase pooler does the real pooling, but our
+    # own SQLAlchemy pool must have enough slots for concurrent long-held
+    # connections: SSE streams (import / panel) hold one for the whole stream,
+    # and the dashboard fires several claim queries in parallel. Too small a pool
+    # surfaces as "QueuePool limit ... reached, connection timed out".
+    DB_POOL_SIZE: int = 10
+    DB_MAX_OVERFLOW: int = 20
+    DB_POOL_TIMEOUT_S: float = 10.0
+    DB_POOL_RECYCLE_S: int = 1800
+
     # llm  (OpenAI-only for the hackathon — locked 2026-05-26)
     LLM_PROVIDER: Literal["openai", "fake"] = "openai"
     LLM_DEFAULT_MODEL: str = "gpt-4o-mini"

@@ -10,6 +10,6 @@ from app.infrastructure.rule_overrides.record import RuleOverrideRecord
 __all__ = [
     "DbRuleOverridesStore",
     "InMemoryRuleOverridesStore",
-    "RuleOverridesStore",
     "RuleOverrideRecord",
+    "RuleOverridesStore",
 ]

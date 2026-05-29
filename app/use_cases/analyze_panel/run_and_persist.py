@@ -49,6 +49,15 @@ async def run_and_persist(
     consensus = None
     saw_consensus = False
 
+    # `session` (from the route's get_session) is eagerly connected but we don't
+    # touch it until save_panel_analysis at the very end. Hand its pooled
+    # connection back before the long, DB-free LLM debate; SQLAlchemy re-acquires
+    # lazily when we persist. Best-effort — the debate must run regardless.
+    try:
+        await session.rollback()
+    except Exception:  # pragma: no cover - releasing an idle connection
+        logger.debug("panel: could not pre-release persist session", exc_info=True)
+
     async for event in panel.run(claim_id):
         if isinstance(event, PanelStartEvent):
             for entry in event.data.roster:

@@ -145,7 +145,7 @@ class PgVectorNarrativeSimilarity(NarrativeSimilarity):
                            1 - (n.embedding <=> cast(:anchor as vector)) as similarity,
                            n.content
                     from claim_narratives n
-                    where (:exclude is null or n.claim_id <> :exclude)
+                    where (cast(:exclude as text) is null or n.claim_id <> cast(:exclude as text))
                     order by n.embedding <=> cast(:anchor as vector) asc
                     limit :top_k
                     """

@@ -3,7 +3,8 @@
 Combines `domain.rules.catalog.all_meta()` with:
 - `kind`: derived from rule prefix (RF-01..04 → critica, RF-05..07 → amarilla, FS-* → scored).
 - `activaciones_30d`: count of rule activations in the last 30 days from `claim_scores`.
-- `enabled`: defaults to True (no runtime rule-toggle store yet).
+- `enabled`: read from the runtime loader (hydrated from `rule_overrides` at startup).
+- `thresholds`: the rule's effective numeric thresholds (defaults ⊕ overrides).
 
 Counts come from the `claim_scores.activations` JSONB array. Each activation entry
 has a `code` field; we run ONE GROUP BY query to bucket all activations by code,
@@ -12,19 +13,18 @@ then project. (Previously this fired 21 sequential count queries — one per rul
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.rules.catalog import all_meta
+from app.domain.rules.loader import numeric_thresholds, rule_enabled
 from app.domain.rules.ports import RuleMeta
 from app.schemas.rules_config import RuleConfigOut, RuleKind
 
 _CRITICAL_RF_CODES = {"RF-01", "RF-02", "RF-03", "RF-04"}
 _YELLOW_RF_CODES = {"RF-05", "RF-06", "RF-07"}
-
-_DISABLED_BY_DEFAULT: set[str] = {"FS-14"}
 
 
 def _kind_for(code: str) -> RuleKind:
@@ -33,6 +33,11 @@ def _kind_for(code: str) -> RuleKind:
     if code in _YELLOW_RF_CODES:
         return RuleKind.amarilla
     return RuleKind.scored
+
+
+def _config_key(code: str) -> str:
+    """Map a rule code (``FS-01``) to its config.yaml key (``FS_01``)."""
+    return code.replace("-", "_")
 
 
 async def _activation_counts_by_code(
@@ -67,7 +72,8 @@ def _project(meta: RuleMeta, *, activaciones_30d: int) -> RuleConfigOut:
         kind=_kind_for(meta.code),
         max_pts=meta.max_points,
         activaciones_30d=activaciones_30d,
-        enabled=meta.code not in _DISABLED_BY_DEFAULT,
+        enabled=rule_enabled(meta.code),
+        thresholds=numeric_thresholds(_config_key(meta.code)),
     )
 
 
@@ -76,7 +82,7 @@ async def list_rules_config(session: AsyncSession | None) -> list[RuleConfigOut]
     if session is None:
         return [_project(m, activaciones_30d=0) for m in metas]
 
-    since = datetime.now(tz=timezone.utc) - timedelta(days=30)
+    since = datetime.now(tz=UTC) - timedelta(days=30)
     try:
         counts = await _activation_counts_by_code(session, since=since)
     except Exception:

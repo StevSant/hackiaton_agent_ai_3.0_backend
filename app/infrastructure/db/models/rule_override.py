@@ -10,6 +10,7 @@ rule stays paused across ``--reload``.
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 
 from sqlalchemy import Boolean, DateTime, String, func
 from sqlalchemy.dialects.postgresql import JSONB
@@ -25,7 +26,9 @@ class RuleOverride(Base):
     enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     # Partial overlay on config.yaml (e.g. {"tier1_days": 7}); empty when only
     # the enabled flag was changed.
-    thresholds: Mapped[dict] = mapped_column(JSONB, nullable=False, server_default="{}")
+    thresholds: Mapped[dict[str, Any]] = mapped_column(
+        JSONB, nullable=False, server_default="{}"
+    )
     updated_by: Mapped[str | None] = mapped_column(String(160), nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

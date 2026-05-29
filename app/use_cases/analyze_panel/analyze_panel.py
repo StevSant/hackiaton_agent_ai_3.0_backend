@@ -24,6 +24,7 @@ from collections.abc import AsyncGenerator, Awaitable, Callable
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.claims_agent.tools import ClaimQueries
 from app.agents.fraud_panel import MODERATOR_PROMPT_ID, PANEL_ROSTER, Specialist
@@ -77,6 +78,7 @@ class AnalyzePanel:
         reviews_store: ReviewsStore | None = None,
         classifier: FraudClassifier | None = None,
         detector: AnomalyDetector | None = None,
+        read_session: AsyncSession | None = None,
     ) -> None:
         self._llm = llm
         self._prompts = prompts
@@ -85,6 +87,10 @@ class AnalyzePanel:
         self._reviews_store = reviews_store
         self._classifier = classifier
         self._detector = detector
+        # The session backing `queries`/`reviews_store`. The panel reads the claim
+        # up front then runs a long, DB-free LLM debate — we release this pooled
+        # connection after the reads instead of holding it idle for the whole run.
+        self._read_session = read_session
 
     async def run(self, claim_id: str) -> AsyncGenerator[PanelStreamEvent, None]:
         try:
@@ -125,6 +131,16 @@ class AnalyzePanel:
         provider_stats = await self._provider_stats(claim)
         if provider_stats is not None:
             slice_extras["documentos_red"] = {"proveedor_stats": provider_stats}
+
+        # Reads are done (claim detail + provider stats). Everything below is a
+        # connection-free LLM debate, so hand the pooled connection back now
+        # instead of pinning it idle for the whole multi-LLM run. Best-effort:
+        # the debate must proceed even if the release hiccups.
+        if self._read_session is not None:
+            try:
+                await self._read_session.commit()
+            except Exception:  # pragma: no cover - releasing an idle connection
+                logger.debug("panel: could not release read session", exc_info=True)
 
         # --- R1: parallel narration + verdict. Capture verdicts as they stream by.
         verdicts: dict[str, SpecialistVerdict] = {}

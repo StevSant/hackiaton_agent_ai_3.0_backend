@@ -1,10 +1,11 @@
 """Rules catalog API — THIN router.
 
 Routes:
-    GET /rules/catalog   → list[RuleMetaOut]    (any authenticated user)
-    GET /rules/config    → list[RuleConfigOut]  (any authenticated user)
-    GET /rules/changes   → list[RuleChangeOut]  (any authenticated user)
-    GET /rules/{code}    → RuleMetaOut          (any authenticated user, 404 on unknown)
+    GET   /rules/catalog   → list[RuleMetaOut]    (any authenticated user)
+    GET   /rules/config    → list[RuleConfigOut]  (any authenticated user)
+    GET   /rules/changes   → list[RuleChangeOut]  (any authenticated user)
+    GET   /rules/{code}    → RuleMetaOut          (any authenticated user, 404 on unknown)
+    PATCH /rules/{code}    → RuleConfigOut         (antifraude — pause / retune)
 
 Fixed paths (/catalog, /config, /changes) MUST be registered before /{code} —
 FastAPI matches routes in registration order, and /{code} would otherwise shadow them.
@@ -20,17 +21,27 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.cache_control import cache_for
 from app.api.deps import (
     get_current_user,
+    get_narrative_similarity,
     get_optional_db_session,
     get_rule_changes_store,
+    get_rule_overrides_store,
+    get_vehicle_decoder,
+    require_role,
 )
+from app.domain.auth.role import Role
 from app.domain.auth.user import User
 from app.domain.rules.catalog import all_meta, get_meta
-from app.infrastructure.rule_changes import InMemoryRuleChangesStore
+from app.domain.similarity import NarrativeSimilarity
+from app.domain.vehicle_identity import VehicleDecoder
+from app.infrastructure.db.engine import get_session
+from app.infrastructure.rule_changes import RuleChangesStore
+from app.infrastructure.rule_overrides import RuleOverridesStore
 from app.schemas.rule_changes import RuleChangeOut
 from app.schemas.rules import RuleMetaOut
-from app.schemas.rules_config import RuleConfigOut
+from app.schemas.rules_config import RuleConfigOut, RuleConfigPatch
 from app.use_cases.list_rule_changes import list_rule_changes
 from app.use_cases.list_rules_config import list_rules_config
+from app.use_cases.update_rule_config import update_rule_config
 
 router = APIRouter(prefix="/rules", tags=["rules"])
 
@@ -75,7 +86,7 @@ async def list_rules_config_route(
 
 @router.get("/changes", response_model=list[RuleChangeOut])
 async def list_rule_changes_route(
-    store: Annotated[InMemoryRuleChangesStore, Depends(get_rule_changes_store)],
+    store: Annotated[RuleChangesStore, Depends(get_rule_changes_store)],
     limit: int | None = None,
     _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> list[RuleChangeOut]:
@@ -98,3 +109,37 @@ async def get_rule(
             detail=f"Regla '{code}' no encontrada",
         )
     return _to_out(meta)
+
+
+@router.patch("/{code}", response_model=RuleConfigOut)
+async def patch_rule(
+    code: str,
+    patch: RuleConfigPatch,
+    session: Annotated[AsyncSession, Depends(get_session)] = ...,  # type: ignore[assignment]
+    overrides_store: Annotated[
+        RuleOverridesStore, Depends(get_rule_overrides_store)
+    ] = ...,  # type: ignore[assignment]
+    changes_store: Annotated[
+        RuleChangesStore, Depends(get_rule_changes_store)
+    ] = ...,  # type: ignore[assignment]
+    similarity: Annotated[
+        NarrativeSimilarity | None, Depends(get_narrative_similarity)
+    ] = None,
+    decoder: Annotated[VehicleDecoder, Depends(get_vehicle_decoder)] = ...,  # type: ignore[assignment]
+    user: Annotated[User, Depends(require_role(Role.antifraude))] = ...,  # type: ignore[assignment]
+) -> RuleConfigOut:
+    """Pause/reactivate a rule or retune its thresholds, then rescore all claims.
+
+    Antifraude-only. Persists the edit, re-hydrates the engine, logs the change to
+    the history, and runs a full rescore so existing claims reflect the change.
+    """
+    return await update_rule_config(
+        session,
+        code=code,
+        patch=patch,
+        overrides_store=overrides_store,
+        changes_store=changes_store,
+        actor=user.full_name or user.email,
+        similarity=similarity,
+        decoder=decoder,
+    )

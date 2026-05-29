@@ -63,7 +63,16 @@ from app.infrastructure.ocr import (
 )
 from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
 from app.infrastructure.reviews.ports import ReviewsStore
-from app.infrastructure.rule_changes import InMemoryRuleChangesStore
+from app.infrastructure.rule_changes import (
+    DbRuleChangesStore,
+    InMemoryRuleChangesStore,
+    RuleChangesStore,
+)
+from app.infrastructure.rule_overrides import (
+    DbRuleOverridesStore,
+    InMemoryRuleOverridesStore,
+    RuleOverridesStore,
+)
 from app.infrastructure.speech import (
     InMemoryFakeTranscriber,
     SpeechTranscriber,
@@ -421,14 +430,40 @@ def _fallback_audit_store() -> InMemoryAuditStore:
     return InMemoryAuditStore()
 
 
-@lru_cache(maxsize=1)
-def get_rule_changes_store() -> InMemoryRuleChangesStore:
-    """Return the process-singleton in-memory rule-change log.
+def get_rule_changes_store() -> RuleChangesStore:
+    """Return the DB-backed rule-change log, or an in-memory fallback when no DB.
 
-    Starts empty — entries are appended when a rule edit endpoint lands
-    post-hackathon. Until then ``GET /rules/changes`` honestly returns ``[]``.
+    Persists to the ``rule_changes`` table so the "Historial de cambios" modal
+    survives restarts / ``--reload`` (same policy as the audit store). Falls back
+    to a process-local log only when no session factory is registered.
     """
+    factory = _get_session_factory()
+    if factory is None:
+        return _fallback_rule_changes_store()
+    return DbRuleChangesStore(factory)
+
+
+@lru_cache(maxsize=1)
+def _fallback_rule_changes_store() -> InMemoryRuleChangesStore:
     return InMemoryRuleChangesStore()
+
+
+def get_rule_overrides_store() -> RuleOverridesStore:
+    """Return the DB-backed rule-overrides store, or an in-memory fallback.
+
+    Persists pause flags + threshold overlays to the ``rule_overrides`` table so
+    edits survive restarts. Falls back to a process-local store only when no
+    session factory is registered (no-DB test / script mode).
+    """
+    factory = _get_session_factory()
+    if factory is None:
+        return _fallback_rule_overrides_store()
+    return DbRuleOverridesStore(factory)
+
+
+@lru_cache(maxsize=1)
+def _fallback_rule_overrides_store() -> InMemoryRuleOverridesStore:
+    return InMemoryRuleOverridesStore()
 
 
 def _get_session_factory() -> async_sessionmaker[AsyncSession] | None:
@@ -491,6 +526,10 @@ async def get_analyze_panel(
     llm: Annotated[LLMProvider, Depends(get_llm)],
     queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
     reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)],
+    # Same cached session that backs `queries`/`reviews_store` (FastAPI caches
+    # `_get_optional_session` per request) — handed to the panel so it can release
+    # the pooled connection after its read phase, before the long LLM debate.
+    read_session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
 ) -> AnalyzePanel:
@@ -512,4 +551,5 @@ async def get_analyze_panel(
         reviews_store=reviews_store,
         classifier=classifier,
         detector=detector,
+        read_session=read_session,
     )
