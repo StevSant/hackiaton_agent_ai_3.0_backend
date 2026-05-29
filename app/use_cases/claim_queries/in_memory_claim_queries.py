@@ -17,6 +17,7 @@ from app.agents.claims_agent.tools.types import (
     AggregateRow,
     ExecutiveSummary,
     MissingDocClaim,
+    ReviewerStats,
     TierFilter,
 )
 from app.schemas.claim import ClaimDetail, ClaimSummary
@@ -182,6 +183,44 @@ class InMemoryClaimQueries(ClaimQueries):
             top_proveedores=[p for p, _ in prov_counter.most_common(5)],
             top_ramos=[r for r, _ in ramo_counter.most_common(5)],
         )
+
+    async def analyze_reviewers(self, *, top_n: int = 20) -> list[ReviewerStats]:
+        from collections import defaultdict
+
+        from app.schemas.claim import DictamenOutcome
+
+        buckets: dict[str, dict[str, object]] = defaultdict(
+            lambda: {"confirmados": 0, "descartados": 0, "requiere_mas_info": 0, "claim_ids": []}
+        )
+        for claim in self._claims:
+            review = claim.review
+            if review is None or review.dictamen_outcome is None:
+                continue
+            who = review.dictaminado_by_name or review.dictaminado_by or "Desconocido"
+            b = buckets[who]
+            cast_list = b["claim_ids"]
+            assert isinstance(cast_list, list)
+            cast_list.append(claim.id)
+            if review.dictamen_outcome == DictamenOutcome.confirmado_sospecha:
+                b["confirmados"] = int(b["confirmados"]) + 1  # type: ignore[arg-type]
+            elif review.dictamen_outcome == DictamenOutcome.descartado:
+                b["descartados"] = int(b["descartados"]) + 1  # type: ignore[arg-type]
+            else:
+                b["requiere_mas_info"] = int(b["requiere_mas_info"]) + 1  # type: ignore[arg-type]
+
+        rows = [
+            ReviewerStats(
+                analista=who,
+                total_dictamenes=len(b["claim_ids"]),  # type: ignore[arg-type]
+                confirmados=int(b["confirmados"]),  # type: ignore[arg-type]
+                descartados=int(b["descartados"]),  # type: ignore[arg-type]
+                requiere_mas_info=int(b["requiere_mas_info"]),  # type: ignore[arg-type]
+                claim_ids=list(b["claim_ids"]),  # type: ignore[arg-type]
+            )
+            for who, b in buckets.items()
+        ]
+        rows.sort(key=lambda r: r.total_dictamenes, reverse=True)
+        return rows[:top_n]
 
     async def get_provider_detail(
         self, provider_id: str, *, top_claims: int = 5

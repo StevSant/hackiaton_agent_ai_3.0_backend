@@ -16,6 +16,7 @@ from app.agents.claims_agent.tools.types import (
     AggregateRow,
     ExecutiveSummary,
     MissingDocClaim,
+    ReviewerStats,
     TierFilter,
 )
 from app.schemas.claim import ClaimDetail, ClaimSummary
@@ -70,6 +71,9 @@ class ClaimQueries(Protocol):
         self, provider_id: str, *, top_claims: int = 5
     ) -> "GetProviderDetailOutput | None":
         """Ficha completa de un proveedor + sus top-N siniestros por score."""
+
+    async def analyze_reviewers(self, *, top_n: int = 20) -> list[ReviewerStats]:
+        """Aggregate dictámenes (review verdicts) per analyst, most active first."""
 
     async def get_asegurado_detail(
         self, asegurado_id: str, *, top_claims: int = 5
