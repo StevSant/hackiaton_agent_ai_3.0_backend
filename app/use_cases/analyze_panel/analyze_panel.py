@@ -1,0 +1,309 @@
+"""AnalyzePanel — multi-agent fraud panel orchestrator (additive; never touches claims_agent).
+
+Flow per claim:
+  panel_start
+  → R1: each specialist streams narration (agent_token, round 1) then emits a
+        structured verdict (agent_verdict). Run concurrently; streams interleave.
+  → R2: each specialist re-reads peers' R1 verdicts, streams narration
+        (agent_token, round 2) then emits a structured rebuttal (agent_rebuttal).
+  → Moderador: streams synthesis (moderator_token) then emits consensus.
+  → done
+
+Parallel token streams from the concurrent specialists are merged into one
+ordered async iterator via an asyncio.Queue. Each LLM call's user payload is
+tagged `[especialista:{id}] [fase:{narracion|veredicto|replica|consenso}]` so
+prompts (and the fake LLM in tests) match deterministically.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import json
+import logging
+from collections.abc import AsyncIterator, Awaitable, Callable
+from typing import Any
+
+from app.agents.claims_agent.tools.ports import ClaimQueries
+from app.agents.fraud_panel import MODERATOR_PROMPT_ID, PANEL_ROSTER, Specialist
+from app.domain.anomaly import AnomalyDetector
+from app.domain.ml import FraudClassifier
+from app.infrastructure.llm.ports import LLMProvider
+from app.infrastructure.llm.types import Message, ResponseFormat
+from app.infrastructure.llm.prompt_loader import PromptLoader
+from app.infrastructure.reviews.ports import ReviewsStore
+from app.schemas.claim import ClaimDetail
+from app.schemas.panel import (
+    AgentRebuttalData,
+    AgentRebuttalEvent,
+    AgentTokenData,
+    AgentTokenEvent,
+    AgentVerdictData,
+    AgentVerdictEvent,
+    ConsensusData,
+    ConsensusEvent,
+    ModeratorTokenData,
+    ModeratorTokenEvent,
+    PanelConsensus,
+    PanelDoneData,
+    PanelDoneEvent,
+    PanelErrorData,
+    PanelErrorEvent,
+    PanelRosterEntry,
+    PanelStartData,
+    PanelStartEvent,
+    PanelStreamEvent,
+    SpecialistRebuttal,
+    SpecialistVerdict,
+)
+from app.use_cases.get_claim_detail import get_claim_detail
+
+logger = logging.getLogger(__name__)
+
+_Producer = Callable[["asyncio.Queue[Any]"], Awaitable[None]]
+_SENTINEL = object()
+
+
+class AnalyzePanel:
+    """Orchestrates one multi-agent panel run over a single claim."""
+
+    def __init__(
+        self,
+        *,
+        llm: LLMProvider,
+        prompts: PromptLoader,
+        queries: ClaimQueries,
+        model: str,
+        reviews_store: ReviewsStore | None = None,
+        classifier: FraudClassifier | None = None,
+        detector: AnomalyDetector | None = None,
+    ) -> None:
+        self._llm = llm
+        self._prompts = prompts
+        self._queries = queries
+        self._model = model
+        self._reviews_store = reviews_store
+        self._classifier = classifier
+        self._detector = detector
+
+    async def run(self, claim_id: str) -> AsyncIterator[PanelStreamEvent]:
+        claim = await get_claim_detail(
+            self._queries,
+            claim_id,
+            reviews_store=self._reviews_store,
+            classifier=self._classifier,
+            detector=self._detector,
+        )
+        if claim is None:
+            yield PanelErrorEvent(
+                data=PanelErrorData(code="not_found", message=f"Siniestro {claim_id} no encontrado.")
+            )
+            yield PanelDoneEvent(data=PanelDoneData(claim_id=claim_id))
+            return
+
+        yield PanelStartEvent(
+            data=PanelStartData(
+                claim_id=claim_id,
+                roster=[
+                    PanelRosterEntry(agent_id=s.id, display_name=s.display_name, lens=s.lens)
+                    for s in PANEL_ROSTER
+                ],
+            )
+        )
+
+        # --- R1: parallel narration + verdict. Capture verdicts as they stream by.
+        verdicts: dict[str, SpecialistVerdict] = {}
+        async for ev in self._drain(
+            [self._r1_producer(s, claim) for s in PANEL_ROSTER]
+        ):
+            if isinstance(ev, AgentVerdictEvent):
+                verdicts[ev.data.agent_id] = ev.data.verdict
+            yield ev
+
+        # --- R2: each specialist reacts to peers' R1 verdicts.
+        rebuttals: dict[str, SpecialistRebuttal] = {}
+        async for ev in self._drain(
+            [self._r2_producer(s, claim, verdicts) for s in PANEL_ROSTER]
+        ):
+            if isinstance(ev, AgentRebuttalEvent):
+                rebuttals[ev.data.agent_id] = ev.data.rebuttal
+            yield ev
+
+        # --- Moderator synthesis (single stream).
+        async for ev in self._moderator(claim, verdicts, rebuttals):
+            yield ev
+
+        yield PanelDoneEvent(data=PanelDoneData(claim_id=claim_id))
+
+    # ----- round drivers -------------------------------------------------
+
+    def _r1_producer(self, specialist: Specialist, claim: ClaimDetail) -> _Producer:
+        async def produce(queue: asyncio.Queue[Any]) -> None:
+            try:
+                system = self._prompts.load(specialist.prompt_id, "v1")
+                slice_json = json.dumps(specialist.slice_fn(claim), ensure_ascii=False, default=str)
+                # narration (streamed)
+                await self._stream_tokens(
+                    queue,
+                    agent_id=specialist.id,
+                    round=1,
+                    system=system,
+                    user=(
+                        f"[especialista:{specialist.id}] [fase:narracion]\n"
+                        f"Analiza este siniestro desde tu lente y explica tu razonamiento "
+                        f"en 2-3 frases.\n\nDatos:\n{slice_json}"
+                    ),
+                )
+                # structured verdict
+                verdict = await self._structured(
+                    system=system,
+                    user=(
+                        f"[especialista:{specialist.id}] [fase:veredicto]\n"
+                        f"Emite tu VEREDICTO estructurado del siniestro.\n\nDatos:\n{slice_json}"
+                    ),
+                    schema=SpecialistVerdict,
+                )
+                await queue.put(
+                    AgentVerdictEvent(data=AgentVerdictData(agent_id=specialist.id, verdict=verdict))
+                )
+            except Exception as exc:  # graceful degradation — panel never crashes
+                logger.exception("panel R1 specialist %s failed", specialist.id)
+                await queue.put(
+                    PanelErrorEvent(
+                        data=PanelErrorData(agent_id=specialist.id, code="specialist_error", message=str(exc))
+                    )
+                )
+                await queue.put(
+                    AgentVerdictEvent(
+                        data=AgentVerdictData(
+                            agent_id=specialist.id,
+                            verdict=SpecialistVerdict(
+                                nivel=claim.nivel,
+                                dictamen="sin opinión (el análisis de este especialista falló)",
+                                puntos_clave=[],
+                                confianza="baja",
+                                citas=[],
+                            ),
+                        )
+                    )
+                )
+
+        return produce
+
+    def _r2_producer(
+        self, specialist: Specialist, claim: ClaimDetail, verdicts: dict[str, SpecialistVerdict]
+    ) -> _Producer:
+        peers = {aid: v.model_dump(mode="json") for aid, v in verdicts.items() if aid != specialist.id}
+        peers_json = json.dumps(peers, ensure_ascii=False, default=str)
+
+        async def produce(queue: asyncio.Queue[Any]) -> None:
+            try:
+                system = self._prompts.load(specialist.prompt_id, "v1")
+                await self._stream_tokens(
+                    queue,
+                    agent_id=specialist.id,
+                    round=2,
+                    system=system,
+                    user=(
+                        f"[especialista:{specialist.id}] [fase:narracion]\n"
+                        f"Tus colegas dieron estos veredictos:\n{peers_json}\n\n"
+                        f"Reacciona en 1-2 frases: ¿mantienes o ajustas tu postura?"
+                    ),
+                )
+                rebuttal = await self._structured(
+                    system=system,
+                    user=(
+                        f"[especialista:{specialist.id}] [fase:replica]\n"
+                        f"Veredictos de tus colegas:\n{peers_json}\n\n"
+                        f"Emite tu RÉPLICA estructurada."
+                    ),
+                    schema=SpecialistRebuttal,
+                )
+                await queue.put(
+                    AgentRebuttalEvent(data=AgentRebuttalData(agent_id=specialist.id, rebuttal=rebuttal))
+                )
+            except Exception as exc:
+                logger.exception("panel R2 specialist %s failed", specialist.id)
+                await queue.put(
+                    AgentRebuttalEvent(
+                        data=AgentRebuttalData(
+                            agent_id=specialist.id,
+                            rebuttal=SpecialistRebuttal(
+                                ajuste="sin réplica (falló)", nivel_actualizado=claim.nivel, cambia_postura=False
+                            ),
+                        )
+                    )
+                )
+
+        return produce
+
+    async def _moderator(
+        self,
+        claim: ClaimDetail,
+        verdicts: dict[str, SpecialistVerdict],
+        rebuttals: dict[str, SpecialistRebuttal],
+    ) -> AsyncIterator[PanelStreamEvent]:
+        system = self._prompts.load(MODERATOR_PROMPT_ID, "v1")
+        payload = {
+            "veredictos": {k: v.model_dump(mode="json") for k, v in verdicts.items()},
+            "replicas": {k: r.model_dump(mode="json") for k, r in rebuttals.items()},
+        }
+        payload_json = json.dumps(payload, ensure_ascii=False, default=str)
+        user_narr = (
+            f"[fase:narracion-moderador]\nSintetiza el debate del panel en 2-3 frases.\n\n{payload_json}"
+        )
+        messages = [Message(role="system", content=system), Message(role="user", content=user_narr)]
+        async for llm_event in self._llm.stream(messages, model=self._model):
+            if llm_event.type == "token":
+                delta = str(llm_event.data.get("delta", ""))
+                if delta:
+                    yield ModeratorTokenEvent(data=ModeratorTokenData(delta=delta))
+        consensus = await self._structured(
+            system=system,
+            user=f"[fase:consenso]\nEmite el CONSENSO estructurado del panel.\n\n{payload_json}",
+            schema=PanelConsensus,
+        )
+        yield ConsensusEvent(data=ConsensusData(consensus=consensus))
+
+    # ----- llm helpers ---------------------------------------------------
+
+    async def _stream_tokens(
+        self, queue: asyncio.Queue[Any], *, agent_id: str, round: int, system: str, user: str
+    ) -> None:
+        messages = [Message(role="system", content=system), Message(role="user", content=user)]
+        async for llm_event in self._llm.stream(messages, model=self._model):
+            if llm_event.type == "token":
+                delta = str(llm_event.data.get("delta", ""))
+                if delta:
+                    await queue.put(
+                        AgentTokenEvent(data=AgentTokenData(agent_id=agent_id, round=round, delta=delta))
+                    )
+
+    async def _structured(self, *, system: str, user: str, schema: type) -> Any:
+        result = await self._llm.complete(
+            messages=[Message(role="system", content=system), Message(role="user", content=user)],
+            model=self._model,
+            response_format=ResponseFormat(
+                schema_name=schema.__name__, json_schema=schema.model_json_schema(), strict=False
+            ),
+        )
+        return schema.model_validate_json(result.message.content)
+
+    async def _drain(self, producers: list[_Producer]) -> AsyncIterator[PanelStreamEvent]:
+        """Run producers concurrently, yielding their queued events as they arrive."""
+        queue: asyncio.Queue[Any] = asyncio.Queue()
+
+        async def run_one(producer: _Producer) -> None:
+            try:
+                await producer(queue)
+            finally:
+                await queue.put(_SENTINEL)
+
+        tasks = [asyncio.create_task(run_one(p)) for p in producers]
+        remaining = len(tasks)
+        while remaining:
+            item = await queue.get()
+            if item is _SENTINEL:
+                remaining -= 1
+                continue
+            yield item
+        await asyncio.gather(*tasks)
