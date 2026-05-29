@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -11,8 +12,6 @@ from app.infrastructure.llm import InMemoryFakeLLM, PromptLoader
 from app.use_cases.analyze_panel import AnalyzePanel
 from app.use_cases.claim_queries import InMemoryClaimQueries
 from tests.fixtures.claims import claim_rojo
-
-from pathlib import Path
 
 
 def _prompts() -> PromptLoader:

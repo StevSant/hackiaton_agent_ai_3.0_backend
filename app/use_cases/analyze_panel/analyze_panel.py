@@ -102,7 +102,9 @@ class AnalyzePanel:
             return
         if claim is None:
             yield PanelErrorEvent(
-                data=PanelErrorData(code="not_found", message=f"Siniestro {claim_id} no encontrado.")
+                data=PanelErrorData(
+                    code="not_found", message=f"Siniestro {claim_id} no encontrado."
+                )
             )
             yield PanelDoneEvent(data=PanelDoneData(claim_id=claim_id))
             return
@@ -170,13 +172,17 @@ class AnalyzePanel:
                     schema=SpecialistVerdict,
                 )
                 await queue.put(
-                    AgentVerdictEvent(data=AgentVerdictData(agent_id=specialist.id, verdict=verdict))
+                    AgentVerdictEvent(
+                        data=AgentVerdictData(agent_id=specialist.id, verdict=verdict)
+                    )
                 )
             except Exception as exc:  # graceful degradation — panel never crashes
                 logger.exception("panel R1 specialist %s failed", specialist.id)
                 await queue.put(
                     PanelErrorEvent(
-                        data=PanelErrorData(agent_id=specialist.id, code="specialist_error", message=str(exc))
+                        data=PanelErrorData(
+                            agent_id=specialist.id, code="specialist_error", message=str(exc)
+                        )
                     )
                 )
                 await queue.put(
@@ -199,7 +205,11 @@ class AnalyzePanel:
     def _r2_producer(
         self, specialist: Specialist, claim: ClaimDetail, verdicts: dict[str, SpecialistVerdict]
     ) -> _Producer:
-        peers = {aid: v.model_dump(mode="json") for aid, v in verdicts.items() if aid != specialist.id}
+        peers = {
+            aid: v.model_dump(mode="json")
+            for aid, v in verdicts.items()
+            if aid != specialist.id
+        }
         peers_json = json.dumps(peers, ensure_ascii=False, default=str)
 
         async def produce(queue: asyncio.Queue[Any]) -> None:
@@ -226,7 +236,9 @@ class AnalyzePanel:
                     schema=SpecialistRebuttal,
                 )
                 await queue.put(
-                    AgentRebuttalEvent(data=AgentRebuttalData(agent_id=specialist.id, rebuttal=rebuttal))
+                    AgentRebuttalEvent(
+                        data=AgentRebuttalData(agent_id=specialist.id, rebuttal=rebuttal)
+                    )
                 )
             except Exception:
                 logger.exception("panel R2 specialist %s failed", specialist.id)
@@ -235,7 +247,9 @@ class AnalyzePanel:
                         data=AgentRebuttalData(
                             agent_id=specialist.id,
                             rebuttal=SpecialistRebuttal(
-                                ajuste="sin réplica (falló)", nivel_actualizado=claim.nivel, cambia_postura=False
+                                ajuste="sin réplica (falló)",
+                                nivel_actualizado=claim.nivel,
+                                cambia_postura=False,
                             ),
                         )
                     )
@@ -257,9 +271,13 @@ class AnalyzePanel:
             }
             payload_json = json.dumps(payload, ensure_ascii=False, default=str)
             user_narr = (
-                f"[fase:narracion-moderador]\nSintetiza el debate del panel en 2-3 frases.\n\n{payload_json}"
+                "[fase:narracion-moderador]\n"
+                f"Sintetiza el debate del panel en 2-3 frases.\n\n{payload_json}"
             )
-            messages = [Message(role="system", content=system), Message(role="user", content=user_narr)]
+            messages = [
+                Message(role="system", content=system),
+                Message(role="user", content=user_narr),
+            ]
             async for llm_event in self._llm.stream(messages, model=self._model):
                 if llm_event.type == "token":
                     delta = str(llm_event.data.get("delta", ""))
@@ -267,7 +285,10 @@ class AnalyzePanel:
                         yield ModeratorTokenEvent(data=ModeratorTokenData(delta=delta))
             consensus = await self._structured(
                 system=system,
-                user=f"[fase:consenso]\nEmite el CONSENSO estructurado del panel.\n\n{payload_json}",
+                user=(
+                    "[fase:consenso]\n"
+                    f"Emite el CONSENSO estructurado del panel.\n\n{payload_json}"
+                ),
                 schema=PanelConsensus,
             )
             yield ConsensusEvent(data=ConsensusData(consensus=consensus))
@@ -286,7 +307,11 @@ class AnalyzePanel:
                 delta = str(llm_event.data.get("delta", ""))
                 if delta:
                     await queue.put(
-                        AgentTokenEvent(data=AgentTokenData(agent_id=agent_id, round=round_num, delta=delta))
+                        AgentTokenEvent(
+                            data=AgentTokenData(
+                                agent_id=agent_id, round=round_num, delta=delta
+                            )
+                        )
                     )
 
     async def _structured(self, *, system: str, user: str, schema: type[_M]) -> _M:
