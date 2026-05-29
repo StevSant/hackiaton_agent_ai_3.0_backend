@@ -16,16 +16,17 @@ from app.schemas.status import AIStatusResponse
 
 router = APIRouter(prefix="/status", tags=["status"])
 
-_KNOWN_PROMPTS = ("claims_system", "route", "compose")
+# The prompts the claims agent actually loads at runtime (name, version).
+_KNOWN_PROMPTS = (("react", "v1"), ("claims_system", "v4"), ("compose", "v1"))
 
 
 @router.get("/ai", response_model=AIStatusResponse)
 def ai_status(state: Annotated[AIState, Depends(get_ai_state)]) -> AIStatusResponse:
     loaded_prompts: list[str] = []
-    for name in _KNOWN_PROMPTS:
+    for name, version in _KNOWN_PROMPTS:
         try:
-            state.prompts.load(name, "v1")
-            loaded_prompts.append(f"{name}.v1")
+            state.prompts.load(name, version)
+            loaded_prompts.append(f"{name}.{version}")
         except FileNotFoundError:
             continue
 
