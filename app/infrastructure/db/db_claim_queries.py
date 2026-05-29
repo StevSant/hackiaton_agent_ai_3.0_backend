@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from app.agents.claims_agent.tools.get_provider_detail_tool import (
         GetProviderDetailOutput,
     )
+    from app.agents.claims_agent.tools.types import ReviewerStats
 
 _T = TypeVar("_T", bound=tuple[object, ...])
 
@@ -593,3 +594,72 @@ class DbClaimQueries:
             asegurado=asegurado_out,
             top_claims=top_claim_summaries,
         )
+
+    async def analyze_reviewers(self, *, top_n: int = 20) -> list["ReviewerStats"]:
+        """Aggregate dictámenes per analyst from the claim_reviews table (A3).
+
+        Groups by (dictaminado_by_name, dictaminado_by), filters rows where
+        dictamen_outcome IS NOT NULL, and returns a ranked list of ReviewerStats.
+        """
+        from app.agents.claims_agent.tools.types import ReviewerStats
+
+        # Count total dictámenes per analyst
+        count_stmt = (
+            select(
+                func.coalesce(
+                    ClaimReviewRow.dictaminado_by_name, ClaimReviewRow.dictaminado_by
+                ).label("analista"),
+                ClaimReviewRow.dictaminado_by.label("analista_id"),
+                func.count(ClaimReviewRow.claim_id).label("total"),
+                func.coalesce(
+                    func.sum(
+                        case(
+                            (ClaimReviewRow.dictamen_outcome == "confirmado_sospecha", 1),
+                            else_=0,
+                        )
+                    ),
+                    0,
+                ).label("confirmados"),
+                func.coalesce(
+                    func.sum(
+                        case(
+                            (ClaimReviewRow.dictamen_outcome == "descartado", 1),
+                            else_=0,
+                        )
+                    ),
+                    0,
+                ).label("descartados"),
+                func.coalesce(
+                    func.sum(
+                        case(
+                            (ClaimReviewRow.dictamen_outcome == "requiere_mas_info", 1),
+                            else_=0,
+                        )
+                    ),
+                    0,
+                ).label("requiere_mas_info"),
+                func.array_agg(ClaimReviewRow.claim_id).label("claim_ids"),
+            )
+            .where(ClaimReviewRow.dictamen_outcome.is_not(None))
+            .group_by(
+                func.coalesce(
+                    ClaimReviewRow.dictaminado_by_name, ClaimReviewRow.dictaminado_by
+                ),
+                ClaimReviewRow.dictaminado_by,
+            )
+            .order_by(func.count(ClaimReviewRow.claim_id).desc())
+            .limit(top_n)
+        )
+
+        rows = list((await self._s.execute(count_stmt)).all())
+        return [
+            ReviewerStats(
+                analista=row.analista or "Desconocido",
+                total_dictamenes=int(row.total),
+                confirmados=int(row.confirmados),
+                descartados=int(row.descartados),
+                requiere_mas_info=int(row.requiere_mas_info),
+                claim_ids=[cid for cid in (row.claim_ids or []) if cid],
+            )
+            for row in rows
+        ]
