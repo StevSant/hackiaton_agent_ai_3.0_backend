@@ -15,6 +15,10 @@ Output:
 import sys
 from pathlib import Path
 
+# The coverage report prints box-drawing + ellipsis chars; force UTF-8 so it
+# doesn't crash on Windows' default cp1252 console (UnicodeEncodeError).
+sys.stdout.reconfigure(encoding="utf-8")
+
 # Make the repo root importable when running via `uv run python scripts/…`
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 

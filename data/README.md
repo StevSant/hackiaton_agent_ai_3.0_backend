@@ -33,6 +33,40 @@ seed pools in `data/config/` (see below) via `_pools/` under
 `app/use_cases/generate_dataset/`. No placeholders like `PROV-OBS-XXX` or
 `Asegurado 3FE2` are emitted.
 
+### How it's built (the pipeline)
+
+The dataset is **deterministic** — no `random` seeding; all variability comes
+from the archetype index + SHA-based hashing, so two runs produce identical
+bytes. The flow (all under `app/use_cases/generate_dataset/`):
+
+```
+data/config/*.json   →  _pools/        each pool wraps a JSON seed (apellidos,
+(seed vocab)            (load_pool)     nombres, marcas/modelos, proveedores,
+                            │           sucursales, ramos, vehicle_vocab …)
+                            ▼
+                       _archetypes.py   ~99 ClaimArchetype templates — each carries
+                            │           the signal flags that make specific FS/RF
+                            │           rules fire (engineered so every code ≥3×)
+                            ▼
+                       _claim_builder.build_claim(archetype, idx)
+                            │           assembles ClaimDetail + a fully-populated
+                            │           RuleContext, drawing names from the pools
+                            ▼
+                       runner.generate_and_save()
+                            ├─ scores each claim via the real rules engine and
+                            │  BAKES score/nivel/alertas into claims.json (the
+                            │  loader skips re-scoring so it isn't clobbered)
+                            ├─ writes synthetic/claims.json
+                            └─ _csv_export → the 5 §2.8 CSVs
+```
+
+`_archetypes.py` is the heart — to change what claims exist or which rules they
+trip, edit the archetype templates there, not the output files.
+
+> **Windows note:** the coverage report prints box-drawing + ellipsis chars.
+> `generate_dataset.py` reconfigures stdout to UTF-8 at startup so it doesn't
+> hit `UnicodeEncodeError` on the default cp1252 console — no env var needed.
+
 ---
 
 ## `samples/` — size-variant importable files
