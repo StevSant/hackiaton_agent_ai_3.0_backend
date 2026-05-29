@@ -260,7 +260,8 @@ async def analyze_claim_narrative_route(
     classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
     detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
     decoder: Annotated[VehicleDecoder, Depends(get_vehicle_decoder)] = ...,  # type: ignore[assignment]
-    _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
+    audit: Annotated[AuditStore, Depends(get_audit_store)] = ...,  # type: ignore[assignment]
+    user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
 ) -> ClaimDetail:
     """Run (or return cached) NLP analysis of the claim narrative.
 
@@ -294,6 +295,8 @@ async def analyze_claim_narrative_route(
         classifier=classifier,
         detector=detector,
         decoder=decoder,
+        audit=audit,
+        user=user,
     )
     if detail is None:
         raise HTTPException(

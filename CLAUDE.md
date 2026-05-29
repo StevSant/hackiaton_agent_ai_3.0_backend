@@ -1,6 +1,6 @@
 # CLAUDE.md — Backend (FastAPI + LangGraph)
 
-This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the [root `CLAUDE.md`](../CLAUDE.md) first for cross-stack rules, and especially **§2 Challenge spec — ground truth** (Aseguradora del Sur). The product spec lives at `docs/superpowers/specs/2026-05-26-fraudia-claims-design.md`.
+This file governs everything inside `hackiaton_agent_ai_3.0_backend/`. Read the [root `CLAUDE.md`](../CLAUDE.md) first for cross-stack rules, and especially **§2 Challenge spec — ground truth** (Aseguradora del Sur). The product spec lives at `docs/superpowers/specs/2026-05-26-centinela-claims-design.md`.
 
 > If you're an AI assistant and you're about to run `pip install`, edit `requirements.txt`, drop a 400-line `agent.py`, or `import openai` in feature code — **stop**. We use `uv`, ports/adapters, and small files. See §1 and §2.
 

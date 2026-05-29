@@ -18,6 +18,8 @@ class AuditAction(str, Enum):
     apertura = "apertura"
     escalamiento = "escalamiento"
     consulta_ia = "consulta_ia"
+    analisis_consenso = "analisis_consenso"
+    analisis_narrativa = "analisis_narrativa"
     cambio_regla = "cambio_regla"
     cierre = "cierre"
     dictamen = "dictamen"

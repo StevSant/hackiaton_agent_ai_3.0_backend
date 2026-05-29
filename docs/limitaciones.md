@@ -58,7 +58,7 @@ Por enfoque y plazo (deadline 2026-05-29):
 - Detección de drift en runtime.
 - Pipeline de reentrenamiento automatizado.
 
-Ver el design spec `docs/superpowers/specs/2026-05-26-fraudia-claims-design.md` §11 para el trigger de re-introducción.
+Ver el design spec `docs/superpowers/specs/2026-05-26-centinela-claims-design.md` §11 para el trigger de re-introducción.
 
 ## 9. Lo que SÍ hacemos bien
 

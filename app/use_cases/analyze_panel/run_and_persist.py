@@ -13,6 +13,9 @@ from datetime import UTC, datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.domain.auth.user import User
+from app.infrastructure.audit import AuditStore
+from app.schemas.audit import AuditAction, AuditActor
 from app.schemas.panel import (
     AgentRebuttalEvent,
     AgentTokenEvent,
@@ -27,12 +30,18 @@ from app.schemas.panel import (
 )
 from app.use_cases.analyze_panel.analyze_panel import AnalyzePanel
 from app.use_cases.analyze_panel.save_panel_analysis import save_panel_analysis
+from app.use_cases.emit_audit_event import emit_audit_event
 
 logger = logging.getLogger(__name__)
 
 
 async def run_and_persist(
-    panel: AnalyzePanel, session: AsyncSession, claim_id: str
+    panel: AnalyzePanel,
+    session: AsyncSession,
+    claim_id: str,
+    *,
+    audit: AuditStore | None = None,
+    user: User | None = None,
 ) -> AsyncGenerator[PanelStreamEvent, None]:
     lanes: dict[str, PanelLaneSnapshot] = {}
     order: list[str] = []
@@ -92,3 +101,27 @@ async def run_and_persist(
         await save_panel_analysis(session, claim_id, analysis)
     except Exception:  # persistence is best-effort — never break the stream
         logger.exception("panel: failed to persist analysis for %s", claim_id)
+
+    # Audit the run once it produced a real consensus — best-effort, never breaks
+    # the stream. Actor is the agente (the AI panel did the analysis), stamped
+    # with the human who triggered it.
+    if audit is not None and user is not None and consensus is not None:
+        acuerdo_pct = round(consensus.nivel_de_acuerdo * 100)
+        falso_positivo = (
+            " · posible falso positivo" if consensus.posible_falso_positivo else ""
+        )
+        try:
+            await emit_audit_event(
+                audit,
+                user=user,
+                action=AuditAction.analisis_consenso,
+                actor=AuditActor.agente,
+                title="Ejecutó análisis multi-agente",
+                detail=(
+                    f"Consenso {consensus.nivel_final.value} · "
+                    f"acuerdo {acuerdo_pct}%{falso_positivo}"
+                ),
+                target=claim_id,
+            )
+        except Exception:  # auditing is best-effort — never break the stream
+            logger.exception("panel: failed to audit analysis for %s", claim_id)

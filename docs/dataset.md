@@ -1,4 +1,4 @@
-# Synthetic Dataset — Fraudia Claims
+# Synthetic Dataset — Centinela IA
 
 ## Origin
 

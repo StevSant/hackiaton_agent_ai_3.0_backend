@@ -16,14 +16,18 @@ import logging
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.anomaly import AnomalyDetector
+from app.domain.auth.user import User
 from app.domain.ml import FraudClassifier
 from app.domain.similarity import NarrativeSimilarity
 from app.domain.vehicle_identity import VehicleDecoder
+from app.infrastructure.audit import AuditStore
 from app.infrastructure.db.models.siniestro import Siniestro
 from app.infrastructure.llm.ports import LLMProvider
+from app.schemas.audit import AuditAction, AuditActor
 from app.schemas.claim import ClaimDetail
 from app.use_cases._rescore_one import rescore_one
 from app.use_cases.analyze_claim_narrative import analyze_claim_narrative
+from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.hydrate_claim_detail import hydrate_claim_detail
 
@@ -45,6 +49,8 @@ async def analyze_claim_narrative_persisted(
     classifier: FraudClassifier | None = None,
     detector: AnomalyDetector | None = None,
     decoder: VehicleDecoder | None = None,
+    audit: AuditStore | None = None,
+    user: User | None = None,
 ) -> ClaimDetail | None:
     """Analyze a claim's narrative, cache it, and re-score from the fresh verdict.
 
@@ -96,5 +102,25 @@ async def analyze_claim_narrative_persisted(
     # of a claim; viewing must never mutate workflow state. Auto-escalation of
     # rojos happens at import / explicit rescore, not on read.
     await session.commit()
+
+    # Audit only this fresh run (cache hits return above) — one entry per claim's
+    # first analysis. Best-effort; the analysis is already committed.
+    if audit is not None and user is not None:
+        try:
+            await emit_audit_event(
+                audit,
+                user=user,
+                action=AuditAction.analisis_narrativa,
+                actor=AuditActor.agente,
+                title="Analizó la narrativa del caso",
+                detail=(
+                    "Relato incoherente detectado"
+                    if analysis.narrativa_ilogica
+                    else "Relato coherente"
+                ),
+                target=claim_id,
+            )
+        except Exception:  # auditing is best-effort
+            logger.exception("narrative: failed to audit analysis for %s", claim_id)
 
     return await enrich_claim_score(scored, classifier=classifier, detector=detector)

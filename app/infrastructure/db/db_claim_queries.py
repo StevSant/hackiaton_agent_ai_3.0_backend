@@ -162,6 +162,18 @@ class DbClaimQueries:
         proveedor_display = (
             proveedor_nombre or sin.beneficiario if sin.beneficiario else None
         )
+        # Advisory panel markers — read the cached consensus without affecting score.
+        panel = score_row.panel_analysis or {}
+        consensus = panel.get("consensus") if isinstance(panel, dict) else None
+        panel_revisado = bool(panel)
+        panel_discrepa = bool(
+            consensus
+            and consensus.get("nivel_final") is not None
+            and consensus.get("nivel_final") != score_row.tier
+        )
+        panel_falso_positivo = bool(
+            consensus and consensus.get("posible_falso_positivo")
+        )
         return ClaimSummary(
             id=sin.id_siniestro,
             ramo=normalize_ramo(sin.ramo),
@@ -179,10 +191,14 @@ class DbClaimQueries:
             ),
             proveedor=proveedor_display,
             proveedor_id=sin.beneficiario,
+            panel_revisado=panel_revisado,
+            panel_discrepa=panel_discrepa,
+            panel_falso_positivo=panel_falso_positivo,
         )
 
     def _to_summary(self, detail: ClaimDetail) -> ClaimSummary:
         """ClaimDetail → ClaimSummary. Used by executive_summary (already-hydrated path)."""
+        consensus = detail.panel_analysis.consensus if detail.panel_analysis else None
         return ClaimSummary(
             id=detail.id,
             ramo=normalize_ramo(detail.ramo),
@@ -195,6 +211,13 @@ class DbClaimQueries:
             score=detail.score,
             nivel=detail.nivel,
             review_status=detail.review.status,
+            panel_revisado=detail.panel_analysis is not None,
+            panel_discrepa=bool(
+                consensus
+                and consensus.nivel_final is not None
+                and consensus.nivel_final != detail.nivel
+            ),
+            panel_falso_positivo=bool(consensus and consensus.posible_falso_positivo),
         )
 
     async def _all_details(self) -> list[ClaimDetail]:

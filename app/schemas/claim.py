@@ -107,6 +107,11 @@ class ClaimSummary(BaseModel):
     review_status: ReviewStatus = ReviewStatus.pendiente
     proveedor: str | None = None
     proveedor_id: str | None = None
+    # Advisory multi-agent panel markers — never affect the score/tier (§2.10).
+    # Surfaced as a bandeja chip so the triager knows the panel weighed in.
+    panel_revisado: bool = False  # a panel run exists for this claim
+    panel_discrepa: bool = False  # panel consensus nivel_final != engine tier
+    panel_falso_positivo: bool = False  # panel flagged posible falso positivo
 
 
 class ClaimDetail(BaseModel):
