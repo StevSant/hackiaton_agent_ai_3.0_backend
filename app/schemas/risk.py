@@ -64,4 +64,7 @@ class ClaimRiskScore(BaseModel):
     anomaly_score: float | None = None
     nearest_normal_claim_id: str | None = None
     similar: list[SimilarClaim] = Field(default_factory=list)
+    # A2 — signal-agreement flags. NEVER an accusation: a review prompt.
+    posible_falso_positivo: bool = False
+    confianza: Literal["alta", "media", "baja"] = "alta"
     computed_at: datetime

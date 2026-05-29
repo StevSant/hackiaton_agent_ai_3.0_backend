@@ -8,7 +8,7 @@ in the FE mock yet. The deterministic scoring contract lives in `schemas/risk.py
 
 from datetime import date, datetime
 from enum import Enum
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -19,12 +19,18 @@ TimelineTone = Literal["ok", "warn", "danger"]
 
 
 class ClaimAlert(BaseModel):
-    """UI projection of a `RuleActivation`, rendered as a chip in the breakdown."""
+    """UI projection of a `RuleActivation`, rendered as a chip in the breakdown.
+
+    `detalle` is the rule's generic description; `evidence` carries the
+    per-claim variables that made *this* rule fire (e.g. {"demora_denuncia_horas": 56}).
+    The detail dialog renders `evidence` as the "en este caso" explanation.
+    """
 
     code: str
     puntos: int
     severidad: AlertSeverity
     detalle: str
+    evidence: dict[str, Any] = Field(default_factory=dict)
 
 
 class ClaimDocument(BaseModel):
@@ -140,6 +146,9 @@ class ClaimDetail(BaseModel):
     similar: list[SimilarClaim] = Field(default_factory=list)
     anomaly_score: float | None = None
     nearest_normal_claim_id: str | None = None
+    # A2 — signal-agreement flags surfaced on the detail page (amber chip + badge).
+    posible_falso_positivo: bool = False
+    confianza: Literal["alta", "media", "baja"] = "alta"
     # Per-claim geographic coordinates (WGS84) — derived from the sucursal's
     # city center plus deterministic per-claim jitter. Optional for backward
     # compatibility with older serialized claims.
