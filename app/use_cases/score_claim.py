@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 from app.domain.rules.aggregator import aggregate
 from app.domain.rules.catalog import all_rules
 from app.domain.rules.context import RuleContext
+from app.domain.rules.loader import rule_enabled
 from app.schemas.claim import ClaimDetail
 from app.schemas.risk import ClaimRiskScore, RuleActivation
 from app.use_cases.assess_confidence import assess_confidence
@@ -40,6 +41,9 @@ def score_claim(
 
     activations: list[RuleActivation] = []
     for rule in all_rules():
+        # Paused rules (toggled off from the dashboard) don't contribute.
+        if not rule_enabled(rule.META.code):
+            continue
         result = rule.evaluate(claim, ctx)
         if result is not None:
             activations.append(result)

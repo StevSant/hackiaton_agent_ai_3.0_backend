@@ -27,6 +27,7 @@ from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier, extract_features
 from app.domain.rules.catalog import all_rules, get_meta
 from app.domain.rules.context import RuleContext
+from app.domain.rules.loader import rule_enabled
 from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.db.models.proveedor import Proveedor
 from app.infrastructure.db.models.siniestro import Siniestro
@@ -182,8 +183,11 @@ async def _generate(
             fired_count = 0
 
             for rule in rules:
-                activation = rule.evaluate(claim, ctx)
                 code = rule.META.code
+                # Paused rules (toggled off from the dashboard) are skipped entirely.
+                if not rule_enabled(code):
+                    continue
+                activation = rule.evaluate(claim, ctx)
                 is_hard = code.startswith(_HARD_RULE_PREFIX)
 
                 if activation is not None:
@@ -229,6 +233,8 @@ async def _generate(
 
             activations: list[RuleActivation] = []
             for rule in rules:
+                if not rule_enabled(rule.META.code):
+                    continue
                 result = rule.evaluate(claim, ctx)
                 if result is not None:
                     activations.append(result)

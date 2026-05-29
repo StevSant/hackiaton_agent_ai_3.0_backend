@@ -15,6 +15,8 @@ from app.infrastructure.db.models.documento import Documento
 from app.infrastructure.db.models.message import Message
 from app.infrastructure.db.models.poliza import Poliza
 from app.infrastructure.db.models.proveedor import Proveedor
+from app.infrastructure.db.models.rule_change import RuleChange
+from app.infrastructure.db.models.rule_override import RuleOverride
 from app.infrastructure.db.models.siniestro import Siniestro
 
 __all__ = [
@@ -28,5 +30,7 @@ __all__ = [
     "Message",
     "Poliza",
     "Proveedor",
+    "RuleChange",
+    "RuleOverride",
     "Siniestro",
 ]

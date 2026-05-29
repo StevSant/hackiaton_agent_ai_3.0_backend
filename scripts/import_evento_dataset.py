@@ -32,7 +32,7 @@ sys.path.insert(0, str(_REPO_ROOT))
 _DEFAULT_XLSX = (
     _REPO_ROOT
     / "data"
-    / "Data set documentos evento "
+    / "Data set documentos evento"
     / "Evento Datasets_Sinteticos_Fraude_500_v2.xlsx"
 )
 
@@ -531,7 +531,7 @@ def main() -> int:
         "xlsx_path",
         nargs="?",
         default=str(_DEFAULT_XLSX),
-        help="Path to the xlsx file (default: data/Data set documentos evento /Evento...v2.xlsx)",
+        help="Path to the xlsx file (default: data/Data set documentos evento/Evento...v2.xlsx)",
     )
     parser.add_argument(
         "--parse-only",
