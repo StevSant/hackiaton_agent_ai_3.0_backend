@@ -16,6 +16,7 @@ import json
 from datetime import date
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 from pydantic import BaseModel, Field
 
@@ -169,7 +170,12 @@ async def extract_claim_from_text(
         )
 
     ciudad = extracted.ciudad or "Guayaquil"
-    claim_id = extracted.id or f"DOC-{date.today().isoformat().replace('-', '')}-XXX"
+    # Unique fallback id when the document carries no claim number — a literal
+    # "-XXX" suffix collides across same-day document imports.
+    claim_id = (
+        extracted.id
+        or f"DOC-{date.today().isoformat().replace('-', '')}-{uuid4().hex[:6].upper()}"
+    )
 
     return ClaimDetail(
         id=claim_id,

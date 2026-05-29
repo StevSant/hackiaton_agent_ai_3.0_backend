@@ -21,13 +21,11 @@ from app.domain.similarity import NarrativeSimilarity
 from app.domain.vehicle_identity import VehicleDecoder
 from app.infrastructure.db.models.siniestro import Siniestro
 from app.infrastructure.llm.ports import LLMProvider
-from app.infrastructure.reviews.db_reviews_store import DbReviewsStore
 from app.schemas.claim import ClaimDetail
 from app.use_cases._rescore_one import rescore_one
 from app.use_cases.analyze_claim_narrative import analyze_claim_narrative
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.hydrate_claim_detail import hydrate_claim_detail
-from app.use_cases.reviews.auto_escalate_rojo import auto_escalate_rojo
 
 logger = logging.getLogger(__name__)
 
@@ -91,15 +89,12 @@ async def analyze_claim_narrative_persisted(
     # Carry the analysis on the detail so rescore_one persists it to claim_scores.
     detail = detail.model_copy(update={"narrative_analysis": analysis})
 
-    scored, risk = await rescore_one(
+    scored, _risk = await rescore_one(
         session, detail, similarity=similarity, decoder=decoder
     )
-    await auto_escalate_rojo(
-        DbReviewsStore(session),
-        claim_id,
-        tier=risk.tier,
-        score=risk.score,
-    )
+    # NOTE: no auto-escalation here. Narrative analysis runs lazily on first VIEW
+    # of a claim; viewing must never mutate workflow state. Auto-escalation of
+    # rojos happens at import / explicit rescore, not on read.
     await session.commit()
 
     return await enrich_claim_score(scored, classifier=classifier, detector=detector)

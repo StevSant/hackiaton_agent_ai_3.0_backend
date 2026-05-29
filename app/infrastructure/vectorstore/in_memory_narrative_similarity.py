@@ -71,6 +71,31 @@ class InMemoryNarrativeSimilarity(NarrativeSimilarity):
             if sims[int(i)] > 0
         ]
 
+    async def nearest_by_text(
+        self, descripcion: str, *, top_k: int = 3, exclude_claim_id: str | None = None
+    ) -> list[SimilarClaim]:
+        if self._matrix is None:
+            return []
+        vector = (await self._embeddings.embed([descripcion]))[0]
+        query = np.asarray(vector, dtype=np.float32)
+        sims = (self._matrix @ query).astype(float)
+        order = np.argsort(-sims)
+        out: list[SimilarClaim] = []
+        for i in order:
+            cid = self._claim_ids[int(i)]
+            if cid == exclude_claim_id or sims[int(i)] <= 0:
+                continue
+            out.append(
+                SimilarClaim(
+                    claim_id=cid,
+                    similarity=float(np.clip(sims[int(i)], 0.0, 1.0)),
+                    snippet=self._descripciones[int(i)][:160],
+                )
+            )
+            if len(out) >= top_k:
+                break
+        return out
+
     async def max_similarity(self, claim_id: str) -> float:
         nearest = await self.nearest(claim_id, top_k=1)
         return nearest[0].similarity if nearest else 0.0

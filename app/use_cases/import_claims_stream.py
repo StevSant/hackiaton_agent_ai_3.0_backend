@@ -128,6 +128,10 @@ async def _generate(
     imported = 0
     skipped = 0
     errors: list[str] = []
+    # (claim_id, descripcion) pairs to index AFTER the batch commit — the
+    # claim_narratives FK requires the siniestros row to exist first, and the
+    # similarity adapter commits in its own session (can't see uncommitted rows).
+    to_index: list[tuple[str, str]] = []
 
     for row_idx, claim in enumerate(records):
         # ── 1. ParseRow ───────────────────────────────────────────────────────
@@ -149,19 +153,15 @@ async def _generate(
             # ── 3. Build enriched RuleContext ─────────────────────────────────
             ctx = await _build_enriched_context(claim, session)
 
-            # ── 4. Index narrative for similarity (before querying) ───────────
+            # ── 4-5. Narrative similarity enrichment (embed-on-the-fly) ───────
+            # Query neighbours WITHOUT indexing this claim first — its siniestros
+            # row isn't committed yet, so indexing now would violate the
+            # claim_narratives FK. Indexing happens after the batch commit (below).
             if similarity is not None and claim.descripcion and len(claim.descripcion) >= 30:
                 try:
-                    await similarity.index(claim.id, claim.descripcion)
-                except Exception as exc:
-                    logger.warning(
-                        "stream_import: similarity.index failed for %s: %s", claim.id, exc
+                    similar_claims = await similarity.nearest_by_text(
+                        claim.descripcion, top_k=3, exclude_claim_id=claim.id
                     )
-
-            # ── 5. Narrative similarity enrichment ────────────────────────────
-            if similarity is not None and claim.descripcion and len(claim.descripcion) >= 30:
-                try:
-                    similar_claims = await similarity.nearest(claim.id, top_k=3)
                     top_sim = similar_claims[0].similarity if similar_claims else 0.0
                     ctx.narrativa_similar_score = top_sim
                     # narrativa_clonada drives RF-07 (≥0.98), NOT FS-13 (≥0.85)
@@ -323,6 +323,9 @@ async def _generate(
                         await _upsert_one(session, scored_claim, workspace_id=workspace_id)
                     persisted = True
                     imported += 1
+                    # Index after the batch commit (FK target now guaranteed to exist).
+                    if claim.descripcion and len(claim.descripcion) >= 30:
+                        to_index.append((claim.id, claim.descripcion))
                 except Exception as exc:
                     skipped += 1
                     msg = f"{claim.id}: persist failed: {exc}"
@@ -370,6 +373,14 @@ async def _generate(
             await session.commit()
         except Exception as exc:
             logger.error("stream_import: post-batch commit failed: %s", exc)
+
+    # ── Index narratives now that the siniestros rows are committed ────────────
+    # (claim_narratives FK → siniestros; must run after the commit above).
+    if similarity is not None and to_index:
+        try:
+            await similarity.index_many(to_index)
+        except Exception as exc:
+            logger.warning("stream_import: similarity.index_many failed: %s", exc)
 
     yield ImportCompletedEvent(
         data=ImportCompletedData(imported=imported, skipped=skipped, errors=errors)

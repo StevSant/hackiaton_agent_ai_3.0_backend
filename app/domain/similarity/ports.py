@@ -24,5 +24,14 @@ class NarrativeSimilarity(Protocol):
     async def nearest(self, claim_id: str, top_k: int = 3) -> list[SimilarClaim]:
         """Return top-k similar prior claims, excluding self."""
 
+    async def nearest_by_text(
+        self, descripcion: str, *, top_k: int = 3, exclude_claim_id: str | None = None
+    ) -> list[SimilarClaim]:
+        """Top-k similar claims for a raw narrative, without indexing it first.
+
+        Embeds ``descripcion`` on the fly and queries existing neighbours. Lets a
+        claim be scored for similarity before its own row exists (e.g. mid-import,
+        before the ``siniestros`` row is committed)."""
+
     async def max_similarity(self, claim_id: str) -> float:
         """Highest similarity score against any other indexed claim. 0.0 if alone."""

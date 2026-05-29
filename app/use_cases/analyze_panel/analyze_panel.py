@@ -119,10 +119,17 @@ class AnalyzePanel:
             )
         )
 
+        # Ground the Documentos/Red specialist with real provider KPIs (not just
+        # the name) so its "red"/network reasoning has substance.
+        slice_extras: dict[str, dict[str, Any]] = {}
+        provider_stats = await self._provider_stats(claim)
+        if provider_stats is not None:
+            slice_extras["documentos_red"] = {"proveedor_stats": provider_stats}
+
         # --- R1: parallel narration + verdict. Capture verdicts as they stream by.
         verdicts: dict[str, SpecialistVerdict] = {}
         async for ev in self._drain(
-            [self._r1_producer(s, claim) for s in PANEL_ROSTER]
+            [self._r1_producer(s, claim, slice_extras.get(s.id)) for s in PANEL_ROSTER]
         ):
             if isinstance(ev, AgentVerdictEvent):
                 verdicts[ev.data.agent_id] = ev.data.verdict
@@ -145,11 +152,39 @@ class AnalyzePanel:
 
     # ----- round drivers -------------------------------------------------
 
-    def _r1_producer(self, specialist: Specialist, claim: ClaimDetail) -> _Producer:
+    async def _provider_stats(self, claim: ClaimDetail) -> dict[str, Any] | None:
+        """Fetch provider KPIs for the Documentos/Red lens (best-effort)."""
+        if not claim.proveedor:
+            return None
+        try:
+            detail = await self._queries.get_provider_detail(claim.proveedor)
+        except Exception:
+            logger.debug("panel: provider lookup failed for %s", claim.proveedor)
+            return None
+        prov = getattr(detail, "provider", None)
+        if prov is None:
+            return None
+        return {
+            "casos_asociados": prov.casos,
+            "alertas": prov.alertas,
+            "monto_total": prov.monto,
+            "lista_restrictiva": prov.lista_restrictiva,
+            "ramos": prov.ramos,
+        }
+
+    def _r1_producer(
+        self,
+        specialist: Specialist,
+        claim: ClaimDetail,
+        extra: dict[str, Any] | None = None,
+    ) -> _Producer:
         async def produce(queue: asyncio.Queue[Any]) -> None:
             try:
                 system = self._prompts.load(specialist.prompt_id, "v1")
-                slice_json = json.dumps(specialist.slice_fn(claim), ensure_ascii=False, default=str)
+                slice_data = specialist.slice_fn(claim)
+                if extra:
+                    slice_data = {**slice_data, **extra}
+                slice_json = json.dumps(slice_data, ensure_ascii=False, default=str)
                 # narration (streamed)
                 await self._stream_tokens(
                     queue,
@@ -275,6 +310,9 @@ class AnalyzePanel:
         try:
             system = self._prompts.load(MODERATOR_PROMPT_ID, "v1")
             payload = {
+                # Deterministic engine verdict — the panel's job is to corroborate
+                # or challenge it (divergence = the key decision signal).
+                "motor": {"score": claim.score, "nivel": claim.nivel.value},
                 "veredictos": {k: v.model_dump(mode="json") for k, v in verdicts.items()},
                 "replicas": {k: r.model_dump(mode="json") for k, r in rebuttals.items()},
             }

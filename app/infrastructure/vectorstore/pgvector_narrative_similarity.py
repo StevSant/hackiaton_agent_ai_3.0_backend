@@ -132,6 +132,35 @@ class PgVectorNarrativeSimilarity(NarrativeSimilarity):
                 for row in result
             ]
 
+    async def nearest_by_text(
+        self, descripcion: str, *, top_k: int = 3, exclude_claim_id: str | None = None
+    ) -> list[SimilarClaim]:
+        vector = (await self._embeddings.embed([descripcion]))[0]
+        anchor = _vector_literal(vector)
+        async with self._session() as session:
+            result = await session.execute(
+                text(
+                    """
+                    select n.claim_id,
+                           1 - (n.embedding <=> cast(:anchor as vector)) as similarity,
+                           n.content
+                    from claim_narratives n
+                    where (:exclude is null or n.claim_id <> :exclude)
+                    order by n.embedding <=> cast(:anchor as vector) asc
+                    limit :top_k
+                    """
+                ),
+                {"anchor": anchor, "exclude": exclude_claim_id, "top_k": top_k},
+            )
+            return [
+                SimilarClaim(
+                    claim_id=row.claim_id,
+                    similarity=max(0.0, min(1.0, float(row.similarity))),
+                    snippet=(row.content or "")[:160],
+                )
+                for row in result
+            ]
+
     async def max_similarity(self, claim_id: str) -> float:
         nearest = await self.nearest(claim_id, top_k=1)
         return nearest[0].similarity if nearest else 0.0
