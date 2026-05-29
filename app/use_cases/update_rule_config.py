@@ -5,8 +5,13 @@ Sequence (antifraude-only; gated at the route):
 2. Persist the new override row (enabled flag + threshold overlay).
 3. Re-hydrate the engine loader so the change takes effect immediately.
 4. Append an audit entry to the rule-change log (one per changed aspect).
-5. Run a full rescore so every existing claim reflects the change at once.
-6. Return the refreshed RuleConfigOut row.
+5. Return the refreshed RuleConfigOut row.
+
+Deliberately does NOT rescore: an analyst usually edits several rules in a row,
+so the full-portfolio rescore is a separate, explicit action — the SSE endpoint
+``POST /rules/rescore`` — triggered once from the dashboard when they're done.
+New imports/scores computed after this call already use the new config (the
+loader is hydrated); only previously persisted scores stay stale until rescore.
 
 No threshold edit can inject arbitrary keys: only the numeric keys already present
 in the rule's ``config.yaml`` block are accepted, and values must be >= 0.
@@ -25,15 +30,12 @@ from app.domain.rules.catalog import get_meta
 from app.domain.rules.defaults import DEFAULT_DISABLED_CODES
 from app.domain.rules.loader import numeric_thresholds
 from app.domain.rules.ports import RuleMeta
-from app.domain.similarity import NarrativeSimilarity
-from app.domain.vehicle_identity import VehicleDecoder
 from app.infrastructure.rule_changes import RuleChangesStore
 from app.infrastructure.rule_overrides import RuleOverrideRecord, RuleOverridesStore
 from app.schemas.rule_changes import RuleChangeKind, RuleChangeOut
 from app.schemas.rules_config import RuleConfigOut, RuleConfigPatch
 from app.use_cases.hydrate_rule_overrides import hydrate_rule_overrides
 from app.use_cases.list_rules_config import list_rules_config
-from app.use_cases.rescore_all import rescore_all
 
 
 def _config_key(code: str) -> str:
@@ -120,8 +122,6 @@ async def update_rule_config(
     overrides_store: RuleOverridesStore,
     changes_store: RuleChangesStore,
     actor: str,
-    similarity: NarrativeSimilarity | None = None,
-    decoder: VehicleDecoder | None = None,
 ) -> RuleConfigOut:
     meta = get_meta(code)
     if meta is None:
@@ -163,9 +163,6 @@ async def update_rule_config(
         new_thresholds=record.thresholds,
     ):
         await changes_store.append(change)
-
-    # Immediate full rescore so existing claims reflect the change right away.
-    await rescore_all(session, similarity=similarity, decoder=decoder)
 
     rows = await list_rules_config(session)
     return next(r for r in rows if r.code == code)

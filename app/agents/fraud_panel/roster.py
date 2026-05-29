@@ -8,7 +8,13 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.agents.fraud_panel.humanize import (
+    anomaly_reading,
+    probability_reading,
+    similarity_reading,
+)
 from app.agents.fraud_panel.specialist import Specialist
+from app.domain.ml import feature_label
 from app.schemas.claim import ClaimDetail
 
 
@@ -54,13 +60,21 @@ def _slice_reglas(c: ClaimDetail) -> dict[str, Any]:
 
 
 def _slice_ml(c: ClaimDetail) -> dict[str, Any]:
+    # Business labels only — the specialist must speak analyst language, so the
+    # raw feature identifiers (es_robo, monto_vs_suma_pct), unrounded floats and
+    # nulls never reach the prompt (they leak verbatim into citas otherwise).
+    factores = [
+        {
+            "factor": feature_label(f.feature),
+            "efecto": "eleva el riesgo" if f.direction == "up" else "reduce el riesgo",
+            "peso_relativo": rank + 1,
+        }
+        for rank, f in enumerate(c.ml_factors)
+    ]
     return {
-        "ml_probability": c.ml_probability,
-        "ml_factors": [
-            {"feature": f.feature, "shap_value": f.shap_value, "direction": f.direction}
-            for f in c.ml_factors
-        ],
-        "anomaly_score": c.anomaly_score,
+        "probabilidad_modelo": probability_reading(c.ml_probability),
+        "factores": factores or "sin factores del modelo disponibles",
+        "indicador_anomalia": anomaly_reading(c.anomaly_score),
     }
 
 
@@ -68,7 +82,11 @@ def _slice_narrativa(c: ClaimDetail) -> dict[str, Any]:
     return {
         "descripcion": c.descripcion,
         "similar": [
-            {"claim_id": s.claim_id, "similarity": s.similarity, "snippet": s.snippet}
+            {
+                "caso": s.claim_id,
+                "similitud": similarity_reading(s.similarity),
+                "extracto": s.snippet,
+            }
             for s in c.similar
         ],
     }

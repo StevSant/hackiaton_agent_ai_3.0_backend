@@ -25,3 +25,14 @@ def test_reglas_slice_includes_alertas_and_score() -> None:
     reglas = next(s for s in PANEL_ROSTER if s.id == "reglas")
     sliced = reglas.slice_fn(claim)
     assert "score" in sliced and "alertas" in sliced
+
+
+def test_ml_slice_is_humanized_never_raw() -> None:
+    # The LLM leaks whatever it receives into its citas — the slice must carry
+    # business-Spanish readings, never raw floats / None / [].
+    claim = claim_rojo()
+    ml = next(s for s in PANEL_ROSTER if s.id == "ml")
+    sliced = ml.slice_fn(claim)
+    assert sliced["probabilidad_modelo"] == "no disponible"
+    assert sliced["factores"] == "sin factores del modelo disponibles"
+    assert sliced["indicador_anomalia"] == "no disponible"

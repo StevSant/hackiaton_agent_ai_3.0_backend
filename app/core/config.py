@@ -35,6 +35,10 @@ class Settings(BaseSettings):
     # connect_args timeout — retrying would just multiply the wait).
     DB_CONNECT_MAX_RETRIES: int = 3
     DB_CONNECT_RETRY_BACKOFF_S: float = 0.25
+    # The pooler can also reset a connection *mid-request* (pre_ping only
+    # protects checkout). Idempotent requests (GET/HEAD) are transparently
+    # retried this many times on a fresh connection before answering 503.
+    DB_DISCONNECT_RETRY_MAX: int = 1
 
     # connection pool sizing. The Supabase pooler does the real pooling, but our
     # own SQLAlchemy pool must have enough slots for concurrent long-held
@@ -45,6 +49,12 @@ class Settings(BaseSettings):
     DB_MAX_OVERFLOW: int = 20
     DB_POOL_TIMEOUT_S: float = 10.0
     DB_POOL_RECYCLE_S: int = 1800
+
+    # sse — comment-heartbeat interval for /agent/ask. Keeps proxies and slow
+    # links from dropping the connection during the stream's silent phases
+    # (visual planning, compose TTFT, post-stream DB writes). SSE comments
+    # (": ping") are ignored by spec-compliant clients.
+    SSE_HEARTBEAT_SECONDS: float = 15.0
 
     # llm  (OpenAI-only for the hackathon — locked 2026-05-26)
     LLM_PROVIDER: Literal["openai", "fake"] = "openai"
@@ -87,6 +97,11 @@ class Settings(BaseSettings):
     FRAUD_MODEL_PATH: str = "data/models/fraud_lgbm.txt"
     ANOMALY_MODEL_PATH: str = "data/models/anomaly_iforest.joblib"
     NEAREST_NORMAL_INDEX_PATH: str = "data/models/anomaly_knn.joblib"
+    # panel — verbal banding of the anomaly indicator sent to the ML specialist
+    # (sklearn convention: lower = more anomalous). The specialist only ever
+    # receives the Spanish reading, never the raw float. Referential, tune via .env.
+    PANEL_ANOMALY_VERY_ATYPICAL: float = -0.1  # below this → "muy atípico"
+    PANEL_ANOMALY_SOMEWHAT_ATYPICAL: float = 0.0  # below this → "algo atípico"
 
     # rules
     RULES_CONFIG_PATH: str = "app/domain/rules/config.yaml"

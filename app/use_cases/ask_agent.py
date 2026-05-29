@@ -14,9 +14,15 @@ the graph) is intentional — compose is the only step that benefits from
 token-by-token UX, and LangGraph nodes return state diffs, not streams.
 
 Event sequence (golden path):
-    agent_step(react_step) → tool_call / tool_result → ... → agent_step(compose)
-      → token(delta)* → done(message_id)
+    agent_step(react_step) → tool_call / tool_result → ... →
+      agent_step(visual_pending)? → visual* → agent_step(compose)
+      → token(delta)* → document? → done(message_id)
 On any unhandled exception → error(code, message) → done.
+
+Visuals and the document are emitted BEFORE the post-compose persistence
+writes: anything streamed after the last token rides behind silent DB I/O,
+so a dropped or refreshed connection loses it even though the payload was
+already persisted (symptom: chart only appears after a page reload).
 """
 
 import json
@@ -36,7 +42,7 @@ from app.schemas.agent import AgentAskRequest
 from app.schemas.chat.stream import (
     AgentStepData,
     AgentStepEvent,
-    ChartEvent,
+    AgentVisual,
     DocumentEvent,
     DoneData,
     DoneEvent,
@@ -48,10 +54,12 @@ from app.schemas.chat.stream import (
     ToolCallEvent,
     ToolResultData,
     ToolResultEvent,
+    VisualEvent,
 )
-from app.use_cases._chart_from_tools import maybe_build_chart
 from app.use_cases._document_from_tools import maybe_build_document
+from app.use_cases._visuals_from_tools import build_visuals
 from app.use_cases.conversations.conversation_persister import ConversationPersister
+from app.use_cases.plan_visuals import PlanVisuals
 
 logger = logging.getLogger(__name__)
 
@@ -74,23 +82,37 @@ def _serialize_scratchpad(scratchpad: list[dict]) -> str:
     return json.dumps(scratchpad, ensure_ascii=False, separators=(",", ":"), default=str)
 
 
-_CHART_HINT_TOOLS = ("aggregate_by_dimension", "query_claims")
+_VISUAL_KIND_LABEL = {
+    "table": "una tabla interactiva",
+    "kpi": "tarjetas KPI",
+    "gauge": "un medidor de riesgo",
+    "heatmap": "un mapa de calor",
+}
+
+_CHART_TYPE_LABEL = {
+    "line": "una línea de tiempo",
+    "scatter": "un gráfico de dispersión",
+    "bar": "un gráfico de barras",
+    "horizontal_bar": "un gráfico de barras horizontales",
+    "pie": "un gráfico de torta",
+    "doughnut": "un gráfico de dona",
+    "stacked_tier": "una barra de composición por nivel",
+    "dotplot": "un gráfico de distribución",
+}
 
 
-def _has_chart_hint(tool_results: list[dict[str, Any]]) -> bool:
-    """Cheap pre-check: does any collected tool result carry a chart_hint?
-
-    Lets us emit a `chart_pending` SSE step BEFORE the compose stream so the
-    UI can paint a chart skeleton in parallel with the streamed text instead
-    of waiting for the final chart event.
-    """
-    for tr in tool_results:
-        if tr.get("tool") not in _CHART_HINT_TOOLS:
-            continue
-        args = tr.get("args")
-        if isinstance(args, dict) and isinstance(args.get("chart_hint"), dict):
-            return True
-    return False
+def _describe_visuals(visuals: list[AgentVisual]) -> str | None:
+    """Spanish description of the visuals that will render below the answer,
+    given to compose so it doesn't duplicate the same data in markdown."""
+    if not visuals:
+        return None
+    labels: list[str] = []
+    for v in visuals:
+        if v.kind == "chart":
+            labels.append(_CHART_TYPE_LABEL.get(v.data.chart_type, "un gráfico"))
+        else:
+            labels.append(_VISUAL_KIND_LABEL.get(v.kind, "una visualización"))
+    return " y ".join(labels)
 
 
 class AskAgent:
@@ -110,6 +132,11 @@ class AskAgent:
         self._deps = deps
         self._graph = build_graph(deps)
         self._persistence = persistence
+        self._plan_visuals = PlanVisuals(
+            llm=deps.llm,
+            prompts=deps.prompts,
+            model=settings.COMPOSE_MODEL or settings.LLM_DEFAULT_MODEL,
+        )
 
     async def run(
         self,
@@ -121,7 +148,7 @@ class AskAgent:
         | ToolCallEvent
         | ToolResultEvent
         | AgentStepEvent
-        | ChartEvent
+        | VisualEvent
         | DocumentEvent
         | ErrorEvent
         | DoneEvent
@@ -184,7 +211,6 @@ class AskAgent:
             tool_results: list[dict[str, Any]] = []
             citations: list[str] = []
             scratchpad: list[dict[str, Any]] = []
-            seen_tool_results = 0
 
             async for event in self._graph.astream_events(
                 initial_state, config=config, version="v2"
@@ -223,15 +249,26 @@ class AskAgent:
                                 result=tool_result.get("result"),
                             )
                         )
-                    seen_tool_results += len(new_results)
                     new_citations = node_output.get("citations") or []
                     citations.extend(c for c in new_citations if c)
 
-            # Emit a `chart_pending` step BEFORE compose so the UI can paint a
-            # chart skeleton in parallel with the streamed answer text — instead
-            # of waiting for the final `chart` event to learn one is coming.
-            if _has_chart_hint(tool_results):
-                yield AgentStepEvent(data=AgentStepData(node="chart_pending"))
+            # After the tool loop, before compose: decide which visuals best
+            # present the answer. The planner is a single structured LLM call;
+            # on any failure it returns an empty plan (no visuals this turn).
+            visual_plan = await self._plan_visuals.run(
+                query=req.query, tool_results=tool_results
+            )
+            # Build the visuals NOW (deterministic, no LLM call) so compose can
+            # be told exactly what will render below its answer — otherwise it
+            # duplicates the same data as a markdown table in the prose.
+            visuals = build_visuals(tool_results, visual_plan, message_id)
+            if visuals:
+                yield AgentStepEvent(data=AgentStepData(node="visual_pending"))
+            # Emit visuals BEFORE compose: the chart renders while the answer
+            # streams, and the tail of the stream (post-compose DB writes) can
+            # no longer drop them on a flaky or refreshed connection.
+            for v in visuals:
+                yield VisualEvent(data=v)
 
             # Compose phase — streamed live from the LLM. Accumulate text so we
             # can persist it as an AIMessage for the next turn.
@@ -243,6 +280,7 @@ class AskAgent:
                 citations=citations,
                 scratchpad=scratchpad,
                 message_id=message_id,
+                visuals_note=_describe_visuals(visuals),
             ):
                 answer_buffer.append(token.data.delta)
                 yield token
@@ -256,14 +294,14 @@ class AskAgent:
                     values={"messages": [AIMessage(content=full_answer)]},
                 )
 
-            # Build chart and document events BEFORE persistence so we can store
-            # their payloads alongside the assistant message.
-            chart_event = maybe_build_chart(tool_results, message_id)
-            chart_payload_dict = (
-                chart_event.data.model_dump(mode="json") if chart_event is not None else None
-            )
+            # Serialize payloads for persistence (visuals were built pre-compose).
+            visual_payload_dict = [v.model_dump(mode="json") for v in visuals] or None
             document_event = maybe_build_document(tool_results)
-            document_payload_dict = (
+            # Same rationale as visuals: flush the document before the DB writes
+            # below so a dying connection can't swallow it.
+            if document_event is not None:
+                yield document_event
+            document_payload_dict: dict[str, Any] | None = (
                 document_event.data.model_dump(mode="json")
                 if document_event is not None
                 else None
@@ -291,7 +329,7 @@ class AskAgent:
             if document_payload_dict is not None:
                 transparency["document_payload"] = document_payload_dict
 
-            # --- Persist the assistant message + chart payload + schedule title generation.
+            # --- Persist the assistant message + visual payload + schedule title generation.
             if (
                 self._persistence is not None
                 and user is not None
@@ -303,7 +341,7 @@ class AskAgent:
                         conversation_id=conversation_uuid,
                         user=user,
                         answer=full_answer,
-                        chart_payload=chart_payload_dict,
+                        visual_payload=visual_payload_dict,
                         transparency_metadata=transparency,
                     )
                     self._persistence.schedule_title(
@@ -315,11 +353,6 @@ class AskAgent:
                     )
                 except Exception:
                     logger.exception("Persisting assistant message failed; chat continues.")
-
-            if chart_event is not None:
-                yield chart_event
-            if document_event is not None:
-                yield document_event
 
             yield DoneEvent(data=DoneData(message_id=message_id))
 
@@ -335,6 +368,7 @@ class AskAgent:
         citations: list[str],
         scratchpad: list[dict[str, Any]],
         message_id: str,
+        visuals_note: str | None = None,
     ) -> AsyncIterator[TokenEvent]:
         """Stream the compose LLM call token-by-token."""
         system_prompt = self._deps.prompts.load("claims_system", "v4")
@@ -344,9 +378,19 @@ class AskAgent:
             scratchpad_section = (
                 f"## scratchpad\n```json\n{_serialize_scratchpad(scratchpad)}\n```\n\n"
             )
+        visual_section = ""
+        if visuals_note:
+            visual_section = (
+                f"## visualización adjunta\n"
+                f"Debajo de tu respuesta se mostrará automáticamente {visuals_note} "
+                f"con estos mismos datos. NO repitas los datos en una tabla markdown "
+                f"ni en listados extensos: escribí un análisis breve en prosa "
+                f"(hallazgos clave, 2-4 oraciones) citando los IDs más relevantes.\n\n"
+            )
         user_payload = (
             f"## Pregunta del analista\n{query}\n\n"
             f"{scratchpad_section}"
+            f"{visual_section}"
             f"## tool_results\n```json\n{_serialize_tool_results(tool_results)}\n```\n\n"
             f"## citations\n{', '.join(citations) if citations else '—'}\n\n"
             f"Componé la respuesta final siguiendo las reglas de `compose.v1`."

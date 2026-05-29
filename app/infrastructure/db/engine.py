@@ -135,6 +135,14 @@ def set_session_factory(factory: async_sessionmaker[AsyncSession]) -> None:
     _session_factory = factory
 
 
+def get_session_factory() -> async_sessionmaker[AsyncSession]:
+    """The registered factory — for background jobs that outlive a request."""
+    if _session_factory is None:
+        msg = "Session factory not initialised — call set_session_factory() in lifespan."
+        raise RuntimeError(msg)
+    return _session_factory
+
+
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     """FastAPI dependency: yield one AsyncSession per request."""
     if _session_factory is None:

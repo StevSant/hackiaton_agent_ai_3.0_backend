@@ -10,6 +10,7 @@ from app.schemas.chat.stream.error_event import ErrorEvent
 from app.schemas.chat.stream.token_event import TokenEvent
 from app.schemas.chat.stream.tool_call_event import ToolCallEvent
 from app.schemas.chat.stream.tool_result_event import ToolResultEvent
+from app.schemas.chat.stream.visual_event import VisualEvent
 
 ChatStreamEvent = Annotated[
     TokenEvent
@@ -17,6 +18,7 @@ ChatStreamEvent = Annotated[
     | ToolResultEvent
     | AgentStepEvent
     | ChartEvent
+    | VisualEvent
     | DocumentEvent
     | ErrorEvent
     | DoneEvent,

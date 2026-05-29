@@ -10,11 +10,11 @@ short-circuits to a passthrough.
 
 from __future__ import annotations
 
-import logging
 import time
 import uuid
 from typing import Any
 
+import structlog
 from starlette.types import ASGIApp, Receive, Scope, Send
 
 from app.api.middleware.perf_context import (
@@ -24,7 +24,10 @@ from app.api.middleware.perf_context import (
 )
 from app.core.config import settings
 
-logger = logging.getLogger("app.perf")
+# structlog (not stdlib logging): the root handler renders "%(message)s" only,
+# so stdlib `extra={...}` fields are silently dropped — the deployed logs showed
+# bare "perf" lines. structlog's JSONRenderer keeps every field on the line.
+logger = structlog.get_logger("app.perf")
 
 
 class PerfTimingMiddleware:
@@ -59,13 +62,11 @@ class PerfTimingMiddleware:
             method = scope.get("method", "")
             logger.info(
                 "perf",
-                extra={
-                    "request_id": request_id,
-                    "method": method,
-                    "route": route,
-                    "status": status_holder["code"],
-                    "total_ms": round(elapsed_ms, 2),
-                    "db_ms": round(db_ms, 2),
-                },
+                request_id=request_id,
+                method=method,
+                route=route,
+                status=status_holder["code"],
+                total_ms=round(elapsed_ms, 2),
+                db_ms=round(db_ms, 2),
             )
             perf_request_id_var.reset(token)

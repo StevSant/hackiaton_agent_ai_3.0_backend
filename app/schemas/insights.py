@@ -24,6 +24,7 @@ class ClaimTypeSliceOut(BaseModel):
     key: str
     label: str
     pct: float
+    count: int
 
 
 class QuarterlyOutlookOut(BaseModel):

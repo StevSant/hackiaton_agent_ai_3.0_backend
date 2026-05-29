@@ -7,6 +7,7 @@ from uuid import UUID
 from app.core.errors import NotFound
 from app.repositories.conversations_repo import ConversationsRepo
 from app.schemas.conversation import ConversationDetail, MessageOut
+from app.use_cases.visual_payload_replay import legacy_chart_to_visuals
 
 
 class GetConversation:
@@ -33,6 +34,13 @@ class GetConversation:
                     sequence=m.sequence,
                     created_at=m.created_at,
                     chart_payload=m.chart_payload,  # type: ignore[arg-type]
+                    # Prefer the new visual_payload when set; fall back to
+                    # mapping the legacy chart_payload into the visual shape.
+                    visual_payload=(
+                        m.visual_payload  # type: ignore[arg-type]
+                        if getattr(m, "visual_payload", None) is not None
+                        else legacy_chart_to_visuals(m.chart_payload)  # type: ignore[arg-type]
+                    ),
                     transparency_metadata=m.transparency_metadata,
                 )
                 for m in row.messages

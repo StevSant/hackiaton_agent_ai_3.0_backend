@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from collections.abc import Awaitable, Callable
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -47,6 +48,7 @@ async def rescore_all(
     similarity: NarrativeSimilarity | None = None,
     decoder: VehicleDecoder | None = None,
     populate_signals_from_existing: bool = True,
+    on_progress: Callable[[int, int, int], Awaitable[None]] | None = None,
 ) -> dict[str, int]:
     """Recompute and persist a genuine rules-engine score for every claim.
 
@@ -61,6 +63,11 @@ async def rescore_all(
                                           ``signals`` from the claim's current
                                           activations before re-scoring so the
                                           curated scenario is preserved as facts.
+        on_progress:                      Optional async callback invoked at the
+                                          commit cadence with
+                                          ``(processed, total, changed)`` — used
+                                          by the SSE rescore endpoint to stream
+                                          live progress to the dashboard.
 
     Returns:
         ``{"processed": N, "changed": M}`` — total claims and how many ended up
@@ -105,6 +112,8 @@ async def rescore_all(
         if processed % _PROGRESS_INTERVAL == 0 or processed == total:
             await session.commit()
             logger.info("rescore_all: scored %d/%d (changed=%d)", processed, total, changed)
+            if on_progress is not None:
+                await on_progress(processed, total, changed)
 
     logger.info("rescore_all: processed=%d changed=%d", processed, changed)
     return {"processed": processed, "changed": changed}

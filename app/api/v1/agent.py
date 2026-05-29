@@ -12,6 +12,7 @@ through the `LLMProvider` port.
 """
 
 import asyncio
+import contextlib
 import json
 from collections.abc import AsyncIterator
 from typing import Annotated
@@ -76,9 +77,41 @@ def _to_use_case_request(wire: WireAgentAskRequest) -> AskAgentRequest:
 async def _stream_events(
     ask_agent: AskAgent, req: AskAgentRequest, user: User
 ) -> AsyncIterator[str]:
-    async for event in ask_agent.run(req, user=user):
-        payload = event.model_dump(mode="json")
-        yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
+    """Pump agent events into SSE frames, emitting a comment heartbeat when the
+    agent goes silent (visual planning, compose TTFT, post-stream DB writes) so
+    proxies and slow links don't drop the connection mid-turn. SSE comment
+    lines (": ...") are ignored by spec-compliant clients.
+
+    The pump task decouples event production from the heartbeat timer: a
+    `wait_for` timeout only cancels the `queue.get()`, never the agent itself.
+    """
+    queue: asyncio.Queue[BaseModel | None] = asyncio.Queue()
+
+    async def _pump() -> None:
+        try:
+            async for event in ask_agent.run(req, user=user):
+                await queue.put(event)
+        finally:
+            await queue.put(None)  # sentinel: stream finished (or pump cancelled)
+
+    pump_task = asyncio.create_task(_pump())
+    try:
+        while True:
+            try:
+                event = await asyncio.wait_for(
+                    queue.get(), timeout=settings.SSE_HEARTBEAT_SECONDS
+                )
+            except TimeoutError:
+                yield ": ping\n\n"
+                continue
+            if event is None:
+                break
+            payload = event.model_dump(mode="json")
+            yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
+    finally:
+        pump_task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await pump_task
 
 
 @router.post("/transcribe", response_model=TranscribeResponse)

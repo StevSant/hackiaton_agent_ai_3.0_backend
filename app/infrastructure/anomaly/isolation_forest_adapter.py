@@ -14,10 +14,18 @@ the sidecar the field stays None and the UI hides the contrast widget.
 from __future__ import annotations
 
 import asyncio
+import threading
 
 from app.domain.anomaly import AnomalyDetector
 from app.domain.anomaly.types import AnomalyResult
 from app.infrastructure.anomaly.nearest_normal_index import NearestNormalIndex
+
+# sklearn's Parallel/_FuncWrapper machinery mutates the process-global
+# `warnings.filters` via a thread-unsafe `catch_warnings()` on every inference
+# call. Concurrent `asyncio.to_thread` scorings race on it and spam
+# "`sklearn.utils.parallel.delayed` should be used with ... Parallel" warnings.
+# Single-row scoring is sub-millisecond, so serializing is free.
+_SKLEARN_INFERENCE_LOCK = threading.Lock()
 
 
 class IsolationForestDetector(AnomalyDetector):
@@ -56,6 +64,9 @@ class IsolationForestDetector(AnomalyDetector):
         else:
             row = np.array([list(features.values())], dtype=np.float64)
 
-        raw = float(self._model.score_samples(row).reshape(-1)[0])
-        nearest = self._nearest_normal.nearest(features) if self._nearest_normal else None
+        with _SKLEARN_INFERENCE_LOCK:
+            raw = float(self._model.score_samples(row).reshape(-1)[0])
+            nearest = (
+                self._nearest_normal.nearest(features) if self._nearest_normal else None
+            )
         return AnomalyResult(score=raw, nearest_normal_claim_id=nearest)

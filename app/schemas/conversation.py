@@ -18,6 +18,11 @@ class MessageOut(BaseModel):
     sequence: int
     created_at: datetime
     chart_payload: ChartData | None = None
+    # New visual payload — list of AgentVisual dicts (the `visual` SSE events of
+    # the turn). Preferred over chart_payload; null for pre-migration messages.
+    # Kept as loose dicts (NOT list[AgentVisual]) on purpose: replay must not 500
+    # on a malformed/partial stored visual — the frontend validates on render.
+    visual_payload: list[dict[str, Any]] | None = None
     # Transparency payload for assistant messages — steps, tool_calls, citations.
     # Null for user messages and legacy assistant messages without recorded metadata.
     transparency_metadata: dict[str, Any] | None = None

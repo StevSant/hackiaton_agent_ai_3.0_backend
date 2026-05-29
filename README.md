@@ -24,7 +24,9 @@ docker compose up -d db          # levanta Postgres+pgvector local
 uv run alembic upgrade head      # aplica migraciones
 uv run python scripts/generate_dataset.py   # genera el dataset sintético (determinístico)
 
-LOAD_DATASET_ON_STARTUP=true uv run uvicorn app.main:app --reload --port 8000
+# --timeout-graceful-shutdown: sin él, un hot-reload espera a que terminen los
+# streams SSE largos (chat, panel, rescore) y el server queda "congelado" minutos.
+LOAD_DATASET_ON_STARTUP=true uv run uvicorn app.main:app --reload --port 8000 --timeout-graceful-shutdown 5
 ```
 
 Luego visita:
