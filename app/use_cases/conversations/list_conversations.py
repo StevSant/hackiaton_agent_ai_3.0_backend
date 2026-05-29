@@ -27,9 +27,20 @@ class ListConversations:
         self._messages = messages
 
     async def execute(
-        self, user_id: UUID, query: str | None = None
+        self,
+        user_id: UUID,
+        query: str | None = None,
+        context_claim_id: str | None = None,
+        context_provider_id: str | None = None,
+        context_asegurado_id: str | None = None,
     ) -> list[ConversationSummary]:
-        rows = await self._conversations.list_for_user(user_id, query=query)
+        rows = await self._conversations.list_for_user(
+            user_id,
+            query=query,
+            context_claim_id=context_claim_id,
+            context_provider_id=context_provider_id,
+            context_asegurado_id=context_asegurado_id,
+        )
         summaries: list[ConversationSummary] = []
         for row in rows:
             msgs = await self._messages.list_for_conversation(row.id)
