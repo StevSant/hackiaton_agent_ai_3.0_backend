@@ -19,6 +19,7 @@ from app.api.v1 import (
     imports_router,
     insights_router,
     network_router,
+    panel_router,
     rules_router,
     status_router,
 )
@@ -97,6 +98,7 @@ def create_app() -> FastAPI:
     # /claims/import and /claims/import/template are not shadowed by /claims/{id}.
     app.include_router(imports_router, prefix=settings.API_V1_PREFIX)
     app.include_router(claims_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(panel_router, prefix=settings.API_V1_PREFIX)
     app.include_router(antifraude_router, prefix=settings.API_V1_PREFIX)
     app.include_router(rules_router, prefix=settings.API_V1_PREFIX)
     app.include_router(network_router, prefix=settings.API_V1_PREFIX)

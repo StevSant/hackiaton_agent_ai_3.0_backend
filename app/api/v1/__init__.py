@@ -9,6 +9,7 @@ from app.api.v1.health import router as health_router
 from app.api.v1.imports import router as imports_router
 from app.api.v1.insights import router as insights_router
 from app.api.v1.network import router as network_router
+from app.api.v1.panel import router as panel_router
 from app.api.v1.reviews import antifraude_router, claims_reviews_router
 from app.api.v1.rules import router as rules_router
 from app.api.v1.status import router as status_router
@@ -27,6 +28,7 @@ __all__ = [
     "imports_router",
     "insights_router",
     "network_router",
+    "panel_router",
     "rules_router",
     "status_router",
 ]

@@ -11,7 +11,8 @@ from __future__ import annotations
 import uuid
 from collections.abc import AsyncIterator, Callable
 from functools import lru_cache
-from typing import Annotated
+from pathlib import Path
+from typing import Annotated, Any
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
@@ -75,6 +76,9 @@ from app.use_cases.conversations.conversation_persister import ConversationPersi
 from app.use_cases.conversations.generate_conversation_title import (
     GenerateConversationTitle,
 )
+
+# Resolved once at import time — no async Path access needed.
+_PANEL_PROMPTS_BASE: Path = Path(__file__).resolve().parents[1]
 
 
 def get_settings() -> Settings:
@@ -462,3 +466,31 @@ async def get_ask_agent(
         max_react_steps=settings.MAX_REACT_STEPS,
     )
     return AskAgent(deps=deps, persistence=persistence)
+
+
+async def get_analyze_panel(
+    llm: Annotated[LLMProvider, Depends(get_llm)],
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)],
+    reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)],
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+) -> Any:
+    from app.infrastructure.llm import PromptLoader as _PromptLoader
+    from app.use_cases.analyze_panel import AnalyzePanel
+
+    _panel_prompts_dir = (
+        _PANEL_PROMPTS_BASE
+        / "agents"
+        / "fraud_panel"
+        / "prompts"
+    )
+    panel_prompts = _PromptLoader(base_dir=_panel_prompts_dir)
+    return AnalyzePanel(
+        llm=llm,
+        prompts=panel_prompts,
+        queries=queries,
+        model=settings.LLM_DEFAULT_MODEL,
+        reviews_store=reviews_store,
+        classifier=classifier,
+        detector=detector,
+    )
