@@ -265,6 +265,20 @@ class DbClaimQueries:
             return None
         return await self._load_detail(sin)
 
+    async def get_savings_inputs(self, claim_id: str) -> tuple[float, float] | None:
+        """Return (monto_pagado, deducible) for savings estimation, or None if not found."""
+        stmt = (
+            select(Siniestro.monto_pagado, Poliza.deducible)
+            .join(Poliza, Siniestro.id_poliza == Poliza.id_poliza)
+            .where(Siniestro.id_siniestro == claim_id)
+        )
+        row = (await self._s.execute(stmt)).first()
+        if row is None:
+            return None
+        monto_pagado: float = float(row[0]) if row[0] is not None else 0.0
+        deducible: float = float(row[1]) if row[1] is not None else 0.0
+        return monto_pagado, deducible
+
     async def list_top_risk(
         self,
         *,

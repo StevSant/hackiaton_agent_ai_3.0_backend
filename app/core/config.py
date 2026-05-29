@@ -135,6 +135,9 @@ class Settings(BaseSettings):
         "image/webp",
     ]
 
+    # savings analysis — fraction of exposed amount recoverable when alert confirmed
+    TASA_RECUPERACION_AHORRO: float = 0.6
+
     # auth  (V0 — local JWT, env-seeded users)
     AUTH_ENABLED: bool = True
     JWT_SECRET: SecretStr = SecretStr("change-me-before-demo")

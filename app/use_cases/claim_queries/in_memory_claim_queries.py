@@ -78,6 +78,13 @@ class InMemoryClaimQueries(ClaimQueries):
     async def get_detail(self, claim_id: str) -> ClaimDetail | None:
         return next((c for c in self._claims if c.id == claim_id), None)
 
+    async def get_savings_inputs(self, claim_id: str) -> tuple[float, float] | None:
+        """Return (0.0, 0.0) for any known claim; None if the claim is not found."""
+        found = next((c for c in self._claims if c.id == claim_id), None)
+        if found is None:
+            return None
+        return 0.0, 0.0
+
     async def aggregate(
         self,
         *,

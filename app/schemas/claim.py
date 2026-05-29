@@ -12,6 +12,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+from app.domain.savings.calculator import SavingsEstimate
 from app.schemas.narrative_analysis import NarrativeAnalysis
 from app.schemas.panel import PanelAnalysis
 from app.schemas.risk import Confianza, FactorContribution, SimilarClaim, Tier
@@ -157,6 +158,8 @@ class ClaimDetail(BaseModel):
     # compatibility with older serialized claims.
     latitude: float | None = None
     longitude: float | None = None
+    # Potential savings estimate — None when scoring data is insufficient.
+    ahorro: SavingsEstimate | None = None
 
 
 class ClaimPatch(BaseModel):

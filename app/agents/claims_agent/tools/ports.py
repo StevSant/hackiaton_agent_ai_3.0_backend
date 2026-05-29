@@ -75,6 +75,16 @@ class ClaimQueries(Protocol):
     async def analyze_reviewers(self, *, top_n: int = 20) -> list[ReviewerStats]:
         """Aggregate dictámenes (review verdicts) per analyst, most active first."""
 
+    async def get_savings_inputs(
+        self, claim_id: str
+    ) -> tuple[float, float] | None:
+        """Return (monto_pagado, deducible) for a claim, or None if not found.
+
+        monto_pagado comes from Siniestro (nullable — coerced to 0.0 when NULL).
+        deducible comes from the joined Poliza (non-nullable but coerced
+        defensively to 0.0 if somehow None).
+        """
+
     async def get_asegurado_detail(
         self, asegurado_id: str, *, top_claims: int = 5
     ) -> "GetAseguradoDetailOutput | None":

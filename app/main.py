@@ -20,6 +20,7 @@ from app.api.v1 import (
     insights_router,
     network_router,
     panel_router,
+    reports_router,
     rules_router,
     status_router,
 )
@@ -105,6 +106,7 @@ def create_app() -> FastAPI:
     app.include_router(asegurados_router, prefix=settings.API_V1_PREFIX)
     app.include_router(audit_router, prefix=settings.API_V1_PREFIX)
     app.include_router(insights_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(reports_router, prefix=settings.API_V1_PREFIX)
     # documents_router mounts UNDER claims prefix — must come after claims_router
     app.include_router(documents_router, prefix=settings.API_V1_PREFIX)
 

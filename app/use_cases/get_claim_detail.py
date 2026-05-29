@@ -30,6 +30,7 @@ from app.domain.anomaly import AnomalyDetector
 from app.domain.ml import FraudClassifier
 from app.domain.rules.catalog import get_meta
 from app.domain.rules.context import RuleContext
+from app.domain.savings.calculator import estimate_savings
 from app.domain.similarity import NarrativeSimilarity
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.claim import (
@@ -250,4 +251,21 @@ async def get_claim_detail(
     # ML + anomaly enrichment — runs in BOTH branches. Pass-through when ports unwired.
     enriched = await enrich_claim_score(claim, classifier=classifier, detector=detector)
     # A2 — re-assess confidence now that the model probability is known.
-    return apply_confidence(enriched)
+    assessed = apply_confidence(enriched)
+
+    # Potential savings estimate — computed after ML enrichment so ml_probability
+    # is available. monto_pagado and deducible come from the raw Siniestro/Poliza
+    # rows via get_savings_inputs; fall back to 0.0 if not found (e.g. in-memory
+    # test queries that don't model those fields).
+    savings_inputs = await queries.get_savings_inputs(claim_id)
+    monto_pagado, deducible = savings_inputs if savings_inputs is not None else (0.0, 0.0)
+    ahorro = estimate_savings(
+        monto_reclamado=assessed.monto_reclamado,
+        suma_asegurada=assessed.suma_asegurada,
+        monto_pagado=monto_pagado,
+        deducible=deducible,
+        score=assessed.score,
+        ml_probability=assessed.ml_probability,
+        tasa_recuperacion=settings.TASA_RECUPERACION_AHORRO,
+    )
+    return assessed.model_copy(update={"ahorro": ahorro})
