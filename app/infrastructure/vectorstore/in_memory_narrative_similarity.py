@@ -30,19 +30,28 @@ class InMemoryNarrativeSimilarity(NarrativeSimilarity):
     async def index(self, claim_id: str, descripcion: str) -> None:
         async with self._lock:
             vector = (await self._embeddings.embed([descripcion]))[0]
-            arr = np.asarray(vector, dtype=np.float32)[None, :]
-            if claim_id in self._claim_ids:
-                idx = self._claim_ids.index(claim_id)
-                self._descripciones[idx] = descripcion
-                if self._matrix is not None:
-                    self._matrix[idx] = arr[0]
-            else:
-                self._claim_ids.append(claim_id)
-                self._descripciones.append(descripcion)
-                if self._matrix is None:
-                    self._matrix = arr
-                else:
-                    self._matrix = np.vstack([self._matrix, arr])
+            self._upsert(claim_id, descripcion, np.asarray(vector, dtype=np.float32))
+
+    async def index_many(self, items: list[tuple[str, str]]) -> None:
+        if not items:
+            return
+        async with self._lock:
+            # Single batched embed call, then upsert each row.
+            vectors = await self._embeddings.embed([d for _, d in items])
+            for (claim_id, descripcion), vector in zip(items, vectors):
+                self._upsert(claim_id, descripcion, np.asarray(vector, dtype=np.float32))
+
+    def _upsert(self, claim_id: str, descripcion: str, arr: np.ndarray) -> None:
+        if claim_id in self._claim_ids:
+            idx = self._claim_ids.index(claim_id)
+            self._descripciones[idx] = descripcion
+            if self._matrix is not None:
+                self._matrix[idx] = arr
+        else:
+            self._claim_ids.append(claim_id)
+            self._descripciones.append(descripcion)
+            row = arr[None, :]
+            self._matrix = row if self._matrix is None else np.vstack([self._matrix, row])
 
     async def nearest(self, claim_id: str, top_k: int = 3) -> list[SimilarClaim]:
         if self._matrix is None or claim_id not in self._claim_ids:

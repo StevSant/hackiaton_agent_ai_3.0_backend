@@ -61,6 +61,9 @@ class Settings(BaseSettings):
     EMBEDDINGS_PROVIDER: Literal["openai", "sentence_transformers"] = "openai"
     EMBEDDINGS_MODEL: str = "text-embedding-3-small"
     EMBEDDINGS_DIM: int = 384
+    # Max texts per embedding request when bulk-indexing narratives (rescore_all).
+    # Keep below the provider's per-request input cap (OpenAI allows 2048).
+    EMBEDDINGS_BATCH_SIZE: int = 256
 
     # vector store
     VECTOR_STORE: Literal["pgvector", "in_memory"] = "pgvector"

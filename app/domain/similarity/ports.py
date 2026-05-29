@@ -16,6 +16,11 @@ class NarrativeSimilarity(Protocol):
     async def index(self, claim_id: str, descripcion: str) -> None:
         """Embed and store the narrative for a claim. Idempotent (upsert)."""
 
+    async def index_many(self, items: list[tuple[str, str]]) -> None:
+        """Bulk-index ``(claim_id, descripcion)`` pairs in batched embedding
+        requests. Idempotent (upsert), equivalent to calling ``index`` per item
+        but with far fewer provider + DB round-trips."""
+
     async def nearest(self, claim_id: str, top_k: int = 3) -> list[SimilarClaim]:
         """Return top-k similar prior claims, excluding self."""
 

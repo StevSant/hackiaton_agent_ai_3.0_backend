@@ -75,6 +75,7 @@ async def rescore_all(
     # "Narrativas similares" panel would be unreliable for the whole batch.
     await _index_narratives(sins, similarity)
 
+    total = len(sins)
     processed = 0
     changed = 0
     for sin in sins:
@@ -96,6 +97,12 @@ async def rescore_all(
         if previous is None or previous.score != risk.score or previous.tier != risk.tier.value:
             changed += 1
 
+        # Progress heartbeat: this loop does remote (DB + embeddings) round-trips
+        # per claim, so a full run is minutes long. Without this the CLI looks
+        # frozen — log every 25 claims so the operator can see it advancing.
+        if processed % 25 == 0 or processed == total:
+            logger.info("rescore_all: scored %d/%d (changed=%d)", processed, total, changed)
+
     await session.commit()
     logger.info("rescore_all: processed=%d changed=%d", processed, changed)
     return {"processed": processed, "changed": changed}
@@ -116,18 +123,39 @@ async def _index_narratives(
     """Embed + store every claim's narrative so the corpus exists before scoring."""
     if similarity is None:
         return
+    eligible = [s for s in sins if len(s.descripcion or "") >= _MIN_NARRATIVE_LEN]
+    items = [(s.id_siniestro, s.descripcion or "") for s in eligible]
+    logger.info("rescore_all: indexing %d narratives...", len(items))
+    try:
+        # Batched embed + bulk write — orders of magnitude fewer round-trips than
+        # one index() per claim.
+        await similarity.index_many(items)
+    except Exception as exc:
+        # A single bad row fails the whole bulk write; fall back to per-claim so
+        # one malformed narrative doesn't lose the entire corpus.
+        logger.warning(
+            "rescore_all: bulk index failed (%s) — falling back to per-claim", exc
+        )
+        await _index_narratives_sequential(items, similarity)
+        return
+    logger.info("rescore_all: indexed %d narratives", len(items))
+
+
+async def _index_narratives_sequential(
+    items: list[tuple[str, str]], similarity: NarrativeSimilarity
+) -> None:
+    """Per-claim fallback when the bulk index write fails as a whole."""
     indexed = 0
-    for sin in sins:
-        descripcion = sin.descripcion or ""
-        if len(descripcion) < _MIN_NARRATIVE_LEN:
-            continue
+    for claim_id, descripcion in items:
         try:
-            await similarity.index(sin.id_siniestro, descripcion)
+            await similarity.index(claim_id, descripcion)
             indexed += 1
         except Exception as exc:
             logger.warning(
-                "rescore_all: narrative index failed for %s: %s", sin.id_siniestro, exc
+                "rescore_all: narrative index failed for %s: %s", claim_id, exc
             )
+        if indexed % 25 == 0:
+            logger.info("rescore_all: indexed %d/%d narratives", indexed, len(items))
     logger.info("rescore_all: indexed %d narratives", indexed)
 
 
@@ -215,4 +243,9 @@ async def _main() -> None:
 
 
 if __name__ == "__main__":
+    # The use case logs progress at INFO; configure a handler here so the CLI
+    # actually prints it (otherwise the run looks frozen for its full duration).
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+    )
     asyncio.run(_main())
