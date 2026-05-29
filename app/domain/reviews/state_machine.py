@@ -163,12 +163,18 @@ def apply_dictamen(
         raise GuardError("La justificación debe tener al menos 20 caracteres.")
 
     if outcome == DictamenOutcome.requiere_mas_info:
+        emitted_at = _now()
         # Bounce back to pendiente
         return review.model_copy(
             update={
                 "status": ReviewStatus.pendiente,
                 "bounce_count": review.bounce_count + 1,
                 "bounce_note": justificacion,
+                "dictamen_outcome": outcome,
+                "dictamen_justificacion": justificacion,
+                "dictaminado_by": by_id,
+                "dictaminado_by_name": by_name,
+                "dictaminado_at": emitted_at,
                 # Clear assignment — antifraude released it back
                 "assigned_to": None,
                 "assigned_to_name": None,

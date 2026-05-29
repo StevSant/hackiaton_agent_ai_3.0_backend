@@ -7,7 +7,7 @@ in the FE mock yet. The deterministic scoring contract lives in `schemas/risk.py
 """
 
 from datetime import date, datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field
@@ -52,7 +52,7 @@ class ClaimTimelineEvent(BaseModel):
     desc: str | None = None
 
 
-class ReviewStatus(str, Enum):
+class ReviewStatus(StrEnum):
     pendiente = "pendiente"
     escalado = "escalado"
     en_revision = "en_revision"
@@ -60,7 +60,7 @@ class ReviewStatus(str, Enum):
     revisado_sin_escalar = "revisado_sin_escalar"
 
 
-class DictamenOutcome(str, Enum):
+class DictamenOutcome(StrEnum):
     confirmado_sospecha = "confirmado_sospecha"
     descartado = "descartado"
     requiere_mas_info = "requiere_mas_info"
@@ -107,6 +107,9 @@ class ClaimSummary(BaseModel):
     review_status: ReviewStatus = ReviewStatus.pendiente
     proveedor: str | None = None
     proveedor_id: str | None = None
+    dictamen_outcome: DictamenOutcome | None = None
+    dictamen_justificacion: str | None = None
+    dictaminado_at: datetime | None = None
     # Advisory multi-agent panel markers — never affect the score/tier (§2.10).
     # Surfaced as a bandeja chip so the triager knows the panel weighed in.
     panel_revisado: bool = False  # a panel run exists for this claim

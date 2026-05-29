@@ -43,7 +43,7 @@ class InMemoryReviewsStore:
         return [
             (cid, rv)
             for cid, rv in self._store.items()
-            if rv.status == ReviewStatus.dictaminado and rv.dictaminado_by == user_id
+            if rv.dictamen_outcome is not None and rv.dictaminado_by == user_id
         ]
 
     async def list_closed_by(self, user_id: str) -> list[tuple[str, ClaimReview]]:
@@ -53,5 +53,5 @@ class InMemoryReviewsStore:
             if (
                 rv.status == ReviewStatus.revisado_sin_escalar and rv.closed_by == user_id
             )
-            or (rv.status == ReviewStatus.dictaminado and rv.escalated_by == user_id)
+            or (rv.dictamen_outcome is not None and rv.escalated_by == user_id)
         ]

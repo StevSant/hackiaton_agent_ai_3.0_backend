@@ -57,7 +57,7 @@ class DbReviewsStore:
     ) -> list[tuple[str, ClaimReview]]:
         result = await self._session.execute(
             select(ClaimReviewRow).where(
-                ClaimReviewRow.status == ReviewStatus.dictaminado.value,
+                ClaimReviewRow.dictamen_outcome.is_not(None),
                 ClaimReviewRow.dictaminado_by == user_id,
             )
         )
@@ -74,7 +74,7 @@ class DbReviewsStore:
                     & (ClaimReviewRow.closed_by == user_id)
                 )
                 | (
-                    (ClaimReviewRow.status == ReviewStatus.dictaminado.value)
+                    (ClaimReviewRow.dictamen_outcome.is_not(None))
                     & (ClaimReviewRow.escalated_by == user_id)
                 )
             )
