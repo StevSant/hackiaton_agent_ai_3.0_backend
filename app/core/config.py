@@ -74,6 +74,14 @@ class Settings(BaseSettings):
     RULES_CONFIG_PATH: str = "app/domain/rules/config.yaml"
     SIMILARITY_THRESHOLD_FS13: float = 0.85
 
+    # confidence / false-positive signalling (A2) — referential, tune via .env.
+    # The model flagging high risk with NO hard rule corroborating it, or an
+    # additive score straddling the verde/amarillo boundary, lowers confidence
+    # and raises a "posible falso positivo" review flag (NOT an accusation).
+    CONFIDENCE_ML_HIGH: float = 0.70  # ml_probability at/above this = "model says high risk"
+    CONFIDENCE_VAGUE_BAND_LOW: int = 35  # additive-score lower bound of the ambiguous band
+    CONFIDENCE_VAGUE_BAND_HIGH: int = 50  # additive-score upper bound of the ambiguous band
+
     # vehicle identity (FS-15) — decode chassis/VIN to a canonical spec and
     # compare against the declared vehicle. "hybrid" routes real VINs to NHTSA
     # vPIC and synthetic chassis to the offline deterministic registry.
