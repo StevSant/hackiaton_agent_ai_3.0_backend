@@ -17,6 +17,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.claims_agent.tools.ports import ClaimQueries
 from app.api.deps import (
+    _get_optional_session,
     get_anomaly_detector,
     get_audit_store,
     get_claim_queries_dep,
@@ -40,12 +41,13 @@ from app.infrastructure.audit import AuditStore
 from app.infrastructure.db.engine import get_session
 from app.infrastructure.reviews.ports import ReviewsStore
 from app.schemas.audit import AuditAction
-from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ReviewStatus
+from app.schemas.claim import ClaimAlert, ClaimDetail, ClaimPatch, ClaimSummary, ResumenPatch, ReviewStatus
 from app.schemas.page import Page
 from app.schemas.risk import Tier
 from app.use_cases.emit_audit_event import emit_audit_event
 from app.use_cases.enrich_claim_score import enrich_claim_score
 from app.use_cases.get_claim_detail import _tier_to_severidad, get_claim_detail
+from app.use_cases.update_claim_resumen import update_claim_resumen
 from app.use_cases.list_claims import list_claims
 from app.use_cases.reanalyze_claim import reanalyze_claim
 from app.use_cases.score_claim import score_claim
@@ -141,6 +143,42 @@ async def rescore_claim_route(
         detail=f"Nuevo score {detail.score}/100 · nivel {detail.nivel.value}",
         target=claim_id,
     )
+    return detail
+
+
+@router.patch("/{claim_id}/resumen", response_model=ClaimDetail)
+async def patch_claim_resumen_route(
+    claim_id: str,
+    patch: ResumenPatch,
+    queries: Annotated[ClaimQueries, Depends(get_claim_queries_dep)] = ...,  # type: ignore[assignment]
+    reviews_store: Annotated[ReviewsStore, Depends(get_reviews_store)] = ...,  # type: ignore[assignment]
+    session: Annotated[AsyncSession | None, Depends(_get_optional_session)] = None,
+    classifier: Annotated[FraudClassifier | None, Depends(get_fraud_classifier)] = None,
+    detector: Annotated[AnomalyDetector | None, Depends(get_anomaly_detector)] = None,
+    _user: Annotated[User, Depends(get_current_user)] = ...,  # type: ignore[assignment]
+) -> ClaimDetail:
+    """Persist an analyst-edited case summary override on a claim."""
+    if session is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={"code": "db_unavailable", "message": "DB no disponible"},
+        )
+    ok = await update_claim_resumen(session, claim_id, patch.resumen_editado)
+    if not ok:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
+        )
+    detail = await get_claim_detail(
+        queries,
+        claim_id,
+        reviews_store=reviews_store,
+        classifier=classifier,
+        detector=detector,
+    )
+    if detail is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Siniestro no encontrado"
+        )
     return detail
 
 
