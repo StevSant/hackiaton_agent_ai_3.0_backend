@@ -15,6 +15,7 @@ from __future__ import annotations
 from sqlalchemy import case, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.domain.ramos import normalize_ramo
 from app.infrastructure.db.models.asegurado import Asegurado
 from app.infrastructure.db.models.claim_score import ClaimScore
 from app.infrastructure.db.models.proveedor import Proveedor
@@ -98,6 +99,7 @@ async def _provider_nodes(
             func.count(Siniestro.id_siniestro).label("casos"),
             func.coalesce(func.sum(alerta_case), 0).label("alertas"),
             func.coalesce(func.sum(Siniestro.monto_reclamado), 0.0).label("monto"),
+            func.array_agg(func.distinct(Siniestro.ramo)).label("ramos"),
         )
         .select_from(Siniestro)
         .outerjoin(ClaimScore, ClaimScore.claim_id == Siniestro.id_siniestro)
@@ -105,7 +107,12 @@ async def _provider_nodes(
         .group_by(Siniestro.beneficiario)
     )
     agg = {
-        r.prov_id: (int(r.casos or 0), int(r.alertas or 0), float(r.monto or 0.0))
+        r.prov_id: (
+            int(r.casos or 0),
+            int(r.alertas or 0),
+            float(r.monto or 0.0),
+            sorted({normalize_ramo(x) for x in (r.ramos or []) if x}),
+        )
         for r in (await session.execute(agg_stmt)).all()
     }
     proveedores = (
@@ -115,7 +122,7 @@ async def _provider_nodes(
     )
     nodes: list[NetworkNode] = []
     for p in proveedores:
-        casos, alertas, monto = agg.get(p.id_proveedor, (0, 0, 0.0))
+        casos, alertas, monto, ramos = agg.get(p.id_proveedor, (0, 0, 0.0, []))
         nodes.append(
             NetworkNode(
                 id=p.id_proveedor,
@@ -126,6 +133,7 @@ async def _provider_nodes(
                 alertas=alertas,
                 monto=monto,
                 lista_restrictiva=p.porcentaje_casos_observados >= _RESTRICTIVE_THRESHOLD,
+                ramos=ramos,
             )
         )
     return nodes
