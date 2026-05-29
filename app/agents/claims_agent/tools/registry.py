@@ -15,6 +15,8 @@ from app.agents.claims_agent._tool_dispatcher import FocusContext, inject_focus_
 from app.agents.claims_agent.tools import (
     AggregateByDimensionInput,
     AggregateByDimensionTool,
+    AnalyzeReviewersInput,
+    AnalyzeReviewersTool,
     CrearDocumentoInput,
     CrearDocumentoTool,
     GetAseguradoDetailInput,
@@ -91,6 +93,7 @@ def build_tool_registry(
     get_provider_detail: GetProviderDetailTool | None = None,
     get_asegurado_detail: GetAseguradoDetailTool | None = None,
     verify_vehicle: VerifyVehicleTool | None = None,
+    analyze_reviewers: AnalyzeReviewersTool | None = None,
 ) -> dict[str, ToolEntry]:
     """Bundle every tool into a name-indexed registry.
 
@@ -163,6 +166,15 @@ def build_tool_registry(
                 description=verify_vehicle.description,
                 input_model=VerifyVehicleInput,
                 invoke=verify_vehicle.run,  # type: ignore[arg-type]
+            )
+        )
+    if analyze_reviewers is not None:
+        entries.append(
+            ToolEntry(
+                name=analyze_reviewers.name,
+                description=analyze_reviewers.description,
+                input_model=AnalyzeReviewersInput,
+                invoke=analyze_reviewers.run,  # type: ignore[arg-type]
             )
         )
     return {e.name: e for e in entries}

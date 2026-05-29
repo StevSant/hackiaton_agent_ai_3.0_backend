@@ -1,3 +1,8 @@
+from app.agents.claims_agent.tools.analyze_reviewers_tool import (
+    AnalyzeReviewersInput,
+    AnalyzeReviewersOutput,
+    AnalyzeReviewersTool,
+)
 from app.agents.claims_agent.tools.aggregate_by_dimension_tool import (
     AggregateByDimensionInput,
     AggregateByDimensionOutput,
@@ -55,6 +60,9 @@ from app.agents.claims_agent.tools.verify_vehicle_tool import (
 )
 
 __all__ = [
+    "AnalyzeReviewersInput",
+    "AnalyzeReviewersOutput",
+    "AnalyzeReviewersTool",
     "AggregateByDimensionInput",
     "AggregateByDimensionOutput",
     "AggregateByDimensionTool",
