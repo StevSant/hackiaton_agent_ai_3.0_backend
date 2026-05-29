@@ -8,7 +8,7 @@ in the FE mock yet. The deterministic scoring contract lives in `schemas/risk.py
 
 from datetime import date, datetime
 from enum import Enum
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -26,6 +26,7 @@ class ClaimAlert(BaseModel):
     puntos: int
     severidad: AlertSeverity
     detalle: str
+    evidence: dict[str, Any] = Field(default_factory=dict)
 
 
 class ClaimDocument(BaseModel):

@@ -300,6 +300,7 @@ async def _generate(
                             detalle=(
                                 m.short_description if (m := get_meta(a.code)) else a.code
                             ),
+                            evidence=a.evidence,
                         )
                         for a in activations
                     ]

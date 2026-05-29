@@ -141,6 +141,7 @@ def _score_and_annotate(claim: ClaimDetail) -> ClaimDetail:
             puntos=a.points,
             severidad=_sev.get(a.tier_hint.value, "low"),
             detalle=(m.short_description if (m := get_meta(a.code)) else a.code),
+            evidence=a.evidence,
         )
         for a in risk.activations
     ]

@@ -53,6 +53,7 @@ def claim_detail_to_score_row(claim: ClaimDetail) -> ClaimScore:
             "puntos": alerta.puntos,
             "severidad": alerta.severidad,
             "detalle": alerta.detalle,
+            "evidence": alerta.evidence,
         }
         for alerta in claim.alertas
     ]
@@ -128,6 +129,7 @@ async def rescore_claim_persisted(session: AsyncSession, claim_id: str) -> Claim
                 if (meta := get_meta(activation.code))
                 else activation.code
             ),
+            evidence=activation.evidence,
         )
         for activation in risk.activations
     ]

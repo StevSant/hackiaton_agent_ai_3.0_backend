@@ -314,6 +314,7 @@ def build_claim(archetype: ClaimArchetype, idx: int) -> tuple[ClaimDetail, RuleC
                 puntos=act.points,
                 severidad=_sev.get(act.tier_hint.value, "low"),
                 detalle=detalle,
+                evidence=act.evidence,
             )
         )
 

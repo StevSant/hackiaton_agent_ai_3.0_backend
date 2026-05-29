@@ -391,6 +391,7 @@ async def patch_claim_route(
             puntos=a.points,
             severidad=_tier_to_severidad(a.tier_hint),
             detalle=(m.short_description if (m := get_meta(a.code)) else a.code),
+            evidence=a.evidence,
         )
         for a in risk.activations
     ]

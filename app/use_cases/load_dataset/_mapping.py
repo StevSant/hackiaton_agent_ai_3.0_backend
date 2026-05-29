@@ -252,6 +252,7 @@ def claim_detail_to_score(c: ClaimDetail) -> ClaimScore:
             "puntos": a.puntos,
             "severidad": a.severidad,
             "detalle": a.detalle,
+            "evidence": a.evidence,
         }
         for a in c.alertas
     ]
@@ -315,6 +316,7 @@ def rows_to_claim_detail(
             puntos=a["puntos"],
             severidad=a["severidad"],
             detalle=a["detalle"],
+            evidence=a.get("evidence", {}),
         )
         for a in alertas_raw
     ]
