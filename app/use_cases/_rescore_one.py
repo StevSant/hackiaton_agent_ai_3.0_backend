@@ -66,6 +66,7 @@ async def rescore_one(
                 if (meta := get_meta(activation.code))
                 else activation.code
             ),
+            evidence=activation.evidence,
         )
         for activation in risk.activations
     ]
