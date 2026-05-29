@@ -1,0 +1,36 @@
+{
+  "id": "SIN-DEMO-012",
+  "ramo": "Vehículos",
+  "cobertura": "Pérdida Total por Robo",
+  "asegurado": "Hernán David Altamirano Salcedo",
+  "asegurado_id": "ASG-D0012",
+  "poliza": "PV-DEMO-0012",
+  "ciudad": "Loja",
+  "fecha_ocurrencia": "2026-04-15",
+  "fecha_reporte": "2026-04-25",
+  "fecha_inicio_poliza": "2026-04-10",
+  "fecha_fin_poliza": "2027-04-10",
+  "monto_reclamado": 34200.0,
+  "suma_asegurada": 35000.0,
+  "estado": "Reserva",
+  "sucursal": "Loja",
+  "vehiculo": {
+    "marca": "Ford",
+    "modelo": "Ranger",
+    "anio": 2022,
+    "placa": "LOJ-1148",
+    "chasis": "1FTER4EH5NLA52879"
+  },
+  "proveedor": null,
+  "descripcion": "El asegurado Hernán David Altamirano Salcedo reporta el robo de su Ford Ranger 2022, placas LOJ-1148, ocurrido el 15 de abril de 2026 aproximadamente a las 23:45 en el barrio La Tebaida, calle Mercadillo, Loja, mientras el vehículo se encontraba estacionado en la vía pública frente a su domicilio. Señala que al despertar el 16 de abril a las 06:00 constató la ausencia del vehículo. La denuncia ante Fiscalía fue presentada el 25 de abril, es decir, diez días después del evento, excediendo ampliamente el plazo de cuatro días establecido en la póliza para este tipo de cobertura (RF-06). El asegurado justifica la demora indicando que creyó que el vehículo había sido llevado por un familiar sin informarle. La póliza fue contratada apenas cinco días antes del siniestro (inicio 10 de abril de 2026), activando RF-01 por cobertura PTxRB y la señal FS-01 por borde de vigencia crítico. El monto reclamado de USD 34 200 representa el 97,7% de la suma asegurada, disparando FS-14. La carátula de póliza y el certificado de endoso aún no han sido entregados.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Denuncia fiscal", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Carátula de póliza", "estado": "Pendiente", "falta": true},
+    {"tipo": "Certificado de endoso", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "rojo"
+}

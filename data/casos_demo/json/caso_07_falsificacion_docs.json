@@ -1,0 +1,36 @@
+{
+  "id": "SIN-DEMO-007",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Materiales",
+  "asegurado": "Roberto Esteban Molina Cárdenas",
+  "asegurado_id": "ASG-D0007",
+  "poliza": "PV-DEMO-0007",
+  "ciudad": "Cuenca",
+  "fecha_ocurrencia": "2026-04-20",
+  "fecha_reporte": "2026-04-22",
+  "fecha_inicio_poliza": "2026-01-15",
+  "fecha_fin_poliza": "2027-01-15",
+  "monto_reclamado": 9800.0,
+  "suma_asegurada": 18500.0,
+  "estado": "Reserva",
+  "sucursal": "Cuenca Centro",
+  "vehiculo": {
+    "marca": "Kia",
+    "modelo": "Sportage",
+    "anio": 2022,
+    "placa": "AZD-3157",
+    "chasis": "KNDJN2A27N7348261"
+  },
+  "proveedor": "Taller Automotriz Andes Motor",
+  "descripcion": "El asegurado Roberto Esteban Molina Cárdenas reporta colisión lateral contra poste fijo ocurrida el 20 de abril de 2026 aproximadamente a las 14:30 en la Avenida Solano, sector El Ejido, Cuenca. Indica que perdió el control del volante al esquivar un can que cruzó la vía, impactando el lateral derecho de su Kia Sportage 2022, placas AZD-3157, contra el poste de alumbrado. Los daños reportados incluyen puerta delantera derecha, espejo lateral derecho y guardafango derecho. El reporte se realizó dos días después en la sucursal de Cuenca. La proforma presentada por el Taller Automotriz Andes Motor indica fecha de emisión del 18 de abril de 2026, es decir, dos días ANTES de la ocurrencia del siniestro, lo que genera una inconsistencia documental grave que requiere revisión por parte de la unidad antifraude. Adjunta cédula de identidad, matrícula vehicular, informe policial y la proforma cuestionada. La peritación del vehículo está pendiente.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Proforma de taller", "estado": "Entregado", "falta": false},
+    {"tipo": "Peritaje técnico", "estado": "Pendiente", "falta": true},
+    {"tipo": "Declaración juramentada", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "SIN-DEMO-008",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Materiales",
+  "asegurado": "Verónica Isabel Tapia Herrera",
+  "asegurado_id": "ASG-D0008",
+  "poliza": "PV-DEMO-0008",
+  "ciudad": "Guayaquil",
+  "fecha_ocurrencia": "2026-05-05",
+  "fecha_reporte": "2026-05-07",
+  "fecha_inicio_poliza": "2025-09-01",
+  "fecha_fin_poliza": "2026-09-01",
+  "monto_reclamado": 19200.0,
+  "suma_asegurada": 20000.0,
+  "estado": "Reserva",
+  "sucursal": "Guayaquil Norte",
+  "vehiculo": {
+    "marca": "Hyundai",
+    "modelo": "Tucson",
+    "anio": 2021,
+    "placa": "GBX-5503",
+    "chasis": "5NMS3CAD7MH385492"
+  },
+  "proveedor": "Taller Mecánico Auto-Élite",
+  "descripcion": "La asegurada Verónica Isabel Tapia Herrera reporta daños severos en el frontal de su Hyundai Tucson 2021, placas GBX-5503, producidos el 5 de mayo de 2026 aproximadamente a las 08:15 en la Avenida del Ejército, sector Sauces Norte, Guayaquil, a consecuencia de una colisión con un camión de carga que se incorporó sin respetar la señal de ceda el paso. El impacto afectó el capó, la rejilla delantera, los faros delanteros y el paragolpes frontal. El asegurado fue atendido por agentes de la Comisión de Tránsito del Ecuador y se elaboró el informe correspondiente. La asegurada seleccionó el Taller Mecánico Auto-Élite como proveedor de reparación. Este taller aparece vinculado a múltiples reclamos recientes en el portafolio de la aseguradora. El monto reclamado de USD 19 200 representa el 96% de la suma asegurada, lo que activa la revisión por monto atípico. Adjunta cédula, matrícula, informe CTG, proforma del taller y fotos del daño.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Informe CTG / parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Proforma de taller", "estado": "Entregado", "falta": false},
+    {"tipo": "Fotos del daño", "estado": "Entregado", "falta": false},
+    {"tipo": "Declaración juramentada", "estado": "Pendiente", "falta": true}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}

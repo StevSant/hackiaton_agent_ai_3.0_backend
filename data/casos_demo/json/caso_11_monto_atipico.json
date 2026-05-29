@@ -1,0 +1,36 @@
+{
+  "id": "SIN-DEMO-011",
+  "ramo": "Vehículos",
+  "cobertura": "Daños Totales",
+  "asegurado": "Diana Sofía Núñez Barragán",
+  "asegurado_id": "ASG-D0011",
+  "poliza": "PV-DEMO-0011",
+  "ciudad": "Santo Domingo",
+  "fecha_ocurrencia": "2026-05-03",
+  "fecha_reporte": "2026-05-05",
+  "fecha_inicio_poliza": "2026-04-18",
+  "fecha_fin_poliza": "2027-04-18",
+  "monto_reclamado": 31500.0,
+  "suma_asegurada": 30000.0,
+  "estado": "Reserva",
+  "sucursal": "Santo Domingo",
+  "vehiculo": {
+    "marca": "Mitsubishi",
+    "modelo": "L200",
+    "anio": 2021,
+    "placa": "SDB-2293",
+    "chasis": "MMBJNKB40HF010842"
+  },
+  "proveedor": "Multimarca Automotriz del Pacífico",
+  "descripcion": "La asegurada Diana Sofía Núñez Barragán reporta pérdida total de su Mitsubishi L200 2021, placas SDB-2293, a causa de un accidente de tránsito ocurrido el 3 de mayo de 2026 a las 06:00 en la vía Santo Domingo–Quevedo km 12, sector La Unión, cuando el vehículo patinó en una calzada mojada, salió de la vía y cayó a un talud de aproximadamente cuatro metros de profundidad. El vehículo presentó daños estructurales totales: techo aplastado, chasis doblado y motor inservible. La asegurada salió ilesa. La póliza fue contratada apenas 15 días antes del siniestro (inicio 18 de abril de 2026), lo que activa la señal FS-01 por borde de vigencia corto. El monto reclamado de USD 31 500 supera la suma asegurada de USD 30 000 (ratio 1.05), activando FS-14 de manera directa y requiriendo peritaje adicional para justificar el exceso. Toda la documentación fue entregada de manera completa.",
+  "documentos": [
+    {"tipo": "Cédula de identidad", "estado": "Entregado", "falta": false},
+    {"tipo": "Matrícula vehicular", "estado": "Entregado", "falta": false},
+    {"tipo": "Parte policial", "estado": "Entregado", "falta": false},
+    {"tipo": "Peritaje técnico", "estado": "Entregado", "falta": false},
+    {"tipo": "Declaración juramentada", "estado": "Entregado", "falta": false},
+    {"tipo": "Proforma de taller", "estado": "Entregado", "falta": false}
+  ],
+  "score": 0,
+  "nivel": "amarillo"
+}
